@@ -13,7 +13,7 @@ private  $_columns  =  array(
 'CAT_ID' => 0,
 'CAT_NOMBRE' => '',
 'CAT_DESC' => '',
-'CAT_CODIGO' => 0
+'CAT_CODIGO' => 10
 );
 
 function get($attr){
