@@ -1,0 +1,74 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class TipoProd_Model extends CI_Model {
+
+public function __construct()
+{
+parent::__construct();
+}
+
+private  $_columns  =  array(
+'TIPO_ID' => 0,
+'TIPO_NOMBRE' => ''
+);
+
+function get($attr){
+  return $this->_columns[$attr];
+}
+
+public function create($row){
+  $tipo =  new TipoProd_Model();
+  foreach ($row as $key => $value)
+    {
+      $tipo->_columns[$key] = $value;
+    }
+  return $tipo;
+}
+
+function insert(){
+$this->db->insert('TIPOPROD',$this->_columns);
+}
+
+function update($id, $data) {
+  $tipo = $this->db->get_where('TIPOPROD',array('TIPO_ID'=>$id));
+  if($tipo->num_rows() > 0){
+    $this->db->where('TIPO_ID', $id);
+    return $this->db->update('TIPOPROD', $data);
+    }else{
+  $data['TIPO_ID'] = $id;
+  return $this->db->insert('TIPOPROD',$data);
+  }
+}
+
+function delete($id){
+  $this->db->where('TIPO_ID',$id);
+  return $this->db->delete('TIPOPROD');
+}
+
+
+function findAll(){
+  $result=array();
+  $bit = null;
+  $consulta = $this->db->get('TIPOPROD');
+    foreach ($consulta->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
+
+function findById($id){
+  $result=array();
+  $bit = null;
+  $this->db->where('TIPO_ID',$id);
+  $consulta = $this->db->get('TIPOPROD');
+  if($consulta->num_rows() > 0){
+    foreach ($consulta->result() as $row) {
+    $result[] = $this->create($row);
+    }
+  }else{
+    $result[] = $this->create($this->_columns);
+  }
+    return $result;
+  }
+}
