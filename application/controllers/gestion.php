@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DirectorCarrera extends CI_Controller{
-
+class Gestion extends CI_Controller {
 
   public function __construct()
   {
@@ -12,7 +11,8 @@ class DirectorCarrera extends CI_Controller{
 
   public function index()
   {   
-    $this->layouthelper->LoadView("pruebas/indexcontent" , null );
+
+    $this->layouthelper->LoadView("pruebas/indexcontent" , null);
   }
 
   public function indexcontentdos()
@@ -21,3 +21,6 @@ class DirectorCarrera extends CI_Controller{
   }
 
 }
+
+/* End of file gestion.php */
+/* Location: ./application/controllers/gestion.php */
