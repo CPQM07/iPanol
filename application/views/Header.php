@@ -1,271 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>iPañol</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="<?= base_url('resources/css/vendor.css') ?>">
-  <link rel="stylesheet" type="text/css" href="<?= base_url('resources/css/flat-admin.css') ?>">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sistema Pañol INACAP</title>
+
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <link rel="stylesheet" href="<?= base_url('resources/css/bootstrap3.css') ?>">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/bootstrap.css') ?>">
+  <!-- font-awesome -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/font-awesome.css') ?>">
+  <!-- AdminLTE -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
+  <!-- AdminLTE Skins -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/skin.css') ?>">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/daterangepicker.css') ?>">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/datepicker3.css') ?>">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/select2.css') ?>">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/dataTables.css') ?>">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
 </head>
+<body class="hold-transition skin-red-light sidebar-mini">
+<div class="wrapper">
 
-<body>
+    <header class="main-header">
+      <!-- Logo -->
+      <a href="index.php" class="logo">
+        <span class="logo-mini"><b>S</b>PI</span>
+        <span class="logo-lg"><b>Sistema</b>PAÑOL</span>
+      </a>
+      <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
 
-<div class="app app-red">
-  <aside class="app-sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <a class="sidebar-brand" href="#"><span class="highlight">INACAP</span> PAÑOL</a>
-    <button type="button" class="sidebar-toggle">
-      <i class="fa fa-times"></i>
-    </button>
-  </div>
-  <div class="sidebar-menu">
-    <ul class="sidebar-nav">
-      <li class="">
-        <a href="../index.html">
-          <div class="icon">
-            <i class="fa fa-tasks" aria-hidden="true"></i>
-          </div>
-          <div class="title">Dashboard</div>
-        </a>
-      </li>
-      <li class="@@menu.messaging">
-        <a href="../messaging.html">
-          <div class="icon">
-            <i class="fa fa-comments" aria-hidden="true"></i>
-          </div>
-          <div class="title">Messaging</div>
-        </a>
-      </li>
-      <li class="dropdown active">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <div class="icon">
-            <i class="fa fa-cube" aria-hidden="true"></i>
-          </div>
-          <div class="title">UI Kits</div>
-        </a>
-        <div class="dropdown-menu">
-          <ul>
-            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> UI Kits</li>
-            <li><a href="../uikits/customize.html">Customize</a></li>
-            <li><a href="../uikits/components.html">Components</a></li>
-            <li><a href="../uikits/card.html">Card</a></li>
-            <li><a href="../uikits/form.html">Form</a></li>
-            <li><a href="../uikits/table.html">Table</a></li>
-            <li><a href="../uikits/icons.html">Icons</a></li>
-            <li class="line"></li>
-            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Advanced Components</li>
-            <li><a href="../uikits/pricing-table.html">Pricing Table</a></li>
-            <!-- <li><a href="../uikits/timeline.html">Timeline</a></li> -->
-            <li><a href="../uikits/chart.html">Chart</a></li>
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="dist/img/woman.png" class="user-image" alt="User Image">
+                <span class="hidden-xs">Usuario</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header">
+                  <img src="dist/img/woman.png" class="img-circle" alt="User Image">
+                  <p>
+                    Usuario - Cargo
+                    <small>Correo</small>
+                  </p>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-right">
+                    <a href="login.php" class="btn btn-danger btn-flat">Cerrar sesión</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
-      </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <div class="icon">
-            <i class="fa fa-file-o" aria-hidden="true"></i>
+      </nav>
+    </header>
+
+    <aside class="main-sidebar">
+      <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img src="dist/img/woman.png" class="img-circle" alt="User Image">
           </div>
-          <div class="title">Pages</div>
-        </a>
-        <div class="dropdown-menu">
-          <ul>
-            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Admin</li>
-            <li><a href="../pages/form.html">Form</a></li>
-            <li><a href="../pages/profile.html">Profile</a></li>
-            <li><a href="../pages/search.html">Search</a></li>
-            <li class="line"></li>
-            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Landing</li>
-            <!-- <li><a href="../pages/landing.html">Landing</a></li> -->
-            <li><a href="../pages/login.html">Login</a></li>
-            <li><a href="../pages/register.html">Register</a></li>
-            <!-- <li><a href="../pages/404.html">404</a></li> -->
-          </ul>
+          <div class="pull-left info">
+            <p>Usuario</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
+          </div>
         </div>
-      </li>
-    </ul>
-  </div>
-  <div class="sidebar-footer">
-    <ul class="menu">
-      <li>
-        <a href="/" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-cogs" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li><a href="#"><span class="flag-icon flag-icon-th flag-icon-squared"></span></a></li>
-    </ul>
-  </div>
-</aside>
 
-<!--INICIO APP CONTAINER-->
-<div class="app-container">
+      <ul class="sidebar-menu">
+        <li class="header">MENÚ DE NAVEGACIÓN</li>
+        <li class="treeview">
+          <a href="index.php">
+            <i class="fa fa-dashboard"></i> <span>Panel de control</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="reportes.php">
+            <i class="fa  fa-file-pdf-o"></i> <span>Generar reporte</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-file-text-o"></i>
+            <span>Mantenedores</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="productos.php"><i class="fa fa-circle-o"></i> Productos</a></li>
+            <li><a href="usuarios.php"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart"></i>
+            <span>Inventario</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingreso</a></li>
+            <li><a href="baja.php"><i class="fa fa-circle-o"></i> Dar de baja</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-commenting-o"></i>
+            <span>Solicitudes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="entrega.php"><i class="fa fa-circle-o"></i> Entrega manual</a></li>
+            <li><a href="solicitudes.php"><i class="fa fa-circle-o"></i> Solicitudes pendientes</a></li>
+            <li><a href="profesores.php"><i class="fa fa-circle-o"></i> Petición de Profesores</a></li>
+            <li><a href="recepcion.php"><i class="fa fa-circle-o"></i> Recepción</a></li>
+          </ul>
+        </li>
 
-  <nav class="navbar navbar-default" id="navbar">
-  <div class="container-fluid">
-    <div class="navbar-collapse collapse in">
-      <ul class="nav navbar-nav navbar-mobile">
-        <li>
-          <button type="button" class="sidebar-toggle">
-            <i class="fa fa-bars"></i>
-          </button>
-        </li>
-        <li class="logo">
-          <a class="navbar-brand" href="#"><span class="highlight">Flat v3</span> Admin</a>
-        </li>
-        <li>
-          <button type="button" class="navbar-toggle">
-            <img class="profile-img" src="../assets/images/profile.png">
-          </button>
-        </li>
       </ul>
-      <ul class="nav navbar-nav navbar-left">
-        <li class="navbar-title"><span class="highlight">Component</span><span>&nbsp;Kits</span></li>
-        <li class="navbar-search hidden-sm">
-          <input id="search" type="text" placeholder="Search..">
-          <button class="btn-search"><i class="fa fa-search"></i></button>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown notification">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="icon"><i class="fa fa-shopping-basket" aria-hidden="true"></i></div>
-            <div class="title">New Orders</div>
-            <div class="count">0</div>
-          </a>
-          <div class="dropdown-menu">
-            <ul>
-              <li class="dropdown-header">Ordering</li>
-              <li class="dropdown-empty">No New Ordered</li>
-              <li class="dropdown-footer">
-                <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="dropdown notification warning">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
-            <div class="title">Unread Messages</div>
-            <div class="count">99</div>
-          </a>
-          <div class="dropdown-menu">
-            <ul>
-              <li class="dropdown-header">Message</li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-warning pull-right">10</span>
-                  <div class="message">
-                    <img class="profile" src="https://placehold.it/100x100">
-                    <div class="content">
-                      <div class="title">"Payment Confirmation.."</div>
-                      <div class="description">Alan Anderson</div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-warning pull-right">5</span>
-                  <div class="message">
-                    <img class="profile" src="https://placehold.it/100x100">
-                    <div class="content">
-                      <div class="title">"Hello World"</div>
-                      <div class="description">Marco  Harmon</div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-warning pull-right">2</span>
-                  <div class="message">
-                    <img class="profile" src="https://placehold.it/100x100">
-                    <div class="content">
-                      <div class="title">"Order Confirmation.."</div>
-                      <div class="description">Brenda Lawson</div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="dropdown-footer">
-                <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="dropdown notification danger">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
-            <div class="title">System Notifications</div>
-            <div class="count">10</div>
-          </a>
-          <div class="dropdown-menu">
-            <ul>
-              <li class="dropdown-header">Notification</li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-danger pull-right">8</span>
-                  <div class="message">
-                    <div class="content">
-                      <div class="title">New Order</div>
-                      <div class="description">$400 total</div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-danger pull-right">14</span>
-                  Inbox
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-danger pull-right">5</span>
-                  Issues Report
-                </a>
-              </li>
-              <li class="dropdown-footer">
-                <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="dropdown profile">
-          <a href="/html/pages/profile.html" class="dropdown-toggle"  data-toggle="dropdown">
-            <img class="profile-img" src="../assets/images/profile.png">
-            <div class="title">Profile</div>
-          </a>
-          <div class="dropdown-menu">
-            <div class="profile-info">
-              <h4 class="username">Scott White</h4>
-            </div>
-            <ul class="action">
-              <li>
-                <a href="#">
-                  Profile
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="badge badge-danger pull-right">5</span>
-                  My Inbox
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  Setting
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  </nav>
+    </section>
+  </aside>
 
-<div class="row">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h3>
+        Panel de control
+      </h3>
+    </section>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="row">
