@@ -3,17 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class DirectorCarrera extends CI_Controller{
 
+
   public function __construct()
   {
     parent::__construct();
-
+    $this->layouthelper->SetMaster('layout');
   }
 
-  function index()
-  {
-    $this->load->view('/Header');
-    $this->load->view('/Test');
-    $this->load->view('/Footer');
+  public function index()
+  {   
+    $this->layouthelper->LoadView("pruebas/indexcontent" , null );
+  }
+
+  public function indexcontentdos()
+  {   
+    $this->layouthelper->LoadView("pruebas/contentdos" , null );
   }
 
 }

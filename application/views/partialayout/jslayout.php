@@ -1,23 +1,9 @@
-    </div>
-  </div>
-</div>
-
-    <footer class="main-footer">
-    <strong>Copyright &copy; 2017 <a href="https://www.inacap.cl">Inacap Renca</a>.</strong> Todos los derechos reservados.
-    </footer>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
-
-    <div class="control-sidebar-bg"></div>
-
     <!-- jQuery 2.2.3 -->
     <script src="<?= base_url('resources/js/jquery.js') ?>"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
     <script> $.widget.bridge('uibutton', $.ui.button); </script>
-
     <!-- jQuery 2.2.3 -->
     <script src="<?= base_url('resources/js/jquery.js') ?>"></script>
     <!-- Bootstrap 3.3.6 -->
@@ -37,7 +23,6 @@
     <script src="<?= base_url('resources/js/Chart.js') ?>"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="<?= base_url('resources/js/dashboard2.js') ?>"></script>
-
     <!-- jQuery Knob Chart -->
     <script src="<?= base_url('resources/js/knob.js') ?>"></script>
     <!-- jvectormap -->
@@ -66,5 +51,3 @@
     <script src="<?= base_url('resources/js/demo.js') ?>"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url('resources/js/app.js') ?>"></script>
-  </body>
-</html>
