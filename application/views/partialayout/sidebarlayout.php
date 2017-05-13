@@ -32,7 +32,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="productos.php"><i class="fa fa-circle-o"></i> Productos</a></li>
+            <li><a href="<?=site_url('gestion/entregamanual')?>"><i class="fa fa-circle-o"></i>Gestion Manual</a></li>
             <li><a href="usuarios.php"><i class="fa fa-circle-o"></i> Usuarios</a></li>
           </ul>
         </li>
