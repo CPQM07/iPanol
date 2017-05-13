@@ -11,13 +11,17 @@ class Gestion extends CI_Controller {
 
   public function index()
   {   
-
     $this->layouthelper->LoadView("pruebas/indexcontent" , null);
   }
 
   public function indexcontentdos()
   {   
     $this->layouthelper->LoadView("pruebas/contentdos" , null );
+  }
+
+  public function entregamanual()
+  {
+     $this->layouthelper->LoadView("gestion/entregamanual" , null );
   }
 
 }
