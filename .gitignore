@@ -5,6 +5,7 @@ application/cache/*
 !application/cache/.htaccess
 
 application/config/*
+*atabase.php
 
 application/logs/*
 !application/logs/index.html
