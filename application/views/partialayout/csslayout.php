@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="<?= base_url('resources/css/font-awesome.css') ?>">
   <!-- AdminLTE -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- AdminLTE Skins -->
   <link rel="stylesheet" href="<?= base_url('resources/css/skin.css') ?>">
   <!-- daterange picker -->
