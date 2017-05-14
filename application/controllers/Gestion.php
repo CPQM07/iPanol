@@ -26,9 +26,18 @@ class Gestion extends CI_Controller {
 
   public function entregadigital()
   {
-     $this->layouthelper->LoadView("gestion/entregamanual" , null );
+     $this->layouthelper->LoadView("gestion/entregadigital" , null );
   }
 
+  public function baja()
+  {
+     $this->layouthelper->LoadView("gestion/baja" , null );
+  }
+
+  public function ingreso()
+  {
+     $this->layouthelper->LoadView("gestion/ingreso" , null );
+  }
 }
 
 /* End of file gestion.php */

@@ -9,9 +9,9 @@ class Dashboard extends CI_Controller {
     $this->layouthelper->SetMaster('layout');
   }
 
-	public function index()
+	public function dashboard()
 	{
-		
+		$this->layouthelper->LoadView("dashboard/dashboard" , null );
 	}
 
 }

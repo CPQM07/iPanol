@@ -14,6 +14,14 @@ class Mantencion extends CI_Controller {
 		
 	}
 
+	public function productos(){
+		$this->layouthelper->LoadView("mantenedores/productos" , null);
+	}
+
+	public function usuarios(){
+		$this->layouthelper->LoadView("mantenedores/usuarios" , null);
+	}
+
 }
 
 /* End of file mantencion.php */

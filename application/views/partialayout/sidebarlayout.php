@@ -1,3 +1,8 @@
+<?php 
+$lasturl ="q1w2e3r4t5y6u7i8o9";
+$spliturl = explode("/", $_SERVER["REQUEST_URI"]);
+$lasturl = array_pop($spliturl);
+?>
 <aside class="main-sidebar">
       <section class="sidebar">
         <!-- Sidebar user panel -->
@@ -13,55 +18,65 @@
 
       <ul class="sidebar-menu">
         <li class="header">MENÚ DE NAVEGACIÓN</li>
+
+
         <li class="treeview">
-          <a href="index.php">
+          <a href="<?=site_url('dashboard/dashboard')?>">
             <i class="fa fa-dashboard"></i> <span>Panel de control</span>
           </a>
         </li>
-        <li class="treeview">
-          <a href="reportes.php">
-            <i class="fa  fa-file-pdf-o"></i> <span>Generar reporte</span>
-          </a>
-        </li>
-        <li class="treeview">
+
+
+        <!-- ESTE INF QUE ESTA DENTRO DE LA CLASE PRINCIPAL LI , DEJA ABIERTO EL LI AL CUAL PERTENECE LA VISTA, PARA INTEGRARLO EN OTROS DEBEN COPIAR TODA LA ETIQUETA PHP Y DENTRO SOLO EDITAR LAS VISTAS QUE CONTIENE ESE LI -->
+        <li  class="treeview <?php if (strpos(",ingreso,entregamanual,baja,entregadigital", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-file-text-o"></i>
+            <span>Gestión</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?=site_url('gestion/entregadigital')?>"><i class="fa fa-bolt"></i>Gestion Digital</a></li>
+            <li><a href="<?=site_url('gestion/entregamanual')?>"><i class="fa fa-handshake-o"></i>Gestion Manual</a></li>
+            <li><a href="<?=site_url('gestion/ingreso')?>"><i class="fa fa-arrow-up"></i>Ingreso Stock</a></li>
+            <li><a href="<?=site_url('gestion/baja')?>"><i class="fa fa-arrow-down"></i>Dar baja</a></li>
+          </ul>
+        </li>
+
+
+        <li class="treeview <?php if (strpos(",usuarios,productos", $lasturl)): ?> active <?php endif ?>">
+          <a href="#">
+            <i class="fa fa-industry"></i>
             <span>Mantenedores</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=site_url('gestion/entregamanual')?>"><i class="fa fa-circle-o"></i>Gestion Manual</a></li>
-            <li><a href="usuarios.php"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+            <li><a href="<?=site_url('mantencion/usuarios')?>"><i class="fa fa-circle-o"></i>Usuarios</a></li>
+            <li><a href="<?=site_url('mantencion/productos')?>"><i class="fa fa-circle-o"></i>Productos</a></li>
+            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Categorias</a></li>
+            <li><a href="baja.php"><i class="fa fa-circle-o"></i>Asignatura</a></li>
+            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Motivos</a></li>
+            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Proveedores</a></li>
           </ul>
         </li>
+
+
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-bar-chart"></i>
-            <span>Inventario</span>
+            <i class="fa fa-files-o"></i>
+            <span>Reportes</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingreso</a></li>
-            <li><a href="baja.php"><i class="fa fa-circle-o"></i> Dar de baja</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-commenting-o"></i>
-            <span>Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="entrega.php"><i class="fa fa-circle-o"></i> Entrega manual</a></li>
-            <li><a href="solicitudes.php"><i class="fa fa-circle-o"></i> Solicitudes pendientes</a></li>
-            <li><a href="profesores.php"><i class="fa fa-circle-o"></i> Petición de Profesores</a></li>
-            <li><a href="recepcion.php"><i class="fa fa-circle-o"></i> Recepción</a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i> Stock critico</a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i> Stock actual</a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i> Motivos baja</a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i> Vida útil</a></li>
           </ul>
         </li>
 
