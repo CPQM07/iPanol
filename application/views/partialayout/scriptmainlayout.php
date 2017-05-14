@@ -1,7 +1,34 @@
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	$(".select2").select2({
-		placeholder:"seleccionar";
-	})
+		placeholder:"seleccionar"
+	});
+	  			$(".datatable").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true
+                });
+                $(".datatable2").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "pagingType": "simple",
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                });
+                $(".datatable3").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                });
+
 })	
 </script>

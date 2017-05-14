@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-hover">
+              <table id="example1" class="datatable2 table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Rut</th>
@@ -71,7 +71,7 @@
               </div>
               <!-- /.box-header -->
               <div class="box-body">
-                <table id="" class="table table-bordered table-hover">
+                <table id="" class="datatable3 table table-bordered table-hover">
                   <thead>
                     <tr>
                       <th>Producto / insumo</th>
@@ -103,7 +103,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                      <table id="example2" class="table table-bordered table-hover">
+                      <table id="example2" class="datatable2 table table-bordered table-hover">
                         <thead>
                           <tr>
                             <th>Stock</th>
@@ -151,7 +151,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                      <table id="example2" class="table table-bordered table-hover">
+                      <table id="example2" class="datatable3 table table-bordered table-hover">
                         <thead>
                           <tr>
                             <th>Stock</th>
