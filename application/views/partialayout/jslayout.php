@@ -34,5 +34,4 @@
 <script src="<?= base_url('resources/plugins/datatables/dataTables.bootstrap.min.js')  ?>"></script>
 
 <!-- ChartJS 1.0.1 -->
-<script src="<?= base_url('resources/plugins/chartjs/Chart.min.js')  ?>"></script><!-- charjs -->
-<script src="<?= base_url('resources/js/dashboard2.js')  ?>"></script><!-- charjs -->
+<script src="<?= base_url('resources/js/grachart.js')  ?>"></script><!-- charjs -->
