@@ -78,6 +78,7 @@
         </div>
         </div>
         <div class="box-body">
+          <h3>Historial de productos / insumos dados de baja</h3>
           <div class="box-body">
               <table id="example2" class="datatable table table-bordered table-hover">
                 <thead>

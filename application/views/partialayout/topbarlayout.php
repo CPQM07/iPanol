@@ -1,6 +1,6 @@
     <header class="main-header">
       <!-- Logo -->
-      <a href="index.php" class="logo">
+      <a href="<?= site_url('dashboard/dashboard'); ?>" class="logo">
         <span class="logo-mini"><b>S</b>PI</span>
         <span class="logo-lg"><b>Sistema</b>PAÑOL</span>
       </a>

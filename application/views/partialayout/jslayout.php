@@ -15,6 +15,8 @@
 <script src="<?= base_url('resources/plugins/daterangepicker/daterangepicker.js')  ?>"></script>
 <!-- bootstrap datepicker -->
 <script src="<?= base_url('resources/plugins/datepicker/bootstrap-datepicker.js')  ?>"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="<?= base_url('resources/plugins/chartjs/Chart.min.js')  ?>"></script>
 <!-- bootstrap color picker -->
 <script src="<?= base_url('resources/plugins/colorpicker/bootstrap-colorpicker.min.js')  ?>"></script>
 <!-- bootstrap time picker -->
@@ -25,8 +27,6 @@
 <script src="<?= base_url('resources/plugins/sparkline/jquery.sparkline.min.js')  ?>"></script>
 <!-- Select2 -->
 <script src="<?= base_url('resources/plugins/select2/select2.full.min.js')  ?>"></script>
-<!-- ChartJS 1.0.1 -->
-<script src="<?= base_url('resources/plugins/chartjs/Chart.min.js')  ?>"></script>
 <!-- DataTables -->
 <script src="<?= base_url('resources/plugins/datatables/jquery.dataTables.min.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/datatables/dataTables.bootstrap.min.js')  ?>"></script>

@@ -5,10 +5,11 @@
       <h3>
         Entrega de insumos
       </h3>
-    </section>
-
-      <div class="content">
-          <div class="row">
+    </section>  
+      <!-- /.box-header -->
+      <div class="box-body">
+  <div class="content">
+  <div class="row">
 
     <div class="panel panel-default">
         <div class="row panel-body">
@@ -233,9 +234,10 @@
 
 
 
-            </div> <!-- /NOSE 1 -->
-        </div> <!-- /NOSE 2 -->
-    </div> <!-- /NOSE 3 -->
+            </div> <!-- /ROW -->
+        </div> <!-- /CONTENT -->
+      </div><!-- BOX BODY -->
+    </div> <!-- /CONTENT-WRAPPER -->
 
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
