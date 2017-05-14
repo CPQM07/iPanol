@@ -1,6 +1,9 @@
 <?php 
 $lasturl ="q1w2e3r4t5y6u7i8o9";
-$spliturl = explode("/", $_SERVER["REQUEST_URI"]);
+$uri = $_SERVER["REQUEST_URI"];
+$rest = substr($uri, -1);
+if ($rest == "/") $uri = substr ($uri, 0, strlen($uri) - 1);
+$spliturl = explode("/", $uri);
 $lasturl = array_pop($spliturl);
 ?>
 <aside class="main-sidebar">
@@ -28,7 +31,7 @@ $lasturl = array_pop($spliturl);
 
 
         <!-- ESTE INF QUE ESTA DENTRO DE LA CLASE PRINCIPAL LI , DEJA ABIERTO EL LI AL CUAL PERTENECE LA VISTA, PARA INTEGRARLO EN OTROS DEBEN COPIAR TODA LA ETIQUETA PHP Y DENTRO SOLO EDITAR LAS VISTAS QUE CONTIENE ESE LI -->
-        <li  class="treeview <?php if (strpos(",ingreso,entregamanual,baja,entregadigital", $lasturl)): ?> active <?php endif ?>">
+        <li  class="treeview <?php if (strpos(",ingreso,iPanol,entregamanual,baja,entregadigital", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-file-text-o"></i>
             <span>Gestión</span>

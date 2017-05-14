@@ -20,7 +20,7 @@
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="dist/img/woman.png" class="img-circle" alt="User Image">
+                  <img src="" class="img-circle" alt="User Image">
                   <p>
                     Usuario - Cargo
                     <small>Correo</small>
