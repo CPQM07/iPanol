@@ -100,7 +100,7 @@
                                     <th>Id</th>
                                     <th>Producto</th>
                                     <th>Cantidad solicitada</th>
-                                    <th class="text-center">Recepcionado ?</th>
+                                    <th class="text-center">Recepcionado ? <input class="pull-left" type="checkbox" /></th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -137,7 +137,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Guardar</button>
+                          <button type="submit" class="btn btn-danger col-md-12">Recepcionar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
