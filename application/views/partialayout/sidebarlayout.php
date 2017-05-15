@@ -59,7 +59,7 @@ $lasturl = array_pop($spliturl);
           <ul class="treeview-menu">
             <li><a href="<?=site_url('mantencion/usuarios')?>"><i class="fa fa-circle-o"></i>Usuarios</a></li>
             <li><a href="<?=site_url('mantencion/productos')?>"><i class="fa fa-circle-o"></i>Productos</a></li>
-            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Categorias</a></li>
+            <li><a href="<?=site_url('mantencion/categorias')?>"><i class="fa fa-circle-o"></i>Categorías</a></li>
             <li><a href="baja.php"><i class="fa fa-circle-o"></i>Asignatura</a></li>
             <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Motivos</a></li>
             <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Proveedores</a></li>

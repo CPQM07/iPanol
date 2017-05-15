@@ -10,6 +10,7 @@
         </div>
         <div class="col-sm-6"><br>
           <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newPro">Agregar nuevo producto</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newCategoria" style="background-color:#f39c12; border-color: #F39D12">Agregar nueva categoría</button>
         </div>
       </div>
     </section>
@@ -262,6 +263,63 @@
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
 
+<!-- /.content-wrapper -->
+  <!--modalCATEGORIANUEVO-->
+  <!--modalCATEGORIANUEVO-->
+    <div class="modal fade bs-example-modal-lg" id="newCategoria" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-tittle">Nueva categoría</h4>
+            <div class="modal-body">
+              <div class="box">
+                <div class="row">
+                  <form class="form-horizontal">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Nombre</label>
+
+                        <div class="col-md-9">
+                          <input type="text" class="col-md-12">
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Descripción</label>
+
+                        <div class="col-md-9">
+                          <input type="text" class="col-md-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Codigo</label>
+
+                        <div class="col-md-9">
+                          <input type="number" class="col-md-12">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!--modalCATEGORIANUEVO-->
+  <!--modalCATEGORIANUEVO-->
 
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
