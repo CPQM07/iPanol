@@ -29,7 +29,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-right">
-                    <a href="login.php" class="btn btn-danger btn-flat">Cerrar sesión</a>
+                    <a href="<?= base_url(); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
                   </div>
                 </li>
               </ul>
