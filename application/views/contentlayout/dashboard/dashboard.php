@@ -14,7 +14,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>2</h3>
+              <h3><?= $solpen ?></h3>
               <p>Solicitudes pendientes por recepcionar</p><!-- manda a vista entregadigital -->
             </div>
             <div class="icon">

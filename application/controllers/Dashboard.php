@@ -7,19 +7,19 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		$this->layouthelper->SetMaster('layout');
-		$this->load->model('DetSolicitud_Model');
+		$this->load->model('DetSolicitud_Model','detalle',true);
 	}
 
 	public function dashboard()
 	{
-		$this->layouthelper->LoadView("dashboard/dashboard" ,null);
+		$coun['solpen']=$this->detalle->count();
+		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}
 
-	/*public function soliPendientesRecepcionar(){
-		$soliPend = $this->DetSolicitud_Model->findAll();
-		return $soliPend;
-	}*/
+
+
 }
 
 /* End of file dashboard.php */
 /* Location: ./application/controllers/dashboard.php */
+

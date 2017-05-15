@@ -75,4 +75,9 @@ function findById($id){
   }
     return $result;
   }
+  function count(){
+    $cont = $this->db->from('DETALLESOL');
+    $obj = $cont->count_all_results();
+    return $obj;
+  }
 }
