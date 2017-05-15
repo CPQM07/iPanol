@@ -48,7 +48,7 @@ $lasturl = array_pop($spliturl);
         </li>
 
 
-        <li class="treeview <?php if (strpos(",usuarios,productos", $lasturl)): ?> active <?php endif ?>">
+        <li class="treeview <?php if (strpos(",usuarios,productos,categorias,asignaturas,motivos,proveedores", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-industry"></i>
             <span>Mantenedores</span>
