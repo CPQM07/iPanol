@@ -63,37 +63,33 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Estadísticas generales</h3>
+              <h3 class="box-title">Cantidad productos fuera del pañol por dia</h3>
 
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <div class="col-md-10">
-                  <p class="text-center">
-                    <strong>Cantidad productos fuera del pañol por dia</strong>
-                  </p>
+                <div class="col-md-11">
                   <div class="chart">
                     <!-- Sales Chart Canvas -->
                     <canvas id="chart-area4" width="600" height="200"></canvas>
                   </div>
                   <!-- /.chart-responsive -->
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                   <p class="text-center">
                     <strong>Productos</strong>
                   </p>
 
                   <div class="progress-group">
-                    <span class="progress-text">Activos</span>
-
+                    <p class="text-center">Activos</p>
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-red" style="width: 100%"></div>
                     </div>
                   </div>
                   <!-- /.progress-group -->
                   <div class="progress-group">
-                    <span class="progress-text">Fungibles</span>
+                    <p class="text-center">Fungibles</p>
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-red" style="width: 0%"></div>
@@ -116,15 +112,16 @@
       <!-- /.row (main row) -->
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper
+  <!--  /.content-wrapper -->
 
-  <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
-  <script type="text/javascript" charset="utf-8">
-    $(function () {
+  <?php function MISJAVASCRIPTPERSONALIZADO(){  
+    
 
-      });
+
+    ?>
+   <script type="text/javascript" charset="utf-8">
     var lineChartData = {
-      labels : ["Lunes - 08","Martes - 09","Miercoles - 10","Jueves - 11","Viernes - 12","Sábado - 13","Lunes - 15"],
+      labels : ["Lunes - 08","Martes - 09","Miercoles - 10","Jueves - 11","Viernes - 12","Sábado - 13"],
       datasets : [
         {
           label: "Primera serie de datos",
@@ -134,7 +131,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(220,220,220,1)",
-          data : [90,30,10,80,15,5,15]
+          data : [4,6,7,2,1,6] /*productos activos*/
         },
         {
           label: "Segunda serie de datos",
@@ -144,12 +141,12 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(151,187,205,1)",
-          data : [40,50,70,40,85,55,15]
+          data : [10,4,4,3,6,1] /*productos fungibles*/
         }
       ]
 
     }
-var ctx4 = document.getElementById("chart-area4").getContext("2d");
-window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+  var ctx4 = document.getElementById("chart-area4").getContext("2d");
+  window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
   </script>
   <?php } ?>
