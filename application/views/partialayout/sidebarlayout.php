@@ -1,4 +1,4 @@
-<?php 
+<?php
 $lasturl ="q1w2e3r4t5y6u7i8o9";
 $uri = $_SERVER["REQUEST_URI"];
 $rest = substr($uri, -1);
@@ -48,7 +48,7 @@ $lasturl = array_pop($spliturl);
         </li>
 
 
-        <li class="treeview <?php if (strpos(",usuarios,productos,categorias,asignaturas,motivos,proveedores", $lasturl)): ?> active <?php endif ?>">
+        <li class="treeview <?php if (strpos(",usuarios,productos,categorias,asignaturas,motivos,proveedores,bajas", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-industry"></i>
             <span>Mantenedores</span>
@@ -61,8 +61,9 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('mantencion/productos')?>"><i class="fa fa-circle-o"></i>Productos</a></li>
             <li><a href="<?=site_url('mantencion/categorias')?>"><i class="fa fa-circle-o"></i>Categorías</a></li>
             <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-circle-o"></i>Asignatura</a></li>
-            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Motivos</a></li>
-            <li><a href="ingreso.php"><i class="fa fa-circle-o"></i>Proveedores</a></li>
+            <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-circle-o"></i>Motivos</a></li>
+            <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-circle-o"></i>Proveedores</a></li>
+            <li><a href="<?=site_url('mantencion/bajas')?>"><i class="fa fa-circle-o"></i>Bajas</a></li>
           </ul>
         </li>
 

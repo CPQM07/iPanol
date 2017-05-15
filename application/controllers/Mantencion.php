@@ -11,7 +11,7 @@ class Mantencion extends CI_Controller {
 
 	public function index()
 	{
-		
+
 	}
 
 	public function productos(){
@@ -28,6 +28,18 @@ class Mantencion extends CI_Controller {
 
 	public function asignaturas(){
 		$this->layouthelper->LoadView("mantenedores/asignaturas" , null);
+	}
+
+	public function motivos(){
+		$this->layouthelper->LoadView("mantenedores/motivos" , null);
+	}
+
+	public function proveedores(){
+		$this->layouthelper->LoadView("mantenedores/proveedores" , null);
+	}
+
+	public function bajas(){
+		$this->layouthelper->LoadView("mantenedores/bajas" , null);
 	}
 
 }
