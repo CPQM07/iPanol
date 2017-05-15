@@ -6,11 +6,12 @@ class Login extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    //$this->layouthelper->SetMaster('layout');
   }
 
-  function index()
-  {
-
-  }
+	public function index()
+	{
+		$this->load->view("contentlayout/login/login" , null );
+	}
 
 }
