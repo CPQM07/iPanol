@@ -29,6 +29,8 @@
                   <th>Descripción</th>
                   <th>Estado</th>
                   <th>Codigo</th>
+                  <th>Eliminar</th>
+                  <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>

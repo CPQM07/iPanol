@@ -28,6 +28,8 @@
                   <th>Nombre</th>
                   <th>Carrera</th>
                   <th>Estado</th>
+                  <th>Eliminar</th>
+                  <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>
