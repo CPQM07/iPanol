@@ -22,7 +22,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="datatable" id="example1" class="datatable table table-bordered table-striped">
+              <table id="example1" class="datatable table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>Nombre</th>
@@ -109,19 +109,19 @@
                         </div>
                       </div>
 
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                        </div>
-                      </div>
-                    <!-- /.box-footer -->
-                  </form>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                  </div>
+                </div>
+              <!-- /.box-footer -->
+            </form>
             </div>
           </div>
         </div>
@@ -200,19 +200,19 @@
                         </div>
                       </div>
 
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                        </div>
-                      </div>
-                    <!-- /.box-footer -->
-                  </form>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                  </div>
+                </div>
+              <!-- /.box-footer -->
+            </form>
             </div>
           </div>
         </div>

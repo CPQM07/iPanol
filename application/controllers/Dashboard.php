@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		$this->layouthelper->SetMaster('layout');
+		$this->load->model('DetSolicitud_Model');
 	}
 
 	public function dashboard()
@@ -14,7 +15,10 @@ class Dashboard extends CI_Controller {
 		$this->layouthelper->LoadView("dashboard/dashboard" ,null);
 	}
 
-
+	/*public function soliPendientesRecepcionar(){
+		$soliPend = $this->DetSolicitud_Model->findAll();
+		return $soliPend;
+	}*/
 }
 
 /* End of file dashboard.php */
