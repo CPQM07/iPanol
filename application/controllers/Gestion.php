@@ -38,6 +38,11 @@ class Gestion extends CI_Controller {
   {
      $this->layouthelper->LoadView("gestion/ingreso" , null );
   }
+
+  public function recepcion()
+  {
+     $this->layouthelper->LoadView("gestion/recepcion" , null );
+  }
 }
 
 /* End of file gestion.php */

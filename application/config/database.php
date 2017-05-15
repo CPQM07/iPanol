@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+include_once '../databaseipanol/var.php';
 
 /*
 | -------------------------------------------------------------------
@@ -77,7 +78,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'olaola123',
+	'password' => $clave,
 	'database' => 'panol',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
