@@ -104,6 +104,9 @@
                       </div>
                       
 
+                    </div>
+                  </div>
+                </div>
                       <div class="row">
                         <div class="col-sm-6">
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
@@ -114,9 +117,6 @@
                       </div>
                     <!-- /.box-footer -->
                   </form>
-                    </div>
-                  </div>
-                </div>
             </div>
           </div>
         </div>
@@ -192,19 +192,19 @@
                       </div>
                       
 
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                        </div>
-                      </div>
-                    <!-- /.box-footer -->
-                  </form>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                  </div>
+                </div>
+              <!-- /.box-footer -->
+            </form>
             </div>
           </div>
         </div>
