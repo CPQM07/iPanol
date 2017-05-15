@@ -15,10 +15,6 @@
 <script src="<?= base_url('resources/plugins/daterangepicker/daterangepicker.js')  ?>"></script>
 <!-- bootstrap datepicker -->
 <script src="<?= base_url('resources/plugins/datepicker/bootstrap-datepicker.js')  ?>"></script>
-
-
-
-
 <!-- bootstrap color picker -->
 <script src="<?= base_url('resources/plugins/colorpicker/bootstrap-colorpicker.min.js')  ?>"></script>
 <!-- bootstrap time picker -->
