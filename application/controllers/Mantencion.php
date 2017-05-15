@@ -26,6 +26,10 @@ class Mantencion extends CI_Controller {
 		$this->layouthelper->LoadView("mantenedores/categorias" , null);
 	}
 
+	public function asignaturas(){
+		$this->layouthelper->LoadView("mantenedores/asignaturas" , null);
+	}
+
 }
 
 /* End of file mantencion.php */
