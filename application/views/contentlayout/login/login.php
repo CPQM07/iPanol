@@ -27,36 +27,31 @@
   <div class="login-box-body">
     <p class="login-box-msg">Ingrese sus credenciales</p>
 
-    <form action="index.php" method="post">
+    <form action="<?= site_url('Login/index') ?>" method="post">
+      <?=(isset($error))? $error : ""; ?>
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Correo">
+        <input type="text" class="form-control" name="user" value="19549226-3" placeholder="RUT">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
+
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Contraseña">
+        <input type="password" class="form-control" name ="password" value="2112Aeqdlf" placeholder="CONTRASEÑA">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+
       <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Recordar contraseña
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-danger btn-block btn-flat">Iniciar sesión</button>
+          <button type="submit" class="btn btn-danger btn-block btn-flat">Ingresar</button>
         </div>
       </div><br>
-        <div class="row">
-          <div class="col-xs-12">
-            <button type="submit" class="btn btn-default btn-block btn-flat">Registrarse</button>
-          </div>
-        </div>
-    </form><br>
-    <a href="#" style="color: red;">Recuperar contraseña</a><br>
 
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-default btn-block btn-flat">Registrarse</button>
+        </div>
+      </div>
+    </form><br>
+    <!--<a href="#" style="color: red;">Recuperar contraseña</a><br>-->
   </div>
   <!-- /.login-box-body -->
 </div>

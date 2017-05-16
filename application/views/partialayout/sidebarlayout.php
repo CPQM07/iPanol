@@ -7,6 +7,7 @@ $spliturl = explode("/", $uri);
 $lasturl = array_pop($spliturl);
 ?>
 <aside class="main-sidebar">
+  <?php $user = $this->session->userdata('logged_in');?>
       <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
@@ -14,7 +15,7 @@ $lasturl = array_pop($spliturl);
             <img src="<?= base_url('resources/images/system/Logo.png') ?>" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>Usuario</p>
+            <p><?= $user['nombres'] ?></p>
             <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
           </div>
         </div>

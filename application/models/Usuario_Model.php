@@ -20,6 +20,7 @@ private  $_columns  =  array(
 'USU_TELEFONO2' => 0,
 'USU_CLAVE' => '',
 'USU_ESTADO' => 0
+
 );
 
 public function get($attr){
@@ -36,30 +37,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('usuario',$this->_columns);
+$this->db->insert('USUARIO',$this->_columns);
 }
 
 public function update($id, $data) {
-  $usuario = $this->db->get_where('usuario',array('USU_RUT'=>$id));
+  $usuario = $this->db->get_where('USUARIO',array('USU_RUT'=>$id));
   if($usuario->num_rows() > 0){
     $this->db->where('USU_RUT', $id);
-    return $this->db->update('usuario', $data);
+    return $this->db->update('USUARIO', $data);
     }else{
   $data['USU_RUT'] = $id;
-  return $this->db->insert('usuario',$data);
+  return $this->db->insert('USUARIO',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('USU_RUT',$id);
-  return $this->db->delete('usuario');
+  return $this->db->delete('USUARIO');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('usuario');
+  $consulta = $this->db->get('USUARIO');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -70,7 +71,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('USU_RUT',$id);
-  $consulta = $this->db->get('usuario');
+  $consulta = $this->db->get('USUARIO');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
@@ -81,19 +82,49 @@ public function findById($id){
     return $result;
   }
 
-  public function findByArray($myarray = null){
-    $this->load->database();
-    $res = $this->db->get_where('usuario',$myarray);
-    $result = array();
-       foreach ($res->result() as $row) {
-        $result[] = $this->create($row);
-        }
-      return $result;
-  }
-
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {
       $this->columns[$key] = $value;
       }
+    }
+
+    public function getPermisos()
+  	{
+  		$result = $this->db->get_where("permisos",array('PERMISO_USU_RUT  '=>$this->_columns['USU_RUT']));
+  		$permisos = array();
+  		if($result->num_rows() > 0){
+  			foreach ($result->result()  as $key => $value) {
+  				$permisos[] = $value->PERMISO_PERFIL_ID;
+  			}
+  		}
+  		return $permisos;
+  	}
+
+      public function getCarrera()
+    {
+      $result = $this->db->query("select CARRERA_NOMBRE from carrera inner join usuario on usuario.USU_CARRERA_ID = carrera.CARRERA_ID where
+        usuario.USU_RUT = ".$this->_columns['USU_RUT']);
+      $carrera = 0;
+      if($result->num_rows() > 0){
+        foreach ($result->result()  as $key => $value) {
+          $carrera = $value->CARRERA_NOMBRE;
+        }
+      }
+      return $carrera;
+    }
+
+
+    function login($rut, $clave){
+      $datos=array();
+      $user = null;
+
+      $result = $this->db->get_where('usuario',array('USU_RUT'=>$rut));
+      if ($result->num_rows() > 0) {
+        $row = $result->row_object();
+        if($row->USU_CLAVE == $clave){
+          $user = $this->create($row);
+        }
+      }
+      return $user;
     }
 }

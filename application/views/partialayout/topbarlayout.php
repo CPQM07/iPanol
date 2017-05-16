@@ -1,4 +1,5 @@
     <header class="main-header">
+      <?php $user = $this->session->userdata('logged_in');?>
       <!-- Logo -->
       <a href="<?= site_url('dashboard/dashboard'); ?>" class="logo">
         <span class="logo-mini"><b>S</b>PI</span>
@@ -15,21 +16,21 @@
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="<?= base_url('resources/images/system/Logo.png') ?>" class="user-image" alt="User Image">
-                <span class="hidden-xs">Usuario</span>
+                <span class="hidden-xs"><?= $user['nombres'] ?></span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="" class="img-circle" alt="User Image">
+                  <img src="<?= base_url('resources/images/system/Logo.png') ?>" class="img-circle" alt="User Image">
                   <p>
-                    Usuario - Cargo
-                    <small>Correo</small>
+                    <?= $user['carrera'] ?>
+                    <small><?= $user['correo'] ?></small>
                   </p>
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-right">
-                    <a href="<?= base_url(); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
+                    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
                   </div>
                 </li>
               </ul>
