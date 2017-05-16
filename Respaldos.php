@@ -9,8 +9,7 @@
           </h3>
         </div>
         <div class="col-sm-6"><br>
-          
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu" >Agregar nuevo Usuario</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu">Agregar nuevo Usuario</button>
         </div>
       </div>
     </section>
@@ -38,6 +37,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 <?php 
 
                 foreach ($usuario as $key => $value): 
@@ -68,8 +68,6 @@
                   </td>
                 </tr>    
                 <?php endforeach ?>
-                
-                
                 </tbody>
               </table>
             </div>
@@ -82,13 +80,12 @@
       <!-- /.row -->
     </section>
 
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
 
 
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
+
+
+  <!--ModalAGREGARUSUARIO-->
+  <!--ModalAGREGARUSUARIO-->
     <div class="modal fade bs-example-modal-lg" id="newUsu" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -127,7 +124,7 @@
                           <select class="form-control select2" style="width: 100%;">
                             <option selected="selected">Seleccione un cargo</option>
                             <?php foreach ($cargo as  $cargos): ?>
-                               <option value="<?=$cargos->get('CARGO_ID')?>"><?=$cargos->get('CARGO_NOMBRE')?></option>
+                               <option value="<?=$cargo->get('CARGO_ID')?>"><?=$cargo->get('CARGO_NOMBRE')?></option>
                             <?php endforeach ?>
                           </select>
                         </div>
@@ -138,9 +135,9 @@
                         <div class="col-md-9">
                           <select class="form-control select2" style="width: 100%;">
                             <option selected="selected">Seleccione una carrera</option>
-                            <?php foreach ($carrera as  $carreras): ?>
-                               <option value="<?= $carreras->get('CARRERA_ID')?>"><?=$carreras->get('CARRERA_NOMBRE')?></option>
-                            <?php endforeach ?>
+                            <option>Ingenieria en Informática</option>
+                            <option>Electrónica</option>
+                            <option>Telecomunicaciones</option>
                           </select>
                         </div>
                       </div>
@@ -180,38 +177,40 @@
                         </div>
                       </div>
                     </div>
+                    <!-- /.box-body -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
+                    </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                  </div>
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                  </div>
-                </div>
-              <!-- /.box-footer -->
-            </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
+
+  <!--ModalAGREGARUSUARIO-->
+  <!--ModalAGREGARUSUARIO-->
 
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-danger" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar una categoría</h4>
+            <h4 class="modal-title">Eliminar usuarios</h4>
           </div>
           <div class="modal-body">
-            <p>Está seguro de eliminar el producto <strong>Herramientas</strong></p>
+            <p>Está seguro de eliminar al usuario <strong>19.543.514-6 Alberto Matías Nuñes Velis</strong></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -220,16 +219,18 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
+  <!--Modal-->
+  <!--Modal-->
 
-  <!--modalCategoría-->
-  <!--modalCategoríaNUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
+
+
+  <!--ModalAGREGARUSUARIO-->
+  <!--ModalAGREGARUSUARIO-->
+    <div class="modal fade bs-example-modal-lg" id="myEdit" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Editar Usuario</h4>
+            <h4 class="modal-tittle">Nuevo Usuario</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">
@@ -315,22 +316,22 @@
                           <input type="number" class="col-md-12">
                         </div>
                       </div>
-
+                    </div>
+                    <!-- /.box-body -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                  </div>
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                  </div>
-                </div>
-              <!-- /.box-footer -->
-            </form>
             </div>
           </div>
         </div>
       </div>
-    </div>

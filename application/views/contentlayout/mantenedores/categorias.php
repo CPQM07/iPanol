@@ -196,8 +196,8 @@
                         <div class="col-md-9">
                           <select class="form-control select2" style="width: 100%;">
                             <option selected="selected">Seleccione un tipo</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
                           </select>
                         </div>
                       </div>

@@ -85,16 +85,26 @@ public function findAll(){
     }
 
     public function getPermisos()
-  	{
-  		$result = $this->db->get_where("permisos",array('PERMISO_USU_RUT  '=>$this->_columns['USU_RUT']));
-  		$permisos = array();
-  		if($result->num_rows() > 0){
-  			foreach ($result->result()  as $key => $value) {
-  				$permisos[] = $value->PERMISO_PERFIL_ID;
-  			}
-  		}
-  		return $permisos;
-  	}
+    {
+      $result = $this->db->get_where("permisos",array('PERMISO_USU_RUT  '=>$this->_columns['USU_RUT']));
+      $permisos = array();
+      if($result->num_rows() > 0){
+        foreach ($result->result()  as $key => $value) {
+          $permisos[] = $value->PERMISO_PERFIL_ID;
+        }
+      }
+      return $permisos;
+    }
+
+    public function findByArray($myarray = null){
+        $this->load->database();
+        $res = $this->db->get_where('usuario',$myarray);
+        $result = array();
+           foreach ($res->result() as $row) {
+            $result[] = $this->create($row);
+            }
+          return $result;
+     }
 
       public function getCarrera()
     {
@@ -124,3 +134,4 @@ public function findAll(){
       return $user;
     }
 }
+
