@@ -8,11 +8,13 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->layouthelper->SetMaster('layout');
 		$this->load->model('DetSolicitud_Model','detalle',true);
+		$this->load->model('DetSolicitud_Model','cont',true);
 	}
 
 	public function dashboard()
 	{
-		$coun['solpen']=$this->detalle->count();
+		$coun['solpen']=$this->detalle->count0();/*contador solicitudPendiendeRecepcionar*/
+		$coun['baja']=$this->cont->count1();/*contador productosBaja*/
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}
 

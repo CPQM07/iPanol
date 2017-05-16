@@ -43,7 +43,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>4<sup style="font-size: 20px"></sup></h3>
+              <h3><?= $baja ?><sup style="font-size: 20px"></sup></h3>
 
               <p>Productos / insumos dados de baja</p><!-- manda a la vista baja -->
             </div>

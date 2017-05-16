@@ -76,10 +76,16 @@ public function findById($id){
     return $result;
   }
   
-  public function count(){
-    $cont = $this->db->from('detallesol');
-    $obj = $cont->count_all_results();
-    return $obj;
+  public function count0(){
+    $cont0 = $this->db->from('detallesol');
+    $obj0 = $cont0->count_all_results();
+    return $obj0;
+  }
+
+  public function count1(){
+    $cont1 = $this->db->from('baja');
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
   }
 
   public function setColumns ($row = null){
