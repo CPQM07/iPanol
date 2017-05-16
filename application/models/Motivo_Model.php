@@ -10,7 +10,8 @@ parent::__construct();
 
 private  $_columns  =  array(
 'MOT_ID' => 0,
-'MOT_NOMBRE' => ''
+'MOT_NOMBRE' => '',
+'MOT_DIF' => 0
 );
 
 public function get($attr){
