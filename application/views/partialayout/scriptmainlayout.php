@@ -6,7 +6,10 @@ $(function(){
 	  			$(".datatable").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
                     cache: false,
-                    responsive: true
+                    responsive: true,
+                     "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    }
                 });
                 $(".datatable2").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
@@ -17,7 +20,10 @@ $(function(){
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": false,
-                    "bAutoWidth": false
+                    "bAutoWidth": false,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    }
                 });
                 $(".datatable3").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
@@ -27,7 +33,10 @@ $(function(){
                     "bLengthChange": false,
                     "bFilter": false,
                     "bInfo": false,
-                    "bAutoWidth": false
+                    "bAutoWidth": false,
+                     "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    }
                 });
 
 })	
