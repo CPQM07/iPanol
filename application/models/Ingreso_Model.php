@@ -34,30 +34,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('INGRESO',$this->_columns);
+$this->db->insert('ingreso',$this->_columns);
 }
 
 public function update($id, $data) {
-  $ingreso = $this->db->get_where('INGRESO',array('ING_ID'=>$id));
+  $ingreso = $this->db->get_where('ingreso',array('ING_ID'=>$id));
   if($ingreso->num_rows() > 0){
     $this->db->where('ING_ID', $id);
-    return $this->db->update('INGRESO', $data);
+    return $this->db->update('ingreso', $data);
     }else{
   $data['ING_ID'] = $id;
-  return $this->db->insert('INGRESO',$data);
+  return $this->db->insert('ingreso',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('ING_ID',$id);
-  return $this->db->delete('INGRESO');
+  return $this->db->delete('ingreso');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('INGRESO');
+  $consulta = $this->db->get('ingreso');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -68,7 +68,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('ING_ID',$id);
-  $consulta = $this->db->get('INGRESO');
+  $consulta = $this->db->get('ingreso');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

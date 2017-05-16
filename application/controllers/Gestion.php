@@ -8,6 +8,10 @@ class Gestion extends CI_Controller {
     parent::__construct();
     $this->layouthelper->SetMaster('layout');
     $this->load->model('Usuario_Model','usu',true);
+    $this->load->model('Asignatura_Model','asig',true);
+    $this->load->model('Categoria_Model','cat',true);
+    $this->load->model('Inventario_Model','inv',true);
+
   }
 
   public function index()
@@ -22,7 +26,10 @@ class Gestion extends CI_Controller {
 
   public function entregamanual()
   {
-     $this->layouthelper->LoadView("gestion/entregamanual" , null );
+     $data['categorias'] = $this->cat->findAll();
+     $data['asignaturas'] = $this->asig->findAll();
+     $this->layouthelper->LoadView("gestion/entregamanual" , $data);
+
   }
 
   public function entregadigital()
@@ -64,6 +71,23 @@ class Gestion extends CI_Controller {
     }
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($alluser));
+  }
+
+   public function get_inv_by_cat_tipo_ajax(){
+    $allinv = array();
+    $idtipo = $_POST['idtipo'];
+    $idcat = $_POST['idcat'];
+    $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_TIPO_ID' => $idtipo ,'INV_PROD_ESTADO' =>1 ));
+
+    foreach ($inventario as $key => $value) {
+      $allinv[] = array($value->get('INV_ID'),
+                        $value->get('INV_PROD_NOM'),
+                        $value->get('INV_PROD_CANTIDAD')
+                        );
+    }
+
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($allinv));
   }
 
 }

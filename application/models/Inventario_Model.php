@@ -16,6 +16,8 @@ private  $_columns  =  array(
 'INV_PROD_ESTADO'	=> 0,
 'INV_PROD_CODIGO' => '',
 'INV_INGRESO_ID' => 0,
+'INV_CATEGORIA_ID' => 0,
+'INV_TIPO_ID' => 0,
 'INV_FECHA' => '',
 'INV_IMAGEN' => ''
 );
@@ -77,6 +79,16 @@ public function findById($id){
     $result[] = $this->create($this->_columns);
   }
     return $result;
+  }
+
+  public function findByArray($myarray = null){
+    $this->load->database();
+    $res = $this->db->get_where('inventario',$myarray);
+    $result = array();
+       foreach ($res->result() as $row) {
+        $result[] = $this->create($row);
+        }
+      return $result;
   }
 
   public function setColumns ($row = null){

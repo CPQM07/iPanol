@@ -34,13 +34,12 @@
           <div class="col-md-4">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Asignatura</option>
-                  <option>Sistemas de información II</option>
-                  <option>Sistemas de información II</option>
-                  <option>Ingenieria de Software</option>
-                  <option>Ingenieria de Software</option>
-                  <option>Fundamentos de Programación</option>
-                  <option>Fundamentos de Programación</option>
+                 <option></option>
+                 <?php foreach ($asignaturas as $key => $value): ?>
+                  <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>
+                  <option value=" <?= $value->get('ASIGNATURA_ID') ?>" ><?= $value->get('ASIGNATURA_NOMBRE') ?></option>
+                  <?php endif ?>
+                 <?php endforeach ?>
                 </select>
               </div>
               <!-- /.form-group -->
@@ -69,7 +68,7 @@
               </div>
             <div class="col-md-4">
               <label>Número de grupos de trabajo</label>
-              <input type="text" class="form-control">
+              <input type="number" class="form-control">
             </div>
           </div>
         </div>
@@ -82,10 +81,10 @@
               <div class="box-body">
                 <div class="form-group">
                   <label>Activo
-                    <input type="radio" name="r1" class="minimal" checked>
+                    <input type="radio" val="1" name="r1" class="minimal"></input>
                   </label> - 
                   <label>Fungible
-                    <input type="radio" name="r1" class="minimal pull-right">
+                    <input type="radio" val="2" name="r1" class="minimal pull-right"></input>
                   </label>
                 </div>
               </div>
@@ -96,19 +95,20 @@
             <div class="col-md-4">
             <label>Categorias</label>
               <div class="form-group">
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Martillo</option>
-                  <option>Resistencias</option>
-                  <option>Soldadura</option>
-                  <option>Diodos led</option>
-                  <option>Herramientas</option>
+                <select id="categoria" class="form-control select2" style="width: 100%;">
+                  <option value="0"></option>
+                  <?php foreach ($categorias as $key => $value): ?>
+                    <?php if ($value->get("CAT_ESTADO") == 1): ?>
+                       <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?></option>
+                    <?php endif ?>
+                  <?php endforeach ?>
                 </select>
               </div>
             </div>
             <div class="col-md-4">
             <label>Filtrar producto/insumos</label>
               <div class="form-group">
-                <button type="button" class="btn btn-block btn-success fa fa-filter">Filtrar</button>
+                <button type="button" id="filtrar" class="btn btn-block btn-success fa fa-filter">Filtrar</button>
               </div>
             </div>
           </div>
@@ -124,35 +124,7 @@
                   <h3 class="box-title">Asignacion Productos/Insumos</h3>
                 </div>
                 <div class="box-body">
-                  <table class="datatable2 table table-responsive table-bordered table-hover">
-                    <thead>
-                    <tr>
-                      <th>Stock Actual</th>
-                      <th>Insumo</th>
-                      <th>Cantidad</th>
-                      <th>Asignar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>50</td>
-                      <td>Martillo</td>
-                      <td disabled >1</td>
-                      <td class="text-center"><a class="fa fa-plus"></a></td>
-                    </tr>
-                    <tr>
-                      <td>200</td>
-                      <td>RJ45</td>
-                      <td><input type="number" style="width: 40px"></td>
-                      <td class="text-center"><a class="fa fa-plus"></a></td>
-                    </tr>
-                    <tr>
-                      <td>289</td>
-                      <td>RJ11</td>
-                      <td><input type="number" style="width: 40px"></td>
-                      <td class="text-center"><a class="fa fa-plus"></a></td>
-                    </tr>
-                </tbody>
+                  <table class="dinamicajax table table-responsive table-bordered table-hover">
                 </table>
               </div>
             </div>
@@ -236,6 +208,9 @@
 
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
+  var tipo = 0;
+  var cat =0;
+
     $(function () {
           //Datemask dd/mm/yyyy
           $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
@@ -278,6 +253,38 @@
     })
 
 
+    $('.dinamicajax').DataTable({
+                "responsive": true,
+                "paging": true,
+                "processing": true,
+                "lengthChange": true,
+                "deferRender": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "ajax": {
+                    "url": "<?=site_url('/gestion/get_inv_by_cat_tipo_ajax')?>",
+                    "type": "POST",
+                    "data": {'idtipo': tipo,'idcat': cat },
+                    "dataSrc": function ( json ) {
+                      alert(tipo+" "+cat);
+                      console.log(json);
+                        return json;
+                    }
+                },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                "columns": [
+                    { title: "Id",
+                        className: "text-sm" },
+                    { title: "Nombre",
+                        className: "text-red text-center"},
+                    { title: "Cantidad",
+                        className: "text-sm"}]
+            });
+
+
 });
    $("#Cargo").on("change",function(event){
     var id = $(this).val();
@@ -297,6 +304,17 @@
            })
       }
    })
+
+   $("#filtrar").click(function(){
+     tipo = $('input:radio[name=r1]:checked').attr("val");
+     cat = $("#categoria").val();
+     if (tipo != 0 && cat != 0) {
+            $('.dinamicajax').DataTable().ajax.reload();
+     }else{
+      alert("Debe seleccionar a lo menos un tipo y una categoria");
+     }
+
+   });
 
 </script>
 <?php } ?>
