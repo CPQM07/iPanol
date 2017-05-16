@@ -106,6 +106,16 @@ public function findAll(){
           return $result;
      }
 
+    public function findByArray($myarray = null){
+        $this->load->database();
+        $res = $this->db->get_where('usuario',$myarray);
+        $result = array();
+           foreach ($res->result() as $row) {
+            $result[] = $this->create($row);
+            }
+          return $result;
+     }
+
       public function getCarrera()
     {
       $result = $this->db->query("select CARRERA_NOMBRE from carrera inner join usuario on usuario.USU_CARRERA_ID = carrera.CARRERA_ID where

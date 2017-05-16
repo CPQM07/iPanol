@@ -124,7 +124,7 @@
                   <h3 class="box-title">Asignacion Productos/Insumos</h3>
                 </div>
                 <div class="box-body">
-                  <table class="dinamicajax table table-responsive table-bordered table-hover">
+                  <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
                 </table>
               </div>
             </div>
@@ -208,9 +208,6 @@
 
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
-  var tipo = 0;
-  var cat =0;
-
     $(function () {
           //Datemask dd/mm/yyyy
           $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
@@ -252,8 +249,11 @@
       showInputs: false
     })
 
-
-    $('.dinamicajax').DataTable({
+});
+  var tabla;
+  var tipo = 0;
+  var cat =0;
+        tabla = $('#dinamicajax').DataTable({
                 "responsive": true,
                 "paging": true,
                 "processing": true,
@@ -265,10 +265,10 @@
                 "ajax": {
                     "url": "<?=site_url('/gestion/get_inv_by_cat_tipo_ajax')?>",
                     "type": "POST",
-                    "data": {'idtipo': tipo,'idcat': cat },
+                    "data": function (argument) {
+                      return {'idtipo': tipo,'idcat': cat };
+                    },
                     "dataSrc": function ( json ) {
-                      alert(tipo+" "+cat);
-                      console.log(json);
                         return json;
                     }
                 },
@@ -281,11 +281,11 @@
                     { title: "Nombre",
                         className: "text-red text-center"},
                     { title: "Cantidad",
-                        className: "text-sm"}]
+                        className: "text-sm"},
+                    { title: "Accion"}]
             });
 
 
-});
    $("#Cargo").on("change",function(event){
     var id = $(this).val();
     $("#usuariossel").text("");
@@ -305,15 +305,14 @@
       }
    })
 
-   $("#filtrar").click(function(){
-     tipo = $('input:radio[name=r1]:checked').attr("val");
+   $(document).on('click', '#filtrar', function() {
+    tipo = $('input:radio[name=r1]:checked').attr("val");
      cat = $("#categoria").val();
      if (tipo != 0 && cat != 0) {
-            $('.dinamicajax').DataTable().ajax.reload();
+           $('#dinamicajax').DataTable().ajax.reload();
      }else{
       alert("Debe seleccionar a lo menos un tipo y una categoria");
      }
-
    });
 
 </script>

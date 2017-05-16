@@ -82,8 +82,8 @@ class Gestion extends CI_Controller {
     foreach ($inventario as $key => $value) {
       $allinv[] = array($value->get('INV_ID'),
                         $value->get('INV_PROD_NOM'),
-                        $value->get('INV_PROD_CANTIDAD')
-                        );
+                        $value->get('INV_PROD_CANTIDAD'),
+                        "<button type='button' id=".$value->get('INV_ID')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>" );
     }
 
     $this->output->set_content_type('application/json');
