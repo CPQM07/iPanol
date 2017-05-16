@@ -15,23 +15,18 @@
         <div class="row panel-body">
           <div class="col-md-4">
             <div class="form-group">
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Profesor</option>
-                <option>Alumno</option>
+              <select id="Cargo" class="form-control">
+                <option value="0">Seleccionar</option>
+                <option value="1">Profesor</option>
+                <option value="2">Alumno</option>
               </select>
             </div>
             <!-- /.form-group -->
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Raúl Silva | 6536372-8</option>
-                <option>Alfredo Araya | 6536372-8</option>
-                <option>Samuel Videla | 6536372-8</option>
-                <option>Javier Miles | 6536372-8</option>
-                <option>Alexis Fuentealba | 6536372-8</option>
-                <option>Andres Zulian | 6536372-8</option>
-                <option>Mauricio Solar | 6536372-8</option>
+              <select id="usuariossel" class="form-control select2" style="width: 100%;">
+                <option></option>
               </select>
             </div>
             <!-- /.form-group -->
@@ -242,35 +237,35 @@
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
     $(function () {
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-    //Money Euro
-    $("[data-mask]").inputmask();
+          //Datemask dd/mm/yyyy
+          $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+          //Datemask2 mm/dd/yyyy
+          $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+          //Money Euro
+          $("[data-mask]").inputmask();
 
-    //Date range picker
-    $('#reservation').daterangepicker();
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-    )
+          //Date range picker
+          $('#reservation').daterangepicker();
+          //Date range picker with time picker
+          $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+          //Date range as a button
+          $('#daterange-btn').daterangepicker(
+              {
+                ranges: {
+                  'Today': [moment(), moment()],
+                  'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                  'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                  'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                  'This Month': [moment().startOf('month'), moment().endOf('month')],
+                  'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+              },
+              function (start, end) {
+                $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+              }
+          )
 
     //Date picker
     $('#datepicker').datepicker({
@@ -284,5 +279,24 @@
 
 
 });
+   $("#Cargo").on("change",function(event){
+    var id = $(this).val();
+    $("#usuariossel").text("");
+      if (id != 0) {
+            $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/get_user_by_cargo_ajax')?>",
+                    datatype: "json",
+                    data:  {"idcargo": id},
+                    success: function(response){
+                        response.forEach(function(entry) {
+                         var obj = JSON.parse(entry);
+                         $("#usuariossel").append(new Option(obj.RUT+" | "+obj.NOMBRES+" "+obj.APELLIDOS, obj.RUT, true, true));  
+                    });               
+                    }
+           })
+      }
+   })
+
 </script>
 <?php } ?>

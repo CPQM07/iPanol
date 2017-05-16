@@ -36,30 +36,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('PERMISO',$this->_columns);
+$this->db->insert('producto',$this->_columns);
 }
 
 public function update($id, $data) {
-  $producto = $this->db->get_where('PERMISO',array('PROD_ID'=>$id));
+  $producto = $this->db->get_where('producto',array('PROD_ID'=>$id));
   if($producto->num_rows() > 0){
     $this->db->where('PROD_ID', $id);
-    return $this->db->update('PERMISO', $data);
+    return $this->db->update('producto', $data);
     }else{
   $data['PROD_ID'] = $id;
-  return $this->db->insert('PERMISO',$data);
+  return $this->db->insert('producto',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('PROD_ID',$id);
-  return $this->db->delete('PERMISO');
+  return $this->db->delete('producto');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('PERMISO');
+  $consulta = $this->db->get('producto');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -70,7 +70,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('PROD_ID',$id);
-  $consulta = $this->db->get('PERMISO');
+  $consulta = $this->db->get('producto');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

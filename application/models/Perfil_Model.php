@@ -28,30 +28,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('PERFIL',$this->_columns);
+$this->db->insert('perfil',$this->_columns);
 }
 
 public function update($id, $data) {
-  $perfil = $this->db->get_where('PERFIL',array('PERFIL_ID'=>$id));
+  $perfil = $this->db->get_where('perfil',array('PERFIL_ID'=>$id));
   if($perfil->num_rows() > 0){
     $this->db->where('PERFIL_ID', $id);
-    return $this->db->update('PERFIL', $data);
+    return $this->db->update('perfil', $data);
     }else{
   $data['PERFIL_ID'] = $id;
-  return $this->db->insert('PERFIL',$data);
+  return $this->db->insert('perfil',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('PERFIL_ID',$id);
-  return $this->db->delete('PERFIL');
+  return $this->db->delete('perfil');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('PERFIL');
+  $consulta = $this->db->get('perfil');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -62,7 +62,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('PERFIL_ID',$id);
-  $consulta = $this->db->get('PERFIL');
+  $consulta = $this->db->get('perfil');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

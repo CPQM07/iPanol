@@ -29,30 +29,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('OBSERVACIONES',$this->_columns);
+$this->db->insert('observaciones',$this->_columns);
 }
 
 public function update($id, $data) {
-  $observaciones = $this->db->get_where('OBSERVACIONES',array('OBS_ID'=>$id));
+  $observaciones = $this->db->get_where('observaciones',array('OBS_ID'=>$id));
   if($observaciones->num_rows() > 0){
     $this->db->where('OBS_ID', $id);
-    return $this->db->update('OBSERVACIONES', $data);
+    return $this->db->update('observaciones', $data);
     }else{
   $data['OBS_ID'] = $id;
-  return $this->db->insert('OBSERVACIONES',$data);
+  return $this->db->insert('observaciones',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('OBS_ID',$id);
-  return $this->db->delete('OBSERVACIONES');
+  return $this->db->delete('observaciones');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('OBSERVACIONES');
+  $consulta = $this->db->get('observaciones');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -63,7 +63,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('OBS_ID',$id);
-  $consulta = $this->db->get('OBSERVACIONES');
+  $consulta = $this->db->get('observaciones');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

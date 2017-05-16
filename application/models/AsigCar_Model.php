@@ -27,30 +27,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('ASIGCARRERA',$this->_columns);
+$this->db->insert('asigcarrera',$this->_columns);
 }
 
 public function update($id, $data) {
-  $asig = $this->db->get_where('ASIGCARRERA',array('ASIGCAR_ASIG_ID'=>$id));
+  $asig = $this->db->get_where('asigcarrera',array('ASIGCAR_ASIG_ID'=>$id));
   if($asig->num_rows() > 0){
     $this->db->where('ASIGCAR_ASIG_ID', $id);
-    return $this->db->update('ASIGCARRERA', $data);
+    return $this->db->update('asigcarrera', $data);
     }else{
   $data['ASIGCAR_ASIG_ID'] = $id;
-  return $this->db->insert('ASIGCARRERA',$data);
+  return $this->db->insert('asigcarrera',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('ASIGCAR_ASIG_ID',$id);
-  return $this->db->delete('ASIGCARRERA');
+  return $this->db->delete('asigcarrera');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('ASIGCARRERA');
+  $consulta = $this->db->get('asigcarrera');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -61,7 +61,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('ASIGCAR_ASIG_ID',$id);
-  $consulta = $this->db->get('ASIGCARRERA');
+  $consulta = $this->db->get('asigcarrera');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

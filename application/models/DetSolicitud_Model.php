@@ -31,30 +31,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('DETALLESOL',$this->_columns);
+$this->db->insert('detallesol',$this->_columns);
 }
 
 public function update($id, $data) {
-  $detalle = $this->db->get_where('DETALLESOL',array('DETSOL_ID'=>$id));
+  $detalle = $this->db->get_where('detallesol',array('DETSOL_ID'=>$id));
   if($detalle->num_rows() > 0){
     $this->db->where('DETSOL_ID', $id);
-    return $this->db->update('DETALLESOL', $data);
+    return $this->db->update('detallesol', $data);
     }else{
   $data['DETSOL_ID'] = $id;
-  return $this->db->insert('DETALLESOL',$data);
+  return $this->db->insert('detallesol',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('DETSOL_ID',$id);
-  return $this->db->delete('DETALLESOL');
+  return $this->db->delete('detallesol');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('DETALLESOL');
+  $consulta = $this->db->get('detallesol');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -65,7 +65,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('DETSOL_ID',$id);
-  $consulta = $this->db->get('DETALLESOL');
+  $consulta = $this->db->get('detallesol');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
@@ -77,7 +77,7 @@ public function findById($id){
   }
   
   public function count(){
-    $cont = $this->db->from('DETALLESOL');
+    $cont = $this->db->from('detallesol');
     $obj = $cont->count_all_results();
     return $obj;
   }

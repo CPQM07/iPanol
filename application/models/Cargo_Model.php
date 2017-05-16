@@ -28,30 +28,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('CARGO',$this->_columns);
+$this->db->insert('cargo',$this->_columns);
 }
 
 public function update($id, $data) {
-  $cargo = $this->db->get_where('CARGO',array('CARGO_ID'=>$id));
+  $cargo = $this->db->get_where('cargo',array('CARGO_ID'=>$id));
   if($cargo->num_rows() > 0){
     $this->db->where('CARGO_ID', $id);
-    return $this->db->update('CARGO', $data);
+    return $this->db->update('cargo', $data);
     }else{
   $data['CARGO_ID'] = $id;
-  return $this->db->insert('CARGO',$data);
+  return $this->db->insert('cargo',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('CARGO_ID',$id);
-  return $this->db->delete('CARGO');
+  return $this->db->delete('cargo');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('CARGO');
+  $consulta = $this->db->get('cargo');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -62,7 +62,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('CARGO_ID',$id);
-  $consulta = $this->db->get('CARGO');
+  $consulta = $this->db->get('cargo');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

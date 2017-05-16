@@ -30,30 +30,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('ASIGNACION',$this->_columns);
+$this->db->insert('asignacion',$this->_columns);
 }
 
 public function update($id, $data) {
-  $asignacion = $this->db->get_where('ASIGNACION',array('ASIG_ID'=>$id));
+  $asignacion = $this->db->get_where('asignacion',array('ASIG_ID'=>$id));
   if($asignacion->num_rows() > 0){
     $this->db->where('ASIG_ID', $id);
-    return $this->db->update('ASIGNACION', $data);
+    return $this->db->update('asignacion', $data);
     }else{
   $data['ASIG_ID'] = $id;
-  return $this->db->insert('ASIGNACION',$data);
+  return $this->db->insert('asignacion',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('ASIG_ID',$id);
-  return $this->db->delete('ASIGNACION');
+  return $this->db->delete('asignacion');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('ASIGNACION');
+  $consulta = $this->db->get('asignacion');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -64,7 +64,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('ASIG_ID',$id);
-  $consulta = $this->db->get('ASIGNACION');
+  $consulta = $this->db->get('asignacion');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

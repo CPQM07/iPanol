@@ -31,30 +31,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('BAJA',$this->_columns);
+$this->db->insert('baja',$this->_columns);
 }
 
 public function update($id, $data) {
-  $baja = $this->db->get_where('BAJA',array('BAJA_ID'=>$id));
+  $baja = $this->db->get_where('baja',array('BAJA_ID'=>$id));
   if($baja->num_rows() > 0){
     $this->db->where('BAJA_ID', $id);
-    return $this->db->update('BAJA', $data);
+    return $this->db->update('baja', $data);
     }else{
   $data['BAJA_ID'] = $id;
-  return $this->db->insert('BAJA',$data);
+  return $this->db->insert('baja',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('BAJA_ID',$id);
-  return $this->db->delete('BAJA');
+  return $this->db->delete('baja');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('BAJA');
+  $consulta = $this->db->get('baja');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -65,7 +65,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('BAJA_ID',$id);
-  $consulta = $this->db->get('BAJA');
+  $consulta = $this->db->get('baja');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

@@ -29,30 +29,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('CATEGORIA',$this->_columns);
+$this->db->insert('categoria',$this->_columns);
 }
 
 public function update($id, $data) {
-  $categoria = $this->db->get_where('CATEGORIA',array('CAT_ID'=>$id));
+  $categoria = $this->db->get_where('categoria',array('CAT_ID'=>$id));
   if($categoria->num_rows() > 0){
     $this->db->where('CAT_ID', $id);
-    return $this->db->update('CATEGORIA', $data);
+    return $this->db->update('categoria', $data);
     }else{
   $data['CAT_ID'] = $id;
-  return $this->db->insert('CATEGORIA',$data);
+  return $this->db->insert('categoria',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('CAT_ID',$id);
-  return $this->db->delete('CATEGORIA');
+  return $this->db->delete('categoria');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('CATEGORIA');
+  $consulta = $this->db->get('categoria');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -63,7 +63,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('CAT_ID',$id);
-  $consulta = $this->db->get('CATEGORIA');
+  $consulta = $this->db->get('categoria');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

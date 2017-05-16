@@ -27,30 +27,30 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('PERMISO',$this->_columns);
+$this->db->insert('permiso',$this->_columns);
 }
 
 public function update($id, $data) {
-  $permiso = $this->db->get_where('PERMISO',array('PERMISO_PERFIL_ID'=>$id));
+  $permiso = $this->db->get_where('permiso',array('PERMISO_PERFIL_ID'=>$id));
   if($permiso->num_rows() > 0){
     $this->db->where('PERMISO_PERFIL_ID', $id);
-    return $this->db->update('PERMISO', $data);
+    return $this->db->update('permiso', $data);
     }else{
   $data['PERMISO_PERFIL_ID'] = $id;
-  return $this->db->insert('PERMISO',$data);
+  return $this->db->insert('permiso',$data);
   }
 }
 
 public function delete($id){
   $this->db->where('PERMISO_PERFIL_ID',$id);
-  return $this->db->delete('PERMISO');
+  return $this->db->delete('permiso');
 }
 
 
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('PERMISO');
+  $consulta = $this->db->get('permiso');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -61,7 +61,7 @@ public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('PERMISO_PERFIL_ID',$id);
-  $consulta = $this->db->get('PERMISO');
+  $consulta = $this->db->get('permiso');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
