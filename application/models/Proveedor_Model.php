@@ -15,7 +15,7 @@ private  $_columns  =  array(
 'PROV_RSOCIAL' => ''
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -28,11 +28,11 @@ public function create($row){
   return $proveedor;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('PROVEEDOR',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $proveedor = $this->db->get_where('PROVEEDOR',array('PROV_RUT'=>$id));
   if($proveedor->num_rows() > 0){
     $this->db->where('PROV_RUT', $id);
@@ -43,13 +43,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('PROV_RUT',$id);
   return $this->db->delete('PROVEEDOR');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('PROVEEDOR');
@@ -59,7 +59,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('PROV_RUT',$id);

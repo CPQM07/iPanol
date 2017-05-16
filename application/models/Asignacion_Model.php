@@ -5,7 +5,7 @@ class Asignacion_Model extends CI_Model {
 
 public function __construct()
 {
-parent::__construct();
+  parent::__construct();
 }
 
 private  $_columns  =  array(
@@ -16,7 +16,7 @@ private  $_columns  =  array(
 'ASIG_FECHA' => ''
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -29,11 +29,11 @@ public function create($row){
   return $asignacion;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('ASIGNACION',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $asignacion = $this->db->get_where('ASIGNACION',array('ASIG_ID'=>$id));
   if($asignacion->num_rows() > 0){
     $this->db->where('ASIG_ID', $id);
@@ -44,13 +44,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('ASIG_ID',$id);
   return $this->db->delete('ASIGNACION');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('ASIGNACION');
@@ -60,7 +60,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('ASIG_ID',$id);
@@ -74,4 +74,10 @@ function findById($id){
   }
     return $result;
   }
+
+   public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }

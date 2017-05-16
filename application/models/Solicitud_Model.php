@@ -18,7 +18,7 @@ private  $_columns  =  array(
 'SOL_OBSERVACION' => 0
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -31,11 +31,11 @@ public function create($row){
   return $solicitud;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('SOLICITUD',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $solicitud = $this->db->get_where('SOLICITUD',array('SOL_ID'=>$id));
   if($solicitud->num_rows() > 0){
     $this->db->where('SOL_ID', $id);
@@ -46,13 +46,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('SOL_ID',$id);
   return $this->db->delete('SOLICITUD');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('SOLICITUD');
@@ -62,7 +62,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('SOL_ID',$id);

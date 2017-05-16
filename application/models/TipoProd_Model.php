@@ -13,7 +13,7 @@ private  $_columns  =  array(
 'TIPO_NOMBRE' => ''
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -26,11 +26,11 @@ public function create($row){
   return $tipo;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('TIPOPROD',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $tipo = $this->db->get_where('TIPOPROD',array('TIPO_ID'=>$id));
   if($tipo->num_rows() > 0){
     $this->db->where('TIPO_ID', $id);
@@ -41,13 +41,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('TIPO_ID',$id);
   return $this->db->delete('TIPOPROD');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('TIPOPROD');
@@ -57,7 +57,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('TIPO_ID',$id);
@@ -71,4 +71,10 @@ function findById($id){
   }
     return $result;
   }
+
+  public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }

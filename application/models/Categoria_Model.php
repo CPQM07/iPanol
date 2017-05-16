@@ -15,7 +15,7 @@ private  $_columns  =  array(
 'CAT_CODIGO' => 0
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -28,11 +28,11 @@ public function create($row){
   return $categoria;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('CATEGORIA',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $categoria = $this->db->get_where('CATEGORIA',array('CAT_ID'=>$id));
   if($categoria->num_rows() > 0){
     $this->db->where('CAT_ID', $id);
@@ -73,4 +73,10 @@ public function findById($id){
   }
     return $result;
   }
+
+  public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }

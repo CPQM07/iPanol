@@ -15,7 +15,7 @@ private  $_columns  =  array(
 'OBS_FECHA' => ''
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -28,11 +28,11 @@ public function create($row){
   return $observaciones;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('OBSERVACIONES',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $observaciones = $this->db->get_where('OBSERVACIONES',array('OBS_ID'=>$id));
   if($observaciones->num_rows() > 0){
     $this->db->where('OBS_ID', $id);
@@ -43,13 +43,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('OBS_ID',$id);
   return $this->db->delete('OBSERVACIONES');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('OBSERVACIONES');
@@ -59,7 +59,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('OBS_ID',$id);
@@ -73,4 +73,10 @@ function findById($id){
   }
     return $result;
   }
+
+  public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }

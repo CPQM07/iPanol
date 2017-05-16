@@ -17,7 +17,7 @@ private  $_columns  =  array(
 'DETSOL_PROD_ID' => 0,
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -30,11 +30,11 @@ public function create($row){
   return $detalle;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('DETALLESOL',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $detalle = $this->db->get_where('DETALLESOL',array('DETSOL_ID'=>$id));
   if($detalle->num_rows() > 0){
     $this->db->where('DETSOL_ID', $id);
@@ -45,13 +45,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('DETSOL_ID',$id);
   return $this->db->delete('DETALLESOL');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('DETALLESOL');
@@ -61,7 +61,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('DETSOL_ID',$id);
@@ -75,9 +75,16 @@ function findById($id){
   }
     return $result;
   }
-  function count(){
+  
+  public function count(){
     $cont = $this->db->from('DETALLESOL');
     $obj = $cont->count_all_results();
     return $obj;
   }
+
+  public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }

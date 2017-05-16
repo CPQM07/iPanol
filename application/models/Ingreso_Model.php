@@ -5,7 +5,7 @@ class Ingreso_Model extends CI_Model {
 
 public function __construct()
 {
-parent::__construct();
+  parent::__construct();
 }
 
 private  $_columns  =  array(
@@ -20,7 +20,7 @@ private  $_columns  =  array(
 'ING_PROV_RUT' => 0
 );
 
-function get($attr){
+public function get($attr){
   return $this->_columns[$attr];
 }
 
@@ -33,11 +33,11 @@ public function create($row){
   return $ingreso;
 }
 
-function insert(){
+public function insert(){
 $this->db->insert('INGRESO',$this->_columns);
 }
 
-function update($id, $data) {
+public function update($id, $data) {
   $ingreso = $this->db->get_where('INGRESO',array('ING_ID'=>$id));
   if($ingreso->num_rows() > 0){
     $this->db->where('ING_ID', $id);
@@ -48,13 +48,13 @@ function update($id, $data) {
   }
 }
 
-function delete($id){
+public function delete($id){
   $this->db->where('ING_ID',$id);
   return $this->db->delete('INGRESO');
 }
 
 
-function findAll(){
+public function findAll(){
   $result=array();
   $bit = null;
   $consulta = $this->db->get('INGRESO');
@@ -64,7 +64,7 @@ function findAll(){
   return $result;
 }
 
-function findById($id){
+public function findById($id){
   $result=array();
   $bit = null;
   $this->db->where('ING_ID',$id);
@@ -78,4 +78,10 @@ function findById($id){
   }
     return $result;
   }
+
+  public function setColumns ($row = null){
+    foreach ($row as $key => $value) {
+      $this->columns[$key] = $value;
+      }
+    }
 }
