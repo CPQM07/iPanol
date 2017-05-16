@@ -192,7 +192,7 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button type="button" class="btn btn-block btn-success btn-flat">Generar prestamo</button>
+                <button type="button" class="btn btn-block btn-success btn-flat">Generar prestamos</button>
               </div>
               <div class="col-md-6">
                 <button type="button" class="btn btn-block btn-success btn-flat">Ver en PDF</button>
@@ -215,7 +215,6 @@
           $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
           //Money Euro
           $("[data-mask]").inputmask();
-
           //Date range picker
           $('#reservation').daterangepicker();
           //Date range picker with time picker
