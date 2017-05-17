@@ -16,7 +16,7 @@
             <div class="inner">
               <h3><?= $solpen ?></h3>
               <p>Solicitudes pendientes por recepcionar</p><!-- manda a vista entregadigital -->
-            </div>
+            </div><!-- where = 3 -->
             <div class="icon">
               <i class="ion ion-clipboard"></i>
             </div>
@@ -28,10 +28,10 @@
           <!-- small box -->
           <div class="small-box bg-orange">
             <div class="inner">
-              <h3>4<sup style="font-size: 20px"></sup></h3>
+              <h3><?= $solsinasig; ?><sup style="font-size: 20px"></sup></h3>
 
               <p>Solicitudes pendientes sin asignación</p><!-- manda a vista entregamanual -->
-            </div>
+            </div><!-- where = 1 -->
             <div class="icon">
               <i class="ion ion-settings"></i>
             </div>

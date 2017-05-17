@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller {
 	public function dashboard()
 	{
 		$coun['solpen']=$this->detalle->count0();/*contador solicitudPendiendeRecepcionar*/
+		$coun['solsinasig']=$this->detalle->count2();/*contador solicitudPendiendeRecepcionar*/
 		$coun['baja']=$this->cont->count1();/*contador productosBaja*/
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}

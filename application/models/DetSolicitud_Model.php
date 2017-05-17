@@ -77,10 +77,26 @@ public function findById($id){
   }
   
   public function count0(){
-    $cont0 = $this->db->from('detallesol');
+    /*$cont0 = $this->db->from('detallesol');
     $obj0 = $cont0->count_all_results();
-    return $obj0;
+    return $obj0;*/
+    $this->db->where('DETSOL_ESTADO',1);
+    $consulta = $this->db->get('detallesol');
+    return $consulta->num_rows();
   }
+
+  public function count2(){
+    /*$cont0 = $this->db->from('detallesol');
+    $obj0 = $cont0->count_all_results();
+    return $obj0;*/
+    $this->db->where('DETSOL_ESTADO',3);
+    $consulta = $this->db->get('detallesol');
+    return $consulta->num_rows();
+  }
+
+
+
+
 
   public function count1(){
     $cont1 = $this->db->from('baja');
