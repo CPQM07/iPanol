@@ -45,7 +45,7 @@
               <!-- /.form-group -->
             <!--<button type="button" class="btn btn-block btn-success">Buscar</button>-->
           </div>
-                <!-- /.col -->
+          <!-- /.col -->
         </div>
     </div>
 
@@ -82,7 +82,7 @@
                 <div class="form-group">
                   <label>Activo
                     <input type="radio" val="1" name="r1" class="minimal"></input>
-                  </label> - 
+                  </label>
                   <label>Fungible
                     <input type="radio" val="2" name="r1" class="minimal pull-right"></input>
                   </label>
@@ -114,7 +114,6 @@
           </div>
         </div>
 
-
          <!-- /EMPIEZA PANEL QUE ENCIERRA LAS DOS TABLAS -->
         <div class="panel panel-default">
           <div class="row panel-body">
@@ -136,11 +135,11 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <table class="datatable2 table table-responsive table-bordered table-hover">
+                  <table  class="table table-responsive table-condensed">
                     <thead>
                     <tr>
-                      <th>Tipo del Insumo</th>
-                      <th>Insumo</th>
+                      <th>Id</th>
+                      <th>Producto/Insumo</th>
                       <th>Cantidad</th>
                     </tr>
                     </thead>
@@ -148,26 +147,13 @@
                         <tr class="bg-success">
                           <td>Total asignados</td>
                           <td></td>
-                          <td>13</td>
+                          <td id="total"></td>
+                          <td></td>
                         </tr>
                       </tfoot>
-                    <tbody>
-                    <tr>
-                      <td>Activo</td>
-                      <td>Martillo</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>Fungible</td>
-                      <td>RJ45</td>
-                      <td>7</td>
-                    </tr>
-                    <tr>
-                      <td>Fungible</td>
-                      <td>RJ11</td>
-                      <td>5</td>
-                    </tr>
-                </tbody>
+                    <tbody id="asignacion">
+                    
+                    </tbody>
                 </table>
               </div>
             </div>
@@ -175,10 +161,6 @@
           </div>
         </div>
          <!-- /TERMINA PANEL QUE ENCIERRA LAS DOS TABLAS -->
- 
-
-
-
           <section class="content">
             <div class="row">
               <div class="col-md-12">
@@ -198,8 +180,6 @@
                 <button type="button" class="btn btn-block btn-success btn-flat">Ver en PDF</button>
               </div>
             </div>
-
-
 
             </div> <!-- /ROW -->
         </div> <!-- /CONTENT -->
@@ -252,7 +232,11 @@
   var tabla;
   var tipo = 0;
   var cat =0;
+  var total = 0;
+  var asignaciones = new Array();
         tabla = $('#dinamicajax').DataTable({
+                lengthMenu: [5,10, 20, 50, 100],
+                "pagingType": "simple",
                 "responsive": true,
                 "paging": true,
                 "processing": true,
@@ -277,8 +261,10 @@
                 "columns": [
                     { title: "Id",
                         className: "text-sm" },
-                    { title: "Nombre",
+                    { title: "Stock",
                         className: "text-red text-center"},
+                    { title: "Nombre",
+                        className: "text-green text-center"},
                     { title: "Cantidad",
                         className: "text-sm"},
                     { title: "Accion"}]
@@ -303,7 +289,6 @@
            })
       }
    })
-
    $(document).on('click', '#filtrar', function() {
     tipo = $('input:radio[name=r1]:checked').attr("val");
      cat = $("#categoria").val();
@@ -313,6 +298,47 @@
       alert("Debe seleccionar a lo menos un tipo y una categoria");
      }
    });
+
+
+   $(document).on('click', '.ADDinv', function(){
+    var id = $(this).attr("id");
+    var stockactual = $(this).attr("cant");
+    var nom = $(this).attr("nom");
+    var tipo = $(this).attr("tipo");
+    if(asignaciones.indexOf(id) == -1){  
+            if (tipo == 1) {
+              $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
+              asignaciones.push(id);
+              total= parseInt(total)+parseInt(stockactual);
+            }else if(tipo == 2){
+               cant = $("#INPUT"+id).val();
+               if (cant <= stockactual) {
+                    $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
+                  asignaciones.push(id);
+                  total= parseInt(total)+parseInt(cant);
+               }else{
+                alert("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant);
+               }
+            }
+            $("#total").text(total);
+      }else{
+        alert("El producto o insumo que desea agregar, ya está agregado");
+        return false;
+      }
+   })
+
+   $(document).on('click','.conlabel', function(){
+          var id = $(this).attr("id");
+          var cant = $(this).attr("cant");
+          total = parseInt(total)-parseInt(cant);
+          id = id.replace('DEL', "");
+          $(this).parent().parent().remove();
+          var index = asignaciones.indexOf(id);
+            if (index > -1) {
+               asignaciones.splice(index, 1);
+            }
+          $("#total").text(total);
+        });
 
 </script>
 <?php } ?>
