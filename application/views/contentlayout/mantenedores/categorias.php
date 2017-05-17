@@ -9,7 +9,7 @@
           </h3>
         </div>
         <div class="col-sm-6"><br>
-          
+
           <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newCategoria" >Agregar nueva categoría</button>
         </div>
       </div>
@@ -25,40 +25,26 @@
               <table id="example1" class="datatable table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Estado</th>
-                  <th>Codigo</th>
-                  <th>Eliminar</th>
-                  <th>Editar</th>
+                  <th>ID</th>
+                  <th>NOMBRE</th>
+                  <th>DESCRIPCION</th>
+                  <th>ELIMINAR</th>
+                  <th>EDITAR</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Herramientas</td>
-                  <td>Herramienta para los que tienen manos</td>
-                  <td>Activo</td>
-                  <td>1</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Connectores</td>
-                  <td>Todo tipo de conectores</td>
-                  <td>No Activo</td>
-                  <td>2</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                
-                
+                    <?php foreach ($categoria as $key => $value): ?>
+                      <tr>
+                        <td><?= $value->get('CAT_ID'); ?></td>
+                        <td><?= $value->get('CAT_NOMBRE'); ?></td>
+                        <td><?= $value->get('CAT_DESC'); ?></td>
+                        <td>
+                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+                        </td>
+                        <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -74,7 +60,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
 
   <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
@@ -95,7 +80,7 @@
                           <input type="text" class="col-md-12">
                         </div>
                       </div>
-                      
+
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Descripción</label>
 
@@ -174,7 +159,7 @@
                           <input type="text" class="col-md-12">
                         </div>
                       </div>
-                      
+
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Descripción</label>
 

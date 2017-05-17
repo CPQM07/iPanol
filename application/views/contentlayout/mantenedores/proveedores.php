@@ -28,109 +28,24 @@
                   <th>DV</th>
                   <th>NOMBRE</th>
                   <th>RAZON SOCIAL</th>
-                  <th>ESTADO</th>
-                  <th>Eliminar</th>
-                  <th>Editar</th>
+                  <th>ELIMINAR</th>
+                  <th>EDITAR</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11111111</td>
-                  <td>1</td>
-                  <td>PROVEEDOR</td>
-                  <td>PROVEEDORES</td>
-                  <td>ACTIVO</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-
+                <?php foreach ($proveedor as $key => $value): ?>
+                  <tr>
+                    <td><?= $value->get('PROV_RUT'); ?></td>
+                    <td><?= $value->get('PROV_DV'); ?></td>
+                    <td><?= $value->get('PROV_NOMBRE'); ?></td>
+                    <td><?= $value->get('PROV_RSOCIAL'); ?></td>
+                    <td>
+                      <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+                    </td>
+                    <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
                 </tbody>
               </table>
             </div>

@@ -7,9 +7,11 @@ class Mantencion extends CI_Controller {
 	  {
 	    parent::__construct();
 	    $this->layouthelper->SetMaster('layout');
-	    $this->load->model('Cargo_Model','cargo',true);
-		$this->load->model('Usuario_Model','usuario',true);
-		$this->load->model('Carrera_Model','carrera',true);
+	    $this->load->model('Cargo_Model','cargo', true);
+			$this->load->model('Usuario_Model','usuario', true);
+			$this->load->model('Carrera_Model','carrera', true);
+			$this->load->model('Categoria_Model', 'categorias', true);
+			$this->load->model('Proveedor_Model', 'proveedores', true);
 	  }
 
 	public function index()
@@ -41,7 +43,7 @@ class Mantencion extends CI_Controller {
 					'USU_CLAVE' => $value->get("USU_CLAVE"),
 					'USU_ESTADO' => $value->get("USU_ESTADO")
 					);
-			
+
 		}
 
 		$data['usuario']= $newarray;
@@ -49,14 +51,12 @@ class Mantencion extends CI_Controller {
 		$data['cargo']=$this->cargo->findAll();
 		$this->layouthelper->LoadView("mantenedores/usuarios" ,$data, false);
 	}
-
-
 	//Fin Usuario
 
 	//Categoria
-
 	public function categorias(){
-		$this->layouthelper->LoadView("mantenedores/categorias" , null);
+		$datos['categoria'] = $this->categorias->findAll();
+		$this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
 	}
 	//Fin Categoria
 
@@ -74,7 +74,8 @@ class Mantencion extends CI_Controller {
 
 	//Proveedores
 	public function proveedores(){
-		$this->layouthelper->LoadView("mantenedores/proveedores" , null);
+		$datos['proveedor'] = $this->proveedores->findAll();
+		$this->layouthelper->LoadView("mantenedores/proveedores", $datos, null);
 	}
 	//Fin Proveedores
 
