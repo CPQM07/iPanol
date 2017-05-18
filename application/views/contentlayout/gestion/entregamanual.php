@@ -327,6 +327,8 @@
                     success: function(response){
                         if (response.resultado) {
                           alert(response.mensaje);
+                          var win = window.open('', '_blank');
+                          win.location.href = response.path;
                           location.reload();
                         } else{
                           alert(response.mensaje);

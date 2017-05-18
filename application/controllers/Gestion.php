@@ -100,6 +100,7 @@ class Gestion extends CI_Controller {
     $this->output->set_output(json_encode($allinv));
   }
 
+
   public function insert_entrega_manual(){
     $asignaciones = $_POST["asignaciones"];
     if ($asignaciones != null) {
@@ -164,11 +165,24 @@ class Gestion extends CI_Controller {
              $inventario->update($value["idinv"],$columnasaeditar);
           }
         }
-
       }
-     
+
+    $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetTitle('SOLICITUD INSTRUMENTACION E INSUMOS');
+    $pdf->SetHeaderMargin(30);
+    $pdf->SetTopMargin(20);
+    $pdf->setFooterMargin(20);
+    $pdf->SetAutoPageBreak(true);
+    $pdf->SetAuthor('Ipañol Incap Renca');
+    $pdf->SetDisplayMode('real', 'default');
+    $pdf->AddPage();
+    $pdf->Write(5, 'Some sample text');
+    ob_clean();
+    $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+    $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+    $pdf->Output($rutasavePDF, 'F');
      $this->output->set_content_type('application/json');
-    $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud")));
+     $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
     }else{
       $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
