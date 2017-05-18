@@ -2,7 +2,29 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h3>Panel de control
+      <h3>Panel de control 
+      <?php 
+        /*$n = getDate();
+        $hour = $n['hours'];
+        $min = $n['minutes'];
+
+        $today              = strtotime("today $hour:$min");
+        $yesterday2         = strtotime("yesterday $hour:$min");
+        $yesterday3         = strtotime("yesterday -1 day $hour:$min");
+        $yesterday4         = strtotime("yesterday -2 day $hour:$min");
+        $yesterday5         = strtotime("yesterday -3 day $hour:$min");
+        $yesterday6         = strtotime("yesterday -4 day $hour:$min");
+
+        echo date("d-m-Y\n", $today);
+        echo date("d-m-Y\n", $yesterday2);
+        echo date("d-m-Y\n", $yesterday3);
+        echo date("d-m-Y\n", $yesterday4);
+        echo date("d-m-Y\n", $yesterday5);
+        echo date("d-m-Y\n", $yesterday6);*/
+        
+
+
+        ?>
       </h3>
     </section>
 
@@ -116,12 +138,43 @@
 
   <?php function MISJAVASCRIPTPERSONALIZADO(){  
     
+    /*$hoy = getDate();
+    $fe = $hoy['wday'];
+    $fin = 0;
+    switch ($fe) {
+      case 0:$fin = "Domingo";break;
+      case 1:$fin = "Lunes";break;
+      case 2:$fin = "Martes";break;
+      case 3:$fin = "Miércoles";break;
+      case 4:$fin = "Jueves";break;
+      case 5:$fin = "Viernes";break;
+      case 6:$fin = "Sábado";break;
+    }*/
 
+    $n = getDate();
+    $hour = $n['hours'];
+    $min = $n['minutes'];
+
+    $today       = strtotime("today $hour:$min");
+    $yesterday2  = strtotime("yesterday $hour:$min");
+    $yesterday3  = strtotime("yesterday -1 day $hour:$min");
+    $yesterday4  = strtotime("yesterday -2 day $hour:$min");
+    $yesterday5  = strtotime("yesterday -3 day $hour:$min");
+    $yesterday6  = strtotime("yesterday -4 day $hour:$min");
+    $yesterday7  = strtotime("yesterday -5 day $hour:$min");
 
     ?>
    <script type="text/javascript" charset="utf-8">
     var lineChartData = {
-      labels : ["Lunes - 08","Martes - 09","Miercoles - 10","Jueves - 11","Viernes - 12","Sábado - 13"],
+      labels : [
+      "<?= date("d-m-Y", $yesterday7) ?>",
+      "<?= date("d-m-Y", $yesterday6) ?>",
+      "<?= date("d-m-Y", $yesterday5) ?>",
+      "<?= date("d-m-Y", $yesterday4) ?>",
+      "<?= date("d-m-Y", $yesterday3) ?>",
+      "<?= date("d-m-Y", $yesterday2) ?>",
+      "<?= date("d-m-Y", $today)?>"
+      ],
       datasets : [
         {
           label: "Primera serie de datos",
@@ -131,7 +184,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(220,220,220,1)",
-          data : [4,6,7,2,1,6] /*productos activos*/
+          data : [4,3,0,2,1,3,4] /*productos activos*/
         },
         {
           label: "Segunda serie de datos",
@@ -141,7 +194,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(151,187,205,1)",
-          data : [10,4,4,3,6,1] /*productos fungibles*/
+          data : [5,4,0,3,3,1,2] /*productos fungibles*/
         }
       ]
 

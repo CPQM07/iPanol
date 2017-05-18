@@ -94,10 +94,6 @@ public function findById($id){
     return $consulta->num_rows();
   }
 
-
-
-
-
   public function count1(){
     $cont1 = $this->db->from('baja');
     $obj1 = $cont1->count_all_results();
@@ -109,4 +105,5 @@ public function findById($id){
       $this->columns[$key] = $value;
       }
     }
+    
 }
