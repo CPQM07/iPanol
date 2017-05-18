@@ -334,25 +334,26 @@
 
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  alert("hola");
+  $(".btn btn-danger btn-block").click(function(){
+    var data=$(this).attr("id");
+    $("#prueba").html("text"); 
+    $("#prueba").attr("id",id);
+  });
 
-$(".btn btn-danger btn-block").click(function(){
-  var data=$(this).attr("id");
-  $("#prueba").html("text"); 
-  $("#prueba").attr("id",id);
+  $(".btn btn-danger").click(function(){
+    var data=$(this).attr("id");
+    $.ajax({
+          type:"GET",
+          dataType:"html",
+          url:"../Mantencion/delete_usuario/"+data,
+          success: function(data){
+            alert(data);
+           location.reload();
+          }
+        });
+  });
 });
-
-$(".btn btn-danger").click(function(){
-  var data=$(this).attr("id");
-  $.ajax({
-        type:"GET",
-        dataType:"html",
-        url:"../Mantencion/delete_usuario/"+data,
-        success: function(data){
-          alert(data);
-         location.reload();
-        }
-      });
-});
-
 </script>
 <?php } ?>
