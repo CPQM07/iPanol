@@ -13,7 +13,8 @@ private  $_columns  =  array(
 'ASIG_ESTADO' => 0,
 'ASIG_DETSOL_ID' => 0,
 'ASIG_INV_ID' => 0,
-'ASIG_FECHA' => ''
+'ASIG_FECHA' => '',
+'ASIG_CANT' => ''
 );
 
 public function get($attr){
@@ -31,6 +32,7 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('asignacion',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {

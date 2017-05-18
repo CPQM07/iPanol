@@ -1,11 +1,6 @@
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h3>
-        Entrega de insumos
-      </h3>
-    </section>  
+    <!-- Content Header (Page header) --> 
       <!-- /.box-header -->
       <div class="box-body">
   <div class="content">
@@ -33,7 +28,7 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;">
+                <select id="asignatura" class="form-control select2" style="width: 100%;">
                  <option></option>
                  <?php foreach ($asignaturas as $key => $value): ?>
                   <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>
@@ -68,31 +63,30 @@
               </div>
             <div class="col-md-4">
               <label>Número de grupos de trabajo</label>
-              <input type="number" class="form-control">
+              <input id="grupotrabajo" type="number" class="form-control">
             </div>
           </div>
         </div>
-
-       <div class="panel panel-default">
+         <!-- /EMPIEZA PANEL QUE ENCIERRA LAS DOS TABLAS -->
+        <div class="panel panel-default">
           <div class="row panel-body">
-            <div class="col-md-4">
+            <!-- /EMPIEZA PRIMERA TABLA -->
+            <div class="col-md-6">
+                
+              <div class="panel panel-body panel-info">
+                <div class="col-md-6">
               <label>Tipo de insumo</label>
-            <!-- iCheck -->
-              <div class="box-body">
-                <div class="form-group">
-                  <label>Activo
-                    <input type="radio" val="1" name="r1" class="minimal"></input>
-                  </label>
-                  <label>Fungible
-                    <input type="radio" val="2" name="r1" class="minimal pull-right"></input>
-                  </label>
+                <!-- iCheck -->
+                <div class="box-body">
+                  <div class="form-group">
+                      <input type="radio" val="1" name="r1" class="minimal" checked>Activo</input>
+                      <input type="radio" val="2" name="r1" class="minimal">Fungible</input>
+                  </div>
                 </div>
-              </div>
             <!-- /.box-body -->
-
             </div>
           <!-- /.box -->
-            <div class="col-md-4">
+            <div class="col-md-6">
             <label>Categorias</label>
               <div class="form-group">
                 <select id="categoria" class="form-control select2" style="width: 100%;">
@@ -105,23 +99,8 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-4">
-            <label>Filtrar producto/insumos</label>
-              <div class="form-group">
-                <button type="button" id="filtrar" class="btn btn-block btn-success fa fa-filter">Filtrar</button>
               </div>
-            </div>
-          </div>
-        </div>
-
-         <!-- /EMPIEZA PANEL QUE ENCIERRA LAS DOS TABLAS -->
-        <div class="panel panel-default">
-          <div class="row panel-body">
-            <!-- /EMPIEZA PRIMERA TABLA -->
-            <div class="col-md-6">
-                <div class="box-header">
-                  <h3 class="box-title">Asignacion Productos/Insumos</h3>
-                </div>
+               
                 <div class="box-body">
                   <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
                 </table>
@@ -129,13 +108,13 @@
             </div>
              <!-- /.TERMINA PRIMERA TABLA -->
               <!-- /EMPIEZA SEGUNDA TABLA -->
-              <div class="col-md-6">
-                <div class="box-header">
+              <div class="col-md-6 panel panel-body panel-info">
+                <div class="box-header text-center">
                   <h3 class="box-title">Asignados</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <table  class="table table-responsive table-condensed">
+                  <table id="resulasignacion"  class="table table-responsive table-condensed">
                     <thead>
                     <tr>
                       <th>Id</th>
@@ -157,6 +136,7 @@
                 </table>
               </div>
             </div>
+
                 <!-- /TERMINA SEGUNDA TABLA -->
           </div>
         </div>
@@ -166,15 +146,15 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <h3>Observaciones</h3>
-                  <textarea class="form-control" rows="10" placeholder="Ingrese algunas palabras..."></textarea>
+                  <textarea id="observaciones" class="form-control" rows="10" placeholder="Ingrese observaciones...."></textarea>
                 </div>
               </div>
             </div>
-            </section>
+           </section>
 
             <div class="row">
               <div class="col-md-6">
-                <button type="button" class="btn btn-block btn-success btn-flat">Generar prestamos</button>
+                <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Generar prestamos</button>
               </div>
               <div class="col-md-6">
                 <button type="button" class="btn btn-block btn-success btn-flat">Ver en PDF</button>
@@ -188,50 +168,25 @@
 
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
-    $(function () {
-          //Datemask dd/mm/yyyy
-          $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-          //Datemask2 mm/dd/yyyy
-          $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-          //Money Euro
-          $("[data-mask]").inputmask();
-          //Date range picker
-          $('#reservation').daterangepicker();
-          //Date range picker with time picker
-          $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-          //Date range as a button
-          $('#daterange-btn').daterangepicker(
-              {
-                ranges: {
-                  'Today': [moment(), moment()],
-                  'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                  'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                  'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                  'This Month': [moment().startOf('month'), moment().endOf('month')],
-                  'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
+ var tipo = 0;
+  var cat =0;
+  $(function () {
+     tipo = 0;
+      cat =0;
+          $('#reservationtime').daterangepicker({
+                showWeekNumbers: true,
+                timePicker: false,
+                timePicker24Hour: false,
                 startDate: moment().subtract(29, 'days'),
-                endDate: moment()
-              },
-              function (start, end) {
+                endDate: moment(),
+                locale: {format: 'YYYY/MM/DD'},
+              },function (start, end) {
                 $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
               }
-          )
-
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
-
-    //Timepicker
-    $(".timepicker").timepicker({
-      showInputs: false
-    })
+            );
 
 });
   var tabla;
-  var tipo = 0;
-  var cat =0;
   var total = 0;
   var asignaciones = new Array();
         tabla = $('#dinamicajax').DataTable({
@@ -283,19 +238,17 @@
                     success: function(response){
                         response.forEach(function(entry) {
                          var obj = JSON.parse(entry);
-                         $("#usuariossel").append(new Option(obj.RUT+" | "+obj.NOMBRES+" "+obj.APELLIDOS, obj.RUT, true, true));  
+                         $("#usuariossel").append(new Option(obj.RUT+obj.DV+" | "+obj.NOMBRES, obj.RUT, true, true));  
                     });               
                     }
            })
       }
    })
-   $(document).on('click', '#filtrar', function() {
+   $(document).on('change', '#categoria, .minimal', function() {
     tipo = $('input:radio[name=r1]:checked').attr("val");
      cat = $("#categoria").val();
      if (tipo != 0 && cat != 0) {
            $('#dinamicajax').DataTable().ajax.reload();
-     }else{
-      alert("Debe seleccionar a lo menos un tipo y una categoria");
      }
    });
 
@@ -312,7 +265,7 @@
               total= parseInt(total)+parseInt(stockactual);
             }else if(tipo == 2){
                cant = $("#INPUT"+id).val();
-               if (cant <= stockactual) {
+               if (parseInt(cant) <= parseInt(stockactual)) {
                     $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
                   asignaciones.push(id);
                   total= parseInt(total)+parseInt(cant);
@@ -339,6 +292,51 @@
             }
           $("#total").text(total);
         });
+
+   $("#generarprestamo").click(function (argument) {
+    var rutusu = $("#usuariossel").val();
+    var asignatura = $("#asignatura").val();
+    var grupotrabajo = $("#grupotrabajo").val();
+    var reservationtime = $("#reservationtime").val();
+    var observaciones = $("#observaciones").val();
+
+    var arrayasig = new Array();
+        $("#resulasignacion tbody tr").each(function (index) 
+        {
+            var idinv, nombreinv, cantidadinv;
+            $(this).children("td").each(function (index2) 
+            {
+                switch (index2) 
+                {
+                    case 0: idinv = $(this).text();
+                            break;
+                    case 1: nombreinv = $(this).text();
+                            break;
+                    case 2: cantidadinv = $(this).text();
+                            break;
+                }
+                $(this).css("background-color", "#ECF8E0");
+            })
+            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv });
+        })
+         $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/insert_entrega_manual')?>",
+                    datatype: "json",
+                    data:  {"asignaciones": arrayasig,"rutusu": rutusu,"asignatura": asignatura,"grupotrabajo": grupotrabajo,"rangofechas": reservationtime,"observaciones": observaciones},
+                    success: function(response){
+                        if (response.resultado) {
+                          alert(response.mensaje);
+                          location.reload();
+                        } else{
+                          alert(response.mensaje);
+                        }      
+                    }
+           })
+
+     
+   });
+
 
 </script>
 <?php } ?>

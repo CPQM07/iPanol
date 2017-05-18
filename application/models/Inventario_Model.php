@@ -19,7 +19,8 @@ private  $_columns  =  array(
 'INV_CATEGORIA_ID' => 0,
 'INV_TIPO_ID' => 0,
 'INV_FECHA' => '',
-'INV_IMAGEN' => ''
+'INV_IMAGEN' => '',
+'INV_ULTIMO_USUARIO' => 0
 );
 
 public function get($attr){
@@ -66,18 +67,14 @@ public function findAll(){
   return $result;
 }
 
-public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('INV_ID',$id);
-  $consulta = $this->db->get('inventario');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+ public function findById($id){
+    $result = null;
+    $this->db->where('INV_ID',$id);
+    $consulta = $this->db->get('inventario');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 

@@ -33,6 +33,7 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('solicitud',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {

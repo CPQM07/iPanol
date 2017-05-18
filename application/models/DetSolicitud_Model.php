@@ -32,6 +32,7 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('detallesol',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {

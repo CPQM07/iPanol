@@ -11,6 +11,9 @@ class Gestion extends CI_Controller {
     $this->load->model('Asignatura_Model','asig',true);
     $this->load->model('Categoria_Model','cat',true);
     $this->load->model('Inventario_Model','inv',true);
+    $this->load->model('Solicitud_Model','soli',true);
+    $this->load->model('DetSolicitud_Model','detsol',true);
+    $this->load->model('Asignacion_Model','asignacion',true);
 
   }
 
@@ -95,6 +98,82 @@ class Gestion extends CI_Controller {
     }
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($allinv));
+  }
+
+  public function insert_entrega_manual(){
+    $asignaciones = $_POST["asignaciones"];
+    if ($asignaciones != null) {
+    $rutusu = $_POST["rutusu"];
+    $asignatura = $_POST["asignatura"];
+    $grupotrabajo = $_POST["grupotrabajo"];
+    $rangofechas = $_POST["rangofechas"];
+    $observaciones = $_POST["observaciones"];
+    $dividirfechas = explode("-",$rangofechas);
+    $dateinicio = new DateTime($dividirfechas[0]);
+    $fechainicio = $dateinicio->format("Y-m-d");
+    $datetermino= new DateTime($dividirfechas[1]);
+    $fechatermino = $datetermino->format("Y-m-d");
+     $columnassolicitud  =  array(
+                    'SOL_ID' => 0,
+                    'SOL_USU_RUT' => $rutusu,
+                    'SOL_ASIG_ID' => $asignatura,
+                    'SOL_FECHA_INICIO' => $fechainicio,
+                    'SOL_FECHA_TERMINO' => $fechatermino,
+                    'SOL_NRO_GRUPOTRAB' => $grupotrabajo,
+                    'SOL_OBSERVACION' => $observaciones
+                    );
+
+     $nuevasolicitud =  $this->soli->create($columnassolicitud);
+     $ultimasolicitud = $nuevasolicitud->insert();
+
+     $columnadetsol  =  array(
+                    'DETSOL_ID' => 0,
+                    'DETSOL_TIPOPROD' => NULL,
+                    'DETSOL_CANTIDAD' => 0,
+                    'DETSOL_ESTADO' => 5,
+                    'DETSOL_SOL_ID' => $ultimasolicitud,
+                    'DETSOL_PROD_ID' => NULL,
+                    ); 
+     $nuevodetalle =  $this->detsol->create($columnadetsol);
+     $ultimodetalle = $nuevodetalle->insert();
+
+      foreach ($asignaciones as $key => $value) {
+        $columnasignacion  =  array(
+                    'ASIG_ID' => 0,
+                    'ASIG_ESTADO' => 1,
+                    'ASIG_DETSOL_ID' => $ultimodetalle,
+                    'ASIG_INV_ID' => $value["idinv"],
+                    'ASIG_FECHA' => date("Y-m-d H:i:s"),
+                    'ASIG_CANT' => $value["cantidadinv"]
+                    );
+        $nuevaasignacion =  $this->asignacion->create($columnasignacion);
+        $ultimaasignacion = $nuevaasignacion->insert();
+        if ($ultimaasignacion > 0) {
+          $inventario = $this->inv->findById($value["idinv"]);
+          if ($inventario->get("INV_TIPO_ID") == 1) {
+             $columnasaeditar  =  array(
+                      'INV_PROD_ESTADO' => 3,
+                      'INV_ULTIMO_USUARIO' => $rutusu
+                      );
+             $inventario->update($value["idinv"],$columnasaeditar);
+          }else if($inventario->get("INV_TIPO_ID") == 2){
+              $columnasaeditar  =  array(
+                      'INV_ULTIMO_USUARIO' => $rutusu,
+                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
+                      );
+             $inventario->update($value["idinv"],$columnasaeditar);
+          }
+        }
+
+      }
+     
+     $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud")));
+    }else{
+      $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
+    }
+
   }
 
 }
