@@ -37,17 +37,17 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('USUARIO',$this->_columns);
+$this->db->insert('usuario',$this->_columns);
 }
 
 public function update($id, $data) {
-  $usuario = $this->db->get_where('USUARIO',array('USU_RUT'=>$id));
+  $usuario = $this->db->get_where('usuario',array('USU_RUT'=>$id));
   if($usuario->num_rows() > 0){
     $this->db->where('USU_RUT', $id);
-    return $this->db->update('USUARIO', $data);
+    return $this->db->update('usuario', $data);
     }else{
   $data['USU_RUT'] = $id;
-  return $this->db->insert('USUARIO',$data);
+  return $this->db->insert('usuario',$data);
   }
 }
 
@@ -61,7 +61,7 @@ public function delete($id){
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('USUARIO');
+  $consulta = $this->db->get('usuario');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }
@@ -71,7 +71,7 @@ public function findAll(){
  public function findById($id){
     $result = null;
     $this->db->where('USU_RUT',$id);
-    $consulta = $this->db->get('USUARIO');
+    $consulta = $this->db->get('usuario');
     if($consulta->num_rows() == 1){
       $result = $this->create($consulta->row());
     }
