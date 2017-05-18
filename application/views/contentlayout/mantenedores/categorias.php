@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-6"><br>
 
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newCategoria" >Agregar nueva categoría</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#NUEVACATEGORIA" >Agregar nueva categoría</button>
         </div>
       </div>
     </section>
@@ -39,9 +39,9 @@
                         <td><?= $value->get('CAT_NOMBRE'); ?></td>
                         <td><?= $value->get('CAT_DESC'); ?></td>
                         <td>
-                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR"><i class="fa fa-remove"></i></button>
                         </td>
-                        <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                        <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                         </td>
                       </tr>
                     <?php endforeach; ?>
@@ -63,7 +63,7 @@
 
   <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newCategoria" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="NUEVACATEGORIA" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -120,7 +120,7 @@
 
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="ELIMINAR" tabindex="-1" role="dialog">
       <div class="modal-danger" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -128,11 +128,11 @@
             <h4 class="modal-title">Eliminar una categoría</h4>
           </div>
           <div class="modal-body">
-            <p>Está seguro de eliminar el producto <strong>Herramientas</strong></p>
+            <p>Está seguro de eliminar el producto <strong><?= $value->get('CAT_NOMBRE'); ?></strong></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
+            <a href='<?= site_url("Mantencion/eliminarCategoria/".$value->get('CAT_ID').""); ?>' class="btn btn-default">Eliminar</a>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -142,7 +142,7 @@
 
   <!--modalCategoría-->
   <!--modalCategoríaNUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="EDITAR" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">

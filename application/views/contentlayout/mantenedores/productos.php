@@ -25,6 +25,7 @@
               <table id="example1" class="datatable table table-bordered table-striped">
                 <thead>
                 <tr>
+                  <th>ID</th>
                   <th>Nombre</th>
                   <th>Categoria</th>
                   <th>Tipo de producto</th>
@@ -36,104 +37,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Martillo</td>
-                  <td>Herramientas</td>
-                  <td>No consumible</td>
-                  <td>90</td>
-                  <td>20</td>
-                  <td>30</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Alicate</td>
-                  <td>Herramientas</td>
-                  <td>No consumible</td>
-                  <td>33</td>
-                  <td>10</td>
-                  <td>15</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>RJ45</td>
-                  <td>Connectores</td>
-                  <td>Consumibles</td>
-                  <td>60</td>
-                  <td>20</td>
-                  <td>22</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>RJ11</td>
-                  <td>Conectores</td>
-                  <td>Consumibles</td>
-                  <td>66</td>
-                  <td>20</td>
-                  <td>35</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Cautín</td>
-                  <td>Herramienta</td>
-                  <td>No consumible</td>
-                  <td>20</td>
-                  <td>8</td>
-                  <td>10</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Pistola de calor</td>
-                  <td>Herramientas</td>
-                  <td>No consumible</td>
-                  <td>20</td>
-                  <td>10</td>
-                  <td>15</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Resistecia 100 Ohm</td>
-                  <td>Electrónico</td>
-                  <td>Consumible</td>
-                  <td>80</td>
-                  <td>10</td>
-                  <td>20</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>
-                
+                  <?php foreach ($productos as $key => $value): ?>
+                    <tr>
+                      <td><?= $value['PROD_ID']; ?></td>
+                      <td><?= $value['PROD_NOMBRE']; ?></td>
+                      <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
+                      <td><?= $value['PROD_TIPOPROD_ID'][0]->get('TIPO_NOMBRE'); ?></td>
+                      <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
+                      <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
+                      <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+                      </td>
+                      <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -283,7 +202,7 @@
                           <input type="text" class="col-md-12">
                         </div>
                       </div>
-                      
+
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Descripción</label>
 
@@ -317,11 +236,8 @@
         </div>
       </div>
     </div>
-
-  <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
 
-  <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
       <div class="modal-danger" role="document">
@@ -341,8 +257,7 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-  <!--modalPRODUCTONUEVO-->
+
   <!--modalPRODUCTONUEVO-->
     <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">

@@ -59,7 +59,7 @@ public function delete($id){
 public function findAll(){
   $result=array();
   $bit = null;
-  $consulta = $this->db->get('producto');
+  $consulta = $this->db->get('productos');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }

@@ -9,7 +9,7 @@
           </h3>
         </div>
         <div class="col-sm-6"><br>
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newPro">Agregar nuevo Proveedor</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#NUEVOPROVEEDOR">Agregar nuevo Proveedor</button>
         </div>
       </div>
     </section>
@@ -28,6 +28,7 @@
                   <th>DV</th>
                   <th>NOMBRE</th>
                   <th>RAZON SOCIAL</th>
+                  <th>ESTADO</th>
                   <th>ELIMINAR</th>
                   <th>EDITAR</th>
                 </tr>
@@ -39,10 +40,15 @@
                     <td><?= $value->get('PROV_DV'); ?></td>
                     <td><?= $value->get('PROV_NOMBRE'); ?></td>
                     <td><?= $value->get('PROV_RSOCIAL'); ?></td>
+                    <td><?php if ($value->get('PROV_ESTADO') == 1): ?>
+                      <i class='fa fa-check'></i>
+                      <?php else: ?>
+                        <i class='fa fa-ban'></i>
+                    <?php endif; ?></td>
                     <td>
-                      <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+                      <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR"><i class="fa fa-remove"></i></button>
                     </td>
-                    <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                    <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -63,7 +69,7 @@
   <!-- /.content-wrapper -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="NUEVOPROVEEDOR" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -122,66 +128,10 @@
   <!--modalPRODUCTONUEVO-->
 
 <!-- /.content-wrapper -->
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newCategoria" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-tittle">Nueva categoría</h4>
-            <div class="modal-body">
-              <div class="box">
-                <div class="row">
-                  <form class="form-horizontal">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Descripción</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Codigo</label>
-
-                        <div class="col-md-9">
-                          <input type="number" class="col-md-12">
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                        </div>
-                        <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                        </div>
-                      </div>
-                    <!-- /.box-footer -->
-                  </form>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
 
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="ELIMINAR" tabindex="-1" role="dialog">
       <div class="modal-danger" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -189,11 +139,11 @@
             <h4 class="modal-title">Eliminar un Proveedor</h4>
           </div>
           <div class="modal-body">
-            <p>Está seguro de eliminar el Proveedor <strong>Proveedor #1</strong></p>
+            <p>Está seguro de eliminar el Proveedor <strong><?= $value->get('PROV_NOMBRE'); ?></strong></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
+            <a href='<?= site_url("Mantencion/eliminarProveedor/".$value->get('PROV_RUT').""); ?>' class="btn btn-danger">Eliminar</a>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -202,7 +152,7 @@
   <!--ModalELIMINAR-->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-  <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
+  <div class="modal fade bs-example-modal-lg" id="EDITAR" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
