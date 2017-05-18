@@ -52,8 +52,9 @@ public function update($id, $data) {
 }
 
 public function delete($id){
-  $this->db->where('USU_RUT',$id);
-  return $this->db->delete('USUARIO');
+  $sql="update USUARIO USU_ESTADO =0 WHERE RUT_USU=".$id;
+  $query = $this->db->query($sql);
+  return 1;
 }
 
 

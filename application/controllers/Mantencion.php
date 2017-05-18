@@ -7,11 +7,10 @@ class Mantencion extends CI_Controller {
 	  {
 	    parent::__construct();
 	    $this->layouthelper->SetMaster('layout');
-	    $this->load->model('Cargo_Model','cargo', true);
-			$this->load->model('Usuario_Model','usuario', true);
-			$this->load->model('Carrera_Model','carrera', true);
-			$this->load->model('Categoria_Model', 'categorias', true);
-			$this->load->model('Proveedor_Model', 'proveedores', true);
+	    $this->load->helper('form');
+	    $this->load->model('Cargo_Model','cargo',true);
+		$this->load->model('Usuario_Model','usuario',true);
+		$this->load->model('Carrera_Model','carrera',true);
 	  }
 
 	public function index()
@@ -43,7 +42,7 @@ class Mantencion extends CI_Controller {
 					'USU_CLAVE' => $value->get("USU_CLAVE"),
 					'USU_ESTADO' => $value->get("USU_ESTADO")
 					);
-
+			
 		}
 
 		$data['usuario']= $newarray;
@@ -51,12 +50,51 @@ class Mantencion extends CI_Controller {
 		$data['cargo']=$this->cargo->findAll();
 		$this->layouthelper->LoadView("mantenedores/usuarios" ,$data, false);
 	}
+
+	public function new_usuario(){
+		if(isset($_POST['new_usu'])){
+			$nuevousuario=$this->usuario->create($_POST['new_usu']);
+			$nuevousuario->insert();
+			//------------------------------------------------------------------
+			$newarray= array();
+			$usuarios = $this->usuario->findAll();
+			foreach ($usuarios as $key => $value) {
+				$newarray[] = array(
+						'USU_RUT' => $value->get("USU_RUT"),
+						'USU_DV' => $value->get("USU_DV"),
+						'USU_NOMBRES' => $value->get("USU_NOMBRES"),
+						'USU_APELLIDOS' => $value->get("USU_APELLIDOS"),
+						'USU_CARGO_ID' => $this->cargo->findById($value->get("USU_CARGO_ID")),
+						'USU_CARRERA_ID' => $this->carrera->findById($value->get("USU_CARRERA_ID")),
+						'USU_EMAIL' => $value->get("USU_EMAIL"),
+						'USU_TELEFONO1' => $value->get("USU_TELEFONO1"),
+						'USU_TELEFONO2' => $value->get("USU_TELEFONO2"),
+						'USU_CLAVE' => $value->get("USU_CLAVE"),
+						'USU_ESTADO' => $value->get("USU_ESTADO")
+						);
+				
+			}
+			$data['usuario']= $newarray;
+			$data['carrera']=$this->carrera->findAll();
+			$data['cargo']=$this->cargo->findAll();
+			$this->layouthelper->LoadView("mantenedores/usuarios" ,$data, false);
+			
+		}else{
+			echo "usuario no fue agregado";
+		}
+	}
+	public function delete_usuario($id=null){
+		$this->usuario->delete($id);
+		echo("El usuario ya no puede usar su cuenta");
+	}
+
+
 	//Fin Usuario
 
 	//Categoria
+
 	public function categorias(){
-		$datos['categoria'] = $this->categorias->findAll();
-		$this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
+		$this->layouthelper->LoadView("mantenedores/categorias" , null);
 	}
 	//Fin Categoria
 
@@ -74,8 +112,7 @@ class Mantencion extends CI_Controller {
 
 	//Proveedores
 	public function proveedores(){
-		$datos['proveedor'] = $this->proveedores->findAll();
-		$this->layouthelper->LoadView("mantenedores/proveedores", $datos, null);
+		$this->layouthelper->LoadView("mantenedores/proveedores" , null);
 	}
 	//Fin Proveedores
 
