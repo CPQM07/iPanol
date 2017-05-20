@@ -16,6 +16,18 @@
 							</div>
 			    <?php endforeach ?>
 							</div><!--/categorias de productos-->
+                        
+                        <div class="brands_products"><!--por tipo de articulos-->
+							<h2>TIPO DE ARTÍCULO</h2>
+				<?php foreach ($tipoProd as $key => $value): ?>	
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+									<li><a href="<?= site_url("/Catalogo/porTipoProducto/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right">(??)</span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
+								</ul>
+							</div>
+				<?php endforeach ?>
+						</div><!--por tipo de articulos-->
+
 					</div>
 				</div>
 				
@@ -25,7 +37,7 @@
 					<?php if ($productos == null): ?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">NO ENCONTRAMOS PRODUCTOS EN ESTA CATEGORIA</h4>
+									<h4 class="panel-title">No se encontraron artículos en esta categoría.</h4>
 								</div>
 							</div>
 					<?php endif ?>
@@ -43,6 +55,8 @@
 							</div>
 						</div>
 					<?php endforeach ?>
+
+
 						
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>

@@ -33,7 +33,7 @@
 	    		</div>
 	    		<div class="col-sm-4">
 	    			<div class="contact-info">
-	    				<h2 class="title text-center">Información de contácto</h2>
+	    				<h2 class="title text-center">Información de contacto</h2>
 	    				<address>
 	    					<p>Pañol Área de Informática & Telecomunicaciones</p><br>
 							<p>Edificio A, 3er piso</p>

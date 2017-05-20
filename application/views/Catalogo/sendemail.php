@@ -2,7 +2,7 @@
 	header('Content-type: application/json');
 	$status = array(
 		'type'=>'success',
-		'message'=>'Thank you for contact us. As early as possible  we will contact you '
+		'message'=>'Gracias por contáctarnos. Responderemos a la brevedad.'
 	);
 
     $name       = @trim(stripslashes($_POST['name'])); 
@@ -11,11 +11,11 @@
     $message    = @trim(stripslashes($_POST['message'])); 
 
     $email_from = $email;
-    $email_to = 'email@email.com';//replace with your email
+    $email_to = 'shormazabal@inacap.cl';//remplazar por el email del destinatario
 
-    $body = 'Name: ' . $name . "\n\n" . 'Email: ' . $email . "\n\n" . 'Subject: ' . $subject . "\n\n" . 'Message: ' . $message;
+    $body = 'Nombre: ' . $name . "\n\n" . 'Email: ' . $email . "\n\n" . 'Asunto: ' . $subject . "\n\n" . 'Mensaje: ' . $message;
 
-    $success = @mail($email_to, $subject, $body, 'From: <'.$email_from.'>');
+    $success = @mail($email_to, $subject, $body, 'Desde: <'.$email_from.'>');
 
     echo json_encode($status);
     die;

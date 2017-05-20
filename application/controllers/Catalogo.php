@@ -7,8 +7,10 @@ class Catalogo extends CI_Controller {
 	{
 		$this->load->model('Producto_Model', 'Prod');
 		$this->load->model('Categoria_Model', 'Cat');
+		$this->load->model('TipoProd_Model', 'TipProd');
 		$dato['productos'] = $this->Prod->findAll();
 		$dato['categorias'] = $this->Cat->findAll();
+		$dato['tipoProd'] = $this->TipProd->findAll();
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 
@@ -24,8 +26,22 @@ class Catalogo extends CI_Controller {
 
 	public function porCategoria($id){
 		$this->load->model('Producto_Model', 'Prod');
+		$this->load->model('TipoProd_Model', 'TipProd');
 		$this->load->model('Categoria_Model', 'Cat');
 		$dato['productos'] = $this->Prod->findByCat($id);
+		$dato['productos'] = $this->Prod->findByTipProd($id);
+		$dato['categorias'] = $this->Cat->findAll();
+		$dato['tipoProd'] = $this->TipProd->findAll();
+		$this->load->view('Catalogo/catalogo', $dato, FALSE);
+	}
+
+	public function porTipoProducto($id){
+		$this->load->model('Producto_Model', 'Prod');
+		$this->load->model('TipoProd_Model', 'TipProd');
+		$this->load->model('Categoria_Model', 'Cat');
+		$dato['productos'] = $this->Prod->findByCat($id);
+		$dato['productos'] = $this->Prod->findByTipProd($id);
+		$dato['tipoProd'] = $this->TipProd->findAll();
 		$dato['categorias'] = $this->Cat->findAll();
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}

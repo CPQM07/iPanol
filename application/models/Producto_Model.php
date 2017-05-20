@@ -94,4 +94,15 @@ public function findById($id){
       }
       return $result;
     }
+
+     public function findByTipProd($id){
+      $result=array();
+      $bit = null;
+          $this->db->where('PROD_TIPOPROD_ID',$id);
+      $consulta = $this->db->get('productos');
+        foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
+    }
 }
