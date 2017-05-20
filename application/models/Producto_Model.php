@@ -67,17 +67,13 @@ public function findAll(){
 }
 
 public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('PROD_ID',$id);
-  $consulta = $this->db->get('producto');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+    $result = null;
+    $this->db->where('PROD_ID',$id);
+    $consulta = $this->db->get('productos');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 
@@ -85,5 +81,17 @@ public function findById($id){
     foreach ($row as $key => $value) {
       $this->columns[$key] = $value;
       }
+    }
+
+
+      public function findByCat($id){
+      $result=array();
+      $bit = null;
+          $this->db->where('PROD_CAT_ID',$id);
+      $consulta = $this->db->get('productos');
+        foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
     }
 }
