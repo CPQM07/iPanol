@@ -47,37 +47,22 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['new_usu'])){
 			$nuevousuario=$this->usuario->create($_POST['new_usu']);
 			$nuevousuario->insert();
-			//------------------------------------------------------------------
-			$newarray= array();
-			$usuarios = $this->usuario->findAll();
-			foreach ($usuarios as $key => $value) {
-				$newarray[] = array(
-						'USU_RUT' => $value->get("USU_RUT"),
-						'USU_DV' => $value->get("USU_DV"),
-						'USU_NOMBRES' => $value->get("USU_NOMBRES"),
-						'USU_APELLIDOS' => $value->get("USU_APELLIDOS"),
-						'USU_CARGO_ID' => $this->cargo->findById($value->get("USU_CARGO_ID")),
-						'USU_CARRERA_ID' => $this->carrera->findById($value->get("USU_CARRERA_ID")),
-						'USU_EMAIL' => $value->get("USU_EMAIL"),
-						'USU_TELEFONO1' => $value->get("USU_TELEFONO1"),
-						'USU_TELEFONO2' => $value->get("USU_TELEFONO2"),
-						'USU_CLAVE' => $value->get("USU_CLAVE"),
-						'USU_ESTADO' => $value->get("USU_ESTADO")
-						);
-
-			}
-			$data['usuario']= $newarray;
-			$data['carrera']=$this->carrera->findAll();
-			$data['cargo']=$this->cargo->findAll();
-			$this->layouthelper->LoadView("mantenedores/usuarios" ,$data, false);
-
+			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
 		}
 	}
-	public function delete_usuario($id=null){
+
+	public function edit_usuario(){
+		if(isset($_POST['new_usu'])){
+			
+			redirect('/Mantencion/usuarios');
+		}else{
+			echo "usuario no fue agregado";
+		}
+	}
+	public function eliminarusuario($id=null){
 		$this->usuario->delete($id);
-		echo("El usuario ya no puede usar su cuenta");
 	}
 	//Fin Usuario
 
@@ -118,7 +103,19 @@ class Mantencion extends CI_Controller {
 	    );
 	    $datos['productos'] = $NuevoProducto;
 	  }
+	  $datos['categorias'] = $this->categorias->findAll();
+	  $datos['tipos'] = $this->tipoProducto->findAll();
 	  $this->layouthelper->LoadView("mantenedores/productos", $datos, null);
+	}
+
+	public function new_producto(){
+		if(isset($_POST['producto'])){
+			$nuevopro=$this->productos->create($_POST['producto']);
+			$nuevopro->insert();
+			redirect('/Mantencion/productos');
+		}else{
+			echo "usuario no fue agregado";
+		}
 	}
 	//Fin Productos
 

@@ -36,7 +36,7 @@ public function create($row){
 }
 
 public function insert(){
-$this->db->insert('producto',$this->_columns);
+$this->db->insert('productos',$this->_columns);
 }
 
 public function update($id, $data) {

@@ -29,8 +29,7 @@
                   <th>Nombres<br>Apellidos</th>
                   <th>Carrera</th>
                   <th>Correo</th>
-                  <th>Teléfono</th>
-                  <th>Teléfono2</th>
+                  <th>Teléfonos</th>
                   <th>Cargo</th>
                   <th>Estado</th>
                   <th>Eliminar</th>
@@ -56,8 +55,7 @@
                   <td><?= $value['USU_NOMBRES']?><br><?= $value['USU_APELLIDOS']; ?></td>
                   <td><?= $value['USU_CARRERA_ID']->get('CARRERA_NOMBRE') ;  ?> </td>
                   <td><?= $value['USU_EMAIL']; ?> </td>
-                  <td><?= $value['USU_TELEFONO1']; ?> </td>
-                  <td><?= $value['USU_TELEFONO2']; ?></td>
+                  <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
                   <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
                   <td><?= $estado; ?></td>
                   <td>
@@ -102,8 +100,14 @@
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Rut</label>
                         <div class="col-md-9">
-                          <input name="new_usu[USU_RUT]" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" required>-
+                        <div class="row">
+                        <div class="col-md-6">
+                          <input name="new_usu[USU_RUT]" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" required>
+                          </div>
+                          <div class="col-md-2">
                           <input name="new_usu[USU_DV]" type="text" class="col-md-12" required>
+                          </div>
+                        </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -142,7 +146,9 @@
                           <select name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;">
                             <option selected="selected">Seleccione una carrera</option>
                             <?php foreach ($carrera as  $carreras): ?>
-                               <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?></option>
+                               <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                               </option>
                             <?php endforeach ?>
                           </select>
                         </div>
@@ -197,28 +203,28 @@
 
   <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
-
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar un Usuario</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar el Usuario <strong>Herramientas</strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="prueba" type="button" class="btn btn-danger">Eliminar</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
+<!--ModalELIMINAR-->
+<!--ModalELIMINAR-->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Eliminar un Usuario</h4>
+        </div>
+        <div class="modal-body">
+          <p>Está seguro de eliminar el Usuario <strong><?= $value->get('USU_NOMBRE'); ?></strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <a href='<?= site_url("Mantencion/eliminarCategoria/".$value->get('USU_RUT').""); ?>' class="btn btn-default">Eliminar</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<!--ModalELIMINAR-->
+<!--ModalELIMINAR-->
+ 
 
   <!--modalCategoría-->
   <!--modalCategoríaNUEVO-->
@@ -335,8 +341,7 @@
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-  alert("hola");
-  $(".btn btn-danger btn-block").click(function(){
+  $(".btn btn-success btn-block").click(function(){
     var data=$(this).attr("id");
     $("#prueba").html("text"); 
     $("#prueba").attr("id",id);
