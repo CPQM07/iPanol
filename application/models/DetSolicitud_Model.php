@@ -90,12 +90,125 @@ public function findById($id){
     /*$cont0 = $this->db->from('detallesol');
     $obj0 = $cont0->count_all_results();
     return $obj0;*/
-    $this->db->where('DETSOL_ESTADO',3);
+    $this->db->where('DETSOL_ESTADO',4);
     $consulta = $this->db->get('detallesol');
     return $consulta->num_rows();
   }
 
-  public function count1(){
+  public function solicitudesHoy() /*CANTIDAD DE SOLICITUDES DE HOY*/
+  {
+    $inicio;
+    $f = getDate();
+    $ano = $f['year'];
+    $mes = $f['mon'];
+    $dia = $f['mday'];
+
+    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
+      $mes = '0'.$mes;
+      $dia = '0'.$dia;
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }else{
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }
+
+    $this->db->where('SOL_FECHA_INICIO',$inicio);
+    $consult = $this->db->get('solicitud');
+    return $consult->num_rows();
+  }
+
+  public function productoActivoHoy(){ /*CANTIDAD PRODUCTOS ACTIVOS HOY*/
+    $inicio;
+    $f = getDate();
+    $ano = $f['year'];
+    $mes = $f['mon'];
+    $dia = $f['mday'];
+
+    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
+      $mes = '0'.$mes;
+      $dia = '0'.$dia;
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }else{
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }
+    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
+    $this->db->where('SOL_FECHA_INICIO',$inicio);
+    $this->db->where('DETSOL_ESTADO',5);
+    $this->db->where('DETSOL_TIPOPROD',1);
+    $query = $this->db->get("detallesol");
+    return $query->num_rows();
+  }
+
+  public function productoActivoAyer(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    $inicio;
+    $f = getDate();
+    $ano = $f['year'];
+    $mes = $f['mon'];
+    $nel = $f['mday'];
+    $dia = $nel-1;
+
+    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
+      $mes = '0'.$mes;
+      $dia = '0'.$dia;
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }else{
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }
+    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
+    $this->db->where('SOL_FECHA_INICIO',$inicio);
+    $this->db->where('DETSOL_ESTADO',5);
+    $this->db->where('DETSOL_TIPOPROD',1);
+    $query = $this->db->get("detallesol");
+    return $query->num_rows();
+  }
+
+  /*-------------------------------------------------------------------------------------*/
+
+  public function productoFungiblesHoy(){ /*CANTIDAD PRODUCTOS FUNGIBLES HOY*/
+    $inicio;
+    $f = getDate();
+    $ano = $f['year'];
+    $mes = $f['mon'];
+    $dia = $f['mday'];
+
+    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
+      $mes = '0'.$mes;
+      $dia = '0'.$dia;
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }else{
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }
+    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
+    $this->db->where('SOL_FECHA_INICIO',$inicio);
+    $this->db->where('DETSOL_ESTADO',5);
+    $this->db->where('DETSOL_TIPOPROD',2);
+    $query = $this->db->get("detallesol");
+    return $query->num_rows();
+  }
+
+  public function productoFungiblesAyer(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    $inicio;
+    $f = getDate();
+    $ano = $f['year'];
+    $mes = $f['mon'];
+    $nel = $f['mday'];
+    $dia = $nel-1;
+
+    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
+      $mes = '0'.$mes;
+      $dia = '0'.$dia;
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }else{
+      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
+    }
+    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
+    $this->db->where('SOL_FECHA_INICIO',$inicio);
+    $this->db->where('DETSOL_ESTADO',5);
+    $this->db->where('DETSOL_TIPOPROD',2);
+    $query = $this->db->get("detallesol");
+    return $query->num_rows();
+  }
+
+  public function count1(){ /*CANTIDAD DE PRODUCTOS DADOS DE BAJA*/
     $cont1 = $this->db->from('baja');
     $obj1 = $cont1->count_all_results();
     return $obj1;

@@ -2,29 +2,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h3>Panel de control 
-      <?php 
-        /*$n = getDate();
-        $hour = $n['hours'];
-        $min = $n['minutes'];
-
-        $today              = strtotime("today $hour:$min");
-        $yesterday2         = strtotime("yesterday $hour:$min");
-        $yesterday3         = strtotime("yesterday -1 day $hour:$min");
-        $yesterday4         = strtotime("yesterday -2 day $hour:$min");
-        $yesterday5         = strtotime("yesterday -3 day $hour:$min");
-        $yesterday6         = strtotime("yesterday -4 day $hour:$min");
-
-        echo date("d-m-Y\n", $today);
-        echo date("d-m-Y\n", $yesterday2);
-        echo date("d-m-Y\n", $yesterday3);
-        echo date("d-m-Y\n", $yesterday4);
-        echo date("d-m-Y\n", $yesterday5);
-        echo date("d-m-Y\n", $yesterday6);*/
-        
-
-
-        ?>
+      <h3>Panel de control
       </h3>
     </section>
 
@@ -130,30 +108,21 @@
           <!-- /.box -->
         </div>
         <!-- /.col -->
+        <button id="actHoy" value="<?= $activosHoy; ?>" class="hidden"></button>
+        <button id="actAyer" value="<?= $activosAyer; ?>" class="hidden"></button>
+        <button id="funHoy" value="<?= $fungiblesHoy; ?>" class="hidden"></button>
+        <button id="funAyer" value="<?= $fungiblesAyer; ?>" class="hidden"></button>
       </div>
       <!-- /.row (main row) -->
     <!-- /.content -->
   </div>
   <!--  /.content-wrapper -->
 
-  <?php function MISJAVASCRIPTPERSONALIZADO(){  
+  <?php function MISJAVASCRIPTPERSONALIZADO(){
     
-    /*$hoy = getDate();
-    $fe = $hoy['wday'];
-    $fin = 0;
-    switch ($fe) {
-      case 0:$fin = "Domingo";break;
-      case 1:$fin = "Lunes";break;
-      case 2:$fin = "Martes";break;
-      case 3:$fin = "Miércoles";break;
-      case 4:$fin = "Jueves";break;
-      case 5:$fin = "Viernes";break;
-      case 6:$fin = "Sábado";break;
-    }*/
-
-    $n = getDate();
-    $hour = $n['hours'];
-    $min = $n['minutes'];
+    $fecha = getDate();
+    $hour = $fecha['hours'];
+    $min = $fecha['minutes'];
 
     $today       = strtotime("today $hour:$min");
     $yesterday2  = strtotime("yesterday $hour:$min");
@@ -163,8 +132,16 @@
     $yesterday6  = strtotime("yesterday -4 day $hour:$min");
     $yesterday7  = strtotime("yesterday -5 day $hour:$min");
 
+
     ?>
    <script type="text/javascript" charset="utf-8">
+   $(document).ready(function() {
+
+    var actiHoy=document.getElementById("actHoy").value;
+    var actiAyer=document.getElementById("actAyer").value;
+    var fungHoy=document.getElementById("funHoy").value;
+    var fungAyer=document.getElementById("funAyer").value;
+
     var lineChartData = {
       labels : [
       "<?= date("d-m-Y", $yesterday7) ?>",
@@ -184,7 +161,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(220,220,220,1)",
-          data : [4,3,0,2,1,3,4] /*productos activos*/
+          data : [4,3,0,2,1,actiAyer,actiHoy] /*productos activos*/
         },
         {
           label: "Segunda serie de datos",
@@ -194,12 +171,13 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(151,187,205,1)",
-          data : [5,4,0,3,3,1,2] /*productos fungibles*/
+          data : [5,4,0,3,3,fungAyer,fungHoy] /*productos fungibles*/
         }
       ]
 
     }
   var ctx4 = document.getElementById("chart-area4").getContext("2d");
   window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+    });
   </script>
   <?php } ?>
