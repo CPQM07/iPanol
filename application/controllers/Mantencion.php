@@ -72,6 +72,16 @@ class Mantencion extends CI_Controller {
 	  $this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
 	}
 
+	public function new_cat(){
+		if(isset($_POST['cat'])){
+			$nuevo=$this->categorias->create($_POST['cat']);
+			$nuevo->insert();
+			redirect('/Mantencion/categorias');
+		}else{
+			echo "usuario no fue agregado";
+		}
+	}
+
 	public function eliminarCategoria($ID){
 	  $this->categorias->delete($ID);
 	  redirect('/Mantencion/categorias');
@@ -110,12 +120,25 @@ class Mantencion extends CI_Controller {
 
 	public function new_producto(){
 		if(isset($_POST['producto'])){
+			/*if(isset($_FILES['files'])){
+			$data = $_FILES['files'];
+			 $archivo = $this->CopiarImg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+			 if ($archivo->validate()) {
+			 $nameimg = $archivo->upload();
+			 }
+			}*/
+			$nameimg=$_POST['files'];
 			$nuevopro=$this->productos->create($_POST['producto']);
-			$nuevopro->insert();
+			$nuevopro->insert($nameimg);
 			redirect('/Mantencion/productos');
 		}else{
 			echo "usuario no fue agregado";
 		}
+	}
+
+	public function eliminarproducto($ID){
+	  $this->productos->delete($ID);
+	  redirect('/Mantencion/productos');
 	}
 	//Fin Productos
 

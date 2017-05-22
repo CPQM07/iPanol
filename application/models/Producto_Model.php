@@ -19,7 +19,8 @@ private  $_columns  =  array(
 'PROD_PRIORIDAD' => 0,
 'PROD_STOCK_OPTIMO' => 0,
 'PROD_DIAS_ANTIC' => 0,
-'PROD_IMAGEN' => ''
+'PROD_IMAGEN' => '',
+'PROD_ESTADO' => 0,
 );
 
 public function get($attr){
@@ -35,7 +36,8 @@ public function create($row){
   return $producto;
 }
 
-public function insert(){
+public function insert($imagen=null){
+  $this->_columns['PROD_IMAGEN']=$imagen;
 $this->db->insert('productos',$this->_columns);
 }
 
@@ -51,8 +53,10 @@ public function update($id, $data) {
 }
 
 public function delete($id){
-  $this->db->where('PROD_ID',$id);
-  return $this->db->delete('producto');
+  $sql="update productos set PROD_ESTADO=0 WHERE PROD_ID=".$id;
+  $query = $this->db->query($sql);
+
+  return 1;
 }
 
 

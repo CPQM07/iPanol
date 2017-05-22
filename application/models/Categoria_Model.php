@@ -44,10 +44,11 @@ public function update($id, $data) {
 }
 
 public function delete($id){
-  $this->db->where('CAT_ID',$id);
-  return $this->db->delete('categoria');
-}
+  $sql="update categoria set CAT_ESTADO=0 WHERE CAT_ID=".$id;
+  $query = $this->db->query($sql);
 
+  return 1;
+}
 
 public function findAll(){
   $result=array();

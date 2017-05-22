@@ -28,99 +28,37 @@
                   <th>ID</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCION</th>
+                  <th>ESTADO</th>
                   <th>ELIMINAR</th>
                   <th>EDITAR</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($categoria as $key => $value): ?>
+                    <?php foreach ($categoria as $key => $value): 
+                    switch ($value->get('CAT_ESTADO')) {
+                      case 1:
+                        $estado="Activo";
+                        break;
+                      
+                      default:
+                        $estado="Inactivo";
+                        break;
+                      }
+                  ?>
                       <tr>
                         <td><?= $value->get('CAT_ID'); ?></td>
                         <td><?= $value->get('CAT_NOMBRE'); ?></td>
                         <td><?= $value->get('CAT_DESC'); ?></td>
+                        <td><?= $estado ?></td>
                         <td>
-                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR"><i class="fa fa-remove"></i></button>
+                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value->get('CAT_ID'); ?>"><i class="fa fa-remove"></i></button>
                         </td>
                         <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                         </td>
                       </tr>
-                    <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="NUEVACATEGORIA" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-tittle">Nueva categoría</h4>
-            <div class="modal-body">
-              <div class="box">
-                <div class="row">
-                  <form class="form-horizontal">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Descripción</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Codigo</label>
-
-                        <div class="col-md-9">
-                          <input type="number" class="col-md-12">
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                  </div>
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                  </div>
-                </div>
-              <!-- /.box-footer -->
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
-
+                        <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="ELIMINAR" tabindex="-1" role="dialog">
+    <div class="modal fade" id="ELIMINAR<?= $value->get('CAT_ID'); ?>" tabindex="-1" role="dialog">
       <div class="modal-danger" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -139,6 +77,78 @@
     </div><!-- /.modal -->
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
+                    <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <!--modalCATEGORIANUEVO-->
+  <!--modalCATEGORIANUEVO-->
+    <div class="modal fade bs-example-modal-lg" id="NUEVACATEGORIA" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-tittle">Nueva categoría</h4>
+            <div class="modal-body">
+              <div class="box">
+                <div class="row">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_cat')?>" method="post" accept-charset="utf-8">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Nombre</label>
+
+                        <div class="col-md-9">
+                          <input name="cat[CAT_NOMBRE]" type="text" class="col-md-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Descripción</label>
+
+                        <div class="col-md-9">
+                          <input name="cat[CAT_DESC]" type="text" class="col-md-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Codigo</label>
+
+                        <div class="col-md-9">
+                          <input name="cat[CAT_CODIGO]" type="number" class="col-md-12">
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!--modalCATEGORIANUEVO-->
+
+
 
   <!--modalCategoría-->
   <!--modalCategoríaNUEVO-->
