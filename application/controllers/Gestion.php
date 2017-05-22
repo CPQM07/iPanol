@@ -9,6 +9,7 @@ class Gestion extends CI_Controller {
     $this->layouthelper->SetMaster('layout');
     $this->load->model('Usuario_Model','usu',true);
     $this->load->model('Asignatura_Model','asig',true);
+    $this->load->model('Producto_Model','prod',true);
     $this->load->model('Categoria_Model','cat',true);
     $this->load->model('Inventario_Model','inv',true);
     $this->load->model('Solicitud_Model','soli',true);
@@ -37,7 +38,28 @@ class Gestion extends CI_Controller {
 
   public function entregadigital()
   {
-     $this->layouthelper->LoadView("gestion/entregadigital" , null );
+     $data["solicitudes"] = $this->soli->findByEstadoDetSol(1);//busco las solicitudes enviadas por el catalogo
+     $this->layouthelper->LoadView("gestion/entregadigital" , $data );
+  }
+
+  public function get_detalle_solicitud(){
+    $tododetjson = array();
+    $idsol= $_POST['idsolicitud'];
+    $detalle = $this->detsol->findByArray(array("DETSOL_SOL_ID" => $idsol));
+    foreach ($detalle as $key => $value) {
+      $producto = $this->prod->findById($value->get("DETSOL_PROD_ID"));
+       $tododetjson[]  =  json_encode(array(
+                  'ID' => $value->get("DETSOL_ID"),
+                  'TIPOPROD' => $value->get("DETSOL_TIPOPROD"),
+                  'CANTIDAD' => $value->get("DETSOL_CANTIDAD"),
+                  'ESTADO' => $value->get("DETSOL_ESTADO"),
+                  'SOL_ID' => $value->get("DETSOL_SOL_ID"),
+                  'PROD_ID' => $value->get("DETSOL_PROD_ID"),
+                  'PROD_NOMBRE' => $producto->get("PROD_NOMBRE")
+                  ));
+    }
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($tododetjson));
   }
 
   public function baja()
@@ -80,7 +102,31 @@ class Gestion extends CI_Controller {
     $allinv = array();
     $idtipo = $_POST['idtipo'];
     $idcat = $_POST['idcat'];
-    $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_TIPO_ID' => $idtipo ,'INV_PROD_ESTADO' =>1 ));
+    $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_PROD_ESTADO' =>1 ));
+    foreach ($inventario as $key => $value) {
+      if ($value->get('INV_TIPO_ID') == 1) {
+         $allinv[] = array($value->get('INV_ID'),
+                        $value->get('INV_PROD_CANTIDAD'),
+                        $value->get('INV_PROD_NOM'),
+                        $value->get('INV_PROD_CANTIDAD'),
+                        "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+      }else if($value->get('INV_TIPO_ID') == 2){
+           $allinv[] = array($value->get('INV_ID'),
+                        $value->get('INV_PROD_CANTIDAD'),
+                        $value->get('INV_PROD_NOM'),
+                        "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
+                        "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+      }
+    }
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($allinv));
+  }
+
+  public function get_inv_by_productos_id(){
+    $allinv = array();
+    $todoslosiddeproductos = $_POST['productosid'];
+    $inventario = $this->inv->findByArrayIN($todoslosiddeproductos,array('INV_PROD_ESTADO' =>1));
+
     foreach ($inventario as $key => $value) {
       if ($value->get('INV_TIPO_ID') == 1) {
          $allinv[] = array($value->get('INV_ID'),
@@ -102,18 +148,15 @@ class Gestion extends CI_Controller {
 
 
   public function insert_entrega_manual(){
+    $usersesion = $this->session->userdata('logged_in');
     $asignaciones = $_POST["asignaciones"];
     if ($asignaciones != null) {
-    $rutusu = $_POST["rutusu"];
-    $asignatura = $_POST["asignatura"];
-    $grupotrabajo = $_POST["grupotrabajo"];
-    $rangofechas = $_POST["rangofechas"];
-    $observaciones = $_POST["observaciones"];
-    $dividirfechas = explode("-",$rangofechas);
-    $dateinicio = new DateTime($dividirfechas[0]);
-    $fechainicio = $dateinicio->format("Y-m-d");
-    $datetermino= new DateTime($dividirfechas[1]);
-    $fechatermino = $datetermino->format("Y-m-d");
+    $rutusu = $_POST["rutusu"];$asignatura = $_POST["asignatura"];$grupotrabajo = $_POST["grupotrabajo"];
+    $rangofechas = $_POST["rangofechas"]; $observaciones = $_POST["observaciones"];$dividirfechas = explode("-",$rangofechas);
+    $dateinicio = DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[0]));
+    $fechainicio = $dateinicio->format('Y-m-d H:i:s');   
+    $datetermino= DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[1]));
+    $fechatermino = $datetermino->format("Y-m-d H:m:s");
      $columnassolicitud  =  array(
                     'SOL_ID' => 0,
                     'SOL_USU_RUT' => $rutusu,
@@ -123,10 +166,8 @@ class Gestion extends CI_Controller {
                     'SOL_NRO_GRUPOTRAB' => $grupotrabajo,
                     'SOL_OBSERVACION' => $observaciones
                     );
-
      $nuevasolicitud =  $this->soli->create($columnassolicitud);
      $ultimasolicitud = $nuevasolicitud->insert();
-
      $columnadetsol  =  array(
                     'DETSOL_ID' => 0,
                     'DETSOL_TIPOPROD' => NULL,
@@ -137,12 +178,11 @@ class Gestion extends CI_Controller {
                     ); 
      $nuevodetalle =  $this->detsol->create($columnadetsol);
      $ultimodetalle = $nuevodetalle->insert();
-
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
                     'ASIG_ID' => 0,
                     'ASIG_ESTADO' => 1,
-                    'ASIG_DETSOL_ID' => $ultimodetalle,
+                    'ASIG_SOL_ID' => $ultimasolicitud,
                     'ASIG_INV_ID' => $value["idinv"],
                     'ASIG_FECHA' => date("Y-m-d H:i:s"),
                     'ASIG_CANT' => $value["cantidadinv"]
@@ -166,29 +206,128 @@ class Gestion extends CI_Controller {
           }
         }
       }
+      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
+      if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
+      if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
+      $asignaturaobj = $this->asig->findById($asignatura);
+      $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
+      $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $pdf->SetFont('dejavusans', '', 7, '', true);
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$ultimasolicitud, "");
+      $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+      $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+      $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+      $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+      $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+      $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+      $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+      $pdf->AddPage();
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
 
-    $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-    $pdf->SetTitle('SOLICITUD INSTRUMENTACION E INSUMOS');
-    $pdf->SetHeaderMargin(30);
-    $pdf->SetTopMargin(20);
-    $pdf->setFooterMargin(20);
-    $pdf->SetAutoPageBreak(true);
-    $pdf->SetAuthor('Ipañol Incap Renca');
-    $pdf->SetDisplayMode('real', 'default');
-    $pdf->AddPage();
-    $pdf->Write(5, 'Some sample text');
-    ob_clean();
-    $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
-    $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
-    $pdf->Output($rutasavePDF, 'F');
-     $this->output->set_content_type('application/json');
-     $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
-    }else{
-      $this->output->set_content_type('application/json');
-    $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
-    }
+      $pdf->writeHTML($htmlpdf, true, false, true, false, '');
+      ob_clean();
+      $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $pdf->Output($rutasavePDF, 'F');
+       $this->output->set_content_type('application/json');
+       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
+      }else{
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
+      }
 
   }
+
+
+  public function insert_entrega_digital(){
+    $usersesion = $this->session->userdata('logged_in');
+    $asignaciones = $_POST["asignaciones"];
+    if ($asignaciones != null) {
+      $idsolicitud = $_POST["idsolicitud"];
+      $solicitud = $this->soli->findById($idsolicitud);
+      $rutusu = $solicitud->get("SOL_USU_RUT");
+      $asignatura = $solicitud->get("SOL_ASIG_ID");
+      $grupotrabajo = $solicitud->get("SOL_NRO_GRUPOTRAB");
+      $observaciones = $_POST["observaciones"];
+      $dateinicio = DateTime::createFromFormat("d/m/Y H:i:s",$solicitud->get("SOL_FECHA_INICIO"));
+      $fechainicio = $dateinicio->format('Y-m-d H:i:s');   
+      $datetermino= DateTime::createFromFormat("d/m/Y H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
+      $fechatermino = $datetermino->format("Y-m-d H:m:s");
+  
+      foreach ($asignaciones as $key => $value) {
+        $columnasignacion  =  array(
+                    'ASIG_ID' => 0,
+                    'ASIG_ESTADO' => 1,
+                    'ASIG_DETSOL_ID' => $idsolicitud,
+                    'ASIG_INV_ID' => $value["idinv"],
+                    'ASIG_FECHA' => date("Y-m-d H:i:s"),
+                    'ASIG_CANT' => $value["cantidadinv"]
+                    );
+        $nuevaasignacion =  $this->asignacion->create($columnasignacion);
+        $ultimaasignacion = $nuevaasignacion->insert();
+
+
+        if ($ultimaasignacion > 0) {
+          $inventario = $this->inv->findById($value["idinv"]);
+          if ($inventario->get("INV_TIPO_ID") == 1) {
+             $columnasaeditar  =  array(
+                      'INV_PROD_ESTADO' => 3,
+                      'INV_ULTIMO_USUARIO' => $rutusu
+                      );
+             $inventario->update($value["idinv"],$columnasaeditar);
+          }else if($inventario->get("INV_TIPO_ID") == 2){
+              $columnasaeditar  =  array(
+                      'INV_ULTIMO_USUARIO' => $rutusu,
+                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
+                      );
+             $inventario->update($value["idinv"],$columnasaeditar);
+          }
+        }
+
+
+
+      }
+
+      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
+      if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
+      if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
+      $asignaturaobj = $this->asig->findById($asignatura);
+      $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
+      $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $pdf->SetFont('dejavusans', '', 7, '', true);
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$ultimasolicitud, "");
+      $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+      $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+      $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+      $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+      $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+      $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+      $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+      $pdf->AddPage();
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
+
+      $pdf->writeHTML($htmlpdf, true, false, true, false, '');
+      ob_clean();
+      $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $pdf->Output($rutasavePDF, 'F');
+       $this->output->set_content_type('application/json');
+       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
+      }else{
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
+      }
+
+  }
+
+
+
 
 }
 

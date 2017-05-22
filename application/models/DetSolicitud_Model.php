@@ -30,6 +30,17 @@ public function create($row){
   return $detalle;
 }
 
+public function findByArray($myarray = null){
+  $this->load->database();
+  $res = $this->db->get_where('detallesol',$myarray);
+  //$this->db->order_by('SOL_ID', 'ASC');
+  $result = array();
+  foreach ($res->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
+
 public function insert(){
 $this->db->insert('detallesol',$this->_columns);
 return $this->db->insert_id();

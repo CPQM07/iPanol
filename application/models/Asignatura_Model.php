@@ -57,18 +57,14 @@ public function findAll(){
   return $result;
 }
 
-public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('ASIGNATURA_ID',$id);
-  $consulta = $this->db->get('asignatura');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+ public function findById($id){
+    $result = null;
+    $this->db->where('ASIGNATURA_ID',$id);
+    $consulta = $this->db->get('asignatura');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 

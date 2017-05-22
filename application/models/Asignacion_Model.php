@@ -11,7 +11,7 @@ public function __construct()
 private  $_columns  =  array(
 'ASIG_ID' => 0,
 'ASIG_ESTADO' => 0,
-'ASIG_DETSOL_ID' => 0,
+'ASIG_SOL_ID' => 0,
 'ASIG_INV_ID' => 0,
 'ASIG_FECHA' => '',
 'ASIG_CANT' => ''

@@ -88,6 +88,21 @@ public function findAll(){
       return $result;
   }
 
+
+//SELECT * FROM `inventario` WHERE (`INV_PROD_ID` = 1 or `INV_PROD_ID` =2) and (`INV_PROD_ESTADO` = 1)
+
+  public function findByArrayIN($arraydeIDinv = null,$arraycondiciones = null){
+    $this->load->database();
+    $this->db->get('inventario');
+    $this->db->or_where_in('INV_PROD_ID',$arraydeIDinv);
+    $res = $this->db->get_where('inventario',$arraycondiciones);
+    $result = array();
+       foreach ($res->result() as $row) {
+        $result[] = $this->create($row);
+        }
+      return $result;
+  }
+
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {
       $this->columns[$key] = $value;

@@ -63,18 +63,38 @@ public function findAll(){
   return $result;
 }
 
-public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('SOL_ID',$id);
-  $consulta = $this->db->get('solicitud');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+ public function findById($id){
+    $result = null;
+    $this->db->where('SOL_ID',$id);
+    $this->db->order_by('SOL_ID', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('solicitud');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
+
+public function findByArray($myarray = null){
+        $this->load->database();
+        $res = $this->db->get_where('solicitud',$myarray);
+        $this->db->order_by('SOL_ID', 'ASC');
+        $result = array();
+           foreach ($res->result() as $row) {
+            $result[] = $this->create($row);
+            }
+          return $result;
+     }
+
+  //ESTE METODO BUSCA LAS SOLICITUDES POR EL ESTADO DE DEL DETALLE DEL MISMO
+  function findByEstadoDetSol($estado){
+    $result = array();
+    $querry = $this->db->query("select SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION from solicitud JOIN detallesol on solicitud.SOL_ID = detallesol.DETSOL_SOL_ID where detallesol.DETSOL_ESTADO =".$estado." GROUP BY SOL_ID");
+    foreach ($querry->result() as $data) {
+      $result[] = $this->create($data);  
+    }
+    return $result;
+  }
+
 }
+

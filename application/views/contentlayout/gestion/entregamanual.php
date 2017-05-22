@@ -12,8 +12,8 @@
             <div class="form-group">
               <select id="Cargo" class="form-control">
                 <option value="0">Seleccionar</option>
-                <option value="1">Profesor</option>
-                <option value="2">Alumno</option>
+                <option value="2">Profesor</option>
+                <option value="1">Alumno</option>
               </select>
             </div>
             <!-- /.form-group -->
@@ -175,13 +175,13 @@
       cat =0;
           $('#reservationtime').daterangepicker({
                 showWeekNumbers: true,
-                timePicker: false,
-                timePicker24Hour: false,
+                timePicker: true,
+                timePicker24Hour: true,
                 startDate: moment().subtract(29, 'days'),
                 endDate: moment(),
-                locale: {format: 'YYYY/MM/DD'},
+                locale: {format: 'DD/MM/YYYY HH:mm:ss'},
               },function (start, end) {
-                $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#daterange-btn span').html(start.format('DD/MM/YYYY HH:mm:ss') + '-' + end.format('DD/MM/YYYY HH:mm:ss'));
               }
             );
 
@@ -194,6 +194,7 @@
                 "pagingType": "simple",
                 "responsive": true,
                 "paging": true,
+                "cache": false,
                 "processing": true,
                 "lengthChange": true,
                 "deferRender": true,
@@ -265,7 +266,7 @@
               total= parseInt(total)+parseInt(stockactual);
             }else if(tipo == 2){
                cant = $("#INPUT"+id).val();
-               if (parseInt(cant) <= parseInt(stockactual)) {
+               if (parseInt(cant) <= parseInt(stockactual) && parseInt(cant) != 0) {
                     $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
                   asignaciones.push(id);
                   total= parseInt(total)+parseInt(cant);
@@ -317,7 +318,7 @@
                 }
                 $(this).css("background-color", "#ECF8E0");
             })
-            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv });
+            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv,'nombreinv' : nombreinv });
         })
          $.ajax({
                     method: "POST",
