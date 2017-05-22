@@ -63,6 +63,7 @@ class Mantencion extends CI_Controller {
 	}
 	public function eliminarusuario($id=null){
 		$this->usuario->delete($id);
+		redirect('/Mantencion/usuarios');
 	}
 	//Fin Usuario
 

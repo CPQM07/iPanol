@@ -52,7 +52,7 @@ public function update($id, $data) {
 }
 
 public function delete($id){
-  $sql="update USUARIO set USU_ESTADO =0 WHERE RUT_USU=".$id;
+  $sql="update usuario set USU_ESTADO =0 WHERE USU_RUT=".$id;
   $query = $this->db->query($sql);
   return 1;
 }

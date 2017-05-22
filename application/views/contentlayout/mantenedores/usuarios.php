@@ -9,8 +9,8 @@
           </h3>
         </div>
         <div class="col-sm-6"><br>
-          
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu" >Agregar nuevo Usuario</button>
+
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu" >Agregar nueva categoría</button>
         </div>
       </div>
     </section>
@@ -37,9 +37,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php 
-
-                foreach ($usuario as $key => $value): 
+                     <?php 
+                     foreach ($usuario as $key => $value): 
                   switch ($value['USU_ESTADO']) {
                   case 1:
                     $estado="Activo";
@@ -59,15 +58,33 @@
                   <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
                   <td><?= $estado; ?></td>
                   <td>
-                    <button id="<?= $value['USU_RUT']; ?>" type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
-                  </td>
-                </tr>    
-                <?php endforeach ?>
-                
-                
+                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value['USU_RUT']; ?>"><i class="fa fa-remove"></i></button>
+                        </td>
+                        <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
+                        </td>
+                      </tr>
+                        <!--ModalELIMINAR-->
+  <!--ModalELIMINAR-->
+    <div class="modal fade" id="ELIMINAR<?= $value['USU_RUT']; ?>" tabindex="-1" role="dialog">
+      <div class="modal-danger" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Eliminar una categoría</h4>
+          </div>
+          <div class="modal-body">
+            <p>Está seguro de eliminar el producto <strong><?= $value['USU_NOMBRES']?></strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <a href='<?= site_url("Mantencion/eliminarusuario/".$value['USU_RUT'].""); ?>' class="btn btn-default">Eliminar</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <!--ModalELIMINAR-->
+  <!--ModalELIMINAR-->
+                    <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -83,9 +100,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-
-  <!--modalCATEGORIANUEVO-->
+ <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
     <div class="modal fade bs-example-modal-lg" id="newUsu" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
@@ -201,121 +216,52 @@
       </div>
     </div>
 
-  <!--modalCATEGORIANUEVO-->
-  <!--modalCATEGORIANUEVO-->
-<!--ModalELIMINAR-->
-<!--ModalELIMINAR-->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-    <div class="modal-danger" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Eliminar un Usuario</h4>
-        </div>
-        <div class="modal-body">
-          <p>Está seguro de eliminar el Usuario <strong><?= $value->get('USU_NOMBRE'); ?></strong></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <a href='<?= site_url("Mantencion/eliminarCategoria/".$value->get('USU_RUT').""); ?>' class="btn btn-default">Eliminar</a>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-<!--ModalELIMINAR-->
-<!--ModalELIMINAR-->
- 
+
 
   <!--modalCategoría-->
   <!--modalCategoríaNUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="EDITAR" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Editar Usuario</h4>
+            <h4 class="modal-tittle">Editar Categoría</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">
                   <form class="form-horizontal">
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombres</label>
+                        <label class="col-sm-2 control-label">Nombre</label>
+
+                        <div class="col-md-9">
+                          <input type="text" class="col-md-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Descripción</label>
 
                         <div class="col-md-9">
                           <input type="text" class="col-md-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Apellidos</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Rut</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Cargo</label>
-
-                        <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un cargo</option>
-                            <?php foreach ($cargo as  $cargos): ?>
-                               <option value="<?=$cargos->get('CARGO_ID')?>"><?=$cargos->get('CARGO_NOMBRE')?></option>
-                            <?php endforeach ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Carrera</label>
-
-                        <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione una carrera</option>
-                            <?php foreach ($carrera as  $carreras): ?>
-                               <option value="<?= $carreras->get('CARRERA_ID')?>"><?=$carreras->get('CARRERA_NOMBRE')?></option>
-                            <?php endforeach ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Email</label>
-
-                        <div class="col-md-9">
-                          <input type="email" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Teléfono</label>
+                        <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
                           <input type="number" class="col-md-12">
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Teléfono opcional</label>
 
-                        <div class="col-md-9">
-                          <input type="number" class="col-md-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Clave</label>
-
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
-                      </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Estado</label>
 
                         <div class="col-md-9">
-                          <input type="number" class="col-md-12">
+                          <select class="form-control select2" style="width: 100%;">
+                            <option selected="selected">Seleccione un tipo</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                          </select>
                         </div>
                       </div>
 
@@ -327,7 +273,7 @@
                     <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                   </div>
                   <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger col-md-12" >Agregar</button>
+                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
                   </div>
                 </div>
               <!-- /.box-footer -->
@@ -337,7 +283,6 @@
         </div>
       </div>
     </div>
-
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
