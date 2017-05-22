@@ -8,7 +8,7 @@ private $_name ="";
 private $_size =0;
 private $_type ="";
 private $_tmp  ="";
-protected static $RUTA = '../resources/images/Imeges_Server';
+protected static $RUTA = 'C:\xampp\htdocs\iPanol\resources\images\Imagenes_Server\imagen';
 protected static $TYPES = array('image/png','image/jpeg','image/jpg');
 protected static $SIZE = 2000000;
 
@@ -27,8 +27,7 @@ function __set($attr,$value){
     $this->$attr = $value;
 }   
 
-}
-public function upload(){
+function upload(){
 $ext = explode("/", $this->_type);
 $ext = ".".$ext[1];
 $randomName = self::generateRandomString(7);
@@ -41,8 +40,7 @@ if (move_uploaded_file($this->_tmp, self::$RUTA.$name)) {
 
 }
 
-
-public function  validate(){
+function  validate(){
 return $this->_size<=self::$SIZE
 && in_array($this->_type, self::$TYPES);
 }
@@ -59,6 +57,7 @@ public static function generateRandomString($length = 10) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
 }
 
 

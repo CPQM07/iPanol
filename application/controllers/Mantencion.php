@@ -7,6 +7,7 @@ class Mantencion extends CI_Controller {
   {
 		parent::__construct();
 		$this->layouthelper->SetMaster('layout');
+		$this->load->library('CopiarImg','copiarimg',false);
 		$this->load->model('Cargo_Model','cargo', true);
 		$this->load->model('Usuario_Model','usuario', true);
 		$this->load->model('Carrera_Model','carrera', true);
@@ -16,7 +17,7 @@ class Mantencion extends CI_Controller {
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
   }
 
-	//Usuarios
+	//Usuarios***************************************************************************
 	public function usuarios(){
 		$newarray= array();
 		$usuarios = $this->usuario->findAll();
@@ -65,9 +66,9 @@ class Mantencion extends CI_Controller {
 		$this->usuario->delete($id);
 		redirect('/Mantencion/usuarios');
 	}
-	//Fin Usuario
+	//Fin Usuario*************************************************************************
 
-	//Categoria
+	//Categoria***************************************************************************
 	public function categorias(){
 	  $datos['categoria'] = $this->categorias->findAll();
 	  $this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
@@ -91,9 +92,9 @@ class Mantencion extends CI_Controller {
 	public function editarCategoria($ID){
 
 	}
-	//Fin Categoria
+	//Fin Categoria***************************************************************************
 
-	//Productos
+	//Productos***************************************************************************
 	public function productos(){
 	  $NuevoProducto = array();
 	  $productos = $this->productos->findAll();
@@ -121,14 +122,14 @@ class Mantencion extends CI_Controller {
 
 	public function new_producto(){
 		if(isset($_POST['producto'])){
-			/*if(isset($_FILES['files'])){
+			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
-			 $archivo = $this->CopiarImg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 if ($archivo->validate()) {
-			 $nameimg = $archivo->upload();
+			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
+			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+			 if ($this->copiarimg->validate()) {
+			 $nameimg = $this->copiarimg->upload();
 			 }
-			}*/
-			$nameimg=$_POST['files'];
+			}
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			redirect('/Mantencion/productos');
@@ -141,21 +142,21 @@ class Mantencion extends CI_Controller {
 	  $this->productos->delete($ID);
 	  redirect('/Mantencion/productos');
 	}
-	//Fin Productos
+	//Fin Productos***************************************************************************
 
-	//Asignatura
+	//Asignatura***************************************************************************
 	public function asignaturas(){
 		$this->layouthelper->LoadView("mantenedores/asignaturas" , null);
 	}
-	//Fin Asignatura
+	//Fin Asignatura***************************************************************************
 
-	//Motivos
+	//Motivos***************************************************************************
 	public function motivos(){
 		$this->layouthelper->LoadView("mantenedores/motivos" , null);
 	}
-	//Fin Motivos
+	//Fin Motivos***************************************************************************
 
-	//Proveedores
+	//Proveedores***************************************************************************
 	public function proveedores(){
 	  $datos['proveedor'] = $this->proveedores->findAll();
 	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos,	 null);
@@ -165,13 +166,13 @@ class Mantencion extends CI_Controller {
 	  $this->proveedores->delete($RUT);
 	  redirect('/Mantencion/proveedores');
 	}
-	//Fin Proveedores
+	//Fin Proveedores***************************************************************************
 
-	//Bajas
+	//Bajas***************************************************************************
 	public function bajas(){
 		$this->layouthelper->LoadView("mantenedores/bajas" , null);
 	}
-	//Fin Bajas
+	//Fin Bajas***************************************************************************
 
 }
 

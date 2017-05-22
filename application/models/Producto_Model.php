@@ -20,7 +20,7 @@ private  $_columns  =  array(
 'PROD_STOCK_OPTIMO' => 0,
 'PROD_DIAS_ANTIC' => 0,
 'PROD_IMAGEN' => '',
-'PROD_ESTADO' => 0,
+'PROD_ESTADO' => 1,
 );
 
 public function get($attr){
