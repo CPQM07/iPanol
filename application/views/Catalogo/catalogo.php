@@ -46,7 +46,7 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-										<img src="<?= base_url("/resources/images/".$value->get('PROD_IMAGEN').""); ?>" alt="" />
+										<img src="<?= base_url("/resources/images/Imagenes_Server".$value->get('PROD_IMAGEN').""); ?>" alt="" />
 										<h2><?= $value->get('PROD_NOMBRE'); ?></h2>
 										<p>Stock total: <?= $value->get('PROD_STOCK_TOTAL'); ?></p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Solicitar</a>

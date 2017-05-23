@@ -14,11 +14,6 @@ class Catalogo extends CI_Controller {
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 
-	public function carrito()
-	{
-		$this->load->view('Catalogo/carrito', FALSE);
-	}
-
 	public function contactanos()
 	{
 		$this->load->view('Catalogo/contactanos', FALSE);

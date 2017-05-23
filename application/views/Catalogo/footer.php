@@ -11,8 +11,8 @@
 	
 
 
-    <script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="<?= base_url(); ?>resources/js/jquery.js"></script>
+	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
+    <script src="<?= base_url(); ?>resources/js/main.js"></script>
 </body>
 </html>

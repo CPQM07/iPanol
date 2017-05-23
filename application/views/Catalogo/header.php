@@ -30,7 +30,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart"></i> Carrito de pedidos</a></li>
+								<button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#carrito">Carrito de pedidos</button>
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>
@@ -60,3 +60,50 @@
 				</div>
 			</div>
 	</header>
+
+<!--MODAL CARRITO-->
+<div class="modal fade" id="carrito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Carrito de pedidos</h4>
+      </div>
+      <div class="modal-body">
+		<!--CONTENIDO CARRITO-->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+					    <th>N°</th>
+						<th>IMAGEN</th>
+						<th>ARTICULO</th>
+						<th>TIPO DE ARTÍCULO</th>
+						<th>CANTIDAD</th>
+						<th>TOTAL</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		<!--FIN CONTENIDO CARRITO-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Realizar pedido</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--MODAL CARRITO-->
+
+
+<?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+<script type="text/javascript" charset="utf-8">
+
+</script>
+<?php } ?>
