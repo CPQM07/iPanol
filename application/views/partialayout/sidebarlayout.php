@@ -89,15 +89,23 @@ $lasturl = array_pop($spliturl);
     </section>
   </aside>
 
+  
   <!-- MENSAJES DE OPERACIONES -->
     <div class="col-md-6 pull-right">
       <br>
       <div class="messages">
         <?php if (isset($_SESSION['Alert'])): ?>
-          <div class="alert alert-success alert-dismissible">
+          <div class="alert alert-danger alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h4><i class="icon fa fa-check"></i> Éxito!</h4>
+              <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Alert'];?>
+          </div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['Info'])): ?>
+          <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
+              <?= $_SESSION['Info'];?>
           </div>
         <?php endif; ?>
       </div>

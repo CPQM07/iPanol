@@ -28,31 +28,31 @@
                   <th>ID</th>
                   <th>NOMBRE</th>
                   <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($asignatura as $key => $value): ?>
-                    <tr>
-                      <td><?= $value->get('ASIGNATURA_ID'); ?></td>
-                      <td><?= $value->get('ASIGNATURA_NOMBRE'); ?></td>
-                      <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>
-                        <td>
-                          <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/1/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></a>
-                        </td>
-                      <?php else: ?>
-                        <td>
-                          <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/2/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-info btn-block"><i class="fa fa-check"></i></a>
-                        </td>
-                      <?php endif; ?>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
+              </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($asignatura as $key => $value): ?>
+                  <tr>
+                    <td><?= $value->get('ASIGNATURA_ID'); ?></td>
+                    <td><?= $value->get('ASIGNATURA_NOMBRE'); ?></td>
+                    <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>
+                      <td>
+                        <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/1/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-danger btn-block"><i class="fa fa-remove"></i></a>
+                      </td>
+                    <?php else: ?>
+                      <td>
+                        <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/2/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-info btn-block"><i class="fa fa-check"></i></a>
+                      </td>
+                    <?php endif; ?>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
           </div>
-          <!-- /.box -->
+          <!-- /.box-body -->
         </div>
+        <!-- /.box -->
+      </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->

@@ -163,11 +163,12 @@ class Mantencion extends CI_Controller {
   }
 
   public function CambiarEstadoAsig($tipo, $id){
-    $this->session->set_flashdata('Alert', 'HOLA');
     if ($tipo == 1) {
+      $this->session->set_flashdata('Alert', 'Se Deshabilito Correctamente');
       $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 2));
       redirect('/Mantencion/asignaturas');
     } elseif ($tipo == 2) {
+      $this->session->set_flashdata('Info', 'Se Habilito Correctamente');
       $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 1));
       redirect('/Mantencion/asignaturas');
     }
