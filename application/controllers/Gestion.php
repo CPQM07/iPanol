@@ -168,6 +168,9 @@ class Gestion extends CI_Controller {
                     );
      $nuevasolicitud =  $this->soli->create($columnassolicitud);
      $ultimasolicitud = $nuevasolicitud->insert();
+
+     $updatesoli = $this->soli->update($ultimasolicitud, array('SOL_RUTA_PDF' => "SOLICITUD".$ultimasolicitud.'-'.$rutusu.".pdf"));
+
      $columnadetsol  =  array(
                     'DETSOL_ID' => 0,
                     'DETSOL_TIPOPROD' => NULL,
@@ -229,8 +232,8 @@ class Gestion extends CI_Controller {
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
-      $rutasavePDF =FCPATH.'resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
-      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $rutasavePDF =FCPATH.'resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu.".pdf";
+      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu.".pdf";
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
        $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));

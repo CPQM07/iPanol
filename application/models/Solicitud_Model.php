@@ -15,7 +15,8 @@ private  $_columns  =  array(
 'SOL_FECHA_INICIO' => '',
 'SOL_FECHA_TERMINO' => '',
 'SOL_NRO_GRUPOTRAB' => 0,
-'SOL_OBSERVACION' => 0
+'SOL_OBSERVACION' => 0,
+'SOL_RUTA_PDF' => ''
 );
 
 public function get($attr){
