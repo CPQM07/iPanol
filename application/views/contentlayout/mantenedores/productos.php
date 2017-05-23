@@ -45,14 +45,14 @@
                 </tr>
                 </thead>
                 <tbody>
-               <?php 
-                  foreach ($productos as $key => $value): 
+               <?php
+                  foreach ($productos as $key => $value):
 
                   switch ($value['PROD_ESTADO']) {
                   case 1:
                     $estado="Activo";
                     break;
-                  
+
                   default:
                     $estado="Inactivo";
                     break;
@@ -92,7 +92,7 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   <!--ModalELIMINAR-->
-  
+
 
                   <?php endforeach; ?>
                 </tbody>
@@ -401,36 +401,36 @@
     </div>
   <!--modalCATEGORIANUEVO-->
 
-  
 
-  
+
+
     </div>
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 function archivo(evt) {
       var files = evt.target.files; // FileList object
-       
-        //Obtenemos la imagen del campo "file". 
-      for (var i = 0, f; f = files[i]; i++) {         
+
+        //Obtenemos la imagen del campo "file".
+      for (var i = 0, f; f = files[i]; i++) {
            //Solo admitimos imágenes.
            if (!f.type.match('image.*')) {
                 continue;
            }
-       
+
            var reader = new FileReader();
-           
+
            reader.onload = (function(theFile) {
                return function(e) {
                // Creamos la imagen.
                       document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
                };
            })(f);
- 
+
            reader.readAsDataURL(f);
        }
 }
-             
+
       document.getElementById('files').addEventListener('change', archivo, false);
-            
+
 </script>
 <?php } ?>
