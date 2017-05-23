@@ -45,7 +45,7 @@ class Gestion extends CI_Controller {
   public function get_detalle_solicitud(){
     $tododetjson = array();
     $idsol= $_POST['idsolicitud'];
-    $detalle = $this->detsol->findByArray(array("DETSOL_SOL_ID" => $idsol));
+    $detalle = $this->detsol->findByArray(array("DETSOL_SOL_ID" => $idsol ,"DETSOL_ESTADO" => 1));
     foreach ($detalle as $key => $value) {
       $producto = $this->prod->findById($value->get("DETSOL_PROD_ID"));
        $tododetjson[]  =  json_encode(array(
@@ -179,6 +179,7 @@ class Gestion extends CI_Controller {
                     ); 
      $nuevodetalle =  $this->detsol->create($columnadetsol);
      $ultimodetalle = $nuevodetalle->insert();
+     $this->detsol->insertlog(array("LOGESTSOL_ESTADO" => 5,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_DETSOL_ID" => $ultimodetalle));
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
                     'ASIG_ID' => 0,
@@ -262,6 +263,7 @@ class Gestion extends CI_Controller {
       $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       foreach ($detallesol as $key => $value) {
              $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
+             $this->detsol->insertlog(array("LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_DETSOL_ID" => $value->get("DETSOL_ID")));
       }
 
       foreach ($asignaciones as $key => $value) {
