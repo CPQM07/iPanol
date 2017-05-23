@@ -190,6 +190,26 @@ class Mantencion extends CI_Controller {
       echo "NO AGRAGADO";
     }
   }
+
+  public function CambiarEstado($tipo, $id){
+    if ($tipo == 1) {
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->motivo->update($id, array('MOT_ESTADO' => 2));
+      redirect('/Mantencion/motivos');
+    } elseif ($tipo == 2) {
+      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->motivo->update($id, array('MOT_ESTADO' => 1));
+      redirect('/Mantencion/motivos');
+    } elseif ($tipo == 3) {
+      $this->session->set_flashdata('Observacion', 'Cambió a Motivo de Observacion');
+      $this->motivo->update($id, array('MOT_DIF' => 2));
+      redirect('/Mantencion/motivos');
+    } elseif ($tipo == 4) {
+      $this->session->set_flashdata('Baja', 'Cambió a Motivo de Baja');
+      $this->motivo->update($id, array('MOT_DIF' => 1));
+      redirect('/Mantencion/motivos');
+    }
+  }
 	//Fin Motivos***************************************************************************
 
 	//Proveedores***************************************************************************

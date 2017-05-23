@@ -27,10 +27,9 @@
                 <tr>
                   <th>ID</th>
                   <th>NOMBRE</th>
-                  <th>ESTADO</th>
+                  <th>ACIONES</th>
                   <th>ORIGEN</th>
-                  <th>Editar</th>
-                  <th>Eliminar</th>
+                  <th>EDITAR</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,18 +38,15 @@
                       <td><?= $value->get('MOT_ID'); ?></td>
                       <td><?= $value->get('MOT_NOMBRE'); ?></td>
                       <?php if ($value->get('MOT_ESTADO') == 1): ?>
-                        <td>ACTIVO</td>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/1/');?><?=$value->get('MOT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                       <?php else: ?>
-                        <td>ELIMINADO</td>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/2/');?><?=$value->get('MOT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
                       <?php endif; ?>
                       <?php if ($value->get('MOT_DIF') == 1): ?>
-                        <td>BAJA</td>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/3/');?><?=$value->get('MOT_ID');?>" class="btn btn-warning btn-block">Baja</a></td>
                       <?php else: ?>
-                        <td>OBSERVACION</td>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/4/');?><?=$value->get('MOT_ID');?>" class="btn btn-success btn-block">Observacion</a></td>
                       <?php endif; ?>
-                      <td>
-                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-remove"></i></button>
-                      </td>
                       <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
                       </td>
                     </tr>
