@@ -208,8 +208,8 @@
                         var obj = JSON.parse(rr);
                         $("#detallesol").append('<tr><td>'+obj.ID+'</td><td>'+obj.PROD_NOMBRE+'</td><td>'+obj.CANTIDAD+'</td></tr>')
                         productosid.push(obj.PROD_ID);
-                        $('#dinamicajax').DataTable().ajax.reload();
-                    });              
+                    }); 
+                    $('#dinamicajax').DataTable().ajax.reload();             
                     }
            })
     })

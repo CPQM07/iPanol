@@ -102,7 +102,7 @@ class Gestion extends CI_Controller {
     $allinv = array();
     $idtipo = $_POST['idtipo'];
     $idcat = $_POST['idcat'];
-    $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_PROD_ESTADO' =>1 ));
+    $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_TIPO_ID' => $idtipo,'INV_PROD_ESTADO' =>1 ));
     foreach ($inventario as $key => $value) {
       if ($value->get('INV_TIPO_ID') == 1) {
          $allinv[] = array($value->get('INV_ID'),
@@ -154,7 +154,7 @@ class Gestion extends CI_Controller {
     $rutusu = $_POST["rutusu"];$asignatura = $_POST["asignatura"];$grupotrabajo = $_POST["grupotrabajo"];
     $rangofechas = $_POST["rangofechas"]; $observaciones = $_POST["observaciones"];$dividirfechas = explode("-",$rangofechas);
     $dateinicio = DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[0]));
-    $fechainicio = $dateinicio->format('Y-m-d H:i:s');   
+    $fechainicio = $dateinicio->format('Y-m-d H:m:s');   
     $datetermino= DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[1]));
     $fechatermino = $datetermino->format("Y-m-d H:m:s");
      $columnassolicitud  =  array(
@@ -168,8 +168,6 @@ class Gestion extends CI_Controller {
                     );
      $nuevasolicitud =  $this->soli->create($columnassolicitud);
      $ultimasolicitud = $nuevasolicitud->insert();
-
-     $updatesoli = $this->soli->update($ultimasolicitud, array('SOL_RUTA_PDF' => "SOLICITUD".$ultimasolicitud.'-'.$rutusu.".pdf"));
 
      $columnadetsol  =  array(
                     'DETSOL_ID' => 0,
@@ -233,6 +231,7 @@ class Gestion extends CI_Controller {
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
       $rutasavePDF =FCPATH.'resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu.".pdf";
+      $this->soli->update($ultimasolicitud, array('SOL_RUTA_PDF' => "SOLICITUD".$ultimasolicitud.'-'.$rutusu.".pdf"));
       $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu.".pdf";
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
@@ -255,23 +254,27 @@ class Gestion extends CI_Controller {
       $asignatura = $solicitud->get("SOL_ASIG_ID");
       $grupotrabajo = $solicitud->get("SOL_NRO_GRUPOTRAB");
       $observaciones = $_POST["observaciones"];
-      $dateinicio = DateTime::createFromFormat("d/m/Y H:i:s",$solicitud->get("SOL_FECHA_INICIO"));
-      $fechainicio = $dateinicio->format('Y-m-d H:i:s');   
-      $datetermino= DateTime::createFromFormat("d/m/Y H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
-      $fechatermino = $datetermino->format("Y-m-d H:m:s");
-  
+      $dateinicio = DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_INICIO"));
+      $fechainicio = $dateinicio->format('d-m-Y H:i:s');   
+      $datetermino= DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
+      $fechatermino = $datetermino->format("d-m-Y H:m:s");
+
+      $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
+      foreach ($detallesol as $key => $value) {
+             $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
+      }
+
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
                     'ASIG_ID' => 0,
                     'ASIG_ESTADO' => 1,
-                    'ASIG_DETSOL_ID' => $idsolicitud,
+                    'ASIG_SOL_ID' => $idsolicitud,
                     'ASIG_INV_ID' => $value["idinv"],
                     'ASIG_FECHA' => date("Y-m-d H:i:s"),
                     'ASIG_CANT' => $value["cantidadinv"]
                     );
         $nuevaasignacion =  $this->asignacion->create($columnasignacion);
         $ultimaasignacion = $nuevaasignacion->insert();
-
 
         if ($ultimaasignacion > 0) {
           $inventario = $this->inv->findById($value["idinv"]);
@@ -289,9 +292,6 @@ class Gestion extends CI_Controller {
              $inventario->update($value["idinv"],$columnasaeditar);
           }
         }
-
-
-
       }
 
       $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
@@ -313,12 +313,13 @@ class Gestion extends CI_Controller {
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
-      $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
-      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $rutasavePDF =FCPATH.'resources/pdf/SOLICITUD'.$idsolicitud.'-'.$rutusu.".pdf";
+      $this->soli->update($idsolicitud, array('SOL_RUTA_PDF' => "SOLICITUD".$idsolicitud.'-'.$rutusu.".pdf"));
+      $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$idsolicitud.'-'.$rutusu.".pdf";
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
        $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
