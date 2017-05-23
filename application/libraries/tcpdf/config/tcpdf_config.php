@@ -45,7 +45,7 @@
  * Installation path (/var/www/tcpdf/).
  * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_MAIN', '/var/www/html/iPanol/application/libraries/tcpdf/');
+define ('K_PATH_MAIN', APPPATH.'libraries/tcpdf/');
 
 /**
  * URL path to tcpdf installation folder (http://localhost/tcpdf/).

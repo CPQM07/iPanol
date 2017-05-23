@@ -229,7 +229,7 @@ class Gestion extends CI_Controller {
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
-      $rutasavePDF = '/var/www/html/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
+      $rutasavePDF =FCPATH.'resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
       $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu;
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
