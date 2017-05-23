@@ -59,19 +59,15 @@ public function findAll(){
 }
 
 public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('PERFIL_ID',$id);
-  $consulta = $this->db->get('perfil');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
-    }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
-    return $result;
-  }
+   $result = null;
+   $this->db->where('PERFIL_ID',$id);
+   $consulta = $this->db->get('perfil');
+   if($consulta->num_rows() == 1){
+     $result = $this->create($consulta->row());
+   }
+
+   return $result;
+ }
 
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {

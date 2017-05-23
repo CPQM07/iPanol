@@ -64,7 +64,7 @@ public function findAll(){
     if($consulta->num_rows() == 1){
       $result = $this->create($consulta->row());
     }
-    
+
     return $result;
   }
 

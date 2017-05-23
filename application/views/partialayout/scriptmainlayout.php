@@ -1,8 +1,12 @@
 <script type="text/javascript" charset="utf-8">
+
+$(function () {
+    setTimeout(function() {
+        $(".messages").fadeOut(8000);
+    },3000);
+});
+
 $(function(){
-
-
-
 	$(".select2").select2({
 		placeholder:"seleccionar"
 	});
@@ -42,5 +46,5 @@ $(function(){
                     }
                 });
 
-})	
+})
 </script>

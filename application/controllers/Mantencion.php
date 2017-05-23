@@ -15,6 +15,8 @@ class Mantencion extends CI_Controller {
 		$this->load->model('Proveedor_Model', 'proveedores', true);
 		$this->load->model('Producto_Model', 'productos', true);
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
+    $this->load->model('Motivo_Model', 'motivo', true);
+    $this->load->model('Asignatura_Model', 'asignatura', true);
   }
 
 	//Usuarios***************************************************************************
@@ -56,7 +58,7 @@ class Mantencion extends CI_Controller {
 
 	public function edit_usuario(){
 		if(isset($_POST['new_usu'])){
-			
+
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
@@ -146,14 +148,47 @@ class Mantencion extends CI_Controller {
 
 	//Asignatura***************************************************************************
 	public function asignaturas(){
-		$this->layouthelper->LoadView("mantenedores/asignaturas" , null);
+    $datos['asignatura'] = $this->asignatura->findAll();
+		$this->layouthelper->LoadView("mantenedores/asignaturas", $datos, null);
 	}
+
+  public function NuevaAsignatura(){
+    if (isset($_POST['asignatura'])) {
+      $NuevaAsignatura = $this->asignatura->create($_POST['asignatura']);
+      $NuevaAsignatura->insert();
+      redirect('/Mantencion/asignaturas');
+    } else {
+      echo "NO AGRAGADO";
+    }
+  }
+
+  public function CambiarEstadoAsig($tipo, $id){
+    $this->session->set_flashdata('Alert', 'HOLA');
+    if ($tipo == 1) {
+      $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 2));
+      redirect('/Mantencion/asignaturas');
+    } elseif ($tipo == 2) {
+      $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 1));
+      redirect('/Mantencion/asignaturas');
+    }
+  }
 	//Fin Asignatura***************************************************************************
 
 	//Motivos***************************************************************************
 	public function motivos(){
-		$this->layouthelper->LoadView("mantenedores/motivos" , null);
+    $datos['motivos'] = $this->motivo->findAll();
+		$this->layouthelper->LoadView("mantenedores/motivos", $datos, null);
 	}
+
+  public function NuevoMotivo(){
+    if (isset($_POST['motivo'])) {
+      $NuevoMotivo = $this->motivo->create($_POST['motivo']);
+      $NuevoMotivo->insert();
+      redirect('/Mantencion/motivos');
+    } else {
+      echo "NO AGRAGADO";
+    }
+  }
 	//Fin Motivos***************************************************************************
 
 	//Proveedores***************************************************************************
