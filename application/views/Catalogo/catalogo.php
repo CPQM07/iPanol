@@ -19,15 +19,14 @@
                         
                         <div class="brands_products"><!--por tipo de articulos-->
 							<h2>TIPO DE ARTÍCULO</h2>
-				<?php foreach ($tipoProd as $key => $value): ?>	
-							<div class="brands-name">
+						<div class="brands-name">
+							<?php foreach ($tipoProd as $key => $value): ?>	
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="<?= site_url("/Catalogo/porTipoProducto/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right">(??)</span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
+									<li><a href="<?= site_url("/Catalogo/porTipoProducto/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
 								</ul>
-							</div>
-				<?php endforeach ?>
+							<?php endforeach ?>
+						</div>
 						</div><!--por tipo de articulos-->
-
 					</div>
 				</div>
 				
@@ -46,7 +45,7 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-										<img src="<?= base_url("/resources/images/Imagenes_Server".$value->get('PROD_IMAGEN').""); ?>" alt="" />
+										<img src="<?= base_url("/resources/images/Imagenes_Server/".$value->get('PROD_IMAGEN').""); ?>" alt="" />
 										<h2><?= $value->get('PROD_NOMBRE'); ?></h2>
 										<p>Stock total: <?= $value->get('PROD_STOCK_TOTAL'); ?></p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Solicitar</a>
@@ -55,16 +54,14 @@
 							</div>
 						</div>
 					<?php endforeach ?>
+					</div><!--articulos para pedido-->
 
-
-						
-						<ul class="pagination">
+					    <ul class="pagination">
 							<li class="active"><a href="">1</a></li>
 							<li><a href="">2</a></li>
 							<li><a href="">3</a></li>
 							<li><a href="">&raquo;</a></li>
 						</ul>
-					</div><!--articulos para pedido-->
 				</div>
 			</div>
 		</div>

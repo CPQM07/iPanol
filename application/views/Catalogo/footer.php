@@ -9,8 +9,6 @@
 		
 	</footer><!--/Footer-->
 	
-
-
     <script src="<?= base_url(); ?>resources/js/jquery.js"></script>
 	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
     <script src="<?= base_url(); ?>resources/js/main.js"></script>

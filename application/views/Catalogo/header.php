@@ -3,9 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Carrito de pedidos | iPañol</title>
+    <title>Módulo de préstamos | iPañol</title>
     <link href="<?= base_url(); ?>resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= base_url(); ?>resources/css/font-awesome.min.css" rel="stylesheet">
 	<link href="<?= base_url(); ?>resources/css/main.css" rel="stylesheet">
@@ -19,6 +17,27 @@
 
 <body>
 	<header id="header"><!--header-->
+
+	<!--SESSION USUARIO-->
+	    <div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row pull-right">
+					<div class="col-sm-6">					
+							<ul class="nav navbar-nav">
+								<div class="dropdown">
+								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Usuario
+								  <span class="caret"></span></button>
+								  <ul class="dropdown-menu">
+								    <li><a href="<?= site_url('/Catalogo/') ?>">Cerrar sesión</a></li>
+								  </ul>
+								</div>
+							</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+    <!--SESSION USUARIO-->
+    
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
 				<div class="row">
@@ -30,7 +49,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#carrito">Carrito de pedidos</button>
+								<li><button type="button" class="btn btn-block btn-danger fa fa-shopping-cart" data-toggle="modal" data-target="#carrito">Carrito de pedidos</button></li>
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>
@@ -94,7 +113,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Realizar pedido</button>
+        <button type="button" class="btn btn-danger">Realizar pedido</button>
       </div>
     </div>
   </div>
