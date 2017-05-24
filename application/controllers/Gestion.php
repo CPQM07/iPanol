@@ -38,7 +38,7 @@ class Gestion extends CI_Controller {
 
   public function entregadigital()
   {
-     $data["solicitudes"] = $this->soli->findByEstadoDetSol(1);//busco las solicitudes enviadas por el catalogo
+     $data["solicitudes"] = $this->soli->findByArray(array("SOL_ESTADO" => 1));//busco las solicitudes enviadas por el catalogo
      $this->layouthelper->LoadView("gestion/entregadigital" , $data );
   }
 
@@ -133,13 +133,13 @@ class Gestion extends CI_Controller {
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         $value->get('INV_PROD_CANTIDAD'),
-                        "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
       }else if($value->get('INV_TIPO_ID') == 2){
            $allinv[] = array($value->get('INV_ID'),
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
-                        "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
       }
     }
     $this->output->set_content_type('application/json');
@@ -268,10 +268,14 @@ class Gestion extends CI_Controller {
       $datetermino= DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
       $fechatermino = $datetermino->format("d-m-Y H:m:s");
 
+      $todoslosiddeproductosdelasolicitud = $this->detsol->getAllIdProductGroupByIdSolicitud($idsolicitud);
+
+      print_r($todoslosiddeproductosdelasolicitud);
+      exit();
+
       $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       foreach ($detallesol as $key => $value) {
              $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
-             $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
       }
 
       foreach ($asignaciones as $key => $value) {
@@ -286,23 +290,38 @@ class Gestion extends CI_Controller {
         $nuevaasignacion =  $this->asignacion->create($columnasignacion);
         $ultimaasignacion = $nuevaasignacion->insert();
         $this->asignacion->insertlog(array("LOGESTASIG_ASIG_ID" => $ultimaasignacion, "LOGESTASIG_USU_RUT" => $usersesion['rut'],"LOGESTASIG_ESTADO" => 1));
+
         if ($ultimaasignacion > 0) {
           $inventario = $this->inv->findById($value["idinv"]);
           if ($inventario->get("INV_TIPO_ID") == 1) {
+
+
              $columnasaeditar  =  array(
                       'INV_PROD_ESTADO' => 3,
                       'INV_ULTIMO_USUARIO' => $rutusu
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
+
+
+
           }else if($inventario->get("INV_TIPO_ID") == 2){
+
+
               $columnasaeditar  =  array(
                       'INV_ULTIMO_USUARIO' => $rutusu,
                       'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
+
+
+
           }
         }
+
       }
+
+      $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));
+      $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
 
       $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");

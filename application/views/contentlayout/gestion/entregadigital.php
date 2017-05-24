@@ -98,6 +98,7 @@
                       <th>Id</th>
                       <th>Producto/Insumo</th>
                       <th>Cantidad</th>
+                      <th>Id Prod.</th>
                     </tr>
                     </thead>
                      <tfoot>
@@ -219,15 +220,16 @@
     var stockactual = $(this).attr("cant");
     var nom = $(this).attr("nom");
     var tipo = $(this).attr("tipo");
+    var prodid = $(this).attr("prodid");
     if(asignaciones.indexOf(id) == -1){  
             if (tipo == 1) {
-              $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
+              $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td>'+prodid+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
               asignaciones.push(id);
               total= parseInt(total)+parseInt(stockactual);
             }else if(tipo == 2){
                cant = $("#INPUT"+id).val();
                if (parseInt(cant) <= parseInt(stockactual) && parseInt(cant) != 0) {
-                    $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
+                    $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td>'+prodid+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
                   asignaciones.push(id);
                   total= parseInt(total)+parseInt(cant);
                }else{
@@ -249,7 +251,7 @@
     if (observaciones != "") {
          $("#resulasignacion tbody tr").each(function (index) 
         {
-            var idinv, nombreinv, cantidadinv;
+            var idinv, nombreinv, cantidadinv, idprod;
             $(this).children("td").each(function (index2) 
             {
                 switch (index2) 
@@ -260,10 +262,12 @@
                             break;
                     case 2: cantidadinv = $(this).text();
                             break;
+                    case 3: idprod = $(this).text();
+                            break;
                 }
                 $(this).css("background-color", "#ECF8E0");
             })
-            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv,'nombreinv' : nombreinv });
+            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv,'nombreinv' : nombreinv,'idprod' : idprod});
         })
          $.ajax({
                     method: "POST",
