@@ -46,11 +46,6 @@ $this->db->insert('detallesol',$this->_columns);
 return $this->db->insert_id();
 }
 
-public function insertlog($arraycolumns){
-  $this->db->insert('logestadosolicitud',$arraycolumns);
-return $this->db->insert_id();
-}
-
 public function update($id, $data) {
   $detalle = $this->db->get_where('detallesol',array('DETSOL_ID'=>$id));
   if($detalle->num_rows() > 0){
