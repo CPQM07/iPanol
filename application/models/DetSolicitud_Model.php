@@ -110,6 +110,7 @@ public function findById($id){
     $obj1 = $cont1->count_all_results();
     return $obj1;
   }
+
   public function solicitudesHoy() /*CANTIDAD DE SOLICITUDES DE HOY*/
   {
     $inicio;
@@ -135,45 +136,49 @@ public function findById($id){
     $inicio;
     $f = getDate();
     $ano = $f['year'];
-    $mes = $f['mon'];
+    $mes = date('m');
     $dia = $f['mday'];
 
-    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
-      $mes = '0'.$mes;
+    if ($dia > 0 and $dia < 10) {
       $dia = '0'.$dia;
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }else{
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }
-    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
-    $this->db->where('SOL_FECHA_INICIO',$inicio);
-    $this->db->where('DETSOL_ESTADO',5);
-    $this->db->where('DETSOL_TIPOPROD',1);
-    $query = $this->db->get("detallesol");
-    return $query->num_rows();
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('solicitud');
+    $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
+    $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
+    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
+    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
   }
 
   public function productoActivoAyer(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
     $inicio;
     $f = getDate();
     $ano = $f['year'];
-    $mes = $f['mon'];
+    $mes = date('m');
     $nel = $f['mday'];
     $dia = $nel-1;
 
-    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
-      $mes = '0'.$mes;
+    if ($dia > 0 and $dia < 10) {
       $dia = '0'.$dia;
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }else{
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }
-    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
-    $this->db->where('SOL_FECHA_INICIO',$inicio);
-    $this->db->where('DETSOL_ESTADO',5);
-    $this->db->where('DETSOL_TIPOPROD',1);
-    $query = $this->db->get("detallesol");
-    return $query->num_rows();
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('solicitud');
+    $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
+    $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
+    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
+    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
   }
 
   /*-------------------------------------------------------------------------------------*/
@@ -182,45 +187,49 @@ public function findById($id){
     $inicio;
     $f = getDate();
     $ano = $f['year'];
-    $mes = $f['mon'];
+    $mes = date('m');
     $dia = $f['mday'];
 
-    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
-      $mes = '0'.$mes;
+    if ($dia > 0 and $dia < 10) {
       $dia = '0'.$dia;
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }else{
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }
-    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
-    $this->db->where('SOL_FECHA_INICIO',$inicio);
-    $this->db->where('DETSOL_ESTADO',5);
-    $this->db->where('DETSOL_TIPOPROD',2);
-    $query = $this->db->get("detallesol");
-    return $query->num_rows();
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('solicitud');
+    $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
+    $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
+    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
+    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
   }
 
   public function productoFungiblesAyer(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
     $inicio;
     $f = getDate();
     $ano = $f['year'];
-    $mes = $f['mon'];
+    $mes = date('m');
     $nel = $f['mday'];
     $dia = $nel-1;
 
-    if ($mes > 0 and $mes < 10 || $dia > 0 and $dia < 10) {
-      $mes = '0'.$mes;
+    if ($dia > 0 and $dia < 10) {
       $dia = '0'.$dia;
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }else{
       $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
     }
-    $this->db->join("solicitud", "solicitud.SOL_ID = detallesol.DETSOL_SOL_ID");
-    $this->db->where('SOL_FECHA_INICIO',$inicio);
-    $this->db->where('DETSOL_ESTADO',5);
-    $this->db->where('DETSOL_TIPOPROD',2);
-    $query = $this->db->get("detallesol");
-    return $query->num_rows();
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('solicitud');
+    $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
+    $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
+    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
+    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
   }
 
 
