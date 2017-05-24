@@ -38,7 +38,7 @@ class Gestion extends CI_Controller {
 
   public function entregadigital()
   {
-     $data["solicitudes"] = $this->soli->findByArray(array("SOL_ESTADO" => 1));//busco las solicitudes enviadas por el catalogo
+     $data["solicitudes"] = $this->soli->findByArrayIN(array(7,1));//busco las solicitudes enviadas por el catalogo y las parcialmente entregadas 1 y 7
      $this->layouthelper->LoadView("gestion/entregadigital" , $data );
   }
 
@@ -235,7 +235,10 @@ class Gestion extends CI_Controller {
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
+
+      $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $ultimasolicitud));
+
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
@@ -266,16 +269,15 @@ class Gestion extends CI_Controller {
       $dateinicio = DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_INICIO"));
       $fechainicio = $dateinicio->format('d-m-Y H:i:s');   
       $datetermino= DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
-      $fechatermino = $datetermino->format("d-m-Y H:m:s");
-
-      $todoslosiddeproductosdelasolicitud = $this->detsol->getAllIdProductGroupByIdSolicitud($idsolicitud);
-
-      print_r($todoslosiddeproductosdelasolicitud);
-      exit();
+      $fechatermino = $datetermino->format("d-m-Y H:m:s");      
 
       $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       foreach ($detallesol as $key => $value) {
-             $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
+              foreach ($asignaciones as $key2 => $value2) {
+                if ($value->get("DETSOL_PROD_ID") == $value2["idprod"]) {
+                  $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
+                }
+              }           
       }
 
       foreach ($asignaciones as $key => $value) {
@@ -294,34 +296,40 @@ class Gestion extends CI_Controller {
         if ($ultimaasignacion > 0) {
           $inventario = $this->inv->findById($value["idinv"]);
           if ($inventario->get("INV_TIPO_ID") == 1) {
-
-
              $columnasaeditar  =  array(
                       'INV_PROD_ESTADO' => 3,
                       'INV_ULTIMO_USUARIO' => $rutusu
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
-
-
-
           }else if($inventario->get("INV_TIPO_ID") == 2){
-
-
               $columnasaeditar  =  array(
                       'INV_ULTIMO_USUARIO' => $rutusu,
                       'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
-
-
-
           }
         }
 
       }
 
-      $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));
-      $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+      $detallesolverificar = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));   
+      $b = 0; $i = 0;
+      foreach ($detallesolverificar as $key => $value) {
+        $i++;
+        if ($value->get("DETSOL_ESTADO") == 3) {
+          $b++;
+        }
+      }
+      if ($b == $i) {
+        $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));
+        $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+      }else{
+        $this->soli->update($idsolicitud,array('SOL_ESTADO' => 7));
+        $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 7,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+      }
+
+
+
 
       $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
@@ -332,7 +340,7 @@ class Gestion extends CI_Controller {
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
-      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$ultimasolicitud, "");
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$idsolicitud, "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
       $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -342,7 +350,10 @@ class Gestion extends CI_Controller {
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignaciones);
+
+      $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $idsolicitud));
+
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();

@@ -83,10 +83,11 @@ public function findAll(){
   }
   
 
-public function findByArray($myarray = null){
-        $this->load->database("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION");
-        $this->db->select();
+  public function findByArray($myarray = null,$arrayestadosOR = null){
+        $this->load->database();
+        $this->db->select("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION");
         $res = $this->db->get_where('solicitud',$myarray);
+        $this->db->or_where_in('SOL_ESTADO',$arrayestadosOR);
         $this->db->order_by('SOL_ID', 'ASC');
         $result = array();
            foreach ($res->result() as $row) {
@@ -94,6 +95,19 @@ public function findByArray($myarray = null){
             }
           return $result;
      }
+
+   public function findByArrayIN($arraydeIDinv = null,$arraycondiciones = null){
+    $this->load->database();
+    $this->db->get('solicitud');
+    $this->db->or_where_in('SOL_ESTADO',$arraydeIDinv);
+    $res = $this->db->get_where('solicitud',$arraycondiciones);
+    $result = array();
+       foreach ($res->result() as $row) {
+        $result[] = $this->create($row);
+        }
+      return $result;
+  }
+
 
   //ESTE METODO BUSCA LAS SOLICITUDES POR EL ESTADO DE DEL DETALLE DEL MISMO
   function findByEstadoDetSol($estado){

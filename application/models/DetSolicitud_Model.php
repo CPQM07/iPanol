@@ -76,8 +76,8 @@ public function findAll(){
 public function getAllIdProductGroupByIdSolicitud($idsol){
    $result = array();
     $querry = $this->db->query('SELECT detallesol.DETSOL_PROD_ID from detallesol join solicitud ON solicitud.SOL_ID = detallesol.DETSOL_SOL_ID WHERE solicitud.SOL_ID ='.$idsol.' GROUP by DETSOL_PROD_ID');
-    foreach ($querry->result() as $data) {
-      $result[] = $data;  
+    foreach ($querry->result_array() as $data) {
+      $result[] = $data['DETSOL_PROD_ID'];  
     }
     return $result;
 }

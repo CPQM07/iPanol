@@ -51,6 +51,18 @@ public function update($id, $data) {
   }
 }
 
+public function findByArray($myarray = null){
+  $this->load->database();
+  $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+  //$this->db->order_by('ASIG_ID', 'ASC');
+  $res = $this->db->get_where('asignacion',$myarray);
+  $result = array();
+  foreach ($res->result_array() as $row) {
+    $result[] = $row;
+  }
+  return $result;
+}
+
 public function delete($id){
   $this->db->where('ASIG_ID',$id);
   return $this->db->delete('asignacion');

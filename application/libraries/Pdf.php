@@ -14,10 +14,11 @@ class Pdf extends TCPDF
     	$forasig = "";
     	foreach($asignaciones as $key => $current) {
           $forasig .= '<tr>
-                      <td colspan="2">'.$current['nombreinv'].' (ID:'.$current['idinv'].')</td>
-                      <td colspan="2">'.$current['cantidadinv'].'</td>
+                      <td colspan="2">'.$current['INV_PROD_NOM'].' (ID:'.$current['ASIG_INV_ID'].')</td>
+                      <td colspan="1">'.$current['ASIG_CANT'].'</td>
                       <td colspan="1"></td>
                       <td colspan="1"></td>
+                      <td colspan="1">'.$current['INV_ULTIMO_USUARIO'].'</td>
                   </tr>';
               }
 		$htmlpdf = '<html>
@@ -66,9 +67,10 @@ class Pdf extends TCPDF
 						        <table border="1" style="text-align: center;">
 						          <tr bgcolor="lightgray">
 						            <td colspan="2"><strong>INVENTARIO</strong></td>
-						            <td colspan="2"><strong>CANTIDAD</strong></td>
+						            <td colspan="1"><strong>CANTIDAD</strong></td>
 						            <td colspan="1"><strong>RECIBIDO</strong></td>
 						            <td colspan="1"><strong>ENTREGADO</strong></td>
+						            <td colspan="1"><strong>ULTIMO RESPONSABLE</strong></td>
 						          </tr>
 						           '.$forasig.'
 						        </table>
