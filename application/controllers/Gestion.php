@@ -259,7 +259,8 @@ class Gestion extends CI_Controller {
   public function insert_entrega_digital(){
     $usersesion = $this->session->userdata('logged_in');
     $asignaciones = $_POST["asignaciones"];
-    if ($asignaciones != null) {
+    //if ($asignaciones != null) {
+      $cerraroparcial = $_POST["parcialocerrar"];
       $idsolicitud = $_POST["idsolicitud"];
       $solicitud = $this->soli->findById($idsolicitud);
       $rutusu = $solicitud->get("SOL_USU_RUT");
@@ -279,7 +280,6 @@ class Gestion extends CI_Controller {
                 }
               }           
       }
-
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
                     'ASIG_ID' => 0,
@@ -320,12 +320,21 @@ class Gestion extends CI_Controller {
           $b++;
         }
       }
+
+
+
       if ($b == $i) {
         $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));
         $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
       }else{
-        $this->soli->update($idsolicitud,array('SOL_ESTADO' => 7));
-        $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 7,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+        if ($cerraroparcial == "asignarcerrar") {
+          $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));
+          $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+        }else if($cerraroparcial == "asignarparcial"){
+          $this->soli->update($idsolicitud,array('SOL_ESTADO' => 7));
+          $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 7,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
+        }
+
       }
 
 
@@ -363,10 +372,10 @@ class Gestion extends CI_Controller {
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
        $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
-      }else{
-        $this->output->set_content_type('application/json');
-        $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
-      }
+     // }else{
+       // $this->output->set_content_type('application/json');
+       // $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
+     // }
 
   }
 

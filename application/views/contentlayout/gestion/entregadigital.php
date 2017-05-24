@@ -19,6 +19,7 @@
                 <thead>
                   <tr bgcolor="orange">
                     <th>#</th>
+                    <th class="col-md-2">Estado</th>
                     <th>Solicitante</th>
                     <th>Feca inicio</th>
                     <th>Fecha entrega</th>
@@ -31,6 +32,18 @@
                 <?php foreach ($solicitudes as $key => $value): ?>
                   <tr>
                     <td><?= $value->get("SOL_ID")  ?></td>
+                    <td>
+                    <?php if ($value->get("SOL_ESTADO") == 1): ?>
+                      <div class="alert alert-success">
+                        Solicitado Catalogo
+                      </div>
+                    <?php endif ?>
+                    <?php if ($value->get("SOL_ESTADO") == 7): ?>
+                      <div class="alert alert-info">
+                        Parcialmente Entregado
+                      </div>
+                    <?php endif ?>
+                    </td>
                     <td><?= $value->get("SOL_USU_RUT")  ?></td>
                     <td><?= $value->get("SOL_FECHA_INICIO")  ?></td>
                     <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
@@ -119,8 +132,11 @@
               </div>
               <br>
               <div class="row">
-                <div class="col-md-12">
-                  <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Asignar</button>
+              <div class="col-md-6">
+              <button type="button" id="asignarcerrar" class="generarprestamo notify2 btn btn-block btn-success btn-flat">Asignar y Cerrar</button>
+              </div>
+                <div class="col-md-6">
+                  <button type="button" id="asignarparcial" class="generarprestamo notify1 btn btn-block btn-success btn-flat">Asignar</button>
                 </div>
               </div>
             </div>
@@ -135,6 +151,7 @@
 
     <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
     <script type="text/javascript" charset="utf-8">
+
     $(function() {
       $(".datatabledigital").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
@@ -152,6 +169,20 @@
                 });
 
     });
+ 
+    $(".notify1").hover(function() {
+      $(".notify1").notify("Esta asignacion es restrictiva y parcial, ya que debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
+    }, function() {
+      /* Stuff to do when the mouse leaves the element */
+    });
+
+    $(".notify2").hover(function() {
+      $(".notify2").notify("Esta asignacion permite asignar productos e insumos que estime conveniente, los que no existan en stock o no quiera asignar seran omitidos.",{ position:"top" ,className: 'info'});
+    }, function() {
+      /* Stuff to do when the mouse leaves the element */
+    });
+  
+
     var tabla;
     var total = 0;
     var idsol = 0;
@@ -232,24 +263,27 @@
                     $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td>'+prodid+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
                   asignaciones.push(id);
                   total= parseInt(total)+parseInt(cant);
+                  $.notify("Se han añadido "+cant+" "+nom+"(#"+id+") ", "success");
                }else{
                 alert("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant);
                }
             }
             $("#total").text(total);
       }else{
-        alert("El producto o insumo que desea agregar, ya está agregado");
+        $.notify("El producto o insumo que desea agregar, ya está agregado", "warn");
         return false;
       }
    })
 
 
-   $("#generarprestamo").click(function (argument) {
+   $(".generarprestamo").click(function (argument) {
     var observaciones = prompt('Ingrese una obeservación para poder asignar productos a esta solicitud:','');
     var arrayasig = new Array();
+    var parcialocerrar = $(this).attr("id");
     
+    if ($("#asignacion").text() != "") {
     if (observaciones != "") {
-         $("#resulasignacion tbody tr").each(function (index) 
+        $("#resulasignacion tbody tr").each(function (index) 
         {
             var idinv, nombreinv, cantidadinv, idprod;
             $(this).children("td").each(function (index2) 
@@ -269,11 +303,12 @@
             })
             arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv,'nombreinv' : nombreinv,'idprod' : idprod});
         })
+
          $.ajax({
                     method: "POST",
                     url: "<?=site_url('/gestion/insert_entrega_digital')?>",
                     datatype: "json",
-                    data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol},
+                    data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol ,"parcialocerrar" : parcialocerrar},
                     success: function(response){
                         if (response.resultado) {
                           alert(response.mensaje);
@@ -285,9 +320,55 @@
                         }      
                     }
            })
+
        }else{
-          alert("Debe ingresar una observación");
-       } 
+          $.notify("Debe ingresar una observación", "warn");
+       }
+    }else{
+      if(parcialocerrar == "asignarparcial"){
+        $.notify("Debe agregar asignación de inventario para esta solicitud", "warn");
+      }else if(parcialocerrar == "asignarcerrar"){
+       $("#resulasignacion tbody tr").each(function (index) 
+        {
+            var idinv, nombreinv, cantidadinv, idprod;
+            $(this).children("td").each(function (index2) 
+            {
+                switch (index2) 
+                {
+                    case 0: idinv = $(this).text();
+                            break;
+                    case 1: nombreinv = $(this).text();
+                            break;
+                    case 2: cantidadinv = $(this).text();
+                            break;
+                    case 3: idprod = $(this).text();
+                            break;
+                }
+                $(this).css("background-color", "#ECF8E0");
+            })
+            arrayasig.push({'idinv': idinv,'cantidadinv': cantidadinv,'nombreinv' : nombreinv,'idprod' : idprod});
+        })
+
+         $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/insert_entrega_digital')?>",
+                    datatype: "json",
+                    data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol ,"parcialocerrar" : parcialocerrar},
+                    success: function(response){
+                        if (response.resultado) {
+                          alert(response.mensaje);
+                          var win = window.open('', '_blank');
+                          win.location.href = response.path;
+                          location.reload();
+                        } else{
+                          alert(response.mensaje);
+                        }      
+                    }
+           })
+      }
+    }
+
+
    });
 
 
@@ -300,6 +381,7 @@
           var index = asignaciones.indexOf(id);
             if (index > -1) {
                asignaciones.splice(index, 1);
+               $.notify("Se ha quitado de su lista se asignaciones el P/I #"+id, "error");
             }
           $("#total").text(total);
         });

@@ -31,3 +31,4 @@
 
 <!-- ChartJS 1.0.1 -->
 <script src="<?= base_url('resources/js/grachart.js')  ?>"></script><!-- charjs -->
+<script src="<?= base_url('resources/js/notify.min.js')  ?>"></script><!-- charjs -->
