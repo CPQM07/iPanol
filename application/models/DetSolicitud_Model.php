@@ -93,24 +93,23 @@ public function findById($id){
     return $result;
   }
   
-  public function count0(){
-    /*$cont0 = $this->db->from('detallesol');
-    $obj0 = $cont0->count_all_results();
-    return $obj0;*/
-    $this->db->where('DETSOL_ESTADO',1);
-    $consulta = $this->db->get('detallesol');
+  public function count0(){/*contador solicitudPendiendeRecepcionar*/
+    $this->db->where('SOL_ESTADO',1);
+    $consulta = $this->db->get('solicitud');
     return $consulta->num_rows();
   }
 
-  public function count2(){
-    /*$cont0 = $this->db->from('detallesol');
-    $obj0 = $cont0->count_all_results();
-    return $obj0;*/
-    $this->db->where('DETSOL_ESTADO',4);
-    $consulta = $this->db->get('detallesol');
+  public function count1(){/*contador solicitudPendiendeRecepcionar*/
+    $this->db->where('ASIG_ESTADO',3);
+    $consulta = $this->db->get('asignacion');
     return $consulta->num_rows();
   }
 
+  public function count2(){ /*contador productosBaja*/
+    $cont1 = $this->db->from('baja');
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
+  }
   public function solicitudesHoy() /*CANTIDAD DE SOLICITUDES DE HOY*/
   {
     $inicio;
@@ -224,11 +223,6 @@ public function findById($id){
     return $query->num_rows();
   }
 
-  public function count1(){ /*CANTIDAD DE PRODUCTOS DADOS DE BAJA*/
-    $cont1 = $this->db->from('baja');
-    $obj1 = $cont1->count_all_results();
-    return $obj1;
-  }
 
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {
