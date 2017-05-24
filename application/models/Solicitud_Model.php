@@ -16,7 +16,8 @@ private  $_columns  =  array(
 'SOL_FECHA_TERMINO' => '',
 'SOL_NRO_GRUPOTRAB' => 0,
 'SOL_OBSERVACION' => 0,
-'SOL_RUTA_PDF' => ''
+'SOL_RUTA_PDF' => '',
+'SOL_ESTADO' => 0
 );
 
 public function get($attr){
@@ -30,6 +31,11 @@ public function create($row){
       $solicitud->_columns[$key] = $value;
     }
   return $solicitud;
+}
+
+public function insertlog($arraycolumns){
+  $this->db->insert('logestadosolicitud',$arraycolumns);
+return $this->db->insert_id();
 }
 
 public function insert(){

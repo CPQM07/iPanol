@@ -164,11 +164,17 @@ class Gestion extends CI_Controller {
                     'SOL_FECHA_INICIO' => $fechainicio,
                     'SOL_FECHA_TERMINO' => $fechatermino,
                     'SOL_NRO_GRUPOTRAB' => $grupotrabajo,
-                    'SOL_OBSERVACION' => $observaciones
+                    'SOL_OBSERVACION' => $observaciones,
+                    'SOL_ESTADO' => 5
                     );
      $nuevasolicitud =  $this->soli->create($columnassolicitud);
      $ultimasolicitud = $nuevasolicitud->insert();
 
+     $this->soli->insertlog(array("LOGESTSOL_ESTADO"=>5,"LOGESTSOL_USU_RUT"=>$usersesion['rut'],"LOGESTSOL_SOL_ID"=>$ultimasolicitud));
+
+
+     //SE INSERTA UN DETALLE SOLO PARA INDICAR QUE ESA SOLICITUD FUE MANUAL, Y SOLO SE ASIGNARON INSUMO Y PRODUCTOS DIRECTAMENTE.
+     //PUEDE QUE ESTE DEMAS ESTAS LINEAS DE CODIGO PERO LO VEREMOS MAS ADELANTE.
      $columnadetsol  =  array(
                     'DETSOL_ID' => 0,
                     'DETSOL_TIPOPROD' => NULL,
@@ -179,7 +185,8 @@ class Gestion extends CI_Controller {
                     ); 
      $nuevodetalle =  $this->detsol->create($columnadetsol);
      $ultimodetalle = $nuevodetalle->insert();
-     $this->detsol->insertlog(array("LOGESTSOL_ESTADO" => 5,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_DETSOL_ID" => $ultimodetalle));
+     //HASTA AQUI NOSE AUN SI VOY A DEJAR ESTAS LINEAS DE CODIGO
+
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
                     'ASIG_ID' => 0,
@@ -191,6 +198,7 @@ class Gestion extends CI_Controller {
                     );
         $nuevaasignacion =  $this->asignacion->create($columnasignacion);
         $ultimaasignacion = $nuevaasignacion->insert();
+        $this->asignacion->insertlog(array("LOGESTASIG_ASIG_ID" =>$ultimaasignacion,"LOGESTASIG_USU_RUT"=>$usersesion['rut'],"LOGESTASIG_ESTADO"=>1));
         if ($ultimaasignacion > 0) {
           $inventario = $this->inv->findById($value["idinv"]);
           if ($inventario->get("INV_TIPO_ID") == 1) {
@@ -203,7 +211,7 @@ class Gestion extends CI_Controller {
               $columnasaeditar  =  array(
                       'INV_ULTIMO_USUARIO' => $rutusu,
                       'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
-                      );
+                      );         
              $inventario->update($value["idinv"],$columnasaeditar);
           }
         }
@@ -263,7 +271,7 @@ class Gestion extends CI_Controller {
       $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       foreach ($detallesol as $key => $value) {
              $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
-             $this->detsol->insertlog(array("LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_DETSOL_ID" => $value->get("DETSOL_ID")));
+             $this->soli->insertlog(array("LOGESTASIG_ID"=>0,"LOGESTSOL_ESTADO" => 3,"LOGESTSOL_USU_RUT" => $usersesion['rut'],"LOGESTSOL_SOL_ID" => $idsolicitud));
       }
 
       foreach ($asignaciones as $key => $value) {
@@ -277,7 +285,7 @@ class Gestion extends CI_Controller {
                     );
         $nuevaasignacion =  $this->asignacion->create($columnasignacion);
         $ultimaasignacion = $nuevaasignacion->insert();
-
+        $this->asignacion->insertlog(array("LOGESTASIG_ASIG_ID" => $ultimaasignacion, "LOGESTASIG_USU_RUT" => $usersesion['rut'],"LOGESTASIG_ESTADO" => 1));
         if ($ultimaasignacion > 0) {
           $inventario = $this->inv->findById($value["idinv"]);
           if ($inventario->get("INV_TIPO_ID") == 1) {

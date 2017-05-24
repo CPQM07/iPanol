@@ -30,6 +30,11 @@ public function create($row){
   return $asignacion;
 }
 
+public function insertlog($arraycolumns){
+  $this->db->insert('logestadoasignaciones',$arraycolumns);
+return $this->db->insert_id();
+}
+
 public function insert(){
 $this->db->insert('asignacion',$this->_columns);
 return $this->db->insert_id();
