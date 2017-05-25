@@ -18,25 +18,19 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <!--<div class="col-md-3">
-                    <div class="form-group">
-                    <label>Tipo de insumo</label>
-                      <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Seleccione</option>
-                        <option>Fungible</option>
-                        <option>Activo</option>
-                      </select>
-                    </div>
-                  </div>-->
+                <form action="<?=site_url('Gestion/ingresar_producto_stock')?>" method="post" accept-charset="utf-8">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Producto</label>
 
                       <div class="input-group">
-                        <select class="form-control select2" style="width: 100%;">
-                          <option selected="selected">Seleccionar</option>
-                          <option>Martillo</option>
-                          <option>RJ-45</option>
+                        <select name="producto" class="form-control select2">
+                          <option></option>
+                          <?php foreach ($productos as $key => $value): ?>
+                            <?php if ($value->get("PROD_ESTADO") != 0): ?>
+                              <option value="<?= $value->get("PROD_ID")  ?>"><?= "(#".$value->get("PROD_ID").") ".$value->get("PROD_NOMBRE")." [".$value->get("CAT_NOMBRE")."]" ?></option>
+                            <?php endif ?>
+                          <?php endforeach ?>
                         </select>
                         <div class="input-group-addon">
                           <a href="" data-toggle="modal" data-target="#myPro">
@@ -47,25 +41,25 @@
                       <!-- /.input group -->
                     </div>
                   </div>
-
                   <div class="col-md-3">
 
                       <label>Cantidad</label>
-                      <input type="number" class="form-control">
+                      <input type="number" name="cantidad" class="form-control">
                   </div>
                   <div class="col-md-3">
                       <label>Orden de compra</label>
-                      <input type="number" class="form-control">
+                      <input type="number" name="ordencompra" class="form-control">
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Proveedor</label>
 
                       <div class="input-group">
-                        <select class="form-control select2" style="width: 100%;">
-                          <option selected="selected">Seleccionar</option>
-                          <option>Casa Royal</option>
-                          <option>PC Factory</option>
+                        <select name="proveedor" class="form-control select2">
+                          <option></option>
+                          <?php foreach ($proveedores as $key => $value): ?>
+                            <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
+                          <?php endforeach ?>
                         </select>
                         <div class="input-group-addon">
                           <a href="" data-toggle="modal" data-target="#myProvee">
@@ -80,47 +74,20 @@
                 <div class="row">
                   <div class="col-md-6">
                       <label>Descripción</label>
-                      <input type="textarea" class="form-control">
+                      <input name="descripcion" type="textarea" class="form-control">
                   </div>
                   <div class="col-md-6">
                       <label>Vida útil</label>
-                      <input type=number" class="form-control">
+                      <input name="vidautil" type="number" class="form-control" >
                   </div>
-                  <!--<div class="col-md-3">
-                      <label>Stock de advertencia</label>
-                      <input type="number" class="form-control">
-                  </div>
-                  <div class="col-md-3">
-                      <label>Stock óptimo</label>
-                      <input type="number" class="form-control">
-                  </div>-->
                 </div>
                 <br>
                 <div class="col-md-12">
-                  <button class="btn btn-block btn-success">Agregar</button>
+                  <button type="submit" class="btn btn-block btn-success">Agregar</button>
                 </div>
-                <!--<div class="row">
-                  <div class="col-md-3">
-                    <label>Precio unitario</label>
-                    <input type="text" class="form-control">
-                  </div>
-                  <div class="col-md-3">
-                    <label>Posicionamiento en el pañol</label>
-                    <input type="text" class="form-control">
-                  </div>
-                  <div class="col-md-3">
-                    <label>Prioridad stock critico</label>
-                    <input type="number" placeholder="1-10" class="form-control">
-                  </div>
-                  <div class="col-md-3">
-                    <label>Proveedor</label>
-                    <input type="text" class="form-control">
-                  </div>
-                  <div class="col-md-12">
-                    <label>Acción</label>
-                    <button type="button" class="btn btn-block btn-success">Agregar insumo</button>
-                  </div>
-                </div>-->
+
+                </form>
+
                 <hr>
                 <div class="row">
                   <div class="col-md-12">
@@ -131,82 +98,28 @@
                   <div class="box-body">
                     <table id="example2" class="datatable table table-bordered table-hover">
                       <thead>
-                      <tr>
-                        <th>Tipo</th>
-                        <th>Insumo</th>
-                        <th>Categoria</th>
+                      <tr>                        
                         <th>Fecha de ingreso</th>
                         <th>Ingresado por</th>
+                        <th>Insumo</th>
                         <th>Total</th>
                         <th>Editar</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td>Fungible</td>
-                        <td>Resistencia 1k Ohm</td>
-                        <td>Resistencias</td>
-                        <td>09/04/2017</td>
-                        <td>Gael Campos</td>
-                        <td>100</td>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myModal">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Fungible</td>
-                        <td>Resistencia 100 Ohm</td>
-                        <td>Resistencias</td>
-                        <td>09/04/2017</td>
-                        <td>Gael Campos</td>
-                        <td>150</td>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-xs btn-block">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Activo</td>
-                        <td>Martillo</td>
-                        <td>Herramientas</td>
-                        <td>09/04/2017</td>
-                        <td>Gael Campos</td>
-                        <td>30</td>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-xs btn-block">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Activo</td>
-                        <td>Cautin</td>
-                        <td>Herramientas</td>
-                        <td>06/04/2017</td>
-                        <td>Soledad Hormazabal</td>
-                        <td>15</td>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-xs btn-block">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Activo</td>
-                        <td>Estaño</td>
-                        <td>Electrónica</td>
-                        <td>06/04/2017</td>
-                        <td>Soledad Hormazabal</td>
-                        <td>10</td>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-xs btn-block">
-                            <i class="fa fa-edit"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <?php foreach ($ingresos as $key => $value): ?>
+                        <tr>                           
+                            <td><?= $value->get('ING_FECHA') ?></td>
+                            <td><?= $value->get('USU_NOMBRES') ?></td>
+                            <td><?= $value->get('PROD_NOMBRE') ?></td>
+                            <td><?= $value->get('ING_CANTIDAD') ?></td>
+                            <td>
+                              <button type="button" id="<?= $value->get('ING_ID') ?>" class="editar btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myModal">
+                                <i class="fa fa-edit"></i>
+                              </button>
+                            </td>
+                        </tr>
+                      <?php endforeach ?>
                   </tbody>
                   </table>
                 </div>

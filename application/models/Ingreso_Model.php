@@ -33,8 +33,9 @@ public function create($row){
   return $ingreso;
 }
 
-public function insert(){
-$this->db->insert('ingreso',$this->_columns);
+public function insert($columnas){
+$this->db->insert('ingreso',$columnas);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {
@@ -57,9 +58,25 @@ public function delete($id){
 public function findAll(){
   $result=array();
   $bit = null;
+   $this->db->join('usuario', 'usuario.USU_RUT = ingreso.ING_USU_RUT');
+  $this->db->join('productos', 'ingreso.ING_PROD_ID = productos.PROD_ID');
   $consulta = $this->db->get('ingreso');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
+  }
+  return $result;
+}
+
+public function findAllToArray(){
+  $this->load->database();
+  $this->db->select();
+  $this->db->from("ingreso");
+  $this->db->join('usuario', 'usuario.USU_RUT = ingreso.ING_USU_RUT');
+  $this->db->join('productos', 'ingreso.ING_PROD_ID = productos.PROD_ID');
+  $consulta = $this->db->get();
+    $result=array();
+    foreach ($consulta->result_array() as $row) {
+    $result[] = $row;
   }
   return $result;
 }
@@ -79,9 +96,9 @@ public function findById($id){
     return $result;
   }
 
-  public function setColumns ($row = null){
+  public function setColumns($row = null){
     foreach ($row as $key => $value) {
-      $this->columns[$key] = $value;
+      $this->_columns[$key] = $value;
       }
     }
 }

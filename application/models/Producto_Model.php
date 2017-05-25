@@ -63,6 +63,8 @@ public function delete($id){
 public function findAll(){
   $result=array();
   $bit = null;
+  $this->db->join('categoria', 'productos.PROD_CAT_ID = categoria.CAT_ID');
+  //$this->db->join('usuario', 'inventario.INV_ULTIMO_USUARIO = usuario.USU_RUT');
   $consulta = $this->db->get('productos');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
