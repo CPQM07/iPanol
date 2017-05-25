@@ -69,7 +69,7 @@ $lasturl = array_pop($spliturl);
         </li>
 
 
-        <li class="treeview">
+      <li class="treeview <?php if (strpos(",stockcritico,stockactual,motivosbaja,vidautil", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Reportes</span>
@@ -78,10 +78,11 @@ $lasturl = array_pop($spliturl);
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Stock critico</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Stock actual</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Motivos baja</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Vida útil</a></li>
+           <li><a href="<?=site_url('Reportes/Vistastockcritico')?>"><i class="fa fa-circle-o"></i> Stock critico</a></li>
+           <li><a href="<?=site_url('Reportes/Vistastockactual')?>"><i class="fa fa-circle-o"></i> Stock actual</a></li>
+           <li><a href="<?=site_url('Reportes/Vistamotivosbaja')?>"><i class="fa fa-circle-o"></i> Motivos de baja a los productos</a>
+           </li>
+           <li><a href="<?=site_url('Reportes/Vistavidautil')?>"><i class="fa fa-circle-o"></i> Vida util de los productos</a></li>
           </ul>
         </li>
 
