@@ -283,6 +283,8 @@ class Gestion extends CI_Controller {
       $asignaturaobj = $this->asig->findById($asignatura);
       $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+
+      
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$ultimasolicitud, "");
