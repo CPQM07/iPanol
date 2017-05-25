@@ -42,10 +42,10 @@ $this->db->insert('productos',$this->_columns);
 }
 
 public function update($id, $data) {
-  $producto = $this->db->get_where('producto',array('PROD_ID'=>$id));
+  $producto = $this->db->get_where('productos',array('PROD_ID'=>$id));
   if($producto->num_rows() > 0){
     $this->db->where('PROD_ID', $id);
-    return $this->db->update('producto', $data);
+    return $this->db->update('productos', $data);
     }else{
   $data['PROD_ID'] = $id;
   return $this->db->insert('producto',$data);

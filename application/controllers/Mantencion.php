@@ -48,9 +48,13 @@ class Mantencion extends CI_Controller {
 
 	public function new_usuario(){
 		if(isset($_POST['new_usu'])){
-			$nuevousuario=$this->usuario->create($_POST['new_usu']);
-			$nuevousuario->insert();
-			redirect('/Mantencion/usuarios');
+			if (strlen($_POST['new usu'])==0){
+				redirect('/Mantencion/usuarios');
+			}else{ 
+				$nuevousuario=$this->usuario->create($_POST['new_usu']);
+				$nuevousuario->insert();
+				redirect('/Mantencion/usuarios');
+			}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -78,9 +82,11 @@ class Mantencion extends CI_Controller {
 
 	public function new_cat(){
 		if(isset($_POST['cat'])){
+			if (strlen($_POST['preguntas'])<1){redirect('/Mantencion/categorias'); }else{
 			$nuevo=$this->categorias->create($_POST['cat']);
 			$nuevo->insert();
 			redirect('/Mantencion/categorias');
+			}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -97,7 +103,7 @@ class Mantencion extends CI_Controller {
 	//Fin Categoria***************************************************************************
 
 	//Productos***************************************************************************
-	public function productos(){
+	public function productos($num=null){
 	  $NuevoProducto = array();
 	  $productos = $this->productos->findAll();
 	  foreach ($productos as $key => $value) {
@@ -119,11 +125,35 @@ class Mantencion extends CI_Controller {
 	  }
 	  $datos['categorias'] = $this->categorias->findAll();
 	  $datos['tipos'] = $this->tipoProducto->findAll();
+	  $datos['alert']=$num;
 	  $this->layouthelper->LoadView("mantenedores/productos", $datos, null);
+	}
+
+	public function findById_productos(){
+	  $id= $_POST['id'];
+	  $newarray = null;
+	  $producto = $this->productos->findById($id);
+	  	$newarray = array(
+	      'PROD_ID' => $producto->get('PROD_ID'),
+	      'PROD_NOMBRE' => $producto->get('PROD_NOMBRE'),
+	      'PROD_STOCK_TOTAL' => $producto->get('PROD_STOCK_TOTAL'),
+	      'PROD_STOCK_CRITICO' => $producto->get('PROD_STOCK_CRITICO'),
+	      'PROD_CAT_ID' => $producto->get('PROD_CAT_ID'),
+	      'PROD_TIPOPROD_ID' => $producto->get('PROD_TIPOPROD_ID'),
+	      'PROD_POSICION' => $producto->get('PROD_POSICION'),
+	      'PROD_PRIORIDAD' => $producto->get('PROD_PRIORIDAD'),
+	      'PROD_STOCK_OPTIMO' => $producto->get('PROD_STOCK_OPTIMO'),
+	      'PROD_DIAS_ANTIC' => $producto->get('PROD_DIAS_ANTIC'),
+	      'PROD_IMAGEN' => $producto->get('PROD_IMAGEN'),
+	      'PROD_ESTADO' => $producto->get('PROD_ESTADO')
+	    );
+	  $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($newarray));
 	}
 
 	public function new_producto(){
 		if(isset($_POST['producto'])){
+			if (strlen($_POST['preguntas'])==0){redirect('/Mantencion/productos/1');}else{
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
 			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
@@ -135,6 +165,27 @@ class Mantencion extends CI_Controller {
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			redirect('/Mantencion/productos');
+			}
+		}else{
+			echo "usuario no fue agregado";
+		}
+	}
+
+	public function edit_producto(){
+		if(isset($_POST['producto'])){
+			if (strlen($_POST['preguntas'])==0){redirect('/Mantencion/productos');}else{
+			$id=$_POST['id_pro'];
+			if(isset($_FILES['files'])){
+			$data = $_FILES['files'];
+			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
+			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+			 if ($this->copiarimg->validate()) {
+			 $nameimg = $this->copiarimg->upload();
+			 }
+			}
+			$nuevopro=$this->productos->update($id,$_POST['producto']);
+			redirect('/Mantencion/productos');
+		}
 		}else{
 			echo "usuario no fue agregado";
 		}
