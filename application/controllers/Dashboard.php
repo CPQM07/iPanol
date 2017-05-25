@@ -19,8 +19,19 @@ class Dashboard extends CI_Controller {
 		$coun['baja']=$this->detalle->count2();/*contador productosBaja*/
 		$coun['activosHoy']=$this->detalle->productoActivoHoy();
 		$coun['activosAyer']=$this->detalle->productoActivoAyer();
+		$coun['activosAyer2']=$this->detalle->productoActivoAyer2();
+		$coun['activosAyer3']=$this->detalle->productoActivoAyer3();
+		$coun['activosAyer4']=$this->detalle->productoActivoAyer4();
+		$coun['activosAyer5']=$this->detalle->productoActivoAyer5();
+		$coun['activosAyer6']=$this->detalle->productoActivoAyer6();
+
 		$coun['fungiblesHoy']=$this->detalle->productoFungiblesHoy();
 		$coun['fungiblesAyer']=$this->detalle->productoFungiblesAyer();
+		$coun['fungiblesAyer2']=$this->detalle->productoFungiblesAyer2();
+		$coun['fungiblesAyer3']=$this->detalle->productoFungiblesAyer3();
+		$coun['fungiblesAyer4']=$this->detalle->productoFungiblesAyer4();
+		$coun['fungiblesAyer5']=$this->detalle->productoFungiblesAyer5();
+		$coun['fungiblesAyer6']=$this->detalle->productoFungiblesAyer6();
 		/*$coun['we']=$this->detalle->prueba();*/
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}

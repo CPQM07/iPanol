@@ -110,8 +110,19 @@
         <!-- /.col -->
         <button id="actHoy" value="<?= $activosHoy; ?>" class="hidden"></button>
         <button id="actAyer" value="<?= $activosAyer; ?>" class="hidden"></button>
+        <button id="actAyer2" value="<?= $activosAyer2; ?>" class="hidden"></button>
+        <button id="actAyer3" value="<?= $activosAyer3; ?>" class="hidden"></button>
+        <button id="actAyer4" value="<?= $activosAyer4; ?>" class="hidden"></button>
+        <button id="actAyer5" value="<?= $activosAyer5; ?>" class="hidden"></button>
+        <button id="actAyer6" value="<?= $activosAyer6; ?>" class="hidden"></button>
+
         <button id="funHoy" value="<?= $fungiblesHoy; ?>" class="hidden"></button>
         <button id="funAyer" value="<?= $fungiblesAyer; ?>" class="hidden"></button>
+        <button id="funAyer2" value="<?= $fungiblesAyer2; ?>" class="hidden"></button>
+        <button id="funAyer3" value="<?= $fungiblesAyer3; ?>" class="hidden"></button>
+        <button id="funAyer4" value="<?= $fungiblesAyer4; ?>" class="hidden"></button>
+        <button id="funAyer5" value="<?= $fungiblesAyer5; ?>" class="hidden"></button>
+        <button id="funAyer6" value="<?= $fungiblesAyer6; ?>" class="hidden"></button>
       </div>
       <!-- /.row (main row) -->
     <!-- /.content -->
@@ -139,8 +150,19 @@
 
     var actiHoy=document.getElementById("actHoy").value;
     var actiAyer=document.getElementById("actAyer").value;
+    var actiAyer2=document.getElementById("actAyer2").value;
+    var actiAyer3=document.getElementById("actAyer3").value;
+    var actiAyer4=document.getElementById("actAyer4").value;
+    var actiAyer5=document.getElementById("actAyer5").value;
+    var actiAyer6=document.getElementById("actAyer6").value;
+
     var fungHoy=document.getElementById("funHoy").value;
     var fungAyer=document.getElementById("funAyer").value;
+    var fungAyer2=document.getElementById("funAyer2").value;
+    var fungAyer3=document.getElementById("funAyer3").value;
+    var fungAyer4=document.getElementById("funAyer4").value;
+    var fungAyer5=document.getElementById("funAyer5").value;
+    var fungAyer6=document.getElementById("funAyer6").value;
 
     var lineChartData = {
       labels : [
@@ -161,7 +183,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(220,220,220,1)",
-          data : [4,3,0,2,1,actiAyer,actiHoy] /*productos activos*/
+          data : [actiAyer6,actiAyer5,actiAyer4,actiAyer3,actiAyer2,actiAyer,actiHoy] /*productos activos*/
         },
         {
           label: "Segunda serie de datos",
@@ -171,7 +193,7 @@
           pointStrokeColor : "#fff",
           pointHighlightFill : "#fff",
           pointHighlightStroke : "rgba(151,187,205,1)",
-          data : [5,4,0,3,3,fungAyer,fungHoy] /*productos fungibles*/
+          data : [fungAyer6,fungAyer5,fungAyer4,fungAyer3,fungAyer2,fungAyer,fungHoy] /*productos fungibles*/
         }
       ]
 
