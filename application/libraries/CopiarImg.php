@@ -8,7 +8,7 @@ private $_name ="";
 private $_size =0;
 private $_type ="";
 private $_tmp  ="";
-protected static $RUTA = FCPATH.'resources/images/Imagenes_Server/imagen';
+protected static $RUTA = FCPATH.'resources/images/Imagenes_Server/';
 protected static $TYPES = array('image/png','image/jpeg','image/jpg');
 protected static $SIZE = 2000000;
 
