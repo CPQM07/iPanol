@@ -131,7 +131,6 @@
                         </tr>
                       </tfoot>
                     <tbody id="asignacion">
-                    
                     </tbody>
                 </table>
               </div>
@@ -141,23 +140,12 @@
           </div>
         </div>
          <!-- /TERMINA PANEL QUE ENCIERRA LAS DOS TABLAS -->
-          <section class="content">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <h3>Observaciones</h3>
-                  <textarea id="observaciones" class="form-control" rows="10" placeholder="Ingrese observaciones...."></textarea>
-                </div>
-              </div>
-            </div>
-           </section>
 
             <div class="row">
               <div class="col-md-6">
-                <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Generar prestamos</button>
               </div>
               <div class="col-md-6">
-                <button type="button" class="btn btn-block btn-success btn-flat">Ver en PDF</button>
+                <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Generar prestamo</button>
               </div>
             </div>
 
@@ -264,19 +252,21 @@
               $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
               asignaciones.push(id);
               total= parseInt(total)+parseInt(stockactual);
+              $.notify("Se han añadido "+stockactual+" "+nom+"(#"+id+") ", "success");
             }else if(tipo == 2){
                cant = $("#INPUT"+id).val();
                if (parseInt(cant) <= parseInt(stockactual) && parseInt(cant) != 0) {
                     $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+cant+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+cant+'" class="conlabel fa fa-trash"></a></td></tr>');
                   asignaciones.push(id);
                   total= parseInt(total)+parseInt(cant);
+                  $.notify("Se han añadido "+cant+" "+nom+"(#"+id+") ", "success");
                }else{
                 alert("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant);
                }
             }
             $("#total").text(total);
       }else{
-        alert("El producto o insumo que desea agregar, ya está agregado");
+          $.notify("El producto o insumo que desea agregar, ya está agregado", "warn");
         return false;
       }
    })
@@ -290,18 +280,22 @@
           var index = asignaciones.indexOf(id);
             if (index > -1) {
                asignaciones.splice(index, 1);
+               $.notify("Se ha quitado de su lista se asignaciones el P/I #"+id, "error");
             }
           $("#total").text(total);
         });
 
    $("#generarprestamo").click(function (argument) {
+    var observaciones = prompt('Ingrese una obeservación para poder asignar productos a esta solicitud:','');
     var rutusu = $("#usuariossel").val();
     var asignatura = $("#asignatura").val();
     var grupotrabajo = $("#grupotrabajo").val();
     var reservationtime = $("#reservationtime").val();
-    var observaciones = $("#observaciones").val();
 
-    var arrayasig = new Array();
+    if ($("#asignacion").text() != "") {
+
+    if (observaciones != "") {
+      var arrayasig = new Array();
         $("#resulasignacion tbody tr").each(function (index) 
         {
             var idinv, nombreinv, cantidadinv;
@@ -327,16 +321,24 @@
                     data:  {"asignaciones": arrayasig,"rutusu": rutusu,"asignatura": asignatura,"grupotrabajo": grupotrabajo,"rangofechas": reservationtime,"observaciones": observaciones},
                     success: function(response){
                         if (response.resultado) {
-                          alert(response.mensaje);
+                          $.notify(response.mensaje, "success");
                           var win = window.open('', '_blank');
                           win.location.href = response.path;
-                          location.reload();
+                          //location.reload();
                         } else{
-                          alert(response.mensaje);
+                          $.notify(response.mensaje, "warn");
+
                         }      
                     }
            })
 
+    }else{
+    $.notify("Debe ingresar una observación", "warn");
+    }
+
+    }else{
+      $.notify("Debe a lo menos asignar un producto, actulamente la asignación se encuentra vacía", "warn");
+    }
      
    });
 

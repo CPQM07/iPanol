@@ -10,7 +10,9 @@ class Gestion extends CI_Controller {
     $this->load->model('Usuario_Model','usu',true);
     $this->load->model('Asignatura_Model','asig',true);
     $this->load->model('Producto_Model','prod',true);
+    $this->load->model('Proveedor_Model','prov',true);
     $this->load->model('Categoria_Model','cat',true);
+    $this->load->model('Ingreso_Model','ing',true);
     $this->load->model('Inventario_Model','inv',true);
     $this->load->model('Solicitud_Model','soli',true);
     $this->load->model('DetSolicitud_Model','detsol',true);
@@ -69,7 +71,63 @@ class Gestion extends CI_Controller {
 
   public function ingreso()
   {
-     $this->layouthelper->LoadView("gestion/ingreso" , null );
+     $data['proveedores'] = $this->prov->findAll();
+     $data['productos'] = $this->prod->findAll();
+     $data['ingresos'] = $this->ing->findAll();
+     $this->layouthelper->LoadView("gestion/ingreso" , $data);
+  }
+
+  public function ingresar_producto_stock(){
+    $usersesion = $this->session->userdata('logged_in');
+    $producto = $this->prod->findById($_POST['producto']);
+
+    $columns =array(
+              'ING_PROD_ID' =>$_POST['producto'],
+              'ING_CANTIDAD' =>$_POST['cantidad'],
+              'ING_ORDEN_COMPRA'  =>$_POST['ordencompra'],
+              'ING_DESC' =>$_POST['descripcion'],
+              'ING_USU_RUT' =>$usersesion['rut'],
+              'ING_VIDA_ULTIL_PROVEEDOR' =>$_POST['vidautil'],
+              'ING_PROV_RUT' =>$_POST['proveedor']
+              );
+    $ultimoingreso = $this->ing->insert($columns);
+
+    if ($producto->get("PROD_TIPOPROD_ID") == 1) {
+      for ($i=0; $i < $_POST['cantidad']; $i++) { 
+        $_columns  =  array(
+                      'INV_ID' => 0,
+                      'INV_PROD_ID' => $producto->get("PROD_TIPOPROD_ID"),
+                      'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
+                      'INV_PROD_CANTIDAD' => 1,
+                      'INV_PROD_ESTADO' => 1,
+                      'INV_INGRESO_ID' => $ultimoingreso,
+                      'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
+                      'INV_TIPO_ID' => 1
+                      );
+        $this->inv->insertDirect($_columns);
+      }
+    }else if($producto->get("PROD_TIPOPROD_ID") == 2){
+      $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID' => $producto->get("PROD_ID")));
+      if ($insumo != null) {
+        $total = intval($insumo->get('INV_PROD_CANTIDAD'))+intval($_POST['cantidad']);
+        $this->inv->update($insumo->get("INV_ID"), array('INV_PROD_CANTIDAD' => $total));
+      }else{
+         $_columns  =  array(
+                      'INV_ID' => 0,
+                      'INV_PROD_ID' => $producto->get("PROD_TIPOPROD_ID"),
+                      'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
+                      'INV_PROD_CANTIDAD' => $_POST['cantidad'],
+                      'INV_PROD_ESTADO' => 1,
+                      'INV_INGRESO_ID' => $ultimoingreso,
+                      'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
+                      'INV_TIPO_ID' => 1
+                      );
+        $this->inv->insertDirect($_columns);
+      }      
+    }
+
+
+    redirect('Gestion/ingreso','refresh');
   }
 
   public function recepcion()
@@ -204,13 +262,15 @@ class Gestion extends CI_Controller {
           if ($inventario->get("INV_TIPO_ID") == 1) {
              $columnasaeditar  =  array(
                       'INV_PROD_ESTADO' => 3,
-                      'INV_ULTIMO_USUARIO' => $rutusu
+                      'INV_ULTIMO_USUARIO' => $inventario->get("INV_ACTUAL_USUARIO"),
+                      'INV_ACTUAL_USUARIO'=> $rutusu
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
           }else if($inventario->get("INV_TIPO_ID") == 2){
               $columnasaeditar  =  array(
-                      'INV_ULTIMO_USUARIO' => $rutusu,
-                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
+                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"]),
+                      'INV_ULTIMO_USUARIO' => $inventario->get("INV_ACTUAL_USUARIO"),
+                      'INV_ACTUAL_USUARIO'=> $rutusu
                       );         
              $inventario->update($value["idinv"],$columnasaeditar);
           }
@@ -237,6 +297,7 @@ class Gestion extends CI_Controller {
       $pdf->AddPage();
 
       $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $ultimasolicitud));
+     // print_r($asignacionesactuales);
 
       $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
 
@@ -298,13 +359,15 @@ class Gestion extends CI_Controller {
           if ($inventario->get("INV_TIPO_ID") == 1) {
              $columnasaeditar  =  array(
                       'INV_PROD_ESTADO' => 3,
-                      'INV_ULTIMO_USUARIO' => $rutusu
+                      'INV_ULTIMO_USUARIO' => $inventario->get("INV_ACTUAL_USUARIO"),
+                      'INV_ACTUAL_USUARIO'=> $rutusu
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
           }else if($inventario->get("INV_TIPO_ID") == 2){
               $columnasaeditar  =  array(
-                      'INV_ULTIMO_USUARIO' => $rutusu,
-                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"])
+                      'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"]),
+                      'INV_ULTIMO_USUARIO' => $inventario->get("INV_ACTUAL_USUARIO"),
+                      'INV_ACTUAL_USUARIO'=> $rutusu
                       );
              $inventario->update($value["idinv"],$columnasaeditar);
           }
@@ -320,8 +383,6 @@ class Gestion extends CI_Controller {
           $b++;
         }
       }
-
-
 
       if ($b == $i) {
         $this->soli->update($idsolicitud,array('SOL_ESTADO' => 3));

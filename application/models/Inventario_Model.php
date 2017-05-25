@@ -40,6 +40,10 @@ public function insert(){
 $this->db->insert('inventario',$this->_columns);
 }
 
+public function insertDirect($columnas){
+$this->db->insert('inventario',$columnas);
+}
+
 public function update($id, $data) {
   $inventario = $this->db->get_where('inventario',array('INV_ID'=>$id));
   if($inventario->num_rows() > 0){
@@ -85,6 +89,16 @@ public function findAll(){
        foreach ($res->result() as $row) {
         $result[] = $this->create($row);
         }
+      return $result;
+  }
+
+    public function findByArrayOne($myarray = null){
+    $this->load->database();
+    $res = $this->db->get_where('inventario',$myarray);
+    $result = null;
+       if($res->num_rows() == 1){
+        $result = $this->create($res->row());
+      }
       return $result;
   }
 

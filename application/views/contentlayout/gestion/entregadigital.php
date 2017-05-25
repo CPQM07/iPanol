@@ -257,6 +257,7 @@
               $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td>'+prodid+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
               asignaciones.push(id);
               total= parseInt(total)+parseInt(stockactual);
+              $.notify("Se han añadido "+stockactual+" "+nom+"(#"+id+") ", "success");
             }else if(tipo == 2){
                cant = $("#INPUT"+id).val();
                if (parseInt(cant) <= parseInt(stockactual) && parseInt(cant) != 0) {
@@ -311,12 +312,12 @@
                     data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol ,"parcialocerrar" : parcialocerrar},
                     success: function(response){
                         if (response.resultado) {
-                          alert(response.mensaje);
+                          $.notify(response.mensaje, "success");
                           var win = window.open('', '_blank');
                           win.location.href = response.path;
                           location.reload();
                         } else{
-                          alert(response.mensaje);
+                          $.notify(response.mensaje, "warn");
                         }      
                     }
            })
