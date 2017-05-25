@@ -48,13 +48,9 @@ class Mantencion extends CI_Controller {
 
 	public function new_usuario(){
 		if(isset($_POST['new_usu'])){
-			if (strlen($_POST['new usu'])==0){
-				redirect('/Mantencion/usuarios');
-			}else{ 
-				$nuevousuario=$this->usuario->create($_POST['new_usu']);
-				$nuevousuario->insert();
-				redirect('/Mantencion/usuarios');
-			}
+			$nuevousuario=$this->usuario->create($_POST['new_usu']);
+			$nuevousuario->insert();
+			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -82,11 +78,9 @@ class Mantencion extends CI_Controller {
 
 	public function new_cat(){
 		if(isset($_POST['cat'])){
-			if (strlen($_POST['preguntas'])<1){redirect('/Mantencion/categorias'); }else{
 			$nuevo=$this->categorias->create($_POST['cat']);
 			$nuevo->insert();
 			redirect('/Mantencion/categorias');
-			}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -103,7 +97,7 @@ class Mantencion extends CI_Controller {
 	//Fin Categoria***************************************************************************
 
 	//Productos***************************************************************************
-	public function productos($num=null){
+	public function productos(){
 	  $NuevoProducto = array();
 	  $productos = $this->productos->findAll();
 	  foreach ($productos as $key => $value) {
@@ -125,7 +119,6 @@ class Mantencion extends CI_Controller {
 	  }
 	  $datos['categorias'] = $this->categorias->findAll();
 	  $datos['tipos'] = $this->tipoProducto->findAll();
-	  $datos['alert']=$num;
 	  $this->layouthelper->LoadView("mantenedores/productos", $datos, null);
 	}
 
@@ -153,7 +146,6 @@ class Mantencion extends CI_Controller {
 
 	public function new_producto(){
 		if(isset($_POST['producto'])){
-			if (strlen($_POST['preguntas'])==0){redirect('/Mantencion/productos/1');}else{
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
 			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
@@ -165,7 +157,6 @@ class Mantencion extends CI_Controller {
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			redirect('/Mantencion/productos');
-			}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -173,7 +164,6 @@ class Mantencion extends CI_Controller {
 
 	public function edit_producto(){
 		if(isset($_POST['producto'])){
-			if (strlen($_POST['preguntas'])==0){redirect('/Mantencion/productos');}else{
 			$id=$_POST['id_pro'];
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
@@ -185,7 +175,6 @@ class Mantencion extends CI_Controller {
 			}
 			$nuevopro=$this->productos->update($id,$_POST['producto']);
 			redirect('/Mantencion/productos');
-		}
 		}else{
 			echo "usuario no fue agregado";
 		}

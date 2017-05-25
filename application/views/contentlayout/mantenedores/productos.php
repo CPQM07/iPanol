@@ -322,8 +322,8 @@
                         <label class="col-sm-2 control-label">Imagen</label>
 
                         <div class="col-md-9">
-                          <input id="producto[PROD_IMAGEN]" name="files" type="file" id="filesa"  required>
-                          <output id="lista"></output>
+                          <input id="producto[PROD_IMAGEN]" name="files" type="file" >
+                          <output id="list"></output>
                         </div>
                       </div>
                       <div class="form-group">
