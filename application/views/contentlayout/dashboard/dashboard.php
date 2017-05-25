@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-lg-4 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-aqua">
+          <div class="small-box bg-yellow">
             <div class="inner">
               <h3><?= $solpen ?></h3>
               <p>Solicitudes pendientes por recepcionar</p><!-- manda a vista entregadigital -->

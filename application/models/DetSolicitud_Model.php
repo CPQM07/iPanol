@@ -137,23 +137,13 @@ public function findById($id){
   }
 
   public function productoActivoHoy(){ /*CANTIDAD PRODUCTOS ACTIVOS HOY*/
-    $inicio;
-    $f = getDate();
-    $ano = $f['year'];
-    $mes = date('m');
-    $dia = $f['mday'];
-
-    if ($dia > 0 and $dia < 10) {
-      $dia = '0'.$dia;
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }else{
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }
+    date_default_timezone_set("Chile/Continental");
+    $inicio = date ("Y-m-d",time());
     $this->db->select('INV_TIPO_ID');
     $this->db->from('solicitud');
     $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
-    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
+    $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio." "."00:00:00");/*OPCION1*/
     $this->db->where('solicitud.SOL_ESTADO',5);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
@@ -161,19 +151,10 @@ public function findById($id){
   }
 
   public function productoActivoAyer(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
-    $inicio;
-    $f = getDate();
-    $ano = $f['year'];
-    $mes = date('m');
-    $nel = $f['mday'];
-    $dia = $nel-1;
-
-    if ($dia > 0 and $dia < 10) {
-      $dia = '0'.$dia;
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }else{
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }
+    date_default_timezone_set("Chile/Continental");
+    $d = date ("d",time());
+    $di=$d-1;
+    $inicio = date ("Y-m-".$di." H:i:s",time());
     $this->db->select('INV_TIPO_ID');
     $this->db->from('solicitud');
     $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
@@ -188,18 +169,8 @@ public function findById($id){
   /*-------------------------------------------------------------------------------------*/
 
   public function productoFungiblesHoy(){ /*CANTIDAD PRODUCTOS FUNGIBLES HOY*/
-    $inicio;
-    $f = getDate();
-    $ano = $f['year'];
-    $mes = date('m');
-    $dia = $f['mday'];
-
-    if ($dia > 0 and $dia < 10) {
-      $dia = '0'.$dia;
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }else{
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }
+    date_default_timezone_set("Chile/Continental");
+    $inicio = date ("Y-m-d H:i:s",time());/*OPCION2*/
     $this->db->select('INV_TIPO_ID');
     $this->db->from('solicitud');
     $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
@@ -212,19 +183,10 @@ public function findById($id){
   }
 
   public function productoFungiblesAyer(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
-    $inicio;
-    $f = getDate();
-    $ano = $f['year'];
-    $mes = date('m');
-    $nel = $f['mday'];
-    $dia = $nel-1;
-
-    if ($dia > 0 and $dia < 10) {
-      $dia = '0'.$dia;
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }else{
-      $inicio = $ano.'-'.$mes.'-'.$dia.' '.'00:00:00';
-    }
+    date_default_timezone_set("Chile/Continental");
+    $d = date ("d",time());
+    $di=$d-1;
+    $inicio = date ("Y-m-".$di." H:i:s",time());
     $this->db->select('INV_TIPO_ID');
     $this->db->from('solicitud');
     $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
