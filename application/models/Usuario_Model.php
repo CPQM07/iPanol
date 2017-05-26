@@ -19,7 +19,7 @@ private  $_columns  =  array(
 'USU_TELEFONO1' => 0,
 'USU_TELEFONO2' => 0,
 'USU_CLAVE' => '',
-'USU_ESTADO' => 0
+'USU_ESTADO' => 1
 
 );
 

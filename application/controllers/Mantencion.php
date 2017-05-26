@@ -46,6 +46,27 @@ class Mantencion extends CI_Controller {
 		$this->layouthelper->LoadView("mantenedores/usuarios" ,$data, false);
 	}
 
+	public function findById_usuario(){
+	  $id= $_POST['id'];
+	  $newarray = null;
+	  $value = $this->usuario->findById($id);
+	  	$newarray = array(
+					'USU_RUT' => $value->get("USU_RUT"),
+					'USU_DV' => $value->get("USU_DV"),
+					'USU_NOMBRES' => $value->get("USU_NOMBRES"),
+					'USU_APELLIDOS' => $value->get("USU_APELLIDOS"),
+					'USU_CARGO_ID' => $value->get("USU_CARGO_ID"),
+					'USU_CARRERA_ID' => $value->get("USU_CARRERA_ID"),
+					'USU_EMAIL' => $value->get("USU_EMAIL"),
+					'USU_TELEFONO1' => $value->get("USU_TELEFONO1"),
+					'USU_TELEFONO2' => $value->get("USU_TELEFONO2"),
+					'USU_CLAVE' => $value->get("USU_CLAVE"),
+					'USU_ESTADO' => $value->get("USU_ESTADO")
+					);
+	  $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($newarray));
+	}
+
 	public function new_usuario(){
 		if(isset($_POST['new_usu'])){
 			$nuevousuario=$this->usuario->create($_POST['new_usu']);
@@ -55,15 +76,16 @@ class Mantencion extends CI_Controller {
 			echo "usuario no fue agregado";
 		}
 	}
-
 	public function edit_usuario(){
 		if(isset($_POST['new_usu'])){
-
+			$id=$_POST['rut'];
+			$this->usuario->update($id,$_POST['new_usu']);
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
 		}
 	}
+
 	public function eliminarusuario($id=null){
 		$this->usuario->delete($id);
 		redirect('/Mantencion/usuarios');
