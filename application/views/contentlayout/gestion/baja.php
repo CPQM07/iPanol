@@ -14,37 +14,12 @@
 
         <div class="panel panel-default">
           <div class="row panel-body">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Tipo de producto</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Tipos</option>
-                  <option>Activo</option>
-                  <option>Fungible</option>
-                </select>
-              </div>
-            </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Categoría</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Seleccionar</option>
-                  <option>Herramienta</option>
-                  <option>Conectores</option>
-                  <option>Cables</option>
-                </select>
-              </div>
-          </div>
-
-            <div class="col-md-4">
+            <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Seleccionar</option>
-                  <option>Martillo</option>
-                  <option>RJ-45</option>
-                  <option>Diodo Led rojo</option>
+                <select class="form-control selectinv" style="width: 100%;">
+                  <option></option>
                 </select>
               </div>
             </div>
@@ -56,11 +31,10 @@
             <div class="form-group">
               <label>Motivo</label>
               <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Motivos</option>
-                <option>Reparación</option>
-                <option>Malo</option>
-                <option>Desgaste</option>
-                <option>Baja definitiva</option>
+                <option></option>
+                <?php foreach ($motivos as $key => $value): ?>
+                  <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
+                <?php endforeach ?>
               </select>
             </div>
           </div>
@@ -83,8 +57,7 @@
               <table id="example2" class="datatable table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>Tipo</th>
-                    <th>Categoria</th>
+                    <th>Fecha</th>
                     <th>Nombre</th>
                     <th>Motivo</th>
                     <th>Motivo resultado</th>
@@ -93,83 +66,31 @@
                   </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>Activo</td>
-                  <td>Herramientas</td>
-                  <td>Martillo</td>
-                  <td>Reparación</td>
-                  <td>Reparado</td>
+                <?php //print_r($bajas) ?>
+                <?php foreach ($bajas as $key => $value): ?>
+                 <tr>
+                  <td><?= $value['BAJA_FECHA']  ?></td>
+                  <td><?= $value['USU_NOMBRES']  ?></td>
+                  <td><?= $value['MOT_NOMBRE']  ?></td>
+                  <td><?php if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
+                    <?php
+                     $ultimoregistro = array_pop($value['BAJA_MOTIVO_RESULTADO']);  
+                     echo($ultimoregistro["OBS_MOT_NOMBRE"]);
+
+                     ?>
+                  <?php else: ?>
+                     NO POSEE RESULTADO AUN
+                  <?php endif ?>
+                    
+                  </td>
                   <td>
                     <button class="btn btn-block btn-success">Editar</button>
                   </td>
                   <td>
                     <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
                   </td>
-                <tr>
-                  <td>Activo</td>
-                  <td>Herramientas</td>
-                  <td>alicate</td>
-                  <td>Baja definitiva</td>
-                  <td></td>
-                  <td>
-                    <button class="btn btn-block btn-success disabled">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success disabled">Observación</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fungible</td>
-                  <td>Conectores</td>
-                  <td>RJ45</td>
-                  <td>C1</td>
-                  <td></td>
-                  <td>
-                    <button class="btn btn-block btn-success">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fungible</td>
-                  <td>Diodos</td>
-                  <td>Diodo led rojo</td>
-                  <td>D1</td>
-                  <td></td>
-                  <td>
-                    <button class="btn btn-block btn-success">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fungible</td>
-                  <td>Resistencias</td>
-                  <td>Resistencia 1K Ohm</td>
-                  <td>E1</td>
-                  <td></td>
-                  <td>
-                    <button class="btn btn-block btn-success">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fungible</td>
-                  <td>Cables</td>
-                  <td>Coaxial 1.5</td>
-                  <td>F1</td>
-                  <td></td>
-                  <td>
-                    <button class="btn btn-block btn-success">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
-                  </td>
-                </tr>
+                 </tr> 
+                <?php endforeach ?>
                 </tbody>
               </table>
             </div>
@@ -245,3 +166,41 @@
       </div>
     </div>
   <!--Observaciones-->
+    <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+      $('.selectinv').select2({
+            minimumInputLength: 1,
+            maximumInputLength: 20,
+            ajax: {
+                    url: "<?=site_url('/gestion/get_iventario_by_cat_ajax')?>",
+                    dataType: 'json',
+                    method: "POST",
+                    data: function (params) {
+                            var query = {
+                              search: params.term,
+                              page: params.page,
+                            }
+                            return query;
+                          },
+                    processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                      results: data,
+                      pagination: {
+                        more: (params.page * 30) < data.total_count
+                      }
+                    };
+                  },
+                  cache: true
+                  },
+
+    });
+
+    })
+
+
+    </script>
+    <?php } ?>

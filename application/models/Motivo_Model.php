@@ -31,6 +31,19 @@ public function insert(){
 $this->db->insert('motivo',$this->_columns);
 }
 
+public function findByArray($myarray = null){
+  $this->load->database();
+  //$this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+  //$this->db->join('usuario', 'inventario.INV_ULTIMO_USUARIO = usuario.USU_RUT');
+  //$this->db->order_by('ASIG_ID', 'ASC');
+  $res = $this->db->get_where('motivo',$myarray);
+  $result = array();
+  foreach ($res->result_array() as $row) {
+    $result[] = $row;
+  }
+  return $result;
+}
+
 public function update($id, $data) {
   $motivo = $this->db->get_where('motivo',array('MOT_ID'=>$id));
   if($motivo->num_rows() > 0){

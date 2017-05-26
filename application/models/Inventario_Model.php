@@ -20,7 +20,8 @@ private  $_columns  =  array(
 'INV_TIPO_ID' => 0,
 'INV_FECHA' => '',
 'INV_IMAGEN' => '',
-'INV_ULTIMO_USUARIO' => 0
+'INV_ULTIMO_USUARIO' => 0,
+'INV_ACTUAL_USUARIO' => 0
 );
 
 public function get($attr){
@@ -83,12 +84,24 @@ public function findAll(){
   }
 
   public function findByArray($myarray = null){
-    $this->load->database();
-    $res = $this->db->get_where('inventario',$myarray);
     $result = array();
-       foreach ($res->result() as $row) {
-        $result[] = $this->create($row);
-        }
+      $res = $this->db->get_where('inventario',$myarray);
+         foreach ($res->result() as $row) {
+          $result[] = $this->create($row);
+          }
+       
+      return $result;
+  }
+
+  public function findByArrayLike($like = null,$campo = null,$campo2 = null){
+    $result = array();
+    $this->db->like($campo, $like);
+    $this->db->or_like($campo2, $like); 
+      $res = $this->db->get_where('inventario');
+         foreach ($res->result() as $row) {
+          $result[] = $this->create($row);
+          }
+       
       return $result;
   }
 

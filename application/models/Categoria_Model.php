@@ -80,4 +80,15 @@ public function findById($id){
       $this->columns[$key] = $value;
       }
     }
+
+  public function findByArray($myarray = null){
+    $this->load->database();
+    $this->db->order_by('CAT_ID', 'ASC');
+    $res = $this->db->get_where('categoria',$myarray);
+    $result = array();
+    foreach ($res->result_array() as $row) {
+      $result[] = $row;
+    }
+    return $result;
+  }
 }

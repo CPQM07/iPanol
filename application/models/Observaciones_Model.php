@@ -48,6 +48,16 @@ public function delete($id){
   return $this->db->delete('observaciones');
 }
 
+public function findByArray($myarray = null){
+  $this->load->database();
+  $res = $this->db->get_where('observaciones',$myarray);
+  $result = null;
+  foreach ($res->result_array() as $row) {
+    $result[] = $row;
+  }
+  return $result;
+}
+
 
 public function findAll(){
   $result=array();

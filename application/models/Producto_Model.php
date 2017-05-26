@@ -90,7 +90,7 @@ public function findById($id){
     }
 
 
-      public function findByCat($id){
+   public function findByCat($id){
       $result=array();
       $bit = null;
           $this->db->where('PROD_CAT_ID',$id);

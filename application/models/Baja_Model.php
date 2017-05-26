@@ -53,8 +53,12 @@ public function delete($id){
 
 public function findAll(){
   $result=array();
-  $bit = null;
-  $consulta = $this->db->get('baja');
+  $this->db->from('baja');
+  $this->db->join('motivo', 'motivo.MOT_ID = baja.BAJA_MOTIVO_ID');
+  $this->db->join('inventario', 'inventario.INV_ID = baja.BAJA_INV_ID');
+  //$this->db->join('observaciones', 'observaciones.OBS_BAJA_ID = baja.BAJA_ID');
+  $this->db->join('usuario', 'usuario.USU_RUT = baja.BAJA_USU_RUT');
+  $consulta = $this->db->get();
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
   }

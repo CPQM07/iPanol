@@ -204,10 +204,14 @@
                 "ajax": {
                     "url": "<?=site_url('/gestion/get_inv_by_productos_id')?>",
                     "type": "POST",
+                                        "beforeSend": function () {
+                            $('#carga_modal').modal('show');
+                        },
                     "data": function (argument) {
                       return {'productosid': productosid};
                     },
                     "dataSrc": function ( json ) {
+                      $('#carga_modal').modal('hide');
                         return json;
                     }
                 },

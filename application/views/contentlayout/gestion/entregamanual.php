@@ -192,10 +192,14 @@
                 "ajax": {
                     "url": "<?=site_url('/gestion/get_inv_by_cat_tipo_ajax')?>",
                     "type": "POST",
+                    "beforeSend": function () {
+                            $('#carga_modal').modal('show');
+                        },
                     "data": function (argument) {
                       return {'idtipo': tipo,'idcat': cat };
                     },
                     "dataSrc": function ( json ) {
+                      $('#carga_modal').modal('hide');
                         return json;
                     }
                 },
@@ -214,6 +218,7 @@
                     { title: "Accion"}]
             });
 
+                            
 
    $("#Cargo").on("change",function(event){
     var id = $(this).val();
@@ -319,19 +324,22 @@
                     url: "<?=site_url('/gestion/insert_entrega_manual')?>",
                     datatype: "json",
                     data:  {"asignaciones": arrayasig,"rutusu": rutusu,"asignatura": asignatura,"grupotrabajo": grupotrabajo,"rangofechas": reservationtime,"observaciones": observaciones},
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
                     success: function(response){
                         if (response.resultado) {
                           $.notify(response.mensaje, "success");
                           var win = window.open('', '_blank');
                           win.location.href = response.path;
-                          //location.reload();
+                          location.reload();
+                          $('#carga_modal').modal('hide');
                         } else{
                           $.notify(response.mensaje, "warn");
-
-                        }      
+                          $('#carga_modal').modal('hide');
+                        }    
                     }
            })
-
     }else{
     $.notify("Debe ingresar una observación", "warn");
     }

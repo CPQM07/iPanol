@@ -13,6 +13,11 @@ class Pdf extends TCPDF
     public function HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$usunombreapellido,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usuarionombresession,$asignaciones){
     	$forasig = "";
     	foreach($asignaciones as $key => $current) {
+
+    	  if($current['INV_ULTIMO_USUARIO'] == 0){
+    	  	$current['INV_ULTIMO_USUARIO'] = "NO POSEE";
+    	  }
+    	  	
           $forasig .= '<tr>
                       <td colspan="2">'.$current['INV_PROD_NOM'].' (ID:'.$current['ASIG_INV_ID'].')</td>
                       <td colspan="1">'.$current['ASIG_CANT'].'</td>
