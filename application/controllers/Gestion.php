@@ -17,6 +17,9 @@ class Gestion extends CI_Controller {
     $this->load->model('Solicitud_Model','soli',true);
     $this->load->model('DetSolicitud_Model','detsol',true);
     $this->load->model('Asignacion_Model','asignacion',true);
+    $this->load->model('Baja_Model','baja',true);
+    $this->load->model('Motivo_Model','mot',true);
+    $this->load->model('Observaciones_Model','obs',true);
 
   }
 
@@ -66,7 +69,55 @@ class Gestion extends CI_Controller {
 
   public function baja()
   {
-     $this->layouthelper->LoadView("gestion/baja" , null );
+     $allbajas = $this->baja->findAll();
+     $arraytodasbajas = array();
+     foreach ($allbajas as $key => $value) {
+          $arraytodasbajas[] = Array( "BAJA_ID" => $value->get("BAJA_ID"),
+                                      "BAJA_MOTIVO_ID" => $value->get("BAJA_MOTIVO_ID"),
+                                      "BAJA_DESC" => $value->get("BAJA_DESC"),
+                                      "BAJA_INV_ID" => $value->get("BAJA_INV_ID"),
+                                      "BAJA_FECHA" => $value->get("BAJA_FECHA"),
+                                      "BAJA_USU_RUT" => $value->get("BAJA_USU_RUT"),
+                                      "MOT_ID" => $value->get("MOT_ID"),
+                                      "MOT_NOMBRE" => $value->get("MOT_NOMBRE"),
+                                      "INV_ID" => $value->get("INV_ID"),
+                                      "INV_PROD_ID" => $value->get("INV_PROD_ID"),
+                                      "INV_PROD_NOM" => $value->get("INV_PROD_NOM"),
+                                      "INV_PROD_CANTIDAD" => $value->get("INV_PROD_CANTIDAD"),
+                                      "INV_PROD_ESTADO" => $value->get("INV_PROD_ESTADO"),
+                                      "INV_PROD_CODIGO" => $value->get("INV_PROD_CODIGO"),
+                                      "INV_INGRESO_ID" => $value->get("INV_INGRESO_ID"),
+                                      "INV_FECHA" => $value->get("INV_FECHA"),
+                                      "INV_IMAGEN" => $value->get("INV_IMAGEN"),
+                                      "INV_TIPO_ID" => $value->get("INV_TIPO_ID"),
+                                      "INV_CATEGORIA_ID" => $value->get("INV_CATEGORIA_ID"),
+                                      "INV_ULTIMO_USUARIO" => $value->get("INV_ULTIMO_USUARIO"),
+                                      "INV_ACTUAL_USUARIO" => $value->get("INV_ACTUAL_USUARIO"),
+                                      "USU_RUT" => $value->get("USU_RUT"),
+                                      "USU_DV" => $value->get("USU_DV"),
+                                      "USU_NOMBRES" => $value->get("USU_NOMBRES"),
+                                      "USU_APELLIDOS" => $value->get("USU_APELLIDOS"),
+                      "BAJA_MOTIVO_RESULTADO" => $this->obs->findByArray(array("OBS_BAJA_ID" => $value->get("BAJA_ID")))
+                                    );
+     }   
+
+     $data["motivos"] = $this->mot->findByArray(array('MOT_DIF' => 1));
+     $data["bajas"] = $arraytodasbajas;
+     $data['categorias'] = $this->cat->findByArray(array('CAT_ESTADO' => 1));
+     $this->layouthelper->LoadView("gestion/baja" , $data);
+  }
+
+  public function get_iventario_by_cat_ajax(){
+    $nomsearch = $_POST['search'];
+    $todoivbycat = $this->inv->findByArrayLike($nomsearch,'INV_PROD_NOM','INV_ID');
+    $arrayinv = array();
+    foreach ($todoivbycat as $key => $value) {
+      $arrayinv[] = array("id" =>$value->get('INV_ID'),
+                        "text" =>$value->get('INV_ID')."-".$value->get('INV_PROD_NOM')
+                        );
+    }
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($arrayinv));
   }
 
   public function ingreso()
@@ -120,7 +171,7 @@ class Gestion extends CI_Controller {
                       'INV_PROD_ESTADO' => 1,
                       'INV_INGRESO_ID' => $ultimoingreso,
                       'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
-                      'INV_TIPO_ID' => 1
+                      'INV_TIPO_ID' => 2
                       );
         $this->inv->insertDirect($_columns);
       }      
@@ -442,15 +493,16 @@ class Gestion extends CI_Controller {
 
   }
 
-  public function codigos()
-  {
-    $this->layouthelper->LoadView("gestion/codigos" , null);
-  }
+  /* End of file gestion.php */
+  /* Location: ./application/controllers/gestion.php */
+    public function codigos()
+    {
+      $this->layouthelper->LoadView("gestion/codigos" , null);
+    }
 
 
 
 
 }
 
-/* End of file gestion.php */
-/* Location: ./application/controllers/gestion.php */
+
