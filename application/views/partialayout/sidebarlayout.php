@@ -32,7 +32,8 @@ $lasturl = array_pop($spliturl);
 
 
         <!-- ESTE INF QUE ESTA DENTRO DE LA CLASE PRINCIPAL LI , DEJA ABIERTO EL LI AL CUAL PERTENECE LA VISTA, PARA INTEGRARLO EN OTROS DEBEN COPIAR TODA LA ETIQUETA PHP Y DENTRO SOLO EDITAR LAS VISTAS QUE CONTIENE ESE LI -->
-        <li  class="treeview <?php if (strpos(",ingreso,iPanol,entregamanual,recepcion,baja,entregadigital", $lasturl)): ?> active <?php endif ?>">
+        <li  class="treeview
+        <?php if (strpos(",ingreso,iPanol,entregamanual,recepcion,baja,entregadigital,codigos", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-file-text-o"></i>
             <span>Gestión</span>
@@ -46,6 +47,7 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('gestion/ingreso')?>"><i class="fa fa-arrow-up"></i>Ingreso Stock</a></li>
             <li><a href="<?=site_url('gestion/baja')?>"><i class="fa fa-arrow-down"></i>Dar baja</a></li>
             <li><a href="<?=site_url('gestion/recepcion')?>"><i class="fa fa-sign-in"></i>Recepcionar</a></li>
+            <li><a href="<?=site_url('gestion/codigos')?>"><i class="fa fa-barcode"></i>Códigos de barra</a></li>
           </ul>
         </li>
 

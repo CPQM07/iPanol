@@ -442,6 +442,11 @@ class Gestion extends CI_Controller {
 
   }
 
+  public function codigos()
+  {
+    $this->layouthelper->LoadView("gestion/codigos" , null);
+  }
+
 
 
 
