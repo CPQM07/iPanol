@@ -213,8 +213,32 @@ class Gestion extends CI_Controller {
               case 16:
                 $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 1));
                 break;
-              default:
+              case 17:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 0));
+                break;
+              case 18:
                 $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+              case 19:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 0));
+                break;
+              case 20:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+              case 21:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+              case 23:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 0));
+                break;
+              case 24:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+              case 25:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+              default:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 0));
                 break;
             }
             $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el motivo resultado');
@@ -290,7 +314,7 @@ class Gestion extends CI_Controller {
     }
 
 
-    redirect('Gestion/ingreso','refresh');
+  redirect('Gestion/ingreso','refresh');
   }
 
   public function recepcion()
