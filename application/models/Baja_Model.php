@@ -32,6 +32,7 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('baja',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {
@@ -82,7 +83,7 @@ public function findById($id){
 
    public function setColumns ($row = null){
     foreach ($row as $key => $value) {
-      $this->columns[$key] = $value;
+      $this->_columns[$key] = $value;
       }
     }
 }

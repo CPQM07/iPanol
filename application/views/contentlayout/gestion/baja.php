@@ -7,19 +7,20 @@
 
     <!-- Main content -->
     <section class="content">
+    </br>
 
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-
+        <form action="<?= site_url('/Gestion/dar_de_baja') ?>" method="post" accept-charset="utf-8">
         <div class="panel panel-default">
           <div class="row panel-body">
 
             <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select class="form-control selectinv" style="width: 100%;">
-                  <option></option>
+                <select name="forminventario" class="form-control selectinv" style="width: 100%;">
+                  <option value="0"></option>
                 </select>
               </div>
             </div>
@@ -29,9 +30,9 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label>Motivo</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option></option>
+              <label>Motivo Origen</label>
+              <select name="formmotivoorigen" class="form-control select2" style="width: 100%;">
+                <option value="0"></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
                 <?php endforeach ?>
@@ -41,20 +42,21 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Descripción</label>
-              <input type="textarea" class="form-control">
+              <input name="formdescripcion" type="text" class="form-control">
             </div>
           </div>
           <div class="col-md-4">
             <label>Acción</label>
-            <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#myModal">
-                  Dar de baja</button>
+            <input type="submit" class="btn btn-block btn-danger" value="Dar de Baja" />
           </div>
         </div>
+
+        </form>
         </div>
         <div class="box-body">
           <h3>Historial de productos / insumos dados de baja</h3>
           <div class="box-body">
-              <table id="example2" class="datatable table table-bordered table-hover">
+              <table name="example2" class="datatable table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Fecha</th>
@@ -180,26 +182,56 @@
                     data: function (params) {
                             var query = {
                               search: params.term,
-                              page: params.page,
                             }
                             return query;
-                          },
+                          },    
                     processResults: function (data, params) {
-                    params.page = params.page || 1;
-
                     return {
-                      results: data,
-                      pagination: {
-                        more: (params.page * 30) < data.total_count
-                      }
+                      results: $.map(data, function (item) {
+                            return {
+                                text: item.text,
+                                id: item.id
+                            }
+                }),
                     };
                   },
-                  cache: true
-                  },
+            cache: true
+            },
 
     });
 
     })
+
+
+    $(".itemSearch").select2({
+    tags: true,
+    multiple: true,
+    tokenSeparators: [',', ' '],
+    minimumInputLength: 2,
+    minimumResultsForSearch: 10,
+    ajax: {
+        url: URL,
+        dataType: "json",
+        type: "GET",
+        data: function (params) {
+
+            var queryParameters = {
+                term: params.term
+            }
+            return queryParameters;
+        },
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.tag_value,
+                        id: item.tag_id
+                    }
+                })
+            };
+        }
+    }
+});
 
 
     </script>

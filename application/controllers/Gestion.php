@@ -97,7 +97,7 @@ class Gestion extends CI_Controller {
                                       "USU_DV" => $value->get("USU_DV"),
                                       "USU_NOMBRES" => $value->get("USU_NOMBRES"),
                                       "USU_APELLIDOS" => $value->get("USU_APELLIDOS"),
-                      "BAJA_MOTIVO_RESULTADO" => $this->obs->findByArray(array("OBS_BAJA_ID" => $value->get("BAJA_ID")))
+                                      "BAJA_MOTIVO_RESULTADO" => $this->obs->findByArray(array("OBS_BAJA_ID" => $value->get("BAJA_ID")))
                                     );
      }   
 
@@ -493,16 +493,10 @@ class Gestion extends CI_Controller {
 
   }
 
-  /* End of file gestion.php */
-  /* Location: ./application/controllers/gestion.php */
-    public function codigos()
-    {
-      $this->layouthelper->LoadView("gestion/codigos" , null);
-    }
-
 
 
 
 }
 
-
+/* End of file gestion.php */
+/* Location: ./application/controllers/gestion.php */

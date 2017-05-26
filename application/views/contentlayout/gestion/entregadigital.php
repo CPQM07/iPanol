@@ -204,7 +204,7 @@
                 "ajax": {
                     "url": "<?=site_url('/gestion/get_inv_by_productos_id')?>",
                     "type": "POST",
-                                        "beforeSend": function () {
+                            "beforeSend": function () {
                             $('#carga_modal').modal('show');
                         },
                     "data": function (argument) {
