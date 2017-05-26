@@ -206,11 +206,6 @@
       <!-- /.row (main row) -->
 
 
-
-
-
-
-
   <!--Producto-->
     <div class="modal fade" id="myPro" aria-labelledby="myModalLabel">
       <div class="modal-dialog modal-lg">

@@ -105,7 +105,7 @@ class Gestion extends CI_Controller {
                                     );
      }   
 
-     $data["motivos"] = $this->mot->findByArray(array('MOT_DIF' => 1));
+     $data["motivos"] = $this->mot->findByArray();//array('MOT_DIF' => 1)
      $data["bajas"] = $arraytodasbajas;
      $data['categorias'] = $this->cat->findByArray(array('CAT_ESTADO' => 1));
      $this->layouthelper->LoadView("gestion/baja" , $data);
@@ -116,9 +116,11 @@ class Gestion extends CI_Controller {
     $todoivbycat = $this->inv->findByArrayLike($nomsearch,'INV_PROD_NOM','INV_ID');
     $arrayinv = array();
     foreach ($todoivbycat as $key => $value) {
+      if ($value->get('INV_TIPO_ID') == 1 and $value->get('INV_PROD_ESTADO') == 1 or $value->get('INV_PROD_ESTADO') == 3) {
       $arrayinv[] = array("id" =>$value->get('INV_ID'),
                         "text" =>$value->get('INV_ID')."-".$value->get('INV_PROD_NOM')
                         );
+      }
     }
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($arrayinv));
@@ -128,11 +130,8 @@ class Gestion extends CI_Controller {
 
   public function dar_de_baja(){
     $usersesion = $this->session->userdata('logged_in');
+    $ultimoid = 0;
     if (isset($_POST['forminventario']) and $_POST['forminventario'] != "0" and $_POST['formmotivoorigen'] != "0" and isset($_POST['formmotivoorigen']) and $_POST['formdescripcion']) {
-
-      if ($_POST['formmotivoorigen'] == 15) {
-        
-      }
 
        $_columns  =  array(
                 'BAJA_ID' => 0,
@@ -146,35 +145,91 @@ class Gestion extends CI_Controller {
         $this->baja->setColumns($_columns);
         $ultimoid = $this->baja->insert();
         if ($ultimoid > 0) {
-          $this->inv->update($ultimoid, array('INV_PROD_ESTADO' => 0));
-
-          switch (variable) {
-            case 'value':
-              # code...
+          switch (intval($_POST['formmotivoorigen'])) {
+            case 15:
+                  $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 2));
               break;
-            
             default:
-              # code...
+                  $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 0));
               break;
           }
+        }
 
 
-         } 
-
-
-
-
-
-
-
-
-        $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el inventario id:'.$utimoid.' para dar de baja.');
+        $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el activo a dar de baja');
        redirect('/Gestion/baja');
     }else{
         $this->session->set_flashdata('Deshabilitar', 'Lo sentimos algunos de los campos no estan definidos, favor revisar');
         redirect('/Gestion/baja');
     }
     
+  }
+
+  public function get_obs_by_baja_id(){
+    $idbaja = $_POST['bajaid'];
+    $allobs = array();
+    $observaciones = $this->obs->findByArray(array('OBS_BAJA_ID' => $idbaja));
+
+    $baja = $this->baja->findById($idbaja);
+
+    //necesito obtener el id del inventario que se esta dando de baja
+
+    if ($observaciones != null) {
+      foreach ($observaciones as $key => $value) {
+      $allobs[]  =  array(
+                        'ID' => $value['OBS_ID'],
+                        'TEXTO' => $value['OBS_TEXTO'],
+                        'BAJA_ID' => $value['OBS_BAJA_ID'],
+                        'MOT_NOMBRE' => $value['OBS_MOT_NOMBRE'],
+                        'FECHA' => $value['OBS_FECHA']                        
+                        );
+      }
+    }
+    
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode(array('INV_ID' => $baja->get("BAJA_INV_ID"), 'allobs' => json_encode($allobs))));
+  }
+
+  public function insert_obs_to_baja(){
+    //{"bajaid": bajaidhidden,"texto": texto,"motivores": motivores},
+    if (isset($_POST["bajaid"]) and isset($_POST["texto"]) and isset($_POST["motivores"]) ) {
+      $bajaid = $_POST["bajaid"];
+      $texto = $_POST["texto"];
+      $motivores = $_POST["motivores"];
+      $inventarioabajar = $_POST["inventarioabajar"];
+         $motivo = $this->mot->findById($motivores);
+          $columns  =  array(
+                'OBS_ID' => 0,
+                'OBS_TEXTO' => $texto,
+                'OBS_BAJA_ID' => $bajaid,
+                'OBS_FECHA' => date("Y-m-d H:i:s"),
+                'OBS_MOT_ID' => $motivo->get("MOT_ID"),
+                'OBS_MOT_NOMBRE' => $motivo->get("MOT_NOMBRE")
+                );
+          $this->obs->setColumns($columns);
+          $ultimoobs = $this->obs->insert();
+          if ($ultimoobs > 0) {
+            switch (intval($motivo->get("MOT_ID"))) {
+              case 16:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 1));
+                break;
+              default:
+                $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 2));
+                break;
+            }
+            $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el motivo resultado');
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode(array("estado" => true ,"mensaje" => "Se ha insertado correctamente")));
+          }else{
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode(array("estado" => false ,"mensaje" => "Ocurrio un error al insertar esta observación")));
+          }
+      
+    }else{
+      $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode(array("estado" => true ,"mensaje" => "Alguno de los formularios no esta definido, favor revisar")));
+    }
+
   }
 
   public function ingreso()

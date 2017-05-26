@@ -66,18 +66,30 @@ public function findAll(){
   return $result;
 }
 
-public function findById($id){
+public function findAllArray($params = null){
   $result=array();
-  $bit = null;
-  $this->db->where('BAJA_ID',$id);
-  $consulta = $this->db->get('baja');
-  if($consulta->num_rows() > 0){
+  $this->db->from('baja');
+  $this->db->join('motivo', 'motivo.MOT_ID = baja.BAJA_MOTIVO_ID');
+  $this->db->join('inventario', 'inventario.INV_ID = baja.BAJA_INV_ID');
+  //$this->db->join('observaciones', 'observaciones.OBS_BAJA_ID = baja.BAJA_ID');
+  $this->db->join('usuario', 'usuario.USU_RUT = baja.BAJA_USU_RUT');
+  $this->db->where($params);
+  $consulta = $this->db->get();
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
-    }
-  }else{
-    $result[] = $this->create($this->_columns);
   }
+  return $result;
+}
+
+public function findById($id){
+    $result = null;
+    $this->db->where('BAJA_ID',$id);
+    $this->db->order_by('BAJA_ID', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('baja');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
+    }
+    
     return $result;
   }
 

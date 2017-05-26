@@ -81,23 +81,20 @@ public function findAll(){
 }
 
 public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('ASIG_ID',$id);
-  $consulta = $this->db->get('asignacion');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+    $result = null;
+    $this->db->where('ASIG_ID',$id);
+    $this->db->order_by('ASIG_ID', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('asignacion');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 
    public function setColumns ($row = null){
     foreach ($row as $key => $value) {
-      $this->columns[$key] = $value;
+      $this->_columns[$key] = $value;
       }
     }
 }

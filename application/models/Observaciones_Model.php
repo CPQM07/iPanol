@@ -12,7 +12,9 @@ private  $_columns  =  array(
 'OBS_ID' => 0,
 'OBS_TEXTO' => '',
 'OBS_BAJA_ID' => 0,
-'OBS_FECHA' => ''
+'OBS_FECHA' => '',
+'OBS_MOT_ID' => 0,
+'OBS_MOT_NOMBRE' => ''
 );
 
 public function get($attr){
@@ -30,6 +32,7 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('observaciones',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {
@@ -50,6 +53,7 @@ public function delete($id){
 
 public function findByArray($myarray = null){
   $this->load->database();
+  $this->db->order_by('OBS_ID', 'ASC'); // or 'DESC'
   $res = $this->db->get_where('observaciones',$myarray);
   $result = null;
   foreach ($res->result_array() as $row) {
@@ -86,7 +90,7 @@ public function findById($id){
 
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {
-      $this->columns[$key] = $value;
+      $this->_columns[$key] = $value;
       }
     }
 }

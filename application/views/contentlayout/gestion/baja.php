@@ -34,7 +34,9 @@
               <select name="formmotivoorigen" class="form-control select2" style="width: 100%;">
                 <option value="0"></option>
                 <?php foreach ($motivos as $key => $value): ?>
-                  <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
+                  <?php if ($value['MOT_DIF'] == 1): ?>
+                     <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
+                  <?php endif ?>
                 <?php endforeach ?>
               </select>
             </div>
@@ -47,7 +49,7 @@
           </div>
           <div class="col-md-4">
             <label>Acción</label>
-            <input type="submit" class="btn btn-block btn-danger" value="Dar de Baja" />
+            <button type="submit" class="btn btn-block btn-danger fa fa-arrow-down">Dar de BajaP</button>
           </div>
         </div>
 
@@ -60,10 +62,10 @@
                 <thead>
                   <tr>
                     <th>Fecha</th>
+                    <th>Producto</th>
                     <th>Nombre</th>
                     <th>Motivo</th>
                     <th>Motivo resultado</th>
-                    <th>Editar</th>
                     <th>Observaciones</th>
                   </tr>
                 </thead>
@@ -72,24 +74,23 @@
                 <?php foreach ($bajas as $key => $value): ?>
                  <tr>
                   <td><?= $value['BAJA_FECHA']  ?></td>
+                  <th><?= $value['INV_ID']."-".$value['INV_PROD_NOM']  ?></th>
                   <td><?= $value['USU_NOMBRES']  ?></td>
-                  <td><?= $value['MOT_NOMBRE']  ?></td>
+                  <td><?= $value['MOT_NOMBRE'] ?></td>
                   <td><?php if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
                     <?php
                      $ultimoregistro = array_pop($value['BAJA_MOTIVO_RESULTADO']);  
                      echo($ultimoregistro["OBS_MOT_NOMBRE"]);
-
                      ?>
                   <?php else: ?>
-                     NO POSEE RESULTADO AUN
+                     SIN RESULTADO
                   <?php endif ?>
                     
                   </td>
                   <td>
-                    <button class="btn btn-block btn-success">Editar</button>
-                  </td>
-                  <td>
-                    <button class="btn btn-block btn-success" data-toggle="modal" data-target=".myObs">Observación</button>
+                    <?php if ($value['MOT_ID'] == 15): ?>
+                      <button idbaja="<?= $value['BAJA_ID'] ?>" class="obsbaja btn btn-block btn-success fa fa-eye" data-toggle="modal" data-target=".myObs"></button>
+                    <?php endif ?>
                   </td>
                  </tr> 
                 <?php endforeach ?>
@@ -137,32 +138,52 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-            <h4 class="modal-title" id="myModalLabel">Editar ingreso</h4>
+            <h4 class="modal-title" id="myModalLabel">Ver/Añadir Observaciones</h4>
           </div>
           <div class="modal-body">
               <div class="box-body">
 
+              <input type="hidden" id="bajaidhidden" />
+              <input type="hidden" id="inventarioabajar" />
                 <div class="form-group ">
                   <label >Texto</label>
-                  <input type="text" class="form-control pull-right col-md-6"  placeholder="Ingrese el texto">
+                  <input id="obstexto" type="text" class="form-control pull-right col-md-6"  placeholder="Ingrese el texto">
                 </div>
                 <br>
-                <div class="form-group">
-                  <label>Motivo</label>
-                  <select class="form-control select2" style="width: 100%;">
-                    <option selected="selected">Motivos</option>
-                    <option>Reparado</option>
-                    <option>Merma</option>
-                    <option>Necesita presupuesto</option>
-                    <option>En espera de repuestos</option>
-                  </select>
-               </div>
+                  <div class="form-group">
+                    <label>Motivo Origen</label>
+                    <select id="obsmotivoresultado" class="form-control select2" style="width: 100%;">
+                      <option value="0"></option>
+                      <?php foreach ($motivos as $key => $value): ?>
+                        <?php if ($value['MOT_DIF'] == 2): ?>
+                           <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
+                        <?php endif ?>
+                      <?php endforeach ?>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                   <table name="example2" class="table table-responsive table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>Fecha</th>
+                          <th>Texto</th>
+                          <th>Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody id="historialobs">
+                     
+                      </tbody>
+                    </table>
+                    
+                  </div>
+
 
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success">Guardar datos</button> 
+            <button type="button" id="agregarmotivoresultado" class="btn btn-success">Guardar datos</button> 
           </div>
         </div>
       </div>
@@ -202,37 +223,61 @@
 
     })
 
-
-    $(".itemSearch").select2({
-    tags: true,
-    multiple: true,
-    tokenSeparators: [',', ' '],
-    minimumInputLength: 2,
-    minimumResultsForSearch: 10,
-    ajax: {
-        url: URL,
-        dataType: "json",
-        type: "GET",
-        data: function (params) {
-
-            var queryParameters = {
-                term: params.term
-            }
-            return queryParameters;
-        },
-        processResults: function (data) {
-            return {
-                results: $.map(data, function (item) {
-                    return {
-                        text: item.tag_value,
-                        id: item.tag_id
+    $(".obsbaja").click(function (argument) {
+      clear();
+       var id = $(this).attr("idbaja");
+        $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/get_obs_by_baja_id')?>",
+                    datatype: "json",
+                    data:  {"bajaid": id},
+                    success: function(response){
+                      var pp = JSON.parse(response.allobs);
+                      pp.forEach(function(rr) {
+                        $("#historialobs").append('<tr><th>'+rr.FECHA+'</th><th>'+rr.TEXTO+'</th><th>'+rr.MOT_NOMBRE+'</th></tr>');
+                      });
+                       $("#bajaidhidden").val(id);
+                       $("#inventarioabajar").val(response.INV_ID);
+                       console.log(response);
+                       $.notify("Detalle observaciones cargado exitosamente", "success");      
                     }
-                })
-            };
-        }
-    }
-});
+           })   
 
+    })
+
+    $("#agregarmotivoresultado").click(function (argument) {
+       var motivores = $("#obsmotivoresultado").val();
+       var texto = $("#obstexto").val();
+       var bajaidhidden = $("#bajaidhidden").val();
+       var inventarioabajar = $("#inventarioabajar").val();
+       $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/insert_obs_to_baja')?>",
+                    datatype: "json",
+                    data:  {"bajaid": bajaidhidden,"texto": texto,"motivores": motivores,"inventarioabajar": inventarioabajar},
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
+                    success: function(response){
+                      if (response.estado) {
+                         $.notify(response.mensaje, "success");
+                         location.reload(); 
+                      }else{
+                        $.notify(response.mensaje, "warn"); 
+                      }
+                           
+                    }
+           })
+
+    })
+
+    function clear(){
+      $("#historialobs").text("");
+      $("#motivoresultado").val("");
+      $("#texto").val("");
+      $("#bajaidhidden").val("");
+      $("#inventarioabajar").val("");
+    }
 
     </script>
     <?php } ?>
