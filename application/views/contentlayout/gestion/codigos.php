@@ -17,20 +17,36 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Todos los códigos de barra</h3>
+                <h3 class="box-title">Todos los códigos de barra</h3>
 
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
-              <div class="row">
-                <!-- /.col -->
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Categoria</th>
+                  <th>Descargar todos los código de barra</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($productos as $key => $value): ?>
+                  <tr>
+                    <td><?= $value['PROD_NOMBRE']; ?></td>
+                    <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
+                    <td>
+                      <button id="barcode" value="<?= $value['PROD_ID']; ?>" type="button" class="barcode btn btn-danger btn-block">
+                        <i class="fa fa-barcode"></i>
+                      </button>
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+                </tbody>
+              </table>
             </div>
-            <!-- ./box-body -->
-
           </div>
+      <!-- /.box -->
+
           <!-- /.box -->
           <div class="box">
             <div class="box-header with-border">
@@ -60,5 +76,28 @@
 
   <?php function MISJAVASCRIPTPERSONALIZADO(){?>
    <script type="text/javascript" charset="utf-8">
+
+    $(function () {
+      //Initialize Select2 Elements
+      $(".select2").select2();
+
+      $('#example1').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true
+      });
+
+
+      $('#barcode').click(function(){
+        var param = $("#barcode").val();
+        alert(param);
+
+      });
+    });
+
+
   </script>
   <?php } ?>
