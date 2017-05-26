@@ -60,6 +60,16 @@ public function findAll(){
   return $result;
 }
 
+public function findAllSelect(){
+  $result=array();
+  $bit = null;
+  $consulta =  $this->db->get_where('categoria',array('CAT_ESTADO'=>'1'));
+    foreach ($consulta->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
+
 public function findById($id){
   $result=array();
   $bit = null;

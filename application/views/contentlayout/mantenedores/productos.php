@@ -156,13 +156,6 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Stock total</label>
-
-                        <div class="col-md-9">
-                          <input name="producto[PROD_STOCK_TOTAL]" min="0" max="100000" type="number" class="col-md-12" required>
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label class="col-sm-2 control-label">Stock crítico</label>
 
                         <div class="col-md-9">
@@ -273,13 +266,6 @@
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
                             <?php endforeach ?>
                           </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Stock total</label>
-
-                        <div class="col-md-9">
-                          <input id="stocktotal" name="producto[PROD_STOCK_TOTAL]" type="number" class="col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">

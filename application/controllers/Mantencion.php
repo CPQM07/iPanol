@@ -139,7 +139,7 @@ class Mantencion extends CI_Controller {
 	    );
 	    $datos['productos'] = $NuevoProducto;
 	  }
-	  $datos['categorias'] = $this->categorias->findAll();
+	  $datos['categorias'] = $this->categorias->findAllSelect();
 	  $datos['tipos'] = $this->tipoProducto->findAll();
 	  $this->layouthelper->LoadView("mantenedores/productos", $datos, null);
 	}
