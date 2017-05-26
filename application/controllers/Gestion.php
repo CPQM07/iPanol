@@ -21,6 +21,9 @@ class Gestion extends CI_Controller {
     $this->load->model('Motivo_Model','mot',true);
     $this->load->model('Observaciones_Model','obs',true);
     $this->load->model('Baja_Model','baja',true);
+    /*nuevo*/
+    $this->load->model('TipoProd_Model','tipoP',true);
+    /*nuevo*/
 
   }
 
@@ -550,9 +553,30 @@ class Gestion extends CI_Controller {
   /* End of file gestion.php */
   /* Location: ./application/controllers/gestion.php */
     public function codigos()
-    {
-      $this->layouthelper->LoadView("gestion/codigos" , null);
+  {
+    $NuevoProducto = array();
+    $productos = $this->prod->findAll();
+    foreach ($productos as $key => $value) {
+      $NuevoProducto[] = array(
+        'PROD_ID' => $value->get('PROD_ID'),
+        'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+        'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+        'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+        'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+        'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
+        'PROD_POSICION' => $value->get('PROD_POSICION'),
+        'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+        'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+        'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+        'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+        'PROD_ESTADO' => $value->get('PROD_ESTADO')
+      );
+      $datos['productos'] = $NuevoProducto;
     }
+    $datos['categorias'] = $this->cat->findAll();
+    $datos['tipos'] = $this->tipoP->findAll();
+    $this->layouthelper->LoadView("gestion/codigos" , $datos);
+  }
 
 
 

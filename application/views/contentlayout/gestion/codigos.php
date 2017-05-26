@@ -35,7 +35,7 @@
                     <td><?= $value['PROD_NOMBRE']; ?></td>
                     <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
                     <td>
-                      <button id="barcode" value="<?= $value['PROD_ID']; ?>" type="button" class="barcode btn btn-danger btn-block">
+                      <button id="" value="<?= $value['PROD_ID']?>" type="button" class="barcode btn btn-danger btn-block">
                         <i class="fa fa-barcode"></i>
                       </button>
                     </td>
@@ -91,9 +91,10 @@
       });
 
 
-      $('#barcode').click(function(){
+      $('.barcode').click(function(){
+        var id=$(this).attr("value");
         var param = $("#barcode").val();
-        alert(param);
+        alert(id);
 
       });
     });
