@@ -721,35 +721,79 @@ class Gestion extends CI_Controller {
 
   /* End of file gestion.php */
   /* Location: ./application/controllers/gestion.php */
-    public function codigos()
-  {
-    $NuevoProducto = array();
-    $productos = $this->prod->findAll();
-    foreach ($productos as $key => $value) {
-      $NuevoProducto[] = array(
-        'PROD_ID' => $value->get('PROD_ID'),
-        'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
-        'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
-        'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
-        'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
-        'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
-        'PROD_POSICION' => $value->get('PROD_POSICION'),
-        'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
-        'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
-        'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
-        'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
-        'PROD_ESTADO' => $value->get('PROD_ESTADO')
-      );
-      $datos['productos'] = $NuevoProducto;
+    public function codigos(){
+      $NuevoProducto = array();
+      $productos = $this->prod->findAll();
+      foreach ($productos as $key => $value) {
+        $NuevoProducto[] = array(
+          'PROD_ID' => $value->get('PROD_ID'),
+          'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+          'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+          'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+          'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+          'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
+          'PROD_POSICION' => $value->get('PROD_POSICION'),
+          'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+          'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+          'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+          'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+          'PROD_ESTADO' => $value->get('PROD_ESTADO')
+        );
+        $datos['productos'] = $NuevoProducto;
+      }
+      
+      $datos['categorias'] = $this->cat->findAll();
+      $datos['tipos'] = $this->tipoP->findAll();
+      $this->layouthelper->LoadView("gestion/codigos" , $datos);
     }
-    $datos['categorias'] = $this->cat->findAll();
-    $datos['tipos'] = $this->tipoP->findAll();
-    $this->layouthelper->LoadView("gestion/codigos" , $datos);
-  }
 
+    public function generarPDF(){
 
+        $nomProd = $_POST["idBarcode"];
+        $nomCat = $_POST["nombreCat"];
 
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetTitle('Códigos de barra'); //Titlo del pdf
+        $pdf->setPrintHeader(false); //No se imprime cabecera
+        $pdf->setPrintFooter(true); //No se imprime pie de pagina
+        $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
+        $pdf->SetAutoPageBreak(true, 20); //Se define un salto de pagina con un limite de pie de pagina
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);//Definir el quiebre de la paguina
+        $pdf->SetFont('Helvetica', '', 10);//Estilo de fuente
+        $style = array(
+            'position' => '',
+            'align' => 'C',
+            'stretch' => false,
+            'fitwidth' => true,
+            'cellfitalign' => '',
+            'border' => true,
+            'hpadding' => 'auto',
+            'vpadding' => 20,
+            'fgcolor' => array(0,0,0),
+            'bgcolor' => false, //array(255,255,255),
+            'text' => true,
+            'font' => 'helvetica',
+            'fontsize' => 8,
+            'stretchtext' => 4
+        );
+        $pdf->addPage();
+        /*REVISAR SI SE VAN A MOSTRAR TODOS LOS CAODIGOS DE BARRA DE UNA CATEGORIA O DE UNA NOMBRE DE PRODUCTO DE INVENTARIO*/
+        /*REVISAR LA FORMA EN LA QUE ESTA HECHA LA BD POR LAS CATEGORIAS Y COD DE BARRAS*/
+        $this->db->where('INV_PROD_NOM',$nomProd);
+        $query = $this->db->get('inventario');
 
+        foreach($query->result_array() AS $row){
+          $barcode = $row['INV_PROD_CODIGO'];
+          $nombre = $row['INV_PROD_NOM'];
+          $pdf->Cell(0, 0, $nombre, 0, 1);
+          $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
+          $pdf->Ln();
+        }
+        $pdf->lastPage();
+        $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$nomProd.'.pdf';
+        $pdf->output($rutasavePDF, 'F');
+        $rutaAJAX = base_url().'/resources/pdf/barcode/'.$nomProd.'.pdf';
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+    }
 }
-
-

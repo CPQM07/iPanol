@@ -17,14 +17,14 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Todos los códigos de barra</h3>
+                <h3 class="box-title">Todos los códigos de barra por nombre</h3>
 
             </div>
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th class="danger">Nombre</th>
                   <th>Categoria</th>
                   <th>Descargar todos los código de barra</th>
                 </tr>
@@ -35,7 +35,7 @@
                     <td><?= $value['PROD_NOMBRE']; ?></td>
                     <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
                     <td>
-                      <button id="" value="<?= $value['PROD_ID']?>" type="button" class="barcode btn btn-danger btn-block">
+                      <button id="" name="<?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
                         <i class="fa fa-barcode"></i>
                       </button>
                     </td>
@@ -87,14 +87,32 @@
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": true
+        "autoWidth": true,
+        "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
       });
 
 
+
       $('.barcode').click(function(){
-        var id=$(this).attr("value");
-        var param = $("#barcode").val();
-        alert(id);
+        var id = $(this).val();
+        var nomCat = $(this).attr("name");
+
+          $.ajax(
+          {
+            method:"POST",
+            url: "<?=site_url('/gestion/generarPDF')?>",
+            datatype:'json',
+            data: {"idBarcode": id,"nombreCat": nomCat},
+            beforeSend: function () {
+                  $('#carga_modal').modal('show');
+              },
+            success: function(response){
+                var win = window.open('', '_blank');
+                win.location.href = response.path;
+                location.reload();
+            }
+          });
+
 
       });
     });

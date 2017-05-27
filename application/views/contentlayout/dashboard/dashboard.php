@@ -45,7 +45,7 @@
             <div class="inner">
               <h3><?= $baja ?><sup style="font-size: 20px"></sup></h3>
 
-              <p>Productos / insumos dados de baja</p><!-- manda a la vista baja -->
+              <p>Productos dados de baja</p><!-- manda a la vista baja -->
             </div>
             <div class="icon">
               <i class="ion ion-trash-a"></i>
