@@ -97,15 +97,16 @@ public function findById($id){
     return $result;
   }
   
-  public function count0(){/*contador solicitudPendiendeRecepcionar*/
-    $this->db->where('SOL_ESTADO',1);
+  public function count0(){/*contador Solicitudes pendientes por recepcionar*/
+    $this->db->where('SOL_ESTADO',3);
+    $this->db->or_where('SOL_ESTADO',5);
     $consulta = $this->db->get('solicitud');
     return $consulta->num_rows();
   }
 
-  public function count1(){/*contador solicitudPendiendeRecepcionar*/
-    $this->db->where('ASIG_ESTADO',3);
-    $consulta = $this->db->get('asignacion');
+  public function count1(){/*contador Solicitudes pendientes sin asignación*/
+    $this->db->where('SOL_ESTADO',1);
+    $consulta = $this->db->get('solicitud');
     return $consulta->num_rows();
   }
 
