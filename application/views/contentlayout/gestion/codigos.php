@@ -94,24 +94,43 @@
 
 
       $('.barcode').click(function(){
-        var id = $(this).val();
+        var nombreProd = $(this).val();
         var nomCat = $(this).attr("name");
 
-          $.ajax(
+        $.ajax(
           {
             method:"POST",
-            url: "<?=site_url('/gestion/generarPDF')?>",
+            url: "<?=site_url('/gestion/validar')?>",
             datatype:'json',
-            data: {"idBarcode": id,"nombreCat": nomCat},
-            beforeSend: function () {
-                  $('#carga_modal').modal('show');
-              },
+            data: {"nombreProducto": nombreProd},
             success: function(response){
-                var win = window.open('', '_blank');
-                win.location.href = response.path;
-                location.reload();
+                if (response.val == 0)
+                { 
+                  $.notify("No existen "+nombreProd+" en el invetario.", "error");
+                }else{
+                  $('#carga_modal').modal('show');
+                  $.ajax(
+                  {
+                    method:"POST",
+                    url: "<?=site_url('/gestion/generarPDF')?>",
+                    datatype:'json',
+                    data: {"idBarcode": nombreProd,"nombreCat": nomCat},
+                    success: function(response){
+                      var win = window.open('', '_blank');
+                      win.location.href = response.path;
+                      $('#carga_modal').modal('hide');
+                      location.reload();
+                    }
+                  });
+                }
             }
           });
+
+
+
+
+
+          
 
 
       });

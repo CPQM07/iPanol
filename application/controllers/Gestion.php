@@ -796,4 +796,22 @@ class Gestion extends CI_Controller {
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
+
+    public function validar(){
+      $nomProd = $_POST['nombreProducto'];
+      /*$this->db->where('INV_PROD_NOM ='.$nomProd);
+      $we = $this->db->get('inventario');
+      return $we->num_rows();*/
+      $this->db->from('inventario');
+      $this->db->where('INV_PROD_NOM',$nomProd);
+      $query = $this->db->get();
+      $rowcount = $query->num_rows();
+      if ($rowcount == 0) {
+        $val = 0;
+      }else{
+        $val = 1;
+      }
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("val" =>$val )));
+    }
 }
