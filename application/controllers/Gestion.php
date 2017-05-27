@@ -116,7 +116,7 @@ class Gestion extends CI_Controller {
     $todoivbycat = $this->inv->findByArrayLike($nomsearch,'INV_PROD_NOM','INV_ID');
     $arrayinv = array();
     foreach ($todoivbycat as $key => $value) {
-      if ($value->get('INV_TIPO_ID') == 1 and $value->get('INV_PROD_ESTADO') == 1 or $value->get('INV_PROD_ESTADO') == 3) {
+      if ($value->get('INV_TIPO_ID') == 1 and $value->get('INV_PROD_ESTADO') == 1) {
       $arrayinv[] = array("id" =>$value->get('INV_ID'),
                         "text" =>$value->get('INV_ID')."-".$value->get('INV_PROD_NOM')
                         );
@@ -359,6 +359,7 @@ class Gestion extends CI_Controller {
                       "ASIG_INV_ID" => $value['ASIG_INV_ID'],
                       "ASIG_FECHA" => $value['ASIG_FECHA'],
                       "ASIG_CANT" => $value['ASIG_CANT'],
+                      "ASIG_CANT_DEVUELTA" => $value['ASIG_CANT_DEVUELTA'],
                       "INV_ID" => $value['INV_ID'],
                       "INV_PROD_ID" => $value['INV_PROD_ID'],
                       "INV_PROD_NOM" => $value['INV_PROD_NOM'],
@@ -396,12 +397,42 @@ class Gestion extends CI_Controller {
        $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 1));
         }
     }
+
+    if (isset($_POST['checkeadostipo2'])) {
+      $checkmascantidadfungibles = $_POST['checkeadostipo2'];
+      foreach ($checkmascantidadfungibles as $key => $value) {
+        $this->asignacion->update($value['idasignacion'],array('ASIG_ESTADO' => 2,"ASIG_CANT_DEVUELTA" => $value['cantidad']));
+        $asignacionobj = $this->asignacion->findById($value['idasignacion']);
+        $inventarioobj = $this->inv->findById($asignacionobj->get('ASIG_INV_ID'));
+
+        $ultimacantidad = $inventarioobj->get('INV_PROD_CANTIDAD');//ultima cantidad en el inventario hay que sumarle los los devolvidos
+        $ultimacantidad = intval($ultimacantidad)+intval($value['cantidad']);
+
+        $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_CANTIDAD'  => $ultimacantidad));
+
+        //$asignacionobj = $this->asignacion->findById($value['idasignacion']);
+       //$this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 1));
+      }
+    }
+
     if (!empty($_POST['nocheckeados']) && is_array($_POST['nocheckeados'])) {
-      $nocheckeados = $_POST['nocheckeados'];
-      foreach ($nocheckeados as $key => $value) {
+       $nocheckeados = $_POST['nocheckeados'];
+       foreach ($nocheckeados as $key => $value) {
        $this->asignacion->update($value,array('ASIG_ESTADO' => 3));
        $asignacionobj = $this->asignacion->findById($value);
-       $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 3));
+       $inventarioobj = $this->inv->findById($asignacionobj->get('ASIG_INV_ID'));
+       if ($inventarioobj->get("INV_TIPO_ID") == 1) {
+         $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 3));
+       }else if($inventarioobj->get("INV_TIPO_ID") == 2){
+           $actualcantidadasig = $asignacionobj->get('ASIG_CANT_DEVUELTA');
+           $actualcantidadinv = $inventarioobj->get('INV_PROD_CANTIDAD');
+           $ultimoresul = intval($actualcantidadinv)-intval($actualcantidadasig);
+
+
+          $this->asignacion->update($value,array('ASIG_ESTADO' => 3,"ASIG_CANT_DEVUELTA" => 0));
+         $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 1,'INV_PROD_CANTIDAD'  => $ultimoresul ));
+
+       }
        $this->soli->update($solicitudid,array('SOL_ESTADO' => 3));
       }
     }else{
@@ -412,28 +443,28 @@ class Gestion extends CI_Controller {
      $this->output->set_output(json_encode(array("estado" => true ,"mensaje" =>"Se a guardado correctamente la recepcion de productos para esta solicitud")));
   }
 
-  public function get_user_by_cargo_ajax(){
-    $alluser = array();
-    $idcargo = $_POST['idcargo'];
-    $usuarios = $this->usu->findByArray(array("USU_CARGO_ID" => $idcargo));
-    foreach ($usuarios as $key => $value) {
-      $alluser[] = json_encode(array('RUT' => $value->get("USU_RUT"),
-                        'DV' => $value->get("USU_DV"),
-                        'NOMBRES' => $value->get("USU_NOMBRES"),
-                        'APELLIDOS' => $value->get("USU_APELLIDOS"),
-                        'CARGO_ID' => $value->get("USU_CARGO_ID"),
-                        'CARRERA_ID' => $value->get("USU_CARRERA_ID"),
-                        'EMAIL' => $value->get("USU_EMAIL"),
-                        'TELEFONO1' => $value->get("USU_TELEFONO1"),
-                        'TELEFONO2' => $value->get("USU_TELEFONO2"),
-                        'CLAVE' => $value->get("USU_CLAVE"),
-                        'ESTADO' => $value->get("USU_ESTADO")));
+    public function get_user_by_cargo_ajax(){
+      $alluser = array();
+      $idcargo = $_POST['idcargo'];
+      $usuarios = $this->usu->findByArray(array("USU_CARGO_ID" => $idcargo));
+      foreach ($usuarios as $key => $value) {
+        $alluser[] = json_encode(array('RUT' => $value->get("USU_RUT"),
+                          'DV' => $value->get("USU_DV"),
+                          'NOMBRES' => $value->get("USU_NOMBRES"),
+                          'APELLIDOS' => $value->get("USU_APELLIDOS"),
+                          'CARGO_ID' => $value->get("USU_CARGO_ID"),
+                          'CARRERA_ID' => $value->get("USU_CARRERA_ID"),
+                          'EMAIL' => $value->get("USU_EMAIL"),
+                          'TELEFONO1' => $value->get("USU_TELEFONO1"),
+                          'TELEFONO2' => $value->get("USU_TELEFONO2"),
+                          'CLAVE' => $value->get("USU_CLAVE"),
+                          'ESTADO' => $value->get("USU_ESTADO")));
+      }
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($alluser));
     }
-    $this->output->set_content_type('application/json');
-    $this->output->set_output(json_encode($alluser));
-  }
 
-   public function get_inv_by_cat_tipo_ajax(){
+    public function get_inv_by_cat_tipo_ajax(){
     $allinv = array();
     $idtipo = $_POST['idtipo'];
     $idcat = $_POST['idcat'];

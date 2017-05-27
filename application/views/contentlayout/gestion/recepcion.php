@@ -161,13 +161,17 @@
                       if (response.estado) {
                         var obj = JSON.parse(response.allasig);
                         obj.forEach(function(rr){
-                          if (parseInt(rr.INV_TIPO_ID) == 1) {
-                               checked = "";
-                            if (parseInt(rr.ASIG_ESTADO) == 2 ) {
+                          var checked = "";
+
+                          if (parseInt(rr.ASIG_ESTADO) == 2 ) {
                               checked = "checked";
                             }
-
-                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                          if (parseInt(rr.INV_TIPO_ID) == 1) {
+                             
+                            
+                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                            }else{
+                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="text" id="UFC'+rr.ASIG_ID+'" class=" col-md-6" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }
                         })
                          $.notify(response.mensaje, "success");
@@ -188,9 +192,10 @@
    })
 
    $("#recepcionar").click(function(event) {
-    var countallbox = 0;
+   var countallbox = 0;
     var countchcheados = 0;
     var arrayidcheckeados = new Array();
+    var arraycheckeadosmascantidad = new Array();
     var arrayidnocheckeados = new Array();
     var flagcerrarsolono =false;
     var numsolicitud = $("#numsol").text();
@@ -198,7 +203,16 @@
             countallbox++;
             if (this.checked) {
                countchcheados++;
-               arrayidcheckeados.push($(this).val());
+               if ($(this).attr("tipo") == 1) {
+
+                arrayidcheckeados.push($(this).val());
+
+               }else if ($(this).attr("tipo") == 2) {
+
+                arraycheckeadosmascantidad.push({"idasignacion":$(this).val(),"cantidad":$("#UFC"+$(this).val()+"").val() });
+
+               }
+
             }else{
                arrayidnocheckeados.push($(this).val());
             }
@@ -206,11 +220,12 @@
      if (countchcheados == countallbox) {
       flagcerrarsolono = true;
      }
+     console.log(arraycheckeadosmascantidad);
               $.ajax({
                     method: "POST",
                     url: "<?=site_url('/gestion/update_asignaciones_recepcionadas')?>",
                     datatype: "json",
-                    data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud },
+                    data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud ,"checkeadostipo2": arraycheckeadosmascantidad},
                     beforeSend: function () {
                             $('#carga_modal').modal('show');
                         },

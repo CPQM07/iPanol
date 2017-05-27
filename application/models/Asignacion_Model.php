@@ -14,7 +14,8 @@ private  $_columns  =  array(
 'ASIG_SOL_ID' => 0,
 'ASIG_INV_ID' => 0,
 'ASIG_FECHA' => '',
-'ASIG_CANT' => ''
+'ASIG_CANT' => '',
+'ASIG_CANT_DEVUELTA' => 0
 );
 
 public function get($attr){
