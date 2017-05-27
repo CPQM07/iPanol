@@ -85,7 +85,7 @@ public function findAll(){
 
   public function findByArray($myarray = null,$arrayestadosOR = null){
         $this->load->database();
-        $this->db->select("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,SOL_ESTADO");
+        $this->db->select("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,SOL_ESTADO,SOL_RUTA_PDF");
         $res = $this->db->get_where('solicitud',$myarray);
         $this->db->or_where_in('SOL_ESTADO',$arrayestadosOR);
         $this->db->order_by('SOL_ID', 'ASC');
@@ -99,7 +99,7 @@ public function findAll(){
    public function findByArrayIN($arraydeIDinv = null,$arraycondiciones = null){
     $this->load->database();
     $this->db->get('solicitud');
-    $this->db->select("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,SOL_ESTADO");
+    $this->db->select("SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,SOL_ESTADO,SOL_RUTA_PDF");
     $this->db->or_where_in('SOL_ESTADO',$arraydeIDinv);
     $res = $this->db->get_where('solicitud',$arraycondiciones);
     $result = array();
@@ -113,7 +113,7 @@ public function findAll(){
   //ESTE METODO BUSCA LAS SOLICITUDES POR EL ESTADO DE DEL DETALLE DEL MISMO
   function findByEstadoDetSol($estado){
     $result = array();
-    $querry = $this->db->query("select SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION from solicitud JOIN detallesol on solicitud.SOL_ID = detallesol.DETSOL_SOL_ID where detallesol.DETSOL_ESTADO =".$estado." GROUP BY SOL_ID");
+    $querry = $this->db->query("select SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,,SOL_RUTA_PDF from solicitud JOIN detallesol on solicitud.SOL_ID = detallesol.DETSOL_SOL_ID where detallesol.DETSOL_ESTADO =".$estado." GROUP BY SOL_ID");
     foreach ($querry->result() as $data) {
       $result[] = $this->create($data);  
     }

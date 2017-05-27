@@ -21,41 +21,8 @@
         <div class="col-md-12">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="datatable2 table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Rut</th>
-                    <th>Fecha inicio</th>
-                    <th>Fecha entrega</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>19543514-6</td>
-                    <td>12/03/2017</td>
-                    <td>14/03/2017</td>
-                    <td class="text-center">
-                      <button class="btn btn-block btn-success" data-toggle="modal" data-target="#recproins">Gestionar recepcion P/I</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1958123-k</td>
-                    <td>12/03/2017</td>
-                    <td>14/03/2017</td>
-                    <td class="text-center">
-                      <button class="btn btn-block btn-success" data-toggle="modal" data-target="#recproins">Gestionar recepcion P/I</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>16234789-5</td>
-                    <td>12/03/2017</td>
-                    <td>14/03/2017</td>
-                    <td class="text-center">
-                      <button class="btn btn-block btn-success" data-toggle="modal" data-target="#recproins">Gestionar recepcion P/I</button>
-                    </td>
-                  </tr>
-                </tbody>
+              <table id="tablaajax" class=" table table-bordered table-hover">
+               
               </table>
             </div>
           <!-- /.box-body -->
@@ -84,44 +51,25 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal">
                     <div class="box-body">
                       
                         <div class="row">
                           <div class="col-md-12">
                             <div class="box-header">
-                              <h3 class="box-title">Confirmación de recepcion Productos N°<strong>0009383</strong></h3>
+                              <h3 class="box-title">Confirmación de recepción Productos N°<strong id="numsol"></strong></h3>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                              <table id="example2" class="datatable2 table table-bordered table-hover">
+                              <table id="example2" class="table table-responsive table-bordered table-hover">
                                 <thead>
                                   <tr>
                                     <th>Id</th>
                                     <th>Producto</th>
                                     <th>Cantidad solicitada</th>
-                                    <th class="text-center">Recepcionado ? <input class="pull-left" type="checkbox" /></th>
+                                    <th class="text-center">Recepcionado ? <input id="todoscheck" class="pull-left" type="checkbox" /></th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>3</td>
-                                    <td>Martillo</td>
-                                    <td>1</td>
-                                    <td class="text-center"><input type="checkbox" /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>4</td>
-                                    <td>Tijeras</td>
-                                    <td>1</td>
-                                    <td class="text-center"><input type="checkbox" /></td>
-                                  </tr>
-                                  <tr>
-                                    <td>5</td>
-                                    <td>Cautín</td>
-                                    <td>1</td>
-                                    <td class="text-center"><input type="checkbox" /></td>
-                                  </tr>
+                                <tbody id="tableasignacionesresultado">
                                 </tbody>
                               </table>
                             </div>
@@ -137,11 +85,10 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Recepcionar</button>
+                          <button type="submit" id="recepcionar" class="btn btn-danger col-md-12">Recepcionar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
-                  </form>
             </div>
           </div>
         </div>
@@ -150,6 +97,145 @@
 
   <?php function MISJAVASCRIPTPERSONALIZADO(){ ?>
    <script type="text/javascript" charset="utf-8">
+    var tabla;    
+       $(function () {
+          tabla = $('#tablaajax').DataTable({
+                lengthMenu: [5,10, 20, 50, 100],
+                "pagingType": "simple",
+                "responsive": true,
+                "paging": true,
+                "cache": false,
+                "processing": true,
+                "lengthChange": true,
+                "deferRender": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "ajax": {
+                    "url": "<?=site_url('/gestion/recepcion_ajax')?>",
+                    "type": "POST",
+                    "beforeSend": function () {
+                            $('#carga_modal').modal('show');
+                        },
+                    "dataSrc": function ( json ) {
+                      $('#carga_modal').modal('hide');
+                        return json;
+                    }
+                },
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                "columns": [
+                    { title: "Id",
+                        className: "text-center" },
+                    { title: "Rut",
+                        className: "text-red text-center"},
+                    { title: "Fecha Inicio",
+                        className: "text-green text-center"},
+                    { title: "Fecha Termino",
+                        className: "text-sm text-center"},
+                    { title: "Pdf",
+                        className: "text-center"},
+                    { title: "Accion"}]
+            });
+       })
+
+
+
+
       
+   $(document).on("click",".getasignaciones",function (argument) {
+    clean();
+     var idsol = $(this).attr("idsol");
+     $("#numsol").text(idsol);
+         $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/get_all_asignaciones_by_sol')?>",
+                    datatype: "json",
+                    data:  {"idsolicitud": idsol},
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
+                    success: function(response){
+                      console.log(response);
+                      if (response.estado) {
+                        var obj = JSON.parse(response.allasig);
+                        obj.forEach(function(rr){
+                          if (parseInt(rr.INV_TIPO_ID) == 1) {
+                               checked = "";
+                            if (parseInt(rr.ASIG_ESTADO) == 2 ) {
+                              checked = "checked";
+                            }
+
+                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                            }
+                        })
+                         $.notify(response.mensaje, "success");
+                      }else{
+                        $.notify(response.mensaje, "warn"); 
+                      }            
+                    },
+                    complete:function (argument) {
+                      $('#carga_modal').modal('hide');
+                    }
+           })
+
+   })
+
+   $("#todoscheck").on("click",function(){
+    if ($(this).is(":checked")) $('.items').prop('checked', true);
+    else $('.items').prop('checked', false);  
+   })
+
+   $("#recepcionar").click(function(event) {
+    var countallbox = 0;
+    var countchcheados = 0;
+    var arrayidcheckeados = new Array();
+    var arrayidnocheckeados = new Array();
+    var flagcerrarsolono =false;
+    var numsolicitud = $("#numsol").text();
+     $("input:checkbox[name='todo']").each(function() {
+            countallbox++;
+            if (this.checked) {
+               countchcheados++;
+               arrayidcheckeados.push($(this).val());
+            }else{
+               arrayidnocheckeados.push($(this).val());
+            }
+      });
+     if (countchcheados == countallbox) {
+      flagcerrarsolono = true;
+     }
+              $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/update_asignaciones_recepcionadas')?>",
+                    datatype: "json",
+                    data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud },
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
+                    success: function(response){
+                      console.log(response);
+                      if (response.estado) {
+                         $.notify(response.mensaje, "success");
+                         $('#recproins').modal('hide');
+                      }else{
+                        $.notify(response.mensaje, "warn"); 
+                      }            
+                    },
+                    complete:function (argument) {
+                      $('#tablaajax').DataTable().ajax.reload();
+                      $('#carga_modal').modal('hide');
+                    }
+                 })
+
+   });
+
+
+   function clean(){
+     $("#tableasignacionesresultado").text("");
+     $("#numsol").text("");
+   }
+
   </script>
   <?php } ?>

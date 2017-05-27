@@ -319,7 +319,97 @@ class Gestion extends CI_Controller {
 
   public function recepcion()
   {
-     $this->layouthelper->LoadView("gestion/recepcion" , null );
+     //$data["solicitudes"] = $this->soli->findByArrayIN(array(3,5));
+     $this->layouthelper->LoadView("gestion/recepcion",null);
+  }
+
+   public function recepcion_ajax()
+  {
+     $newarray = array();
+     $solicitudes = $this->soli->findByArrayIN(array(3,5));
+     foreach ($solicitudes as $key => $value) {
+      $newarray[] = array(
+              $value->get('SOL_ID'),
+              $value->get('SOL_USU_RUT'),
+              $value->get('SOL_FECHA_INICIO'),
+              $value->get('SOL_FECHA_TERMINO'),
+              "<a target='_blank' href='".base_url()."resources/pdf/".$value->get('SOL_RUTA_PDF')."' class='fa fa-file-pdf-o'></a>",
+              "<button idsol='".$value->get('SOL_ID')."' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>"
+
+              );
+       
+     }
+
+     $this->output->set_content_type('application/json');
+     $this->output->set_output(json_encode($newarray));
+     //$this->layouthelper->LoadView("gestion/recepcion",$data);
+  }
+
+  public function get_all_asignaciones_by_sol(){
+      $idsolicitud = $_POST['idsolicitud'];
+      $asignaciones = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $idsolicitud));
+
+      if ($asignaciones != null) {
+        $newarrayasign= array();
+          foreach ($asignaciones as $key => $value) {
+            $newarrayasign[] = array(
+                      "ASIG_ID" => $value['ASIG_ID'],
+                      "ASIG_ESTADO" => $value['ASIG_ESTADO'],
+                      "ASIG_SOL_ID" => $value['ASIG_SOL_ID'],
+                      "ASIG_INV_ID" => $value['ASIG_INV_ID'],
+                      "ASIG_FECHA" => $value['ASIG_FECHA'],
+                      "ASIG_CANT" => $value['ASIG_CANT'],
+                      "INV_ID" => $value['INV_ID'],
+                      "INV_PROD_ID" => $value['INV_PROD_ID'],
+                      "INV_PROD_NOM" => $value['INV_PROD_NOM'],
+                      "INV_PROD_CANTIDAD" => $value['INV_PROD_CANTIDAD'],
+                      "INV_PROD_ESTADO" => $value['INV_PROD_ESTADO'],
+                      "INV_PROD_CODIGO" => $value['INV_PROD_CODIGO'],
+                      "INV_INGRESO_ID" => $value['INV_INGRESO_ID'],
+                      "INV_FECHA" => $value['INV_FECHA'],
+                      "INV_IMAGEN" => $value['INV_IMAGEN'],
+                      "INV_TIPO_ID" => $value['INV_TIPO_ID'],
+                      "INV_CATEGORIA_ID" => $value['INV_CATEGORIA_ID'],
+                      "INV_ULTIMO_USUARIO" => $value['INV_ULTIMO_USUARIO'],
+                      "INV_ACTUAL_USUARIO" => $value['INV_ACTUAL_USUARIO'],
+
+              );
+          }
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("estado" => true ,"mensaje" => "Se ha cargado exitosamente la asignacion de esa solicitud", "allasig" => json_encode($newarrayasign))));
+      }else{
+        $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("estado" => false ,"mensaje" => "Lo sentimos esta solicitud no posee asignaciones de productos o insumos")));
+      }
+
+  }
+
+  public function update_asignaciones_recepcionadas(){ 
+    $cerrarono = $_POST['resultadocerrarono'];
+    $solicitudid = $_POST['idsol'];
+
+    if (isset($_POST['idcheckeados'])) {
+      $idcheckeados = $_POST['idcheckeados'];
+      foreach ($idcheckeados as $key => $value) {
+       $this->asignacion->update($value,array('ASIG_ESTADO' => 2));
+       $asignacionobj = $this->asignacion->findById($value);
+       $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 1));
+        }
+    }
+    if (!empty($_POST['nocheckeados']) && is_array($_POST['nocheckeados'])) {
+      $nocheckeados = $_POST['nocheckeados'];
+      foreach ($nocheckeados as $key => $value) {
+       $this->asignacion->update($value,array('ASIG_ESTADO' => 3));
+       $asignacionobj = $this->asignacion->findById($value);
+       $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 3));
+       $this->soli->update($solicitudid,array('SOL_ESTADO' => 3));
+      }
+    }else{
+      $this->soli->update($solicitudid,array('SOL_ESTADO' => 4));
+    }
+
+     $this->output->set_content_type('application/json');
+     $this->output->set_output(json_encode(array("estado" => true ,"mensaje" =>"Se a guardado correctamente la recepcion de productos para esta solicitud")));
   }
 
   public function get_user_by_cargo_ajax(){

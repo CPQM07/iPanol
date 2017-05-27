@@ -102,7 +102,7 @@
                         <th>Fecha de ingreso</th>
                         <th>Ingresado por</th>
                         <th>Insumo</th>
-                        <th>Total</th>
+                        <th>Total Ingreso</th>
                         <th>Editar</th>
                       </tr>
                       </thead>

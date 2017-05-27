@@ -57,7 +57,7 @@ public function findByArray($myarray = null){
   //$this->db->join('usuario', 'inventario.INV_ULTIMO_USUARIO = usuario.USU_RUT');
   //$this->db->order_by('ASIG_ID', 'ASC');
   $res = $this->db->get_where('asignacion',$myarray);
-  $result = array();
+  $result = null;
   foreach ($res->result_array() as $row) {
     $result[] = $row;
   }
