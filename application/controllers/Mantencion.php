@@ -195,7 +195,7 @@ class Mantencion extends CI_Controller {
 			 $nameimg = $this->copiarimg->upload();
 			 }
 			}
-			$nuevopro=$this->productos->update($id,$_POST['producto']);
+			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
 			redirect('/Mantencion/productos');
 		}else{
 			echo "usuario no fue agregado";

@@ -41,7 +41,8 @@ public function insert($imagen=null){
 $this->db->insert('productos',$this->_columns);
 }
 
-public function update($id, $data) {
+public function update($id, $data,$img) {
+  $data['PROD_IMAGEN']=$img;
   $producto = $this->db->get_where('productos',array('PROD_ID'=>$id));
   if($producto->num_rows() > 0){
     $this->db->where('PROD_ID', $id);

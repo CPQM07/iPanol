@@ -5,6 +5,17 @@
                border: 1px solid #000;
                margin: 10px 5px 0 0;
           }
+          input[type=file] {
+              opacity: 0;
+              width: 100%;
+              height: 100%;
+          }
+           
+          #upload {
+              background: url("<?= base_url();?>/resources/images/Upload-128.png") center center no-repeat;
+              width: 100px;
+              height: 100px;
+          }
       </style>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -192,11 +203,14 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Imagen</label>
+                        <label class="col-sm-2 control-label">Subir Imagen</label>
 
                         <div class="col-md-9">
-                          <input name="files" type="file" id="files" required>
+                        <div id="upload">
+                          <input name="files" type="file" id="files" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                          </div>
                           <output id="list"></output>
+                        
                         </div>
                       </div>
                     </div>
@@ -305,11 +319,14 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Imagen</label>
+                        <label class="col-sm-2 control-label">Subir Imagen</label>
 
                         <div class="col-md-9">
-                          <input id="producto[PROD_IMAGEN]" name="files" type="file" >
+                        <div id="upload">
+                          <input name="files" type="file" id="filess" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                          </div>
                           <output id="list"></output>
+                        
                         </div>
                       </div>
                       <div class="form-group">
@@ -409,8 +426,17 @@
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 
 <script type="text/javascript" charset="utf-8">
-
   $(document).ready(function() {
+
+    $('.input-file').change(function (){
+     var sizeByte = this.files[0].size;
+     var siezekiloByte = parseInt(sizeByte / 1024);
+     console.log(siezekiloByte);
+     if(siezekiloByte > $(this).attr('size')){
+         alert('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+         $('#files').end();
+     }
+   });
     window.onload = function() {
       VariableJS = $alert;
       alert(VariableJS);
@@ -450,7 +476,7 @@
           $("#slider2").val(data.PROD_PRIORIDAD);
           $('#recibe2').text(data.PROD_PRIORIDAD);
           $("#dias").val(data.PROD_DIAS_ANTIC);
-          $("#imagen").val(data.PROD_IMAGEN);
+          $("#filess").val(data.PROD_IMAGEN);
           $("#estado").val(data.PROD_ESTADO);
           console.log(data);
         }
