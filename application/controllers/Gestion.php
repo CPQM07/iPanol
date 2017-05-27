@@ -747,7 +747,7 @@ class Gestion extends CI_Controller {
       $this->layouthelper->LoadView("gestion/codigos" , $datos);
     }
 
-    public function generarPDF(){
+    public function generarPDFGeneral(){
 
         $nomProd = $_POST["idBarcode"];
         $nomCat = $_POST["nombreCat"];
@@ -796,6 +796,21 @@ class Gestion extends CI_Controller {
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    
 
     public function validar(){
       $nomProd = $_POST['nombreProducto'];
