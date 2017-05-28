@@ -171,7 +171,7 @@
                             
                            $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }else{
-                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="text" id="UFC'+rr.ASIG_ID+'" class=" col-md-6" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="validar col-md-4 pull-right" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }
                         })
                          $.notify(response.mensaje, "success");
@@ -246,6 +246,20 @@
 
    });
 
+
+   $(document).on("keyup",".validar",function(argument) {
+     var cantidadingresada  =  $(this).val();
+     var cantidadmaxima  =  $(this).attr("max");
+     if (parseInt(cantidadmaxima) < parseInt(cantidadingresada)) {
+        $.notify("Error la cantidad ingresada para recepcionar no puede superar lo solicitado", "warn");
+        $(this).val(0); 
+     }
+     if (parseInt(cantidadingresada) < 0) {
+        $.notify("Error la cantidad ingresada para recepcionar debe ser mayor o igual a 0", "warn");
+        $(this).val(0); 
+     }
+
+   })
 
    function clean(){
      $("#tableasignacionesresultado").text("");

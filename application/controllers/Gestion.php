@@ -823,7 +823,7 @@ class Gestion extends CI_Controller {
         $pdf->lastPage();
         $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$nomProd.'.pdf';
         $pdf->output($rutasavePDF, 'F');
-        $rutaAJAX = base_url().'/resources/pdf/barcode/'.$nomProd.'.pdf';
+        $rutaAJAX = base_url().'resources/pdf/barcode/'.$nomProd.'.pdf';
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
