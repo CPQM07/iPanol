@@ -39,10 +39,12 @@ public function create($row){
 
 public function insert(){
 $this->db->insert('inventario',$this->_columns);
+return $this->db->insert_id();
 }
 
 public function insertDirect($columnas){
 $this->db->insert('inventario',$columnas);
+return $this->db->insert_id();
 }
 
 public function update($id, $data) {

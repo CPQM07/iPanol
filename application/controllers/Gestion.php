@@ -291,13 +291,14 @@ class Gestion extends CI_Controller {
                       'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
                       'INV_TIPO_ID' => 1
                       );
-        $this->inv->insertDirect($_columns);
+        $ultimoidonventarioingresado =  $this->inv->insertDirect($_columns);
+        $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }
     }else if($producto->get("PROD_TIPOPROD_ID") == 2){
       $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID' => $producto->get("PROD_ID")));
       if ($insumo != null) {
         $total = intval($insumo->get('INV_PROD_CANTIDAD'))+intval($_POST['cantidad']);
-        $this->inv->update($insumo->get("INV_ID"), array('INV_PROD_CANTIDAD' => $total));
+        $this->inv->update($insumo->get("INV_ID"), array('INV_PROD_CANTIDAD' => $total,'INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $insumo->get("INV_ID")));
       }else{
          $_columns  =  array(
                       'INV_ID' => 0,
@@ -309,7 +310,8 @@ class Gestion extends CI_Controller {
                       'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
                       'INV_TIPO_ID' => 2
                       );
-        $this->inv->insertDirect($_columns);
+        $ultimoidonventarioingresado = $this->inv->insertDirect($_columns);
+        $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }      
     }
 
@@ -427,8 +429,6 @@ class Gestion extends CI_Controller {
            $actualcantidadasig = $asignacionobj->get('ASIG_CANT_DEVUELTA');
            $actualcantidadinv = $inventarioobj->get('INV_PROD_CANTIDAD');
            $ultimoresul = intval($actualcantidadinv)-intval($actualcantidadasig);
-
-
           $this->asignacion->update($value,array('ASIG_ESTADO' => 3,"ASIG_CANT_DEVUELTA" => 0));
          $this->inv->update($asignacionobj->get('ASIG_INV_ID'),array('INV_PROD_ESTADO'  => 1,'INV_PROD_CANTIDAD'  => $ultimoresul ));
 
