@@ -72,7 +72,7 @@
                     <tr>
                       <td><?= $value['PROD_ID']; ?></td>
                       <td><?= $value['PROD_NOMBRE']; ?></td>
-                      <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
+                      <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
                       <td><?= $value['PROD_TIPOPROD_ID'][0]->get('TIPO_NOMBRE'); ?></td>
                       <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
                       <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
@@ -323,7 +323,7 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="filess" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                          <input name="files" type="file" id="filess" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
                           </div>
                           <output id="list"></output>
                         

@@ -10,7 +10,8 @@ parent::__construct();
 
 private  $_columns  =  array(
 'ASIGNATURA_ID' => 0,
-'ASIGNATURA_NOMBRE' => ''
+'ASIGNATURA_NOMBRE' => '',
+'ASIGNATURA_ESTADO' => '1'
 );
 
 public function get($attr){
@@ -42,8 +43,9 @@ public function update($id, $data) {
 }
 
 public function delete($id){
-  $this->db->where('ASIGNATURA_ID',$id);
-  return $this->db->delete('asignatura');
+  $sql="update usuario set ASIGNATURA_ESTADO =0 WHERE ASIGNATURA_ID=".$id;
+  $query = $this->db->query($sql);
+  return 1;
 }
 
 

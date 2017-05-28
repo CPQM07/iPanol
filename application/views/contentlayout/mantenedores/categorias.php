@@ -28,6 +28,7 @@
                   <th>ID</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCION</th>
+                  <th>CODIGO</th>
                   <th>ESTADO</th>
                   <th>ELIMINAR</th>
                   <th>EDITAR</th>
@@ -49,11 +50,12 @@
                         <td><?= $value->get('CAT_ID'); ?></td>
                         <td><?= $value->get('CAT_NOMBRE'); ?></td>
                         <td><?= $value->get('CAT_DESC'); ?></td>
+                        <td><?= $value->get('CAT_CODIGO'); ?></td>
                         <td><?= $estado ?></td>
                         <td>
                           <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value->get('CAT_ID'); ?>"><i class="fa fa-remove"></i></button>
                         </td>
-                        <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
+                        <td><button id="<?= $value->get('CAT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                         </td>
                       </tr>
                         <!--ModalELIMINAR-->
@@ -160,13 +162,14 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/edit_categoria')?>" method="post" accept-charset="utf-8">
+                   <input id="id" name="id" type="number" style="width: 14px;height: 11px; visibility: hidden;">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
 
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <input id="nombre"  name="cat[CAT_NOMBRE]" type="text" class="col-md-12">
                         </div>
                       </div>
 
@@ -174,14 +177,14 @@
                         <label class="col-sm-2 control-label">Descripción</label>
 
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <input id="desc" name="cat[CAT_DESC]"  type="text" class="col-md-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
-                          <input type="number" class="col-md-12">
+                          <input id="cod" name="cat[CAT_CODIGO]"  type="number" class="col-md-12">
                         </div>
                       </div>
 
@@ -189,7 +192,7 @@
                         <label class="col-sm-2 control-label">Estado</label>
 
                         <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
+                          <select id="estado" name="cat[CAT_ESTADO]" class="form-control select2" style="width: 100%;">
                             <option selected="selected">Seleccione un tipo</option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
@@ -215,3 +218,38 @@
         </div>
       </div>
     </div>
+<?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+
+  
+  $('.editar').click(function(){
+      limpiar();
+      var id=$(this).attr("id");
+      $.ajax({
+        type:"POST",
+        dataType:"json",
+        data: {"id": id},
+        url:"<?=site_url('/Mantencion/findById_categorias')?>",
+        success: function(data){
+          $("#id").val(data.CAT_ID);
+          $("#nombre").val(data.CAT_NOMBRE);
+          $("#desc").val(data.CAT_DESC);
+          $("#cod").val(data.CAT_CODIGO);
+          $("#estado").val(data.CAT_ESTADO);
+          console.log(data);
+        }
+      });
+    });
+});
+
+function limpiar(){
+    $("#id").val("");
+    $("#nombre").val("");
+    $("#desc").val("");
+    $("#cod").val("");
+    $("#estado").val("");
+
+  }
+</script>
+<?php } ?>

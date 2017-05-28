@@ -98,6 +98,21 @@ class Mantencion extends CI_Controller {
 	  $this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
 	}
 
+	public function findById_categorias(){
+	  $id= $_POST['id'];
+	  $newarray = null;
+	  $value = $this->categorias->findById($id);
+	  	$newarray = array(
+					'CAT_ID' => $value->get("CAT_ID"),
+					'CAT_NOMBRE' => $value->get("CAT_NOMBRE"),
+					'CAT_DESC' => $value->get("CAT_DESC"),
+					'CAT_CODIGO' => $value->get("CAT_CODIGO"),
+					'CAT_ESTADO' => $value->get("CAT_ESTADO")
+					);
+	  $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($newarray));
+	}
+
 	public function new_cat(){
 		if(isset($_POST['cat'])){
 			$nuevo=$this->categorias->create($_POST['cat']);
@@ -113,8 +128,14 @@ class Mantencion extends CI_Controller {
 	  redirect('/Mantencion/categorias');
 	}
 
-	public function editarCategoria($ID){
-
+	public function edit_categoria(){
+		if(isset($_POST['cat'])){
+			$id=$_POST['id'];
+			$this->categorias->update($id,$_POST['cat']);
+			redirect('/Mantencion/categorias');
+		}else{
+			echo "usuario no fue agregado";
+		}
 	}
 	//Fin Categoria***************************************************************************
 

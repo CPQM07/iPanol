@@ -12,7 +12,8 @@ private  $_columns  =  array(
 'CAT_ID' => 0,
 'CAT_NOMBRE' => '',
 'CAT_DESC' => '',
-'CAT_CODIGO' => 0
+'CAT_CODIGO' => 0,
+'CAT_ESTADO' =>1 
 );
 
 public function get($attr){
@@ -77,10 +78,10 @@ public function findById($id){
   $consulta = $this->db->get('categoria');
   if($consulta->num_rows() > 0){
     foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+    $result = $this->create($row);
     }
   }else{
-    $result[] = $this->create($this->_columns);
+    $result = $this->create($this->_columns);
   }
     return $result;
   }

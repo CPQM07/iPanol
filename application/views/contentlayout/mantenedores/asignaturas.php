@@ -43,6 +43,26 @@
                       <td>
                         <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/2/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-info btn-block"><i class="fa fa-check"></i></a>
                       </td>
+                        <!--ModalELIMINAR-->
+    <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+      <div class="modal-danger" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Eliminar una Asignatura</h4>
+          </div>
+          <div class="modal-body">
+            <p>Está seguro de eliminar la asignatura <strong>><?= //$value->get('ASIGNATURA_ID'); ?></strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <a href='<?=// site_url("Mantencion/eliminarAsignaruta/".$value['USU_RUT'].""); ?>' class="btn btn-danger">Eliminar</a>
+          </div> 
+        </div>
+      </div>
+    </div>-->
+  <!--ModalELIMINAR-->
+  <!--ModalELIMINAR-->
                     <?php endif; ?>
                   </tr>
                 <?php endforeach; ?>

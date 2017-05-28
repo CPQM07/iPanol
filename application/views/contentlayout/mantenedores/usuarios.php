@@ -77,7 +77,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <a href='<?= site_url("Mantencion/eliminarusuario/".$value['USU_RUT'].""); ?>' class="btn btn-default">Eliminar</a>
+            <a href='<?= site_url("Mantencion/eliminarusuario/".$value['USU_RUT'].""); ?>' class="btn btn-danger">Eliminar</a>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
