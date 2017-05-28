@@ -72,17 +72,14 @@ public function findAllSelect(){
 }
 
 public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('CAT_ID',$id);
-  $consulta = $this->db->get('categoria');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result = $this->create($row);
+    $result = null;
+    $this->db->where('CAT_ID',$id);
+    $this->db->order_by('CAT_ID', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('categoria');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 

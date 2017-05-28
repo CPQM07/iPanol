@@ -208,6 +208,7 @@
                             $('#carga_modal').modal('show');
                         },
                     "data": function (argument) {
+                     // console.log(productosid);
                       return {'productosid': productosid};
                     },
                     "dataSrc": function ( json ) {

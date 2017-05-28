@@ -30,9 +30,9 @@
                 <?php foreach ($productos as $key => $value): ?>
                   <tr>
                     <td><?= $value['PROD_NOMBRE']; ?></td>
-                    <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
+                    <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
                     <td>
-                      <button id="" name="<?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+                      <button id="" name="<?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
                         <i class="fa fa-barcode"></i>
                       </button>
                     </td>
@@ -99,9 +99,9 @@
                         </div>
                         <td><?= $value['PROD_NOMBRE']; ?></td>
                         <td>we</td><!-- ID -->
-                        <td><?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?></td>
+                        <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
                         <td>
-                          <button id="" name="<?= $value['PROD_CAT_ID'][0]->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+                          <button id="" name="<?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
                             <i class="fa fa-barcode"></i>
                           </button>
                         </td>
@@ -189,13 +189,6 @@
                 }
             }
           });
-
-
-
-
-
-          
-
 
       });
     });

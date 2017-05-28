@@ -73,7 +73,7 @@
                       <td><?= $value['PROD_ID']; ?></td>
                       <td><?= $value['PROD_NOMBRE']; ?></td>
                       <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
-                      <td><?= $value['PROD_TIPOPROD_ID'][0]->get('TIPO_NOMBRE'); ?></td>
+                      <td><?= $value['PROD_TIPOPROD_ID']->get('TIPO_NOMBRE'); ?></td>
                       <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
                       <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
                       <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>

@@ -58,17 +58,14 @@ public function findAll(){
 }
 
 public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('TIPO_ID',$id);
-  $consulta = $this->db->get('tipoprod');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+    $result = null;
+    $this->db->where('TIPO_ID',$id);
+    $this->db->order_by('TIPO_ID', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('tipoprod');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 

@@ -44,15 +44,13 @@
 
 
     <div class="modal fade bs-example-modal-lg" id="recproins" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-lg" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Recepcion de detalle</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                    <div class="box-body">
-                      
+                    <div class="box-body">     
                         <div class="row">
                           <div class="col-md-12">
                             <div class="box-header">
@@ -65,7 +63,8 @@
                                   <tr>
                                     <th>Id</th>
                                     <th>Producto</th>
-                                    <th>Cantidad solicitada</th>
+                                    <th class="text-center">Asignados</th>
+                                    <th class="text-center">Recepcionados</th>
                                     <th class="text-center"><input id="todoscheck" onclick="toggleSwitch()" data-width="100" data-toggle="toggle" class="pull-left" data-on="Todos" data-off="Ninguno" type="checkbox" /></th>
                                   </tr>
                                 </thead>
@@ -76,7 +75,6 @@
                             <!-- /.box-body -->
                           </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -164,9 +162,9 @@
                           if (parseInt(rr.INV_TIPO_ID) == 1) {
                              
                             
-                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }else{
-                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="validar col-md-4 pull-right" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="form-control validar" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/></td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }
                             $('.items').bootstrapToggle();
                         })

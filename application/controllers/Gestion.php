@@ -283,7 +283,7 @@ class Gestion extends CI_Controller {
       for ($i=0; $i < $_POST['cantidad']; $i++) { 
         $_columns  =  array(
                       'INV_ID' => 0,
-                      'INV_PROD_ID' => $producto->get("PROD_TIPOPROD_ID"),
+                      'INV_PROD_ID' => $producto->get("PROD_ID"),
                       'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
                       'INV_PROD_CANTIDAD' => 1,
                       'INV_PROD_ESTADO' => 1,
@@ -492,6 +492,8 @@ class Gestion extends CI_Controller {
     $allinv = array();
     $todoslosiddeproductos = $_POST['productosid'];
     $inventario = $this->inv->findByArrayIN($todoslosiddeproductos,array('INV_PROD_ESTADO' =>1));
+    //print_r($inventario);
+    //exit();
 
     foreach ($inventario as $key => $value) {
       if ($value->get('INV_TIPO_ID') == 1) {
