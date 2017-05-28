@@ -66,7 +66,7 @@
                                     <th>Id</th>
                                     <th>Producto</th>
                                     <th>Cantidad solicitada</th>
-                                    <th class="text-center">Recepcionado ? <input id="todoscheck" class="pull-left" type="checkbox" /></th>
+                                    <th class="text-center"><input id="todoscheck" onclick="toggleSwitch()" data-width="100" data-toggle="toggle" class="pull-left" data-on="Todos" data-off="Ninguno" type="checkbox" /></th>
                                   </tr>
                                 </thead>
                                 <tbody id="tableasignacionesresultado">
@@ -138,13 +138,8 @@
                         className: "text-center"},
                     { title: "Accion"}]
             });
-       })
 
-
-
-
-      
-   $(document).on("click",".getasignaciones",function (argument) {
+             $(document).on("click",".getasignaciones",function (argument) {
     clean();
      var idsol = $(this).attr("idsol");
      $("#numsol").text(idsol);
@@ -169,10 +164,11 @@
                           if (parseInt(rr.INV_TIPO_ID) == 1) {
                              
                             
-                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }else{
-                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="validar col-md-4 pull-right" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td>'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="validar col-md-4 pull-right" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }
+                            $('.items').bootstrapToggle();
                         })
                          $.notify(response.mensaje, "success");
                       }else{
@@ -185,11 +181,17 @@
            })
 
    })
+       })
 
-   $("#todoscheck").on("click",function(){
-    if ($(this).is(":checked")) $('.items').prop('checked', true);
-    else $('.items').prop('checked', false);  
-   })
+    $(document).on("change","#todoscheck",function (argument) {
+        if ($(this).is(":checked")) {
+          $('.items').bootstrapToggle('on');
+        }
+        else{
+         $('.items').bootstrapToggle('off');
+      }  
+    })
+          
 
    $("#recepcionar").click(function(event) {
    var countallbox = 0;
