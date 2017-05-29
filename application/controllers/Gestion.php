@@ -758,6 +758,21 @@ class Gestion extends CI_Controller {
 
   /* End of file gestion.php */
   /* Location: ./application/controllers/gestion.php */
+    public function validar(){
+      $nomProd = $_POST['nombreProducto'];
+      $this->db->from('inventario');
+      $this->db->where('INV_PROD_NOM',$nomProd);
+      $query = $this->db->get();
+      $rowcount = $query->num_rows();
+      if ($rowcount == 0) {
+        $val = 0;
+      }else{
+        $val = 1;
+      }
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("val" =>$val )));
+    }
+
     public function codigos(){
       $NuevoProducto = array();
       $productos = $this->prod->findAll();
@@ -814,8 +829,7 @@ class Gestion extends CI_Controller {
             'stretchtext' => 4
         );
         $pdf->addPage();
-        /*REVISAR SI SE VAN A MOSTRAR TODOS LOS CAODIGOS DE BARRA DE UNA CATEGORIA O DE UNA NOMBRE DE PRODUCTO DE INVENTARIO*/
-        /*REVISAR LA FORMA EN LA QUE ESTA HECHA LA BD POR LAS CATEGORIAS Y COD DE BARRAS*/
+
         $this->db->where('INV_PROD_NOM',$nomProd);
         $query = $this->db->get('inventario');
 
@@ -834,36 +848,87 @@ class Gestion extends CI_Controller {
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
 
+    public function generarPDFunitario(){
 
-    
+      $idInv = $_POST['idInv'];
+      $id = 0;
+      $nombre = "";
+      $barcode = 0;
+      $nombreArchivo= "";
 
+      $pdf2 = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+      $pdf2->SetTitle('Códigos de barra'); //Titlo del pdf
+      $pdf2->setPrintHeader(false); //No se imprime cabecera
+      $pdf2->setPrintFooter(true); //No se imprime pie de pagina
+      $pdf2->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
+      $pdf2->SetAutoPageBreak(true, 20); //Se define un salto de pagina con un limite de pie de pagina
+      $pdf2->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);//Definir el quiebre de la paguina
+      $pdf2->SetFont('Helvetica', '', 10);//Estilo de fuente
+      $style = array(
+          'position' => '',
+          'align' => 'C',
+          'stretch' => false,
+          'fitwidth' => true,
+          'cellfitalign' => '',
+          'border' => true,
+          'hpadding' => 'auto',
+          'vpadding' => 20,
+          'fgcolor' => array(0,0,0),
+          'bgcolor' => false, //array(255,255,255),
+          'text' => true,
+          'font' => 'helvetica',
+          'fontsize' => 8,
+          'stretchtext' => 4
+      );
+      $pdf2->addPage();
 
+      $this->db->where('INV_ID', $idInv);
+      $query = $this->db->get('inventario');
+      foreach ($query->result_array() AS $row){
+          $barcode = $row["INV_PROD_CODIGO"];
+          $nombre = $row["INV_PROD_NOM"];
+          $id = $row["INV_ID"];
+          $nombreArchivo = str_replace(' ', '',$nombre)."-".$id;
+          $pdf2->Cell(0, 0, $nombre, 0, 1);
+          $pdf2->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
+      }
+      $pdf2->Ln();
 
+      $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
+      $pdf2->lastPage();
+      $pdf2->output($rutasavePDF, 'F');
+      $rutaAJAX = base_url().'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
 
+    }
 
-
-
-
-
-
-
-    
-
-    public function validar(){
-      $nomProd = $_POST['nombreProducto'];
-      /*$this->db->where('INV_PROD_NOM ='.$nomProd);
-      $we = $this->db->get('inventario');
-      return $we->num_rows();*/
-      $this->db->from('inventario');
-      $this->db->where('INV_PROD_NOM',$nomProd);
-      $query = $this->db->get();
-      $rowcount = $query->num_rows();
-      if ($rowcount == 0) {
-        $val = 0;
-      }else{
-        $val = 1;
+    public function traerProductosByIdTipo(){
+      $tipoP = $_POST['idTipo'];
+      $todoProByCat = $this->prod->findByTipProd($tipoP);
+      $arrayProd = array();
+      foreach ($todoProByCat as $key => $value) {
+        $arrayProd[] = array("id" =>$value->get('PROD_ID'),"nombre" =>$value->get('PROD_ID')." - ".$value->get('PROD_NOMBRE'));
       }
       $this->output->set_content_type('application/json');
-      $this->output->set_output(json_encode(array("val" =>$val )));
+      $this->output->set_output(json_encode($arrayProd));
     }
+
+    public function traerInventarioByIdTipo(){
+      $tipoP = $_POST['idTipo'];
+      $todoProByCat = $this->inv->findAllByInvProdId($tipoP);
+      $arrayInv = array();
+      foreach ($todoProByCat as $key => $value) {
+        $arrayInv[] = array("
+              <input class='items' id='show' type='checkbox' data-toggle='toggle' data-on='SI' data-off='NO' data-onstyle='danger'>",
+              $value->get('INV_ID'),
+              $value->get('INV_PROD_NOM'),
+              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode btn btn-danger btn-block">
+              <i class="fa fa-barcode"></i></button>'
+            );
+      }
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($arrayInv));
+    }
+
 }

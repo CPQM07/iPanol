@@ -118,8 +118,6 @@ public function findAll(){
   }
 
 
-//SELECT * FROM `inventario` WHERE (`INV_PROD_ID` = 1 or `INV_PROD_ID` =2) and (`INV_PROD_ESTADO` = 1)
-
   public function findByArrayIN($arraydeIDinv = null,$arraycondiciones = null){
     $this->load->database();
     $this->db->get('inventario');
@@ -137,4 +135,17 @@ public function findAll(){
       $this->columns[$key] = $value;
       }
     }
+
+    public function findAllByInvProdId($id = null){
+    $this->load->database();
+    $this->db->where('INV_PROD_ID', $id);
+    $res = $this->db->get('inventario');
+    $result = array();
+     foreach ($res->result() as $row) {
+      $result[] = $this->create($row);
+    }
+    return $result;
+  }
+
+
 }
