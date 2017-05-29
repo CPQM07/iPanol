@@ -30,7 +30,6 @@
                   <th>DESCRIPCION</th>
                   <th>CODIGO</th>
                   <th>ESTADO</th>
-                  <th>ELIMINAR</th>
                   <th>EDITAR</th>
                 </tr>
                 </thead>
@@ -46,34 +45,10 @@
                         <?php else: ?>
                           <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/2/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
                         <?php endif; ?>
-                        <td>
-                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value->get('CAT_ID'); ?>"><i class="fa fa-remove"></i></button>
-                        </td>
                         <td><button id="<?= $value->get('CAT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                         </td>
                       </tr>
-                        <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="ELIMINAR<?= $value->get('CAT_ID'); ?>" tabindex="-1" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar una categoría</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar el producto <strong><?= $value->get('CAT_NOMBRE'); ?></strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <a href='<?= site_url("Mantencion/eliminarCategoria/".$value->get('CAT_ID').""); ?>' class="btn btn-default">Eliminar</a>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-                    <?php endforeach; ?>
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>

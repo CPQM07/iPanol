@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-6"><br>
 
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu" >Agregar nueva categoría</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newUsu" >Nuevo Usuario</button>
         </div>
       </div>
     </section>
@@ -110,7 +110,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form id="form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8">
+                  <form id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Rut</label>
@@ -145,8 +145,8 @@
                         <label class="col-sm-2 control-label" >Cargo</label>
 
                         <div class="col-md-9">
-                          <select id="new_cargo" name="new_usu[USU_CARGO_ID]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un cargo</option>
+                          <select id="new_cargo" name="new_usu[USU_CARGO_ID]" class="form-control select2" style="width: 100%;" required>
+                            <option></option>
                             <?php foreach ($cargo as  $cargos): 
                             if ($cargos->get('CARGO_ESTADO')==1) {
                             ?>
@@ -159,8 +159,8 @@
                         <label class="col-sm-2 control-label">Carrera</label>
 
                         <div class="col-md-9">
-                          <select id="new_carrera" name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione una carrera</option>
+                          <select id="new_carrera" name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;" required>
+                            <option></option>
                             <?php foreach ($carrera as  $carreras): ?>
                                <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -194,7 +194,14 @@
                         <label class="col-sm-2 control-label">Clave</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_CLAVE]" type="password" class="col-md-12" required>
+                          <input id="new_clave" name="new_usu[USU_CLAVE]" pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Vuelve a ingresar tu clave</label>
+
+                        <div class="col-md-9">
+                          <input id="new_clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
                         </div>
                       </div>
 
@@ -229,7 +236,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/edit_usuario')?>" method="post" accept-charset="utf-8">
+                  <form id="form" class="form-horizontal" action="<?=site_url('Mantencion/edit_usuario')?>" method="post" accept-charset="utf-8">
                   <input id="rutE" name="rut" style="width: 14px; visibility: hidden;">
                     <div class="box-body">
                       <div class="form-group">
@@ -265,7 +272,7 @@
 
                         <div class="col-md-9">
                           <select id="cargo" name="new_usu[USU_CARGO_ID]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un cargo</option>
+                            <option></option>
                             <?php foreach ($cargo as  $cargos): 
                             if ($cargos->get('CARGO_ESTADO')==1) {
                             ?>
@@ -279,7 +286,7 @@
 
                         <div class="col-md-9">
                           <select id="carrera" name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione una carrera</option>
+                            <option></option>
                             <?php foreach ($carrera as  $carreras): ?>
                                <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -313,7 +320,14 @@
                         <label class="col-sm-2 control-label">Clave</label>
 
                         <div class="col-md-9">
-                          <input id="clave" name="new_usu[USU_CLAVE]" type="password" class="col-md-12" required>
+                          <input id="clave"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter"  name="new_usu[USU_CLAVE]" type="password" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Vuelve a ingresar tu clave</label>
+
+                        <div class="col-md-9">
+                          <input id="clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">
@@ -321,7 +335,7 @@
 
                         <div class="col-md-9">
                           <select id="estado" name="new_usu[USU_ESTADO]"  class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                           </select>
@@ -335,7 +349,7 @@
                     <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                   </div>
                   <div class="col-sm-6">
-                    <input type="submit" class="btn btn-danger col-md-12" value="Agregar">
+                    <input id="editar" type="submit" class="btn btn-danger col-md-12" value="Agregar">
                   </div>
                 </div>
               <!-- /.box-footer -->
@@ -348,19 +362,26 @@
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
-
   $("#agregar").click(function(){
-    var carrera=$('#new_carrera').val();
-    var cargo=$('#new_cargo').val();
-    if(carrera=="Seleccione una carrera")
-    {
-      alert(carrera);
-      $("#form").finish();
-    }else if(cargo=="Seleccione un cargo")
-    {
-      alert(cargo);
-      $("#form").finish();
-    }else{}
+    var clave1=$('#new_clave').val();
+    var clave2=$('#new_clave2').val();
+    if (clave1==clave2) {
+      return true;
+    }else{ 
+      $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
+      return false;
+
+    }
+  });
+  $("#editar").click(function(){
+    var clave1=$('#clave').val();
+    var clave2=$('#clave2').val();
+     if (clave1==clave2) {
+      return true;
+    }else{ 
+        $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
+      return false;
+    }
   });
 
   $(".btn btn-success btn-block").click(function(){
@@ -396,13 +417,14 @@ $(document).ready(function() {
           $("#dv").val(data.USU_DV);
           $("#nombre").val(data.USU_NOMBRES);
           $("#apellido").val(data.USU_APELLIDOS);
-          $("#cargo").val(data.USU_CARGO_ID);
-          $("#carrera").val(data.USU_CARRERA_ID);
+          $("#cargo").val(data.USU_CARGO_ID).trigger('change');
+          $("#carrera").val(data.USU_CARRERA_ID).trigger('change');
           $("#email").val(data.USU_EMAIL);
           $("#telefono").val(data.USU_TELEFONO1);
           $("#telefonoOp").val(data.USU_TELEFONO2);
           $("#clave").val(data.USU_CLAVE);
-          $("#estado").val(data.USU_ESTADO);
+          $("#clave2").val(data.USU_CLAVE);
+          $("#estado").val(data.USU_ESTADO).trigger('change');
           console.log(data);
         }
       });

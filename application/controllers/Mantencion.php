@@ -71,6 +71,7 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['new_usu'])){
 			$nuevousuario=$this->usuario->create($_POST['new_usu']);
 			$nuevousuario->insert();
+			$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
@@ -80,6 +81,7 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['new_usu'])){
 			$id=$_POST['rut'];
 			$this->usuario->update($id,$_POST['new_usu']);
+			$this->session->set_flashdata('Habilitar', 'El Usuario se a editado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
@@ -88,6 +90,7 @@ class Mantencion extends CI_Controller {
 
 	public function eliminarusuario($id=null){
 		$this->usuario->delete($id);
+		$this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente el Usuario');
 		redirect('/Mantencion/usuarios');
 	}
 	//Fin Usuario*************************************************************************
@@ -117,6 +120,7 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['cat'])){
 			$nuevo=$this->categorias->create($_POST['cat']);
 			$nuevo->insert();
+			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			redirect('/Mantencion/categorias');
 		}else{
 			echo "usuario no fue agregado";
@@ -125,11 +129,11 @@ class Mantencion extends CI_Controller {
 
   public function CambiarEstadoCAT($tipo, $id){
     if ($tipo == 1) {
-      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->categorias->update($id, array('CAT_ESTADO' => 2));
       redirect('/Mantencion/categorias');
     } elseif ($tipo == 2) {
-      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->categorias->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');
     }
@@ -144,6 +148,7 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['cat'])){
 			$id=$_POST['id'];
 			$this->categorias->update($id,$_POST['cat']);
+			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/categorias');
 		}else{
 			echo "usuario no fue agregado";
@@ -211,6 +216,7 @@ class Mantencion extends CI_Controller {
 			}
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
+			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
 			echo "usuario no fue agregado";
@@ -229,6 +235,7 @@ class Mantencion extends CI_Controller {
 			 }
 			}
 			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
+			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
 			echo "usuario no fue agregado";
@@ -237,6 +244,7 @@ class Mantencion extends CI_Controller {
 
 	public function eliminarproducto($ID){
 	  $this->productos->delete($ID);
+	  $this->session->set_flashdata('Alert', 'Se Deshabilitó Correctamente');
 	  redirect('/Mantencion/productos');
 	}
 	//Fin Productos***************************************************************************
@@ -251,6 +259,7 @@ class Mantencion extends CI_Controller {
     if (isset($_POST['asignatura'])) {
       $NuevaAsignatura = $this->asignatura->create($_POST['asignatura']);
       $NuevaAsignatura->insert();
+      $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
       redirect('/Mantencion/asignaturas');
     } else {
       echo "NO AGRAGADO";
@@ -259,11 +268,11 @@ class Mantencion extends CI_Controller {
 
   public function CambiarEstadoAsig($tipo, $id){
     if ($tipo == 1) {
-      $this->session->set_flashdata('Alert', 'Se Deshabilito Correctamente');
+      $this->session->set_flashdata('Alert', 'Se Deshabilitó Correctamente');
       $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 2));
       redirect('/Mantencion/asignaturas');
     } elseif ($tipo == 2) {
-      $this->session->set_flashdata('Info', 'Se Habilito Correctamente');
+      $this->session->set_flashdata('Info', 'Se Habilitó Correctamente');
       $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 1));
       redirect('/Mantencion/asignaturas');
     }
@@ -280,6 +289,7 @@ class Mantencion extends CI_Controller {
     if (isset($_POST['motivo'])) {
       $NuevoMotivo = $this->motivo->create($_POST['motivo']);
       $NuevoMotivo->insert();
+      $this->session->set_flashdata('Info', 'Se Agregó Correctamente');
       redirect('/Mantencion/motivos');
     } else {
       echo "NO AGRAGADO";
@@ -288,11 +298,11 @@ class Mantencion extends CI_Controller {
 
   public function CambiarEstado($tipo, $id){
     if ($tipo == 1) {
-      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->motivo->update($id, array('MOT_ESTADO' => 2));
       redirect('/Mantencion/motivos');
     } elseif ($tipo == 2) {
-      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->motivo->update($id, array('MOT_ESTADO' => 1));
       redirect('/Mantencion/motivos');
     } elseif ($tipo == 3) {
@@ -324,6 +334,7 @@ class Mantencion extends CI_Controller {
     if(isset($_POST['MOT'])){
       $id=$_POST['id'];
       $this->motivo->update($id,$_POST['MOT']);
+      $this->session->set_flashdata('Habilitar', 'Se Actualizó Correctamente');
       redirect('/Mantencion/motivos');
     }else{
       echo "Motivo No Actualizado";
@@ -356,6 +367,7 @@ class Mantencion extends CI_Controller {
     if(isset($_POST['PROV'])){
       $id=$_POST['id'];
       $this->proveedores->update($id,$_POST['PROV']);
+      $this->session->set_flashdata('Habilitar', 'Se Agregó Correctamente');
       redirect('/Mantencion/proveedores');
     }else{
       echo "Proveedor No Actualizado";
@@ -364,11 +376,11 @@ class Mantencion extends CI_Controller {
 
   public function CambiarEstadoPROV($tipo, $id){
     if ($tipo == 1) {
-      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->proveedores->update($id, array('PROV_ESTADO' => 2));
       redirect('/Mantencion/proveedores');
     } elseif ($tipo == 2) {
-      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->proveedores->update($id, array('PROV_ESTADO' => 1));
       redirect('/Mantencion/proveedores');
     }
@@ -376,6 +388,7 @@ class Mantencion extends CI_Controller {
 
 	public function eliminarProveedor($RUT){
 	  $this->proveedores->delete($RUT);
+	  $this->session->set_flashdata('Habilitar', 'Se eliminó Correctamente');
 	  redirect('/Mantencion/proveedores');
 	}
 	//Fin Proveedores***************************************************************************
