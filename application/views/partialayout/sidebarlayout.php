@@ -61,12 +61,12 @@ $lasturl = array_pop($spliturl);
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=site_url('mantencion/usuarios')?>"><i class="fa fa-circle-o"></i>Usuarios</a></li>
-            <li><a href="<?=site_url('mantencion/productos')?>"><i class="fa fa-circle-o"></i>Productos</a></li>
-            <li><a href="<?=site_url('mantencion/categorias')?>"><i class="fa fa-circle-o"></i>Categorías</a></li>
-            <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-circle-o"></i>Asignatura</a></li>
-            <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-circle-o"></i>Motivos</a></li>
-            <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-circle-o"></i>Proveedores</a></li>
+            <li><a href="<?=site_url('mantencion/usuarios')?>"><i class="fa fa-users"></i></i>Usuarios</a></li>
+            <li><a href="<?=site_url('mantencion/productos')?>"><i class="fa fa-tag"></i></i>Productos</a></li>
+            <li><a href="<?=site_url('mantencion/categorias')?>"><i class="fa fa-tags"></i>Categorías</a></li>
+            <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-file-text"></i></i>Asignatura</a></li>
+            <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-tasks"></i></i>Motivos</a></li>
+            <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-address-card"></i></i>Proveedores</a></li>
           </ul>
         </li>
 
