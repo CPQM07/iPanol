@@ -47,7 +47,7 @@
                       <?php else: ?>
                         <td><a href="<?= site_url('/Mantencion/CambiarEstado/4/');?><?=$value->get('MOT_ID');?>" class="btn btn-success btn-block">Observacion</a></td>
                       <?php endif; ?>
-                      <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
+                      <td><button id="<?= $value->get('MOT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -165,39 +165,16 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal">
+                  <form action="<?= site_url('/Mantencion/updateMotivo'); ?>" method="post" class="form-horizontal">
+                    <input id="id" name="id" type="number" style="visibility: hidden;">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
 
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <input id="nombre" name="MOT[MOT_NOMBRE]" type="text" class="col-md-12">
                         </div>
                       </div>
-
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Carrera</label>
-
-                        <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
-                            <option>Informatica</option>
-                            <option>Telecomunicación</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Estado</label>
-
-                        <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                          </select>
-                        </div>
-                      </div>
-
 
                     </div>
                   </div>
@@ -217,3 +194,32 @@
         </div>
       </div>
     </div>
+
+
+    <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+      $('.editar').click(function(){
+          limpiar();
+          var id=$(this).attr("id");
+          $.ajax({
+            type:"POST",
+            dataType:"json",
+            data: {"id": id},
+            url:"<?=site_url('/Mantencion/findByIdMotivo')?>",
+            success: function(data){
+              $("#id").val(data.MOT_ID);
+              $("#nombre").val(data.MOT_NOMBRE);
+              console.log(data);
+            }
+          });
+        });
+    });
+
+    function limpiar(){
+        $("#id").val("");
+        $("#nombre").val("");
+      }
+    </script>
+    <?php } ?>

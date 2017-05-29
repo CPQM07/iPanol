@@ -35,23 +35,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($categoria as $key => $value): 
-                    switch ($value->get('CAT_ESTADO')) {
-                      case 1:
-                        $estado="Activo";
-                        break;
-                      
-                      default:
-                        $estado="Inactivo";
-                        break;
-                      }
-                  ?>
+                    <?php foreach ($categoria as $key => $value): ?>
                       <tr>
                         <td><?= $value->get('CAT_ID'); ?></td>
                         <td><?= $value->get('CAT_NOMBRE'); ?></td>
                         <td><?= $value->get('CAT_DESC'); ?></td>
                         <td><?= $value->get('CAT_CODIGO'); ?></td>
-                        <td><?= $estado ?></td>
+                        <?php if ($value->get('CAT_ESTADO') == 1): ?>
+                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/1/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                        <?php else: ?>
+                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/2/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
+                        <?php endif; ?>
                         <td>
                           <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value->get('CAT_ID'); ?>"><i class="fa fa-remove"></i></button>
                         </td>
@@ -222,7 +216,7 @@
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
 
-  
+
   $('.editar').click(function(){
       limpiar();
       var id=$(this).attr("id");

@@ -123,6 +123,18 @@ class Mantencion extends CI_Controller {
 		}
 	}
 
+  public function CambiarEstadoCAT($tipo, $id){
+    if ($tipo == 1) {
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->categorias->update($id, array('CAT_ESTADO' => 2));
+      redirect('/Mantencion/categorias');
+    } elseif ($tipo == 2) {
+      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->categorias->update($id, array('CAT_ESTADO' => 1));
+      redirect('/Mantencion/categorias');
+    }
+  }
+
 	public function eliminarCategoria($ID){
 	  $this->categorias->delete($ID);
 	  redirect('/Mantencion/categorias');
@@ -293,6 +305,30 @@ class Mantencion extends CI_Controller {
       redirect('/Mantencion/motivos');
     }
   }
+
+  public function findByIdMotivo(){
+    $id= $_POST['id'];
+    $newarray = null;
+    $value = $this->motivo->findById($id);
+    $newarray = array(
+    'MOT_ID' => $value->get("MOT_ID"),
+    'MOT_NOMBRE' => $value->get("MOT_NOMBRE"),
+    'MOT_ESTADO' => $value->get("MOT_ESTADO"),
+    'MOT_DIF' => $value->get("MOT_DIF"),
+    );
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($newarray));
+  }
+
+  public function updateMotivo(){
+    if(isset($_POST['MOT'])){
+      $id=$_POST['id'];
+      $this->motivo->update($id,$_POST['MOT']);
+      redirect('/Mantencion/motivos');
+    }else{
+      echo "Motivo No Actualizado";
+    }
+  }
 	//Fin Motivos***************************************************************************
 
 	//Proveedores***************************************************************************
@@ -300,6 +336,43 @@ class Mantencion extends CI_Controller {
 	  $datos['proveedor'] = $this->proveedores->findAll();
 	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos,	 null);
 	}
+
+  public function findByIdProveedor(){
+    $id= $_POST['id'];
+    $newarray = null;
+    $value = $this->proveedores->findById($id);
+    $newarray = array(
+    'PROV_RUT' => $value->get("PROV_RUT"),
+    'PROV_DV' => $value->get("PROV_DV"),
+    'PROV_NOMBRE' => $value->get("PROV_NOMBRE"),
+    'PROV_RSOCIAL' => $value->get("PROV_RSOCIAL"),
+    'PROV_ESTADO' => $value->get("PROV_ESTADO"),
+    );
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($newarray));
+  }
+
+  public function updateProveedor(){
+    if(isset($_POST['PROV'])){
+      $id=$_POST['id'];
+      $this->proveedores->update($id,$_POST['PROV']);
+      redirect('/Mantencion/proveedores');
+    }else{
+      echo "Proveedor No Actualizado";
+    }
+  }
+
+  public function CambiarEstadoPROV($tipo, $id){
+    if ($tipo == 1) {
+      $this->session->set_flashdata('Deshabilitar', 'Se Deshabilito Correctamente');
+      $this->proveedores->update($id, array('PROV_ESTADO' => 2));
+      redirect('/Mantencion/proveedores');
+    } elseif ($tipo == 2) {
+      $this->session->set_flashdata('Habilitar', 'Se Habilito Correctamente');
+      $this->proveedores->update($id, array('PROV_ESTADO' => 1));
+      redirect('/Mantencion/proveedores');
+    }
+  }
 
 	public function eliminarProveedor($RUT){
 	  $this->proveedores->delete($RUT);

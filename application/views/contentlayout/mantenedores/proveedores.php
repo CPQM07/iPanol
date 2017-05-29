@@ -40,15 +40,15 @@
                     <td><?= $value->get('PROV_DV'); ?></td>
                     <td><?= $value->get('PROV_NOMBRE'); ?></td>
                     <td><?= $value->get('PROV_RSOCIAL'); ?></td>
-                    <td><?php if ($value->get('PROV_ESTADO') == 1): ?>
-                      <i class='fa fa-check'></i>
-                      <?php else: ?>
-                        <i class='fa fa-ban'></i>
-                    <?php endif; ?></td>
+                    <?php if ($value->get('PROV_ESTADO') == 1): ?>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROV/1/');?><?=$value->get('PROV_RUT');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                    <?php else: ?>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROV/2/');?><?=$value->get('PROV_RUT');?>" class="btn btn-info btn-block">Habilitar</a></td>
+                    <?php endif; ?>
                     <td>
                       <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR"><i class="fa fa-remove"></i></button>
                     </td>
-                    <td><button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
+                    <td><button id="<?= $value->get('PROV_RUT'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -160,30 +160,19 @@
           <div class="modal-body">
             <div class="box">
               <div class="row">
-                <form class="form-horizontal">
+                <form action="<?= site_url('/Mantencion/updateProveedor'); ?>" method="post" class="form-horizontal">
+                  <input id="id" name="id" type="number" style="visibility: hidden;">
                   <div class="box-body">
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Nombre</label>
                       <div class="col-md-9">
-                        <input type="text" class="col-md-12">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">DV</label>
-                      <div class="col-md-9">
-                        <input type="text" class="col-md-12">
+                        <input id="nombre" name="PROV[PROV_NOMBRE]" type="text" class="col-md-12">
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Razon Social</label>
                       <div class="col-md-9">
-                        <input type="text" class="col-md-12">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Estado</label>
-                      <div class="col-md-9">
-                        <input type="text" class="col-md-12">
+                        <input id="rsocial" name="PROV[PROV_RSOCIAL]" type="text" class="col-md-12">
                       </div>
                     </div>
                   </div>
@@ -206,3 +195,34 @@
       </div>
     </div>
   </div>
+
+
+  <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+  <script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+
+    $('.editar').click(function(){
+        limpiar();
+        var id=$(this).attr("id");
+        $.ajax({
+          type:"POST",
+          dataType:"json",
+          data: {"id": id},
+          url:"<?=site_url('/Mantencion/findByIdProveedor')?>",
+          success: function(data){
+            $("#id").val(data.PROV_RUT);
+            $("#nombre").val(data.PROV_NOMBRE);
+            $("#rsocial").val(data.PROV_RSOCIAL);
+            console.log(data);
+          }
+        });
+      });
+  });
+
+  function limpiar(){
+      $("#id").val("");
+      $("#nombre").val("");
+      $("#rsocial").val("");
+    }
+  </script>
+  <?php } ?>

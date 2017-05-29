@@ -60,13 +60,14 @@ public function findAll(){
 }
 
 public function findById($id){
-   $result = null;
-   $this->db->where('PROD_ID',$id);
-   $consulta = $this->db->get('proveedor');
-   if($consulta->num_rows() == 1){
-     $result = $this->create($consulta->row());
-   }
+    $result = null;
+    $this->db->where('PROV_RUT',$id);
+    $this->db->order_by('PROV_RUT', 'ASC'); // or 'DESC'
+    $consulta = $this->db->get('proveedor');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
+    }
 
-   return $result;
- }
+    return $result;
+  }
 }
