@@ -21,6 +21,7 @@ class Gestion extends CI_Controller {
     $this->load->model('Motivo_Model','mot',true);
     $this->load->model('Observaciones_Model','obs',true);
     $this->load->model('Baja_Model','baja',true);
+    $this->load->model('Cargo_Model','cargo',true);
     /*nuevo*/
     $this->load->model('TipoProd_Model','tipoP',true);
     /*nuevo*/
@@ -330,11 +331,14 @@ class Gestion extends CI_Controller {
      $newarray = array();
      $solicitudes = $this->soli->findByArrayIN(array(3,5));
      foreach ($solicitudes as $key => $value) {
+      $usuario = $this->usu->findById($value->get('SOL_USU_RUT'));
+      $cargo = $this->cargo->findById($usuario->get("USU_CARGO_ID"));
       $newarray[] = array(
               $value->get('SOL_ID'),
-              $value->get('SOL_USU_RUT'),
+              $usuario->get("USU_NOMBRES")."-".$value->get('SOL_USU_RUT'),
               $value->get('SOL_FECHA_INICIO'),
               $value->get('SOL_FECHA_TERMINO'),
+              $cargo->get("CARGO_NOMBRE"),
               "<a target='_blank' href='".base_url()."resources/pdf/".$value->get('SOL_RUTA_PDF')."' class='fa fa-file-pdf-o'></a>",
               "<button idsol='".$value->get('SOL_ID')."' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>"
 

@@ -53,8 +53,14 @@
                     <div class="box-body">     
                         <div class="row">
                           <div class="col-md-12">
-                            <div class="box-header">
-                              <h3 class="box-title">Confirmación de recepción Productos N°<strong id="numsol"></strong></h3>
+                            <div class="box-header col-md-12">
+                              <div class="col-md-6">
+                                <h3 class="box-title">Confirmación de recepción Productos N°<strong id="numsol"></strong></h3>
+                              </div>
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" id="buscador" placeholder="Aquí ingrese el Lector de codigos de barra ||||||||||">
+                              </div>
+                              
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -132,12 +138,14 @@
                         className: "text-green text-center"},
                     { title: "Fecha Termino",
                         className: "text-sm text-center"},
+                    { title: "Cargo",
+                        className: "text-sm text-center"},
                     { title: "Pdf",
                         className: "text-center"},
                     { title: "Accion"}]
             });
 
-             $(document).on("click",".getasignaciones",function (argument) {
+$(document).on("click",".getasignaciones",function (argument) {
     clean();
      var idsol = $(this).attr("idsol");
      $("#numsol").text(idsol);
@@ -162,9 +170,9 @@
                           if (parseInt(rr.INV_TIPO_ID) == 1) {
                              
                             
-                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                           $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" id="ASI'+rr.INV_PROD_CODIGO+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }else{
-                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="form-control validar" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/></td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
+                              $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="form-control validar" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/></td><td class="text-center"><input type="checkbox" data-toggle="toggle" id="ASI'+rr.INV_PROD_CODIGO+'" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }
                             $('.items').bootstrapToggle();
                         })
@@ -188,6 +196,13 @@
         else{
          $('.items').bootstrapToggle('off');
       }  
+    })
+
+    $(document).on("keyup","#buscador",function (argument) {
+        var etiqueta = $(this);
+        var asieti = $('#ASI'+etiqueta.val()+'').bootstrapToggle('on');
+        if (asieti.is(":checked")) etiqueta.val("").focus();
+
     })
           
 
