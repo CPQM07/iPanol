@@ -31,8 +31,9 @@
 				</div>
 				
 				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--articulos para pedido-->
+					<div id="todos" class="features_items"><!--articulos para pedido-->
 						<h2 class="title text-center">Artículos para pedido</h2>
+
 					<?php if ($productos == null): ?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -56,12 +57,8 @@
 					<?php endforeach ?>
 					</div><!--articulos para pedido-->
 
-					    <ul class="pagination">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
-						</ul>
+					    <?php echo $pagination  ?>
+					    
 				</div>
 			</div>
 		</div>
@@ -69,3 +66,5 @@
 
 
 <?php include_once('footer.php') ?>
+
+

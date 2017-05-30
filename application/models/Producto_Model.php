@@ -82,34 +82,54 @@ public function findById($id){
     }
     
     return $result;
-  }
+}
 
-  public function setColumns ($row = null){
+public function setColumns ($row = null){
     foreach ($row as $key => $value) {
       $this->columns[$key] = $value;
-      }
     }
+}
 
 
-   public function findByCat($id){
-      $result=array();
-      $bit = null;
-          $this->db->where('PROD_CAT_ID',$id);
-      $consulta = $this->db->get('productos');
-        foreach ($consulta->result() as $row) {
-        $result[] = $this->create($row);
-      }
+public function findByCat($id){
+  $result=array();
+  $bit = null;
+     $this->db->where('PROD_CAT_ID',$id);
+     $consulta = $this->db->get('productos');
+    foreach ($consulta->result() as $row) {
+      $result[] = $this->create($row);
+    }
       return $result;
-    }
+}
 
-     public function findByTipProd($id){
-      $result=array();
-      $bit = null;
-          $this->db->where('PROD_TIPOPROD_ID',$id);
+public function findByTipProd($id){
+   $result=array();
+   $bit = null;
+   $this->db->where('PROD_TIPOPROD_ID',$id);
       $consulta = $this->db->get('productos');
-        foreach ($consulta->result() as $row) {
-        $result[] = $this->create($row);
-      }
-      return $result;
+    foreach ($consulta->result() as $row) {
+      $result[] = $this->create($row);
     }
+      return $result;
+}
+public function num_post(){
+  $number = $this->db->query('SELECT count(*) as number FROM productos')->row()->number;
+  return intval($number);
+}
+
+public function get_pagination($number_per_page){
+  $this->db->get("productos", $number_per_page, $this->uri->segment(3));
+
+}
+
+  public function buscar($query){
+  $result= null;
+  $this->db->like('PROD_NOMBRE', $query);
+  //$this->db->join('usuario', 'inventario.INV_ULTIMO_USUARIO = usuario.USU_RUT');
+  $consulta = $this->db->get('productos');
+    foreach ($consulta->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
 }

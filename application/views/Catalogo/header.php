@@ -21,11 +21,11 @@
 	<!--SESSION USUARIO-->
 	    <div class="header_top"><!--header_top-->
 			<div class="container">
-				<div class="row pull-right">
+				<div class="row pull-left">
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Usuario
+								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">BIENVENIDO - Yerko Pailemilla Parada
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
 								    <li><a href="<?= site_url('/Catalogo/') ?>">Cerrar sesión</a></li>
@@ -71,9 +71,10 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Buscar..."/>
-						</div>
+						<form id="form" method="POST" action="<?=base_url()?>Catalogo/index/">
+							<input type="text" id="query" name="query" />
+							<input type="submit" id="buscar" value="Buscar...">						
+						</form>
 					</div>
 				</div>
 				</div>
@@ -121,8 +122,3 @@
 <!--MODAL CARRITO-->
 
 
-<?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
-<script type="text/javascript" charset="utf-8">
-
-</script>
-<?php } ?>
