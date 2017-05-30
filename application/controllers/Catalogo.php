@@ -13,24 +13,18 @@ class Catalogo extends CI_Controller {
 
 	public function index()
 	{
-		//INICIO CATEGORIZACIÓN
-		$busqueda = $this->Prod->findAll();
-		if (isset($_POST['query'])) {
-			$busqueda = $this->Prod->buscar($_POST['query']);
-		}
-
-		$dato['productos'] = $busqueda;
+		$this->load->library('pagination');
+		$like = null;$cat = null;$tipo = null;
+		if (isset($_POST['query']))$like = $_POST['query'];
+		if (isset($_GET['cat']))$cat = $_GET['cat'];
+		if (isset($_GET['tipo']))$tipo = $_GET['tipo'];
 		$dato['categorias'] = $this->Cat->findAll();
 		$dato['tipoProd'] = $this->TipProd->findAll();
-
-        $this->load->library('pagination');
-        
-        $config['base_url'] = base_url("/Catalogo/index");
-        $config['total_rows'] = $this->Prod->num_post();
+        $config['base_url'] = base_url("index.php/Catalogo/index");
+        $config['total_rows'] = $this->Prod->contar($like,$cat,$tipo);
         $config['per_page'] = 6;
         $config['uri_segment'] = 3;
         $config['num_links'] = 5;
-
         $config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
 		$config['first_link'] = false;
@@ -48,14 +42,11 @@ class Catalogo extends CI_Controller {
 		$config['cur_tag_open'] = '<li class="active"><a href="#">';
 		$config['cur_tag_close'] = '</a></li>';
 		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-        
+		$config['num_tag_close'] = '</li>';    
         $this->pagination->initialize($config);
-        $result = $this->Prod->get_pagination($config['per_page']);
-        $dato['consulta'] = $result;
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $dato["consulta"] = $this->Prod->fetch_productos($config["per_page"], $page,$like,$cat,$tipo);
         $dato['pagination'] = $this->pagination->create_links();
-        //FIN PAGINACIÓN        
-
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 

@@ -71,7 +71,7 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<form id="form" method="POST" action="<?=base_url()?>Catalogo/index/">
+						<form id="form" method="POST" action="<?=site_url()?>/Catalogo/index/">
 							<input type="text" id="query" name="query" />
 							<input type="submit" id="buscar" value="Buscar...">						
 						</form>

@@ -90,46 +90,27 @@ public function setColumns ($row = null){
     }
 }
 
+public function contar($like = null,$categoria = null,$tipo = null) {
+        if ($categoria!= null) $this->db->where('PROD_CAT_ID',$categoria);
+        if ($tipo!= null) $this->db->where('PROD_TIPOPROD_ID',$tipo);
+        if ($like!= null) $this->db->like('PROD_NOMBRE', $like);
+        $query = $this->db->get("productos");
+        return $query->num_rows();
+   }
 
-public function findByCat($id){
-  $result=array();
-  $bit = null;
-     $this->db->where('PROD_CAT_ID',$id);
-     $consulta = $this->db->get('productos');
-    foreach ($consulta->result() as $row) {
-      $result[] = $this->create($row);
-    }
-      return $result;
-}
+public function fetch_productos($limit, $start,$like = null,$categoria = null,$tipo = null) {
+        if ($categoria!= null) $this->db->where('PROD_CAT_ID',$categoria);
+        if ($tipo!= null) $this->db->where('PROD_TIPOPROD_ID',$tipo);
+        if ($like!= null) $this->db->like('PROD_NOMBRE', $like);
+        $this->db->limit($limit, $start);
+        $query = $this->db->get("productos");
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return null;
+   }
 
-public function findByTipProd($id){
-   $result=array();
-   $bit = null;
-   $this->db->where('PROD_TIPOPROD_ID',$id);
-      $consulta = $this->db->get('productos');
-    foreach ($consulta->result() as $row) {
-      $result[] = $this->create($row);
-    }
-      return $result;
-}
-public function num_post(){
-  $number = $this->db->query('SELECT count(*) as number FROM productos')->row()->number;
-  return intval($number);
-}
-
-public function get_pagination($number_per_page){
-  $this->db->get("productos", $number_per_page, $this->uri->segment(3));
-
-}
-
-  public function buscar($query){
-  $result= null;
-  $this->db->like('PROD_NOMBRE', $query);
-  //$this->db->join('usuario', 'inventario.INV_ULTIMO_USUARIO = usuario.USU_RUT');
-  $consulta = $this->db->get('productos');
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
-  }
-  return $result;
-}
 }
