@@ -48,7 +48,8 @@ class Catalogo extends CI_Controller {
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $productos = $this->Prod->fetch_productos($config["per_page"], $page,$like,$cat,$tipo);
     
-        foreach ($productos as $key => $value) {
+    	if ($productos != null) {
+			foreach ($productos as $key => $value) {
         	$CANTIDAD = 0;
         	if ($value["PROD_TIPOPROD_ID"] == 1) {
         		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
@@ -61,6 +62,8 @@ class Catalogo extends CI_Controller {
 
         	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
         }
+    	}
+      
 
         $dato["consulta"] = $productos;
         $dato['pagination'] = $this->pagination->create_links();
