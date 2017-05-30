@@ -111,7 +111,7 @@
 
                         <div class="col-md-9">
                           <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione una categoria</option>
+                            <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -123,7 +123,7 @@
 
                         <div class="col-md-9">
                           <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -184,7 +184,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                          <button type="submit" class="Agregar btn btn-danger col-md-12">Agregar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -227,7 +227,7 @@
 
                         <div class="col-md-9">
                           <select id="categoria" name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione una categoria</option>
+                            <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -239,7 +239,7 @@
 
                         <div class="col-md-9">
                           <select id="tipo" name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -287,9 +287,9 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="filess" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
+                          <input name="files" type="file" id="files" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
                           </div>
-                          <output id="list"></output>
+                          <div id="theDiv"></div>
                         
                         </div>
                       </div>
@@ -298,7 +298,7 @@
 
                         <div class="col-md-9">
                           <select id="estado" name="producto[PROD_ESTADO]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                           </select>
@@ -312,7 +312,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                          <button type="submit" class="Agregar btn btn-danger col-md-12">Agregar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -397,9 +397,9 @@
      var siezekiloByte = parseInt(sizeByte / 1024);
      console.log(siezekiloByte);
      if(siezekiloByte > $(this).attr('size')){
-         alert('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
-         $('#files').end();
-     }
+         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+         $.files(false);
+     }else{}
    });
     window.onload = function() {
       VariableJS = $alert;
@@ -431,8 +431,8 @@
         success: function(data){
           $("#id_pro").val(data.PROD_ID);
           $("#nombre").val(data.PROD_NOMBRE);
-          $("#categoria").val(data.PROD_CAT_ID);
-          $("#tipo").val(data.PROD_TIPOPROD_ID);
+          $("#categoria").val(data.PROD_CAT_ID).trigger('change');
+          $("#tipo").val(data.PROD_TIPOPROD_ID).trigger('change');
           $("#stocktotal").val(data.PROD_STOCK_TOTAL);
           $("#stockcritico").val(data.PROD_STOCK_CRITICO);
           $("#stockmargen").val(data.PROD_STOCK_OPTIMO);
@@ -441,7 +441,7 @@
           $('#recibe2').text(data.PROD_PRIORIDAD);
           $("#dias").val(data.PROD_DIAS_ANTIC);
           $("#filess").val(data.PROD_IMAGEN);
-          $("#estado").val(data.PROD_ESTADO);
+          $("#estado").val(data.PROD_ESTADO).trigger('change');
           console.log(data);
         }
       });
