@@ -923,7 +923,7 @@ class Gestion extends CI_Controller {
               <input class='items' id='show' type='checkbox' data-toggle='toggle' data-on='SI' data-off='NO' data-onstyle='danger'>",
               $value->get('INV_ID'),
               $value->get('INV_PROD_NOM'),
-              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode btn btn-danger btn-block">
+              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>'
             );
       }

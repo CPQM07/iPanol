@@ -20,7 +20,7 @@
             <div class="icon">
               <i class="ion ion-clipboard"></i>
             </div>
-            <a href="<?=site_url('gestion/entregadigital')?>" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?=site_url('gestion/recepcion')?>" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -35,7 +35,7 @@
             <div class="icon">
               <i class="ion ion-settings"></i>
             </div>
-            <a href="<?=site_url('gestion/entregamanual')?>" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?=site_url('gestion/entregadigital')?>" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

@@ -63,7 +63,7 @@
                   <div class="form-group">
                     <label>Producto</label>
                     <select class="form-control productos" style="width: 100%;">
-                      <option value="name"></option>
+                      <!-- <option value="name"></option> -->
                     </select>
                   </div>
                 </div>
@@ -82,7 +82,7 @@
                   <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
                   </table>
                 <div class="col-md-12">
-                  <button class="btn btn-danger btn-block">Descargar códigos de barra seleccionados</button>
+                  <button value="ola" class="xd btn btn-danger btn-block">Descargar códigos de barra seleccionados</button>
                 </div>
               </div>
             </div>
@@ -228,6 +228,11 @@
               }, 
             });
           });
+
+        $( ".xd" ).click(function() {
+          var value = $(this).val();
+          alert( value );
+        });
 
 
 
