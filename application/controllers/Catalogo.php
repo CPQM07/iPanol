@@ -9,6 +9,7 @@ class Catalogo extends CI_Controller {
 		$this->load->model('Producto_Model', 'Prod');
 		$this->load->model('Categoria_Model', 'Cat');
 		$this->load->model('TipoProd_Model', 'TipProd');
+		$this->load->model('Inventario_Model', 'inv');
 	}
 
 	public function index()
@@ -45,7 +46,23 @@ class Catalogo extends CI_Controller {
 		$config['num_tag_close'] = '</li>';    
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $dato["consulta"] = $this->Prod->fetch_productos($config["per_page"], $page,$like,$cat,$tipo);
+        $productos = $this->Prod->fetch_productos($config["per_page"], $page,$like,$cat,$tipo);
+    
+        foreach ($productos as $key => $value) {
+        	$CANTIDAD = 0;
+        	if ($value["PROD_TIPOPROD_ID"] == 1) {
+        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
+        	}else if($value["PROD_TIPOPROD_ID"] == 2){
+        	$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
+        	if ($inventariotipofungible != null) {
+        		$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
+        		}	
+        	}
+
+        	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
+        }
+
+        $dato["consulta"] = $productos;
         $dato['pagination'] = $this->pagination->create_links();
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}

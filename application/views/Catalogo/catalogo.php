@@ -42,7 +42,7 @@
 									<div class="productinfo text-center">
 										<img src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
 										<h2><?= $value['PROD_NOMBRE']; ?></h2>
-										<p>Stock total: <?= $value['PROD_STOCK_TOTAL']; ?></p>
+										<p>Disponibles: <?= $value['STOCKACTUAL']; ?></p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Solicitar</a>
 									</div>
 								</div>
