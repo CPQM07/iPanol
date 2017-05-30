@@ -32,23 +32,11 @@
                   <th>Teléfonos</th>
                   <th>Cargo</th>
                   <th>Estado</th>
-                  <th>Eliminar</th>
                   <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>
-                     <?php 
-                     foreach ($usuario as $key => $value): 
-                  switch ($value['USU_ESTADO']) {
-                  case 1:
-                    $estado="Activo";
-                    break;
-                  
-                  default:
-                    $estado="Inactivo";
-                    break;
-                  }
-                ?>
+               <?php foreach ($usuario as $key => $value): ?>
                 <tr>
                   <td><?= $value['USU_RUT']; ?>-<?= $value['USU_DV']; ?></td>
                   <td><?= $value['USU_NOMBRES']?><br><?= $value['USU_APELLIDOS']; ?></td>
@@ -56,35 +44,14 @@
                   <td><?= $value['USU_EMAIL']; ?> </td>
                   <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
                   <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
-                  <td><?= $estado; ?></td>
-                  <td>
-                          <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR<?= $value['USU_RUT']; ?>"><i class="fa fa-remove"></i></button>
-                        </td>
-                        <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
-                        </td>
-                      </tr>
-                        <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="ELIMINAR<?= $value['USU_RUT']; ?>" tabindex="-1" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar un Usuario</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar el producto <strong><?= $value['USU_NOMBRES']?></strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <a href='<?= site_url("Mantencion/eliminarusuario/".$value['USU_RUT'].""); ?>' class="btn btn-danger">Eliminar</a>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-                    <?php endforeach; ?>
+                  <?php if ($value['USU_ESTADO'] == 1): ?>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                  <?php else: ?>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/2/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                  <?php endif; ?>
+                  <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button></td>
+                  </tr>
+                <?php endforeach; ?>
                 </tbody>
               </table>
             </div>

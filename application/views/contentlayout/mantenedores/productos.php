@@ -51,24 +51,11 @@
                   <th>Stock crítico</th>
                   <th>Stock crítico margen</th>
                   <th>Estado</th>
-                  <th>Eliminar</th>
                   <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>
-               <?php
-                  foreach ($productos as $key => $value):
-
-                  switch ($value['PROD_ESTADO']) {
-                  case 1:
-                    $estado="Activo";
-                    break;
-
-                  default:
-                    $estado="Inactivo";
-                    break;
-                  }
-                  ?>
+                <?php foreach ($productos as $key => $value): ?>
                     <tr>
                       <td><?= $value['PROD_ID']; ?></td>
                       <td><?= $value['PROD_NOMBRE']; ?></td>
@@ -77,36 +64,13 @@
                       <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
                       <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
                       <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
-                      <td><?= $estado?></td>
-                      <td>
-                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#myModal<?= $value['PROD_ID']; ?>"><i class="fa fa-remove"></i></button>
-                      </td>
-                      <td>
-                     
-                      <button type="button" id="<?= $value['PROD_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#editPro"><i class="fa fa-edit"></i></button>
-               
-                      </td>
+                      <?php if ($value['PROD_ESTADO'] == 1): ?>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/1/');?><?=$value['PROD_ID'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                      <?php else: ?>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/2/');?><?=$value['PROD_ID'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                      <?php endif; ?>
+                      <td><button type="button" id="<?= $value['PROD_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#editPro"><i class="fa fa-edit"></i></button></td>
                     </tr>
-<!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal<?= $value['PROD_ID']; ?>" tabindex="-1" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar un producto</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar el producto <strong><?= $value['PROD_NOMBRE']; ?></strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" onclick=" location.href='eliminarproducto/<?= $value['PROD_ID']; ?>' " class="btn btn-danger">Eliminar</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-
 
                   <?php endforeach; ?>
                 </tbody>
