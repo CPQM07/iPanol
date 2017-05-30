@@ -264,11 +264,11 @@ class Mantencion extends CI_Controller {
     if ($tipo == 1) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 2));
-      redirect('/Mantencion/usuarios');
+      redirect('/Mantencion/productos');
     } elseif ($tipo == 2) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 1));
-      redirect('/Mantencion/usuarios');
+      redirect('/Mantencion/productos');
     }
   	}
 	//Fin Productos***************************************************************************
