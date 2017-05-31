@@ -473,21 +473,25 @@ class Gestion extends CI_Controller {
     $idtipo = $_POST['idtipo'];
     $idcat = $_POST['idcat'];
     $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_TIPO_ID' => $idtipo,'INV_PROD_ESTADO' =>1 ));
-    foreach ($inventario as $key => $value) {
-      if ($value->get('INV_TIPO_ID') == 1) {
-         $allinv[] = array($value->get('INV_ID'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        $value->get('INV_PROD_NOM'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
-      }else if($value->get('INV_TIPO_ID') == 2){
+    if ($inventario != null) {
+       foreach ($inventario as $key => $value) {
+        if ($value->get('INV_TIPO_ID') == 1) {
            $allinv[] = array($value->get('INV_ID'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        $value->get('INV_PROD_NOM'),
-                        "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
-                        "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                          $value->get('INV_PROD_CANTIDAD'),
+                          $value->get('INV_PROD_NOM'),
+                          $value->get('INV_PROD_CANTIDAD'),
+                          "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+        }else if($value->get('INV_TIPO_ID') == 2){
+             $allinv[] = array($value->get('INV_ID'),
+                          $value->get('INV_PROD_CANTIDAD'),
+                          $value->get('INV_PROD_NOM'),
+                          "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
+                          "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+        }
       }
     }
+
+
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($allinv));
   }

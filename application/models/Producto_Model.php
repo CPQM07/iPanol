@@ -113,4 +113,26 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
         return null;
    }
 
+  public function findByCat($id){
+  $result=array();
+  $bit = null;
+     $this->db->where('PROD_CAT_ID',$id);
+     $consulta = $this->db->get('productos');
+    foreach ($consulta->result() as $row) {
+      $result[] = $this->create($row);
+    }
+      return $result;
+}
+
+public function findByTipProd($id){
+   $result=array();
+   $bit = null;
+   $this->db->where('PROD_TIPOPROD_ID',$id);
+      $consulta = $this->db->get('productos');
+    foreach ($consulta->result() as $row) {
+      $result[] = $this->create($row);
+    }
+      return $result;
+}
+
 }
