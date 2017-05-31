@@ -63,7 +63,7 @@
                   <div class="form-group">
                     <label>Producto</label>
                     <select class="form-control productos" style="width: 100%;">
-                      <!-- <option value="name"></option> -->
+                      <option>Seleccione un tipo de producto</option>
                     </select>
                   </div>
                 </div>
@@ -107,10 +107,16 @@
 
     $(function () {
 
+      $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"},
+    });
 
-      $("#to2").hide();
-      //Initialize Select2 Elements
-      $(".select2").select2();
 
 
 
@@ -152,12 +158,7 @@
     var data=0;
 
 
-    $('.productos').select2().on("change", function(e) {
-          data = $('.productos').select2('data')[0]['id'];
-          if (data != 0) {
-            $('#dinamicajax').DataTable().ajax.reload();
-          }
-        });
+    
 
 
 
@@ -201,6 +202,12 @@
             });
 
         $("input[name=tipo]").change(function () {/*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
+          $('.productos').select2().on("change", function(e) {
+          data = $('.productos').select2('data')[0]['id'];
+          if (data != 0) {
+            $('#dinamicajax').DataTable().ajax.reload();
+          }
+        });
             var idTipo = $(this).val();
             $('.productos').select2({
               maximumInputLength: 20,
