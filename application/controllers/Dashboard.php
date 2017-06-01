@@ -7,9 +7,13 @@ class Dashboard extends CI_Controller {
 	{
 	/*$hoy = getDate();*/
 		parent::__construct();
+		if ($this->session->userdata('logged_in')) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->model('DetSolicitud_Model','detalle',true);/*
 		$this->load->model('DetSolicitud_Model','cont',true);*/
+	} else {
+		redirect('/Login');
+	}
 	}
 
 	public function dashboard()
@@ -44,4 +48,3 @@ class Dashboard extends CI_Controller {
 
 /* End of file dashboard.php */
 /* Location: ./application/controllers/dashboard.php */
-

@@ -6,6 +6,7 @@ class Mantencion extends CI_Controller {
   public function __construct()
   {
 		parent::__construct();
+    if ($this->session->userdata('logged_in')) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->library('CopiarImg','copiarimg',false);
 		$this->load->model('Cargo_Model','cargo', true);
@@ -17,6 +18,10 @@ class Mantencion extends CI_Controller {
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
     $this->load->model('Motivo_Model', 'motivo', true);
     $this->load->model('Asignatura_Model', 'asignatura', true);
+  } else {
+    redirect('/Login');
+  }
+
   }
 
 	//Usuarios***************************************************************************
