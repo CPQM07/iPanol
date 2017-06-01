@@ -70,7 +70,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 pull-right">
 						<form id="form" method="POST" action="<?=site_url()?>/Catalogo/index/">
 							<input type="text" id="query" name="query" />
 							<input type="submit" id="buscar" value="Buscar...">						
@@ -95,18 +95,21 @@
 				<thead>
 					<tr>
 					    <th>N°</th>
-						<th>IMAGEN</th>
 						<th>ARTICULO</th>
 						<th>TIPO DE ARTÍCULO</th>
+						<th>FECHA INICIO</th>
+						<th>FECHA TERMINO</th>
 						<th>CANTIDAD</th>
-						<th>TOTAL</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>
-							
-						</td>
+						<td>1</td>
+						<td>RJ45</td>
+						<td>Fungible</td>
+						<td><input class="input" type="date" id="fechaInicio" style="width:120px;"></td>
+						<td><input class="input" type="date" id="fechaTermino" style="width:120px;"></td>
+						<td><input type="number" id="cantidadCart" name="cantidadCart" style="width:50px;"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -120,5 +123,3 @@
   </div>
 </div>
 <!--MODAL CARRITO-->
-
-
