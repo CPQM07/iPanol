@@ -12,6 +12,7 @@
     <script src="<?= base_url(); ?>resources/js/jquery.js"></script>
 	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
     <script src="<?= base_url(); ?>resources/js/main.js"></script>
+    <script src="<?= base_url(); ?>resources/js/datepicker.js"></script>
     <script type="text/javascript" charset="utf-8">
 
     </script>

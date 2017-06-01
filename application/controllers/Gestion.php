@@ -906,8 +906,18 @@ class Gestion extends CI_Controller {
       $rutaAJAX = base_url().'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+    }
+
+
+
+
+    public function generarPDFseleccionado(){
+      /*$data = json_decode(stripslashes($_POST['id'])); lo obtengo por ajax*/
 
     }
+
+
+
 
     public function traerProductosByIdTipo(){
       $tipoP = $_POST['idTipo'];
@@ -926,7 +936,10 @@ class Gestion extends CI_Controller {
       $arrayInv = array();
       foreach ($todoProByCat as $key => $value) {
         $arrayInv[] = array("
-              <input class='items' id='show' type='checkbox' data-toggle='toggle' data-on='SI' data-off='NO' data-onstyle='danger'>",
+          <form id='formid' method='post' accept-charset='utf-8'>
+              <input value=".$value->get('INV_ID')." class='items' type='checkbox'>
+          </form>
+              ",
               $value->get('INV_ID'),
               $value->get('INV_PROD_NOM'),
               '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode xd btn btn-danger btn-block">
