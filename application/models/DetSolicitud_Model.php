@@ -117,6 +117,13 @@ public function findById($id){
     return $obj1;
   }
 
+  public function parciales(){ /*solicitudes parciales*/
+    $cont1 = $this->db->from('solicitud');
+    $this->db->where('SOL_ESTADO',7);
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
+  }
+
   public function productoActivoHoy(){ /*CANTIDAD PRODUCTOS ACTIVOS HOY*/
     date_default_timezone_set("Chile/Continental");
     $inicio = date ("Y-m-d",time());
@@ -126,7 +133,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -143,7 +150,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -160,7 +167,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -177,7 +184,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -194,7 +201,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -211,7 +218,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -228,7 +235,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',1);
     $result = $this->db->get();
     return $result->num_rows();
@@ -244,7 +251,7 @@ public function findById($id){
     $this->db->join('asignacion', 'asignacion.ASIG_SOL_ID = solicitud.SOL_ID');
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO',$inicio);
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -261,7 +268,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -278,7 +285,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -295,7 +302,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -312,7 +319,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -329,7 +336,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();
@@ -346,7 +353,7 @@ public function findById($id){
     $this->db->join('inventario', 'inventario.INV_ID = asignacion.ASIG_INV_ID');
     $this->db->where('solicitud.SOL_FECHA_INICIO<',$inicio." "."23:59:59");
     $this->db->where('solicitud.SOL_FECHA_INICIO>',$inicio." "."00:00:00");
-    $this->db->where('solicitud.SOL_ESTADO',5);
+    $this->db->where('solicitud.SOL_ESTADO',3);
     $this->db->where('inventario.INV_TIPO_ID',2);
     $result = $this->db->get();
     return $result->num_rows();

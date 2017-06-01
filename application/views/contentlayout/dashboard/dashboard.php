@@ -10,12 +10,12 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
               <h3><?= $solpen ?></h3>
-              <p>Solicitudes pendientes por recepcionar</p><!-- manda a vista entregadigital -->
+              <p>Solicitudes por recepcionar</p><!-- manda a vista entregadigital -->
             </div><!-- where = 3 -->
             <div class="icon">
               <i class="ion ion-clipboard"></i>
@@ -24,13 +24,13 @@
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-orange">
             <div class="inner">
               <h3><?= $solsinasig; ?><sup style="font-size: 20px"></sup></h3>
 
-              <p>Solicitudes pendientes sin asignación</p><!-- manda a vista entregamanual -->
+              <p>Solicitudes sin asignación</p><!-- manda a vista entregamanual -->
             </div><!-- where = 1 -->
             <div class="icon">
               <i class="ion ion-settings"></i>
@@ -39,7 +39,22 @@
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-lg-3 col-xs-12">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?= $parciales ?><sup style="font-size: 20px"></sup></h3>
+
+              <p>Solicitudes parciales</p><!-- manda a la vista baja -->
+            </div>
+            <div class="icon">
+              <i class="ion ion-ios-loop-strong"></i>
+            </div>
+            <a href="<?=site_url('gestion/entregadigital')?>" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-12">
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">

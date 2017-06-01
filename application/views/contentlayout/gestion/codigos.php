@@ -82,7 +82,7 @@
                   <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
                   </table>
                 <div class="col-md-12">
-                  <button value="ola" class="xd btn btn-danger btn-block">Descargar códigos de barra seleccionados</button>
+                  <button id="enviar" value="ola" class="btn btn-danger btn-block">Descargar códigos de barra seleccionados</button>
                 </div>
               </div>
             </div>
@@ -116,8 +116,6 @@
       "autoWidth": false,
       "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"},
     });
-
-
 
 
       $('.barcode').click(function(){
@@ -156,77 +154,72 @@
     });
 
     var data=0;
-
-
-    
-
-
-
     var tabla;
     var asignaciones = new Array();
         tabla = $('#dinamicajax').DataTable({
-                lengthMenu: [5,10, 20, 50, 100],
-                "pagingType": "simple",
-                "responsive": true,
-                "paging": true,
-                "cache": false,
-                "processing": true,
-                "lengthChange": true,
-                "deferRender": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "ajax": {
-                    "url": "<?=site_url('/gestion/traerInventarioByIdTipo')?>",
-                    "type": "POST",
-                    "beforeSend": function () {
-                            $('#carga_modal').modal('show');
-                        },
-                    "data": function (argument) {
-                      return {'idTipo': data };
-                    },
-                    "dataSrc": function ( json ) {
-                      $(".items").bootstrapToggle();
-                      $('#carga_modal').modal('hide');
-                        return json;
-                    }
-                },
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                },
-                "columns": [
-                    { title: "Seleccionar",className: "text-center" },
-                    { title: "ID",className: "text-center" },
-                    { title: "Nombre",className: " text-center"},
-                    { title: "Descargar código de barra unitario",className: "text-center"}]
+          lengthMenu: [5,10, 20, 50, 100],
+          "pagingType": "simple",
+          "responsive": true,
+          "paging": true,
+          "cache": false,
+          "processing": true,
+          "lengthChange": true,
+          "deferRender": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "ajax": {
+              "url": "<?=site_url('/gestion/traerInventarioByIdTipo')?>",
+              "type": "POST",
+              "beforeSend": function () {
+                      $('#carga_modal').modal('show');
+                  },
+              "data": function (argument) {
+                return {'idTipo': data };
+              },
+              "dataSrc": function ( json ) {
+                $('#carga_modal').modal('hide');
+                  return json;
+              }
+          },
+          "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+          },
+          "columns": [
+              { title: "Seleccionar",className: "text-center" },
+              { title: "ID",className: "text-center" },
+              { title: "Nombre",className: " text-center"},
+              { title: "Descargar código de barra unitario",className: "text-center"}]
             });
 
-        $("input[name=tipo]").change(function () {/*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
+
+      $("input[name=tipo]").change(function () {/*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
           $('.productos').select2().on("change", function(e) {
           data = $('.productos').select2('data')[0]['id'];
           if (data != 0) {
             $('#dinamicajax').DataTable().ajax.reload();
           }
         });
-            var idTipo = $(this).val();
-            $('.productos').select2({
-              maximumInputLength: 20,
-              ajax: {
-                    url: "<?=site_url('/gestion/traerProductosByIdTipo')?>",
-                    dataType: 'json',
-                    method: "POST",
-                    data: function (params) {
-                            var query = {
-                              idTipo: idTipo,
-                            }
-                            return query;
-                          },
-                    processResults: function (data, params) {
-                    return {
-                      results: $.map(data, function (item) {
-                          return {
-                              text: item.nombre,
-                              id: item.id
+
+
+        var idTipo = $(this).val();
+        $('.productos').select2({
+          maximumInputLength: 20,
+          ajax: {
+                url: "<?=site_url('/gestion/traerProductosByIdTipo')?>",
+                dataType: 'json',
+                method: "POST",
+                data: function (params) {
+                        var query = {
+                          idTipo: idTipo,
+                        }
+                        return query;
+                      },
+                processResults: function (data, params) {
+                return {
+                  results: $.map(data, function (item) {
+                      return {
+                          text: item.nombre,
+                          id: item.id
                           }
                         }),
                       };
@@ -234,14 +227,43 @@
               cache: true
               }, 
             });
-          });
+      });
 
-        $( ".xd" ).click(function() {
+
+        $(document).on("click",".xd",function function_name(argument) {/*GENERA PDF UNITARIO*/
           var value = $(this).val();
-          alert( value );
+          $.ajax({
+            method:"POST",
+            url: "<?=site_url('/gestion/generarPDFunitario')?>",
+            datatype:'json',
+            data: {"idInv": value},
+            success: function(response){
+              var win = window.open('', '_blank');
+              win.location.href = response.path;
+              $('#carga_modal').modal('hide');
+            }
+          });
         });
 
+      $(document).on("click",".items",function function_name(argument){
 
+        $('#enviar').click(function(){
+          var selected = '';    
+          $('#formid input[type=checkbox]').each(function(){
+              if (this.checked) {
+                  selected += $(this).val()+', ';
+              }
+          }); 
+
+          if (selected != '') 
+              alert('Has seleccionado: '+selected);  
+          else
+              alert('Debes seleccionar al menos una opción.');
+
+          return false;
+        });
+
+      });
 
   </script>
   <?php } ?>
