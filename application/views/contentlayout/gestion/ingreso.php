@@ -1,4 +1,22 @@
 <!-- Content Wrapper. Contains page content -->
+<style type="text/css">
+  .thumb{
+       height: 300px;
+       border: 1px solid #000;
+       margin: 10px 5px 0 0;
+  }
+  input[type=file] {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+ 
+  #upload {
+    background: url("<?= base_url();?>/resources/images/Upload-128.png") center center no-repeat;
+    width: 100px;
+    height: 50px;
+  }
+</style>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -33,7 +51,7 @@
                           <?php endforeach ?>
                         </select>
                         <div class="input-group-addon">
-                          <a href="" data-toggle="modal" data-target="#myPro">
+                          <a href="" data-toggle="modal" data-target="#newPro">
                             <i class="fa fa-plus"></i>
                           </a>
                         </div>
@@ -204,7 +222,116 @@
         <!-- /.col -->
       </div>
       <!-- /.row (main row) -->
+  <!--modalPRODUCTONUEVO-->
+  <!--modalPRODUCTONUEVO-->
+    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-tittle">Nuevo producto</h4>
+            <div class="modal-body">
+              <div class="box">
+                <div class="row">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/1')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Nombre</label>
+                        <div class="col-md-9">
+                          <input name="producto[PROD_NOMBRE]" type="text" class="col-md-12"  maxlength="50" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Categoria</label>
 
+                        <div class="col-md-9">
+                          <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
+                            <option></option>
+                            <?php foreach ($categorias as $key => $value): ?>
+                              <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
+                            <?php endforeach ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Tipo</label>
+
+                        <div class="col-md-9">
+                          <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
+                            <option></option>
+                            <?php foreach ($tipos as $key => $value): ?>
+                              <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
+                            <?php endforeach ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Stock crítico</label>
+
+                        <div class="col-md-9">
+                          <input name="producto[PROD_STOCK_CRITICO]" min="0" max="100000" type="number" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Stock margen</label>
+
+                        <div class="col-md-9">
+                          <input name="producto[PROD_STOCK_OPTIMO]" min="0" max="100000" type="number" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Posición</label>
+
+                        <div class="col-md-9">
+                          <input name="producto[PROD_POSICION]" type="text" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Prioridad</label>
+
+                        <div class="col-md-9">
+                          <input name="producto[PROD_PRIORIDAD]" id="slider1" type="range" min="1" max="10" step="1" value="5" required>
+                          <span id="recibe">5</span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Días necesarios de anticipación</label>
+
+                        <div class="col-md-9">
+                          <input name="producto[PROD_DIAS_ANTIC]" min="0" max="100000" type="number" class="col-md-12" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Subir Imagen</label>
+
+                        <div class="col-md-9">
+                        <div id="upload">
+                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="" required>
+                          </div>
+                          <output id="lista"></output>
+                        
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button type="submit" class="Agregar btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 
   <!--Producto-->
     <div class="modal fade" id="myPro" aria-labelledby="myModalLabel">
@@ -343,3 +470,55 @@
       </div>
     </div>
   <!--Proveedores-->
+  <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+  <script type="text/javascript">
+
+  $(document).ready(function() {
+
+    $('#files-new').on('change', function() {
+      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
+      if(this.files[0].size/1024 > 2120){
+        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+      }
+    });
+
+    $('#slider1').change(function() {
+      var id=$('#slider1').val();
+      $('#recibe').text(id);
+    });
+  });
+
+  function archivo(evt) {
+    var files = evt.target.files; // FileList object
+
+      //Obtenemos la imagen del campo "file".
+    for (var i = 0, f; f = files[i]; i++) {
+         //Solo admitimos imágenes.
+         if (!f.type.match('image.*')) {
+              continue;
+         }
+
+         var reader = new FileReader();
+
+         reader.onload = (function(theFile) {
+             return function(e) {
+             // Creamos la imagen.
+                    document.getElementById("lista").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+             };
+         })(f);
+
+         reader.readAsDataURL(f);
+     }
+  }
+  document.getElementById('files-new').addEventListener('change', archivo, false);
+
+  function validate() {
+  var file_size = $('#files-new')[0].files[0].size;
+  if(file_size>2097152) {
+    $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+    return false;
+  } 
+  return true;
+}
+  </script>
+  <?php } ?>

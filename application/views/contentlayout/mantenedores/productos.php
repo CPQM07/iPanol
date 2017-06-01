@@ -14,7 +14,7 @@
           #upload {
               background: url("<?= base_url();?>/resources/images/Upload-128.png") center center no-repeat;
               width: 100px;
-              height: 100px;
+              height: 50px;
           }
       </style>
   <div class="content-wrapper">
@@ -98,7 +98,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" >
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/1')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
@@ -171,7 +171,7 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="files" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
                           </div>
                           <output id="list"></output>
                         
@@ -210,7 +210,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form id="formulario" class="form-horizontal" action="<?=site_url('Mantencion/edit_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" >
+                  <form id="formulario" class="form-horizontal" action="<?=site_url('Mantencion/edit_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validateEdit();">
                   
                   <input id="id_pro" name="id_pro" type="number" style="width: 14px;height: 11px; visibility: hidden;">
                     
@@ -287,9 +287,9 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="files" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
+                          <input name="files" type="file" id="files-edit" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
                           </div>
-                          <div id="theDiv"></div>
+                          <output id="listo"></output>
                         
                         </div>
                       </div>
@@ -392,22 +392,29 @@
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
 
-    $('.input-file').change(function (){
+    /*$('.input-file').change(function (){
      var sizeByte = this.files[0].size;
      var siezekiloByte = parseInt(sizeByte / 1024);
      console.log(siezekiloByte);
      if(siezekiloByte > $(this).attr('size')){
          $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
-         $.files(false);
+          return false;
      }else{}
-   });
-    window.onload = function() {
-      VariableJS = $alert;
-      alert(VariableJS);
-      if(VariableJS==1){
-        alert("Ingrese el formulario de manera adecuada");
+   });*/
+
+   $('#files-new').on('change', function() {
+      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
+      if(this.files[0].size/1024 > 2120){
+        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
-    };
+    });
+   $('#files-edit').on('change', function() {
+      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
+      if(this.files[0].size/1024 > 2120){
+        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+      }
+    });
+
     $('#slider1').change(function() {
       var id=$('#slider1').val();
       $('#recibe').text(id);
@@ -465,29 +472,49 @@
 
   }
 
-  function archivo(evt) {
-    var files = evt.target.files; // FileList object
+function archivo(evt) {
+  var files = evt.target.files; // FileList object
 
-      //Obtenemos la imagen del campo "file".
-    for (var i = 0, f; f = files[i]; i++) {
-         //Solo admitimos imágenes.
-         if (!f.type.match('image.*')) {
-              continue;
-         }
+    //Obtenemos la imagen del campo "file".
+  for (var i = 0, f; f = files[i]; i++) {
+       //Solo admitimos imágenes.
+       if (!f.type.match('image.*')) {
+            continue;
+       }
 
-         var reader = new FileReader();
+       var reader = new FileReader();
 
-         reader.onload = (function(theFile) {
-             return function(e) {
-             // Creamos la imagen.
-                    document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
-             };
-         })(f);
+       reader.onload = (function(theFile) {
+           return function(e) {
+           // Creamos la imagen.
+                  document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                   document.getElementById("listo").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+           };
+       })(f);
 
-         reader.readAsDataURL(f);
-     }
-  }
-  document.getElementById('files').addEventListener('change', archivo, false);
+       reader.readAsDataURL(f);
+   }
+}
+document.getElementById('files-new').addEventListener('change', archivo, false);
+document.getElementById('files-edit').addEventListener('change', archivo, false);
 
+function validate() {
+  var file_size = $('#files-new')[0].files[0].size;
+  if(file_size>2097152) {
+    $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+    return false;
+  } 
+  return true;
+}
+
+function validateEdit() {
+
+  var file_size = $('#files-edit')[0].files[0].size;
+  if(file_size>2097152) {
+    $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+    return false;
+  } 
+  return true;
+}
 </script>
 <?php } ?>

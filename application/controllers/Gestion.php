@@ -262,6 +262,8 @@ class Gestion extends CI_Controller {
      $data['proveedores'] = $this->prov->findAll();
      $data['productos'] = $this->prod->findAll();
      $data['ingresos'] = $this->ing->findAll();
+     $data['categorias'] = $this->cat->findAllSelect();
+      $data['tipos'] = $this->tipoP->findAll();
      $this->layouthelper->LoadView("gestion/ingreso" , $data);
   }
 

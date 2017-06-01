@@ -216,7 +216,7 @@ class Mantencion extends CI_Controller {
       $this->output->set_output(json_encode($newarray));
 	}
 
-	public function new_producto(){
+	public function new_producto($num){
 		if(isset($_POST['producto'])){
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
@@ -229,7 +229,8 @@ class Mantencion extends CI_Controller {
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-			redirect('/Mantencion/productos');
+			if($num==1){redirect('/Mantencion/productos');}
+			else{redirect('/Gestion/ingreso');}
 		}else{
 			echo "usuario no fue agregado";
 		}
