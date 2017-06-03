@@ -87,7 +87,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Carrito de pedidos</h4>
+        <h4 class="modal-title" id="myModalLabel">Solicitud de préstamos</h4>
       </div>
       <div class="modal-body">
 		<!--CONTENIDO CARRITO-->
@@ -116,6 +116,29 @@
 		<!--FIN CONTENIDO CARRITO-->
       </div>
       <div class="modal-footer">
+      <h5 class="modal-title pull-left" id="myModalLabel">Información adicional</h5>
+      <br>
+      <br>
+      <table class="table table-striped">
+				<thead>
+					<tr>
+					    <th>ASIGNATURA</th>
+						<th>N° GRUPO DE TRABAJO</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td> 
+						  <select name="asignaturas">
+							  <option value="x">IT Essentials</option>
+							  <option value="x">Networking I</option>
+						  </select>
+						</td>
+						<td><input class="pull-left" type="number" id="cantidadGruTrab" name="cantidadGruTrab" style="width:150px;"></td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-danger">Realizar pedido</button>
       </div>

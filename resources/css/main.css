@@ -829,10 +829,11 @@ h2.title:before{
   padding-right: 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 .features_items{
 	overflow:hidden;
-  height: 75%;
-  width: 75%;
+ 
 }
 
 
@@ -850,7 +851,7 @@ h2.title {
 .product-image-wrapper{
 	border:1px solid #F7F7F5;
 	overflow: hidden;
-	margin-bottom:30px;
+	margin-bottom:10px;
 }
 
 .single-products {
