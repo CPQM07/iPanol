@@ -109,16 +109,16 @@
 						<td>Fungible</td>
 						<td><input class="input" type="date" id="fechaInicio" style="width:120px;"></td>
 						<td><input class="input" type="date" id="fechaTermino" style="width:120px;"></td>
-						<td><input type="number" id="cantidadCart" name="cantidadCart" style="width:50px;"></td>
+						<td><input type="number" id="cantidadArticulo" name="cantidadArticulo" style="width:50px;"></td>
 					</tr>
 				</tbody>
 			</table>
 		<!--FIN CONTENIDO CARRITO-->
       </div>
       <div class="modal-footer">
-      <h5 class="modal-title pull-left" id="myModalLabel">Información adicional</h5>
+      <h5 class="modal-title pull-left" id="myModalLabel" style="font-size:18px;"> Información adicional </h5>
       <br>
-      <br>
+      <hr>
       <table class="table table-striped">
 				<thead>
 					<tr>
