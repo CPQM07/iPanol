@@ -17,7 +17,7 @@
                 <h3 class="box-title">Todos los códigos de barra por nombre</h3>
             </div>
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="example1" class="table table-bordered hover">
                 <thead>
                 <tr>
                   <th>Nombre</th>
@@ -247,20 +247,30 @@
 
       $(document).on("click",".items",function function_name(argument){
 
+        var selected = [];    
         $('#enviar').click(function(){
-          var selected = '';    
           $('#formid input[type=checkbox]').each(function(){
               if (this.checked) {
-                  selected += $(this).val()+', ';
+                  selected.push($(this).val());
               }
           }); 
 
-          if (selected != '') 
-              alert('Has seleccionado: '+selected);  
+          if (selected.length != 0){
+            $('#carga_modal').modal('show');
+            $.ajax({
+                  type: "POST",
+                  url: "<?=site_url('/gestion/generarPDFseleccionado')?>",
+                  data: {"data" : selected},
+                  success: function(){
+                      var win = window.open('', '_blank');
+                      win.location.href = response.path;
+                      $('#carga_modal').modal('hide');
+                      location.reload();
+                  }
+              });
+          }
           else
-              alert('Debes seleccionar al menos una opción.');
-
-          return false;
+            alert("aweonao");
         });
 
       });

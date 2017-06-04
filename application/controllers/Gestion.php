@@ -24,6 +24,7 @@ class Gestion extends CI_Controller {
     $this->load->model('Cargo_Model','cargo',true);
     /*nuevo*/
     $this->load->model('TipoProd_Model','tipoP',true);
+    $this->load->helper('array');
     /*nuevo*/
 
   }
@@ -912,8 +913,69 @@ class Gestion extends CI_Controller {
 
 
     public function generarPDFseleccionado(){
-      /*$data = json_decode(stripslashes($_POST['id'])); lo obtengo por ajax*/
 
+      $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+      $pdf->SetTitle('Códigos de barra'); //Titlo del pdf
+      $pdf->setPrintHeader(false); //No se imprime cabecera
+      $pdf->setPrintFooter(true); //No se imprime pie de pagina
+      $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
+      $pdf->SetAutoPageBreak(true, 20); //Se define un salto de pagina con un limite de pie de pagina
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);//Definir el quiebre de la paguina
+      $pdf->SetFont('Helvetica', '', 10);//Estilo de fuente
+      $style = array(
+          'position' => '',
+          'align' => 'C',
+          'stretch' => false,
+          'fitwidth' => true,
+          'cellfitalign' => '',
+          'border' => true,
+          'hpadding' => 'auto',
+          'vpadding' => 20,
+          'fgcolor' => array(0,0,0),
+          'bgcolor' => false, //array(255,255,255),
+          'text' => true,
+          'font' => 'helvetica',
+          'fontsize' => 8,
+          'stretchtext' => 4
+      );
+      $pdf->addPage();
+
+      $this->db->where('INV_PROD_NOM',$nomProd);
+      $query = $this->db->get('inventario');
+
+      foreach($query->result_array() AS $row){
+        $barcode = $row['INV_PROD_CODIGO'];
+        $nombre = $row['INV_PROD_NOM'];
+      }
+      
+      /*va juntooooo*/
+      $data = array();
+      $data = $_POST['data'];
+      $cant= count($data);
+      $we=0;
+      for ($i=0; $i < $cant; $i++) { 
+        $this->db->where('INV_ID', array_search($we, $data));
+        $variable = $this->db->get('inventario');
+        foreach ($variable->result() as $row) {
+          $nombre = $row->INV_PROD_NOM;
+          $barcode = $row->INV_PROD_CODIGO;
+          $pdf->Cell(0, 0, $nombre, 0, 1);
+          $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
+          $pdf->Ln();
+        }
+          ++$we;
+      }
+      /*va juntooooo*/
+
+      date_default_timezone_set("Chile/Continental");
+      $fecha = date ("d-m-Y",time());
+
+      $pdf->lastPage();
+      $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
+      $pdf->output($rutasavePDF, 'F');
+      $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
 
 
