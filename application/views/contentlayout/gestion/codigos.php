@@ -244,36 +244,38 @@
             }
           });
         });
-
+      var selected = [];  
       $(document).on("click",".items",function function_name(argument){
-
-        var selected = [];    
-        $('#enviar').click(function(){
-          $('#formid input[type=checkbox]').each(function(){
-              if (this.checked) {
-                  selected.push($(this).val());
+            if (this.checked) {
+                selected.push($(this).val());
+              }else{
+                var po = selected.indexOf($(this).val());
+                if(po > -1){
+                  selected.splice(po,1);
+                }
               }
-          }); 
+      });
 
+
+        $('#enviar').click(function(){
           if (selected.length != 0){
-            $('#carga_modal').modal('show');
             $.ajax({
                   type: "POST",
                   url: "<?=site_url('/gestion/generarPDFseleccionado')?>",
                   data: {"data" : selected},
-                  success: function(){
+                  success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
-                      $('#carga_modal').modal('hide');
                       location.reload();
                   }
               });
+          }else{
+            $.notify("Seleccione algun producto.", "error");
           }
-          else
-            alert("aweonao");
         });
+          
 
-      });
+    
 
   </script>
   <?php } ?>

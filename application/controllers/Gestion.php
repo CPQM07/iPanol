@@ -939,22 +939,14 @@ class Gestion extends CI_Controller {
           'stretchtext' => 4
       );
       $pdf->addPage();
-
-      $this->db->where('INV_PROD_NOM',$nomProd);
-      $query = $this->db->get('inventario');
-
-      foreach($query->result_array() AS $row){
-        $barcode = $row['INV_PROD_CODIGO'];
-        $nombre = $row['INV_PROD_NOM'];
-      }
       
       /*va juntooooo*/
       $data = array();
       $data = $_POST['data'];
       $cant= count($data);
       $we=0;
-      for ($i=0; $i < $cant; $i++) { 
-        $this->db->where('INV_ID', array_search($we, $data));
+      for ($i=0; $i <= $cant; $i++) {
+        $this->db->where('INV_ID',$data[$we]);
         $variable = $this->db->get('inventario');
         foreach ($variable->result() as $row) {
           $nombre = $row->INV_PROD_NOM;
@@ -968,7 +960,7 @@ class Gestion extends CI_Controller {
       /*va juntooooo*/
 
       date_default_timezone_set("Chile/Continental");
-      $fecha = date ("d-m-Y",time());
+      $fecha = date ("d-m-Y-s",time());
 
       $pdf->lastPage();
       $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
@@ -1010,6 +1002,22 @@ class Gestion extends CI_Controller {
       }
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode($arrayInv));
+    }
+
+    public function prueba(){
+      /*va juntooooo*/
+      $data = array(21,22,23);
+      $cant= count($data);
+      $we=0;
+      for ($i=0; $i < $cant; $i++) {
+        $this->db->where('INV_ID', $data[$we]);
+        $variable = $this->db->get('inventario');
+        foreach ($variable->result() as $row) {
+        echo $row->INV_PROD_CODIGO;
+        }
+          ++$we;
+      }
+      /*va juntooooo*/
     }
 
 }
