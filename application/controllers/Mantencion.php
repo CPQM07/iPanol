@@ -16,8 +16,9 @@ class Mantencion extends CI_Controller {
 		$this->load->model('Proveedor_Model', 'proveedores', true);
 		$this->load->model('Producto_Model', 'productos', true);
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
-    $this->load->model('Motivo_Model', 'motivo', true);
-    $this->load->model('Asignatura_Model', 'asignatura', true);
+    	$this->load->model('Motivo_Model', 'motivo', true);
+    	$this->load->model('Asignatura_Model', 'asignatura', true);
+    	$this->load->model('Inventario_Model','inventario',true);
   } else {
     redirect('/Login');
   }
@@ -448,6 +449,65 @@ class Mantencion extends CI_Controller {
 	}
 	//Fin Bajas***************************************************************************
 
+
+
+
+
+
+
+
+
+	/*nuevoooooooooooooooooooooooooo*/
+
+	public function inventario(){
+		$NuevoInventario = array();
+		$inventario = $this->inventario->findAll();
+	    foreach ($inventario as $key => $value) {
+	        $NuevoInventario[] = array(	
+	        'INV_ID' => $value->get('INV_ID'),
+	    	'INV_PROD_ID' => $value->get('INV_PROD_ID'),
+			'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
+			'INV_PROD_CANTIDAD'	=> $value->get('INV_PROD_CANTIDAD'),
+			'INV_PROD_ESTADO'	=> $value->get('INV_PROD_ESTADO'),
+			'INV_PROD_CODIGO' => $value->get('INV_PROD_CODIGO'),
+			'INV_INGRESO_ID' => $value->get('INV_INGRESO_ID'),
+			'INV_CATEGORIA_ID' => $this->categorias->findById($value->get('INV_CATEGORIA_ID')),
+			'INV_TIPO_ID' => $this->tipoProducto->findById($value->get('INV_TIPO_ID')),
+			'INV_FECHA' => $value->get('INV_FECHA'),
+			'INV_IMAGEN' => $value->get('INV_IMAGEN'),
+			'INV_ULTIMO_USUARIO' => $value->get('INV_ULTIMO_USUARIO'),
+			'INV_ACTUAL_USUARIO' => $value->get('INV_ACTUAL_USUARIO')
+	        );
+	        $datos['inventario'] = $NuevoInventario;
+	      }
+	    $datos['tipos'] = $this->tipoProducto->findAll();
+	    $datos['categorias'] = $this->categorias->findAll();
+		$this->layouthelper->LoadView("mantenedores/inventario", $datos, null);
+	}
+
+	public function inventarioById(){
+		$id= $_POST['id'];
+	 	$newarray = null;
+	  	$inventario = $this->inventario->findById($id);
+	  	$newarray = array(	
+	        'INV_ID' => $inventario->get('INV_ID'),
+	    	'INV_PROD_ID' => $inventario->get('INV_PROD_ID'),
+			'INV_PROD_NOM' => $inventario->get('INV_PROD_NOM'),
+			'INV_PROD_CANTIDAD'	=> $inventario->get('INV_PROD_CANTIDAD'),
+			'INV_PROD_ESTADO'	=> $inventario->get('INV_PROD_ESTADO'),
+			'INV_PROD_CODIGO' => $inventario->get('INV_PROD_CODIGO'),
+			'INV_INGRESO_ID' => $inventario->get('INV_INGRESO_ID'),
+			'INV_CATEGORIA_ID' => $inventario->get('INV_CATEGORIA_ID'),
+			'INV_TIPO_ID' => $inventario->get('INV_TIPO_ID'),
+			'INV_FECHA' => $inventario->get('INV_FECHA'),
+			'INV_IMAGEN' => $inventario->get('INV_IMAGEN'),
+			'INV_ULTIMO_USUARIO' => $inventario->get('INV_ULTIMO_USUARIO'),
+			'INV_ACTUAL_USUARIO' => $inventario->get('INV_ACTUAL_USUARIO')
+	    );
+	   print_r($newarray);
+	  $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array($newarray )));
+	}
 }
 
 /* End of file mantencion.php */
