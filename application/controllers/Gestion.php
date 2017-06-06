@@ -946,8 +946,8 @@ class Gestion extends CI_Controller {
       $cant= count($data);
       if (isset($data)) {
         $we=0;
-        for ($i=0; $i <= $cant; $i++) {
-          $this->db->where('INV_ID',$data[$i]);
+        for ($i=0; $i < $cant; $i++) {
+          $this->db->where('INV_ID',$data[$i]); 
           $variable = $this->db->get('inventario');
           foreach ($variable->result() as $row) {
             $nombre = $row->INV_PROD_NOM;
