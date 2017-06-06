@@ -402,18 +402,16 @@
      }else{}
    });*/
 
-   $('#files-new').on('change', function() {
-      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
-      if(this.files[0].size/1024 > 2120){
+   /*$('#files-new').on('change', function() {
+      if(this.files[0].size/1024 > 4){
         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
     });
    $('#files-edit').on('change', function() {
-      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
-      if(this.files[0].size/1024 > 2120){
+      if(this.files[0].size/1024 > 4){
         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
-    });
+    });*/
 
     $('#slider1').change(function() {
       var id=$('#slider1').val();
@@ -498,7 +496,7 @@ function archivo(evt) {
 document.getElementById('files-new').addEventListener('change', archivo, false);
 document.getElementById('files-edit').addEventListener('change', archivo, false);
 
-function validate() {
+/*function validate() {
   var file_size = $('#files-new')[0].files[0].size;
   if(file_size>2097152) {
     $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
@@ -515,6 +513,6 @@ function validateEdit() {
     return false;
   } 
   return true;
-}
+}*/
 </script>
 <?php } ?>

@@ -225,11 +225,20 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['producto'])){
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
-			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
 			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 if ($this->copiarimg->validate()) {
+			/* if ($this->copiarimg->validate()) {*/
 			 $nameimg = $this->copiarimg->upload();
-			 }
+			/* }*/
+			if($data['size']>90112){
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['width']         = 800;
+				$config['height']       = 800;
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+			}
 			}
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
@@ -248,9 +257,19 @@ class Mantencion extends CI_Controller {
 			$data = $_FILES['files'];
 			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
 			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 if ($this->copiarimg->validate()) {
+			 /*if ($this->copiarimg->validate()) {*/
 			 $nameimg = $this->copiarimg->upload();
-			 }
+			 /*}*/
+			 if($data['size']>90112){
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['width']         = 800;
+				$config['height']       = 800;
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+			}
 			}
 			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');

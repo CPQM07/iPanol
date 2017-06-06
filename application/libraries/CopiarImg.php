@@ -40,10 +40,10 @@ if (move_uploaded_file($this->_tmp, self::$RUTA.$name)) {
 
 }
 
-function  validate(){
+/*function  validate(){
 return $this->_size<=self::$SIZE
 && in_array($this->_type, self::$TYPES);
-}
+}*/
 
 
 public static function generateRandomString($length = 10) {
