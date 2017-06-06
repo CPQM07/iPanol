@@ -812,7 +812,7 @@ class Gestion extends CI_Controller {
         $nomCat = $_POST["nombreCat"];
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetTitle('Códigos de barra'); //Titlo del pdf
+        $pdf->SetTitle('Códigos de barra en general'); //Titlo del pdf
         $pdf->setPrintHeader(false); //No se imprime cabecera
         $pdf->setPrintFooter(true); //No se imprime pie de pagina
         $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
@@ -864,7 +864,7 @@ class Gestion extends CI_Controller {
       $nombreArchivo= "";
 
       $pdf2 = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-      $pdf2->SetTitle('Códigos de barra'); //Titlo del pdf
+      $pdf2->SetTitle('Código de barra unitario'); //Titlo del pdf
       $pdf2->setPrintHeader(false); //No se imprime cabecera
       $pdf2->setPrintFooter(true); //No se imprime pie de pagina
       $pdf2->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
@@ -915,7 +915,7 @@ class Gestion extends CI_Controller {
     public function generarPDFseleccionado(){
 
       $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-      $pdf->SetTitle('Códigos de barra'); //Titlo del pdf
+      $pdf->SetTitle('Códigos de barra seleccionados'); //Titlo del pdf
       $pdf->setPrintHeader(false); //No se imprime cabecera
       $pdf->setPrintFooter(true); //No se imprime pie de pagina
       $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
@@ -944,26 +944,28 @@ class Gestion extends CI_Controller {
       $data = array();
       $data = $_POST['data'];
       $cant= count($data);
-      $we=0;
-      for ($i=0; $i <= $cant; $i++) {
-        $this->db->where('INV_ID',$data[$we]);
-        $variable = $this->db->get('inventario');
-        foreach ($variable->result() as $row) {
-          $nombre = $row->INV_PROD_NOM;
-          $barcode = $row->INV_PROD_CODIGO;
-          $pdf->Cell(0, 0, $nombre, 0, 1);
-          $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
-          $pdf->Ln();
+      if (isset($data)) {
+        $we=0;
+        for ($i=0; $i <= $cant; $i++) {
+          $this->db->where('INV_ID',$data[$i]);
+          $variable = $this->db->get('inventario');
+          foreach ($variable->result() as $row) {
+            $nombre = $row->INV_PROD_NOM;
+            $barcode = $row->INV_PROD_CODIGO;
+            $pdf->Cell(0, 0, $nombre, 0, 1);
+            $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
+            $pdf->Ln();
+          }
+            ++$we;
         }
-          ++$we;
       }
       /*va juntooooo*/
 
       date_default_timezone_set("Chile/Continental");
-      $fecha = date ("d-m-Y-s",time());
+      $fecha = date("d-m-Y-s",time());
 
-      $pdf->lastPage();
       $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
+      $pdf->lastPage();
       $pdf->output($rutasavePDF, 'F');
       $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
       $this->output->set_content_type('application/json');
@@ -1004,20 +1006,6 @@ class Gestion extends CI_Controller {
       $this->output->set_output(json_encode($arrayInv));
     }
 
-    public function prueba(){
-      /*va juntooooo*/
-      $data = array(21,22,23);
-      $cant= count($data);
-      $we=0;
-      for ($i=0; $i < $cant; $i++) {
-        $this->db->where('INV_ID', $data[$we]);
-        $variable = $this->db->get('inventario');
-        foreach ($variable->result() as $row) {
-        echo $row->INV_PROD_CODIGO;
-        }
-          ++$we;
-      }
-      /*va juntooooo*/
-    }
+
 
 }
