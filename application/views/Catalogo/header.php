@@ -85,7 +85,7 @@
 <div class="modal fade" id="carrito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header btn-danger">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Solicitud de préstamos</h4>
       </div>
@@ -97,8 +97,6 @@
 					    <th>N°</th>
 						<th>ARTICULO</th>
 						<th>TIPO DE ARTÍCULO</th>
-						<th>FECHA INICIO</th>
-						<th>FECHA TERMINO</th>
 						<th>CANTIDAD</th>
 					</tr>
 				</thead>
@@ -107,9 +105,7 @@
 						<td>1</td>
 						<td>RJ45</td>
 						<td>Fungible</td>
-						<td><input class="input" type="date" id="fechaInicio" style="width:120px;"></td>
-						<td><input class="input" type="date" id="fechaTermino" style="width:120px;"></td>
-						<td><input type="number" id="cantidadArticulo" name="cantidadArticulo" style="width:50px;"></td>
+						<td><input type="number" required="required" id="mcantidadArticulo" name="mcantidadArticulo" style="width:100px;"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -124,17 +120,19 @@
 					<tr>
 					    <th>ASIGNATURA</th>
 						<th>N° GRUPO DE TRABAJO</th>
+						<th>FECHA ENTREGA</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td> 
-						  <select name="asignaturas">
+						  <select name="masignaturas">
 							  <option value="x">IT Essentials</option>
 							  <option value="x">Networking I</option>
 						  </select>
 						</td>
-						<td><input class="pull-left" type="number" id="cantidadGruTrab" name="cantidadGruTrab" style="width:150px;"></td>
+						<td><input class="pull-left" required="required" type="number" id="mcantidadGruTrab" name="mcantidadGruTrab" style="width:130px;"></td>
+						<td><input class="input" required="required" type="date" id="mfechaEntrega" name="mfechaEntrega" style="width:250px;"></td>
 					</tr>
 				</tbody>
 			</table>
