@@ -224,7 +224,7 @@
       <!-- /.row (main row) -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newPro"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -305,7 +305,7 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="" required>
+                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" required>
                           </div>
                           <output id="lista"></output>
                         
@@ -475,12 +475,11 @@
 
   $(document).ready(function() {
 
-    $('#files-new').on('change', function() {
-      /*console.log('This file size is: ' + (this.files[0].size/1024).toFixed(2) + " MB");*/
+    /*$('#files-new').on('change', function() {
       if(this.files[0].size/1024 > 2120){
         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
-    });
+    });*/
 
     $('#slider1').change(function() {
       var id=$('#slider1').val();
@@ -512,13 +511,13 @@
   }
   document.getElementById('files-new').addEventListener('change', archivo, false);
 
-  function validate() {
+  /*function validate() {
   var file_size = $('#files-new')[0].files[0].size;
   if(file_size>2097152) {
     $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
     return false;
   } 
   return true;
-}
+}*/
   </script>
   <?php } ?>

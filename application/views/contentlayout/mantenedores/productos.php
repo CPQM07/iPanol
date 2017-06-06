@@ -90,7 +90,7 @@
   <!-- /.content-wrapper -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newPro"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -202,7 +202,7 @@
   <!--modalPRODUCTONUEVO-->
 <!--modalPRODUCTO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="editPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="editPro"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -330,7 +330,7 @@
 <!-- /.content-wrapper -->
   <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newCategoria" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newCategoria"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -445,7 +445,7 @@
           $("#slider2").val(data.PROD_PRIORIDAD);
           $('#recibe2').text(data.PROD_PRIORIDAD);
           $("#dias").val(data.PROD_DIAS_ANTIC);
-          $("#filess").val(data.PROD_IMAGEN);
+          $('#listo').prepend('<img class="thumb" src="../../resources/images/Imagenes_Server/'+data.PROD_IMAGEN+'"><img />');
           $("#estado").val(data.PROD_ESTADO).trigger('change');
           console.log(data);
         }
@@ -465,6 +465,7 @@
     $("#prioridad").val("");
     $("#dias").val("");
     $("#imagen").val("");
+    $("#listo").empty();
     $("#estado").val("");
     $("#id_pro").val("");
 
