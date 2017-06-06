@@ -272,7 +272,7 @@
                   url: "<?=site_url('/gestion/generarPDFseleccionado')?>",
                   datatype:'json',
                   data: {"data" : arr},
-                  success: function(response){console.log(response.path);
+                  success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
                       location.reload();
