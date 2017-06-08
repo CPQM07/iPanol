@@ -6,6 +6,7 @@ class Mantencion extends CI_Controller {
   public function __construct()
   {
 		parent::__construct();
+    if ($this->session->userdata('logged_in')) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->library('CopiarImg','copiarimg',false);
 		$this->load->model('Cargo_Model','cargo', true);
@@ -15,8 +16,13 @@ class Mantencion extends CI_Controller {
 		$this->load->model('Proveedor_Model', 'proveedores', true);
 		$this->load->model('Producto_Model', 'productos', true);
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
-    $this->load->model('Motivo_Model', 'motivo', true);
-    $this->load->model('Asignatura_Model', 'asignatura', true);
+    	$this->load->model('Motivo_Model', 'motivo', true);
+    	$this->load->model('Asignatura_Model', 'asignatura', true);
+    	$this->load->model('Inventario_Model','inventario',true);
+  } else {
+    redirect('/Login');
+  }
+
   }
 
 	//Usuarios***************************************************************************
@@ -216,20 +222,30 @@ class Mantencion extends CI_Controller {
       $this->output->set_output(json_encode($newarray));
 	}
 
-	public function new_producto(){
+	public function new_producto($num){
 		if(isset($_POST['producto'])){
 			if(isset($_FILES['files'])){
 			$data = $_FILES['files'];
-			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
 			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 if ($this->copiarimg->validate()) {
+			/* if ($this->copiarimg->validate()) {*/
 			 $nameimg = $this->copiarimg->upload();
-			 }
+			/* }*/
+			if($data['size']>90112){
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['width']         = 800;
+				$config['height']       = 800;
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+			}
 			}
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-			redirect('/Mantencion/productos');
+			if($num==1){redirect('/Gestion/ingreso');}
+			else{redirect('/Mantencion/productos');}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -242,9 +258,19 @@ class Mantencion extends CI_Controller {
 			$data = $_FILES['files'];
 			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
 			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 if ($this->copiarimg->validate()) {
+			 /*if ($this->copiarimg->validate()) {*/
 			 $nameimg = $this->copiarimg->upload();
-			 }
+			 /*}*/
+			 if($data['size']>90112){
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['width']         = 800;
+				$config['height']       = 800;
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+			}
 			}
 			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
@@ -264,11 +290,11 @@ class Mantencion extends CI_Controller {
     if ($tipo == 1) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 2));
-      redirect('/Mantencion/usuarios');
+      redirect('/Mantencion/productos');
     } elseif ($tipo == 2) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 1));
-      redirect('/Mantencion/usuarios');
+      redirect('/Mantencion/productos');
     }
   	}
 	//Fin Productos***************************************************************************
@@ -423,6 +449,65 @@ class Mantencion extends CI_Controller {
 	}
 	//Fin Bajas***************************************************************************
 
+
+
+
+
+
+
+
+
+	/*nuevoooooooooooooooooooooooooo*/
+
+	public function inventario(){
+		$NuevoInventario = array();
+		$inventario = $this->inventario->findAll();
+	    foreach ($inventario as $key => $value) {
+	        $NuevoInventario[] = array(	
+	        'INV_ID' => $value->get('INV_ID'),
+	    	'INV_PROD_ID' => $value->get('INV_PROD_ID'),
+			'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
+			'INV_PROD_CANTIDAD'	=> $value->get('INV_PROD_CANTIDAD'),
+			'INV_PROD_ESTADO'	=> $value->get('INV_PROD_ESTADO'),
+			'INV_PROD_CODIGO' => $value->get('INV_PROD_CODIGO'),
+			'INV_INGRESO_ID' => $value->get('INV_INGRESO_ID'),
+			'INV_CATEGORIA_ID' => $this->categorias->findById($value->get('INV_CATEGORIA_ID')),
+			'INV_TIPO_ID' => $this->tipoProducto->findById($value->get('INV_TIPO_ID')),
+			'INV_FECHA' => $value->get('INV_FECHA'),
+			'INV_IMAGEN' => $value->get('INV_IMAGEN'),
+			'INV_ULTIMO_USUARIO' => $value->get('INV_ULTIMO_USUARIO'),
+			'INV_ACTUAL_USUARIO' => $value->get('INV_ACTUAL_USUARIO')
+	        );
+	        $datos['inventario'] = $NuevoInventario;
+	      }
+	    $datos['tipos'] = $this->tipoProducto->findAll();
+	    $datos['categorias'] = $this->categorias->findAll();
+		$this->layouthelper->LoadView("mantenedores/inventario", $datos, null);
+	}
+
+	public function inventarioById(){
+		$id= $_POST['id'];
+	 	$newarray = null;
+	  	$inventario = $this->inventario->findById($id);
+	  	$newarray = array(	
+	        'INV_ID' => $inventario->get('INV_ID'),
+	    	'INV_PROD_ID' => $inventario->get('INV_PROD_ID'),
+			'INV_PROD_NOM' => $inventario->get('INV_PROD_NOM'),
+			'INV_PROD_CANTIDAD'	=> $inventario->get('INV_PROD_CANTIDAD'),
+			'INV_PROD_ESTADO'	=> $inventario->get('INV_PROD_ESTADO'),
+			'INV_PROD_CODIGO' => $inventario->get('INV_PROD_CODIGO'),
+			'INV_INGRESO_ID' => $inventario->get('INV_INGRESO_ID'),
+			'INV_CATEGORIA_ID' => $inventario->get('INV_CATEGORIA_ID'),
+			'INV_TIPO_ID' => $inventario->get('INV_TIPO_ID'),
+			'INV_FECHA' => $inventario->get('INV_FECHA'),
+			'INV_IMAGEN' => $inventario->get('INV_IMAGEN'),
+			'INV_ULTIMO_USUARIO' => $inventario->get('INV_ULTIMO_USUARIO'),
+			'INV_ACTUAL_USUARIO' => $inventario->get('INV_ACTUAL_USUARIO')
+	    );
+	   print_r($newarray);
+	  $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array($newarray )));
+	}
 }
 
 /* End of file mantencion.php */

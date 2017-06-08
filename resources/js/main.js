@@ -1,13 +1,74 @@
-/*price range*/
+/*
+$(document).on("ready", inicio);
 
+function inicio(){
+
+	mostrarDatos("");
+	$("#buscar").keyup(function(){
+		buscar = $("#buscar").val();
+		mostrarDatos(buscar);
+	});
+
+	$("form").submit(function (event){
+		event.preventDefault();
+
+			$.ajax({
+			url:$("form").attr("action"),
+			type:$("form").attr("method"),
+			data:$("form").serialize(),
+			sucess: function(respuesta){
+				alert(respuesta);
+			}
+	    });
+	});
+}
+
+function mostrarDatos(valor){
+	$.ajax({
+		//si no, poner el index.php antes de Catalogo
+		url:"http://localhost/iPanol/Catalogo/mostrar",
+		type: "POST",
+		data: {buscar:valor},
+		sucess: function(respuesta){
+			//alert(respuesta);
+			var resultado = eval(respuesta);
+			html = "";
+			html += "<div class="col-sm-4">";
+			html += "<div class="product-image-wrapper">";
+			html += "<div class="single-products">";
+			html += "<div class="productinfo text-center">"
+			for (var i = resultado.length - 1; i >= 0; i--) {
+				html += "<h2>"+resultado[i]["PROD_NOMBRE"]+"</h2> <p>Stock total:"+resultado[i]["PROD_STOCK_TOTAL"]+"</p>";
+			};
+			html += "</div>";
+			html += "</div>";
+			html += "</div>";
+			html += "</div>";
+			$("#todos").html(html);
+		}
+	});
+}
+
+
+
+*/
+
+
+
+//--------------------------------------TEMPLATE-----------------------------------------
+
+
+
+/*price range*/
+/*
  $('#sl2').slider();
 
 	var RGBChange = function() {
 	  $('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
 	};	
-		
+*/		
 /*scroll to top*/
-
+/*
 $(document).ready(function(){
 	$(function () {
 		$.scrollUp({
@@ -28,3 +89,4 @@ $(document).ready(function(){
 		});
 	});
 });
+*/

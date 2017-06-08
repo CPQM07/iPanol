@@ -49,7 +49,7 @@
           </div>
           <div class="col-md-4">
             <label>Acción</label>
-            <button type="submit" class="btn btn-block btn-danger fa fa-arrow-down">Dar de BajaP</button>
+            <button type="submit" class="btn btn-block btn-danger fa fa-arrow-down">Dar de Baja</button>
           </div>
         </div>
 

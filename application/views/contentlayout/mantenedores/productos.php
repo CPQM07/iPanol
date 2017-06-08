@@ -14,7 +14,7 @@
           #upload {
               background: url("<?= base_url();?>/resources/images/Upload-128.png") center center no-repeat;
               width: 100px;
-              height: 100px;
+              height: 50px;
           }
       </style>
   <div class="content-wrapper">
@@ -90,7 +90,7 @@
   <!-- /.content-wrapper -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newPro"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -98,7 +98,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" >
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/1')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
@@ -111,7 +111,7 @@
 
                         <div class="col-md-9">
                           <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione una categoria</option>
+                            <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -123,7 +123,7 @@
 
                         <div class="col-md-9">
                           <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -171,7 +171,7 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="files" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
                           </div>
                           <output id="list"></output>
                         
@@ -184,7 +184,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                          <button type="submit" class="Agregar btn btn-danger col-md-12">Agregar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -202,7 +202,7 @@
   <!--modalPRODUCTONUEVO-->
 <!--modalPRODUCTO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="editPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="editPro"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -210,7 +210,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form id="formulario" class="form-horizontal" action="<?=site_url('Mantencion/edit_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" >
+                  <form id="formulario" class="form-horizontal" action="<?=site_url('Mantencion/edit_producto')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validateEdit();">
                   
                   <input id="id_pro" name="id_pro" type="number" style="width: 14px;height: 11px; visibility: hidden;">
                     
@@ -227,7 +227,7 @@
 
                         <div class="col-md-9">
                           <select id="categoria" name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione una categoria</option>
+                            <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -239,7 +239,7 @@
 
                         <div class="col-md-9">
                           <select id="tipo" name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
                             <?php endforeach ?>
@@ -287,9 +287,9 @@
 
                         <div class="col-md-9">
                         <div id="upload">
-                          <input name="files" type="file" id="filess" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
+                          <input name="files" type="file" id="files-edit" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);">
                           </div>
-                          <output id="list"></output>
+                          <output id="listo"></output>
                         
                         </div>
                       </div>
@@ -298,7 +298,7 @@
 
                         <div class="col-md-9">
                           <select id="estado" name="producto[PROD_ESTADO]" class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                           </select>
@@ -312,7 +312,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                          <button type="submit" class="Agregar btn btn-danger col-md-12">Agregar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -330,7 +330,7 @@
 <!-- /.content-wrapper -->
   <!--modalCATEGORIANUEVO-->
   <!--modalCATEGORIANUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newCategoria" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newCategoria"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -392,22 +392,27 @@
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
 
-    $('.input-file').change(function (){
+    /*$('.input-file').change(function (){
      var sizeByte = this.files[0].size;
      var siezekiloByte = parseInt(sizeByte / 1024);
      console.log(siezekiloByte);
      if(siezekiloByte > $(this).attr('size')){
-         alert('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
-         $('#files').end();
-     }
-   });
-    window.onload = function() {
-      VariableJS = $alert;
-      alert(VariableJS);
-      if(VariableJS==1){
-        alert("Ingrese el formulario de manera adecuada");
+         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+          return false;
+     }else{}
+   });*/
+
+   /*$('#files-new').on('change', function() {
+      if(this.files[0].size/1024 > 4){
+        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
-    };
+    });
+   $('#files-edit').on('change', function() {
+      if(this.files[0].size/1024 > 4){
+        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+      }
+    });*/
+
     $('#slider1').change(function() {
       var id=$('#slider1').val();
       $('#recibe').text(id);
@@ -431,8 +436,8 @@
         success: function(data){
           $("#id_pro").val(data.PROD_ID);
           $("#nombre").val(data.PROD_NOMBRE);
-          $("#categoria").val(data.PROD_CAT_ID);
-          $("#tipo").val(data.PROD_TIPOPROD_ID);
+          $("#categoria").val(data.PROD_CAT_ID).trigger('change');
+          $("#tipo").val(data.PROD_TIPOPROD_ID).trigger('change');
           $("#stocktotal").val(data.PROD_STOCK_TOTAL);
           $("#stockcritico").val(data.PROD_STOCK_CRITICO);
           $("#stockmargen").val(data.PROD_STOCK_OPTIMO);
@@ -440,8 +445,8 @@
           $("#slider2").val(data.PROD_PRIORIDAD);
           $('#recibe2').text(data.PROD_PRIORIDAD);
           $("#dias").val(data.PROD_DIAS_ANTIC);
-          $("#filess").val(data.PROD_IMAGEN);
-          $("#estado").val(data.PROD_ESTADO);
+          $('#listo').prepend('<img class="thumb" src="../../resources/images/Imagenes_Server/'+data.PROD_IMAGEN+'"><img />');
+          $("#estado").val(data.PROD_ESTADO).trigger('change');
           console.log(data);
         }
       });
@@ -460,34 +465,55 @@
     $("#prioridad").val("");
     $("#dias").val("");
     $("#imagen").val("");
+    $("#listo").empty();
     $("#estado").val("");
     $("#id_pro").val("");
 
   }
 
-  function archivo(evt) {
-    var files = evt.target.files; // FileList object
+function archivo(evt) {
+  var files = evt.target.files; // FileList object
 
-      //Obtenemos la imagen del campo "file".
-    for (var i = 0, f; f = files[i]; i++) {
-         //Solo admitimos imágenes.
-         if (!f.type.match('image.*')) {
-              continue;
-         }
+    //Obtenemos la imagen del campo "file".
+  for (var i = 0, f; f = files[i]; i++) {
+       //Solo admitimos imágenes.
+       if (!f.type.match('image.*')) {
+            continue;
+       }
 
-         var reader = new FileReader();
+       var reader = new FileReader();
 
-         reader.onload = (function(theFile) {
-             return function(e) {
-             // Creamos la imagen.
-                    document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
-             };
-         })(f);
+       reader.onload = (function(theFile) {
+           return function(e) {
+           // Creamos la imagen.
+                  document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                   document.getElementById("listo").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+           };
+       })(f);
 
-         reader.readAsDataURL(f);
-     }
-  }
-  document.getElementById('files').addEventListener('change', archivo, false);
+       reader.readAsDataURL(f);
+   }
+}
+document.getElementById('files-new').addEventListener('change', archivo, false);
+document.getElementById('files-edit').addEventListener('change', archivo, false);
 
+/*function validate() {
+  var file_size = $('#files-new')[0].files[0].size;
+  if(file_size>2097152) {
+    $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+    return false;
+  } 
+  return true;
+}
+
+function validateEdit() {
+
+  var file_size = $('#files-edit')[0].files[0].size;
+  if(file_size>2097152) {
+    $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
+    return false;
+  } 
+  return true;
+}*/
 </script>
 <?php } ?>

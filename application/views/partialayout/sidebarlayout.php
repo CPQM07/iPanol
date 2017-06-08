@@ -52,7 +52,7 @@ $lasturl = array_pop($spliturl);
         </li>
 
 
-        <li class="treeview <?php if (strpos(",usuarios,productos,categorias,asignaturas,motivos,proveedores", $lasturl)): ?> active <?php endif ?>">
+        <li class="treeview <?php if (strpos(",usuarios,productos,categorias,asignaturas,motivos,proveedores,inventario", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-industry"></i>
             <span>Mantenedores</span>
@@ -67,6 +67,8 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-file-text"></i></i>Asignatura</a></li>
             <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-tasks"></i></i>Motivos</a></li>
             <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-address-card"></i></i>Proveedores</a></li>
+            <li><a href="<?=site_url('mantencion/inventario')?>"><i class="fa fa-server"></i></i>Inventario</a></li>
+
           </ul>
         </li>
 

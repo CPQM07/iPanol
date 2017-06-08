@@ -86,7 +86,7 @@ public function findAll(){
   }
 
   public function findByArray($myarray = null){
-    $result = array();
+    $result = null;
       $res = $this->db->get_where('inventario',$myarray);
          foreach ($res->result() as $row) {
           $result[] = $this->create($row);

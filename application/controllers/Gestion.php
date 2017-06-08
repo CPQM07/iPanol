@@ -24,6 +24,7 @@ class Gestion extends CI_Controller {
     $this->load->model('Cargo_Model','cargo',true);
     /*nuevo*/
     $this->load->model('TipoProd_Model','tipoP',true);
+    $this->load->helper('array');
     /*nuevo*/
 
   }
@@ -262,6 +263,8 @@ class Gestion extends CI_Controller {
      $data['proveedores'] = $this->prov->findAll();
      $data['productos'] = $this->prod->findAll();
      $data['ingresos'] = $this->ing->findAll();
+     $data['categorias'] = $this->cat->findAllSelect();
+      $data['tipos'] = $this->tipoP->findAll();
      $this->layouthelper->LoadView("gestion/ingreso" , $data);
   }
 
@@ -473,21 +476,25 @@ class Gestion extends CI_Controller {
     $idtipo = $_POST['idtipo'];
     $idcat = $_POST['idcat'];
     $inventario = $this->inv->findByArray(array('INV_CATEGORIA_ID' => $idcat,'INV_TIPO_ID' => $idtipo,'INV_PROD_ESTADO' =>1 ));
-    foreach ($inventario as $key => $value) {
-      if ($value->get('INV_TIPO_ID') == 1) {
-         $allinv[] = array($value->get('INV_ID'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        $value->get('INV_PROD_NOM'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
-      }else if($value->get('INV_TIPO_ID') == 2){
+    if ($inventario != null) {
+       foreach ($inventario as $key => $value) {
+        if ($value->get('INV_TIPO_ID') == 1) {
            $allinv[] = array($value->get('INV_ID'),
-                        $value->get('INV_PROD_CANTIDAD'),
-                        $value->get('INV_PROD_NOM'),
-                        "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
-                        "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                          $value->get('INV_PROD_CANTIDAD'),
+                          $value->get('INV_PROD_NOM'),
+                          $value->get('INV_PROD_CANTIDAD'),
+                          "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+        }else if($value->get('INV_TIPO_ID') == 2){
+             $allinv[] = array($value->get('INV_ID'),
+                          $value->get('INV_PROD_CANTIDAD'),
+                          $value->get('INV_PROD_NOM'),
+                          "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
+                          "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+        }
       }
     }
+
+
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($allinv));
   }
@@ -805,7 +812,7 @@ class Gestion extends CI_Controller {
         $nomCat = $_POST["nombreCat"];
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetTitle('Códigos de barra'); //Titlo del pdf
+        $pdf->SetTitle('Códigos de barra en general'); //Titlo del pdf
         $pdf->setPrintHeader(false); //No se imprime cabecera
         $pdf->setPrintFooter(true); //No se imprime pie de pagina
         $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
@@ -857,7 +864,7 @@ class Gestion extends CI_Controller {
       $nombreArchivo= "";
 
       $pdf2 = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-      $pdf2->SetTitle('Códigos de barra'); //Titlo del pdf
+      $pdf2->SetTitle('Código de barra unitario'); //Titlo del pdf
       $pdf2->setPrintHeader(false); //No se imprime cabecera
       $pdf2->setPrintFooter(true); //No se imprime pie de pagina
       $pdf2->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
@@ -900,8 +907,73 @@ class Gestion extends CI_Controller {
       $rutaAJAX = base_url().'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
-
     }
+
+
+
+
+    public function generarPDFseleccionado(){
+
+      $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+      $pdf->SetTitle('Códigos de barra seleccionados'); //Titlo del pdf
+      $pdf->setPrintHeader(false); //No se imprime cabecera
+      $pdf->setPrintFooter(true); //No se imprime pie de pagina
+      $pdf->SetMargins(10, 10, 10, false); //Se define margenes izquierdo, alto, derecho
+      $pdf->SetAutoPageBreak(true, 20); //Se define un salto de pagina con un limite de pie de pagina
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);//Definir el quiebre de la paguina
+      $pdf->SetFont('Helvetica', '', 10);//Estilo de fuente
+      $style = array(
+          'position' => '',
+          'align' => 'C',
+          'stretch' => false,
+          'fitwidth' => true,
+          'cellfitalign' => '',
+          'border' => true,
+          'hpadding' => 'auto',
+          'vpadding' => 20,
+          'fgcolor' => array(0,0,0),
+          'bgcolor' => false, //array(255,255,255),
+          'text' => true,
+          'font' => 'helvetica',
+          'fontsize' => 8,
+          'stretchtext' => 4
+      );
+      $pdf->addPage();
+      
+      /*va juntooooo*/
+      $data = array();
+      $data = $_POST['data'];
+      $cant= count($data);
+      if (isset($data)) {
+        $we=0;
+        for ($i=0; $i < $cant; $i++) {
+          $this->db->where('INV_ID',$data[$i]); 
+          $variable = $this->db->get('inventario');
+          foreach ($variable->result() as $row) {
+            $nombre = $row->INV_PROD_NOM;
+            $barcode = $row->INV_PROD_CODIGO;
+            $pdf->Cell(0, 0, $nombre, 0, 1);
+            $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
+            $pdf->Ln();
+          }
+            ++$we;
+        }
+      }
+      /*va juntooooo*/
+
+      date_default_timezone_set("Chile/Continental");
+      $fecha = date("d-m-Y-s",time());
+
+      $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
+      $pdf->lastPage();
+      $pdf->output($rutasavePDF, 'F');
+      $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+    }
+
+
+
 
     public function traerProductosByIdTipo(){
       $tipoP = $_POST['idTipo'];
@@ -920,15 +992,20 @@ class Gestion extends CI_Controller {
       $arrayInv = array();
       foreach ($todoProByCat as $key => $value) {
         $arrayInv[] = array("
-              <input class='items' id='show' type='checkbox' data-toggle='toggle' data-on='SI' data-off='NO' data-onstyle='danger'>",
+          <form id='formid' method='post' accept-charset='utf-8'>
+              <input value=".$value->get('INV_ID')." class='items' type='checkbox'>
+          </form>
+              ",
               $value->get('INV_ID'),
               $value->get('INV_PROD_NOM'),
-              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode btn btn-danger btn-block">
+              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>'
             );
       }
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode($arrayInv));
     }
+
+
 
 }

@@ -7,9 +7,13 @@ class Dashboard extends CI_Controller {
 	{
 	/*$hoy = getDate();*/
 		parent::__construct();
+		if ($this->session->userdata('logged_in')) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->model('DetSolicitud_Model','detalle',true);/*
 		$this->load->model('DetSolicitud_Model','cont',true);*/
+	} else {
+		redirect('/Login');
+	}
 	}
 
 	public function dashboard()
@@ -17,6 +21,8 @@ class Dashboard extends CI_Controller {
 		$coun['solpen']=$this->detalle->count0();/*contador solicitudPendiendeRecepcionar*/
 		$coun['solsinasig']=$this->detalle->count1();/*contador solicitudPendiendeRecepcionar*/
 		$coun['baja']=$this->detalle->count2();/*contador productosBaja*/
+		$coun['parciales']=$this->detalle->parciales();/*contador productosBaja*/
+
 		$coun['activosHoy']=$this->detalle->productoActivoHoy();
 		$coun['activosAyer']=$this->detalle->productoActivoAyer();
 		$coun['activosAyer2']=$this->detalle->productoActivoAyer2();
@@ -42,4 +48,3 @@ class Dashboard extends CI_Controller {
 
 /* End of file dashboard.php */
 /* Location: ./application/controllers/dashboard.php */
-

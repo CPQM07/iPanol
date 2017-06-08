@@ -21,11 +21,11 @@
 	<!--SESSION USUARIO-->
 	    <div class="header_top"><!--header_top-->
 			<div class="container">
-				<div class="row pull-right">
+				<div class="row pull-left">
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Usuario
+								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">BIENVENIDO - Yerko Pailemilla Parada
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
 								    <li><a href="<?= site_url('/Catalogo/') ?>">Cerrar sesión</a></li>
@@ -70,10 +70,11 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Buscar..."/>
-						</div>
+					<div class="col-sm-3 pull-right">
+						<form id="form" method="POST" action="<?=site_url()?>/Catalogo/index/">
+							<input type="text" id="query" name="query" />
+							<input type="submit" id="buscar" value="Buscar...">						
+						</form>
 					</div>
 				</div>
 				</div>
@@ -84,9 +85,9 @@
 <div class="modal fade" id="carrito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header btn-danger">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Carrito de pedidos</h4>
+        <h4 class="modal-title" id="myModalLabel">Solicitud de préstamos</h4>
       </div>
       <div class="modal-body">
 		<!--CONTENIDO CARRITO-->
@@ -94,24 +95,48 @@
 				<thead>
 					<tr>
 					    <th>N°</th>
-						<th>IMAGEN</th>
 						<th>ARTICULO</th>
 						<th>TIPO DE ARTÍCULO</th>
 						<th>CANTIDAD</th>
-						<th>TOTAL</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>
-							
-						</td>
+						<td>1</td>
+						<td>RJ45</td>
+						<td>Fungible</td>
+						<td><input type="number" required="required" id="mcantidadArticulo" name="mcantidadArticulo" style="width:100px;"></td>
 					</tr>
 				</tbody>
 			</table>
 		<!--FIN CONTENIDO CARRITO-->
       </div>
       <div class="modal-footer">
+      <h5 class="modal-title pull-left" id="myModalLabel" style="font-size:18px;"> Información adicional </h5>
+      <br>
+      <hr>
+      <table class="table table-striped">
+				<thead>
+					<tr>
+					    <th>ASIGNATURA</th>
+						<th>N° GRUPO DE TRABAJO</th>
+						<th>FECHA ENTREGA</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td> 
+						  <select name="masignaturas">
+							  <option value="x">IT Essentials</option>
+							  <option value="x">Networking I</option>
+						  </select>
+						</td>
+						<td><input class="pull-left" required="required" type="number" id="mcantidadGruTrab" name="mcantidadGruTrab" style="width:130px;"></td>
+						<td><input class="input" required="required" type="date" id="mfechaEntrega" name="mfechaEntrega" style="width:250px;"></td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-danger">Realizar pedido</button>
       </div>
@@ -119,10 +144,3 @@
   </div>
 </div>
 <!--MODAL CARRITO-->
-
-
-<?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
-<script type="text/javascript" charset="utf-8">
-
-</script>
-<?php } ?>
