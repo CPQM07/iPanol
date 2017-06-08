@@ -12,85 +12,97 @@ public function __construct()
 {
 parent::__construct();
 }	
-private $_columns= array(
-	'REPORTE_ID' =>0,
-	'REPORTE_FECHA'=>'',
-	'REPORTE_TIPO' =>0,
-	'REPORTE_DESC' =>''
-	);
+
 function get($attr){
 	return $this->_columns[$attr];
 }
-
-public function findAllProductos(){
-	$result = array();
-	$bit = null;
-	$this->db->select('TIPO_NOMBRE,PROD_NOMBRE,ING_FECHA,PROD_STOCK_TOTAL,PROV_NOMBRE,PROD_POSICION');
-	$this->db->from('productos');
-	$this->db->join('tipoprod','TIPO_ID = PROD_TIPOPROD_ID');
-	$this->db->join('inventario','PROD_ID = INV_PROD_ID');
-	$this->db->join('ingreso','ING_ID = INV_INGRESO_ID');
-	$consulta = $this->db->get();	
-	$totalproductos = null;
-	if ($consulta->num_rows()==1) {
-		$totalproductos = $consulta->row_object();
-	}
-	return $totalproductos;
+// METODO BUSCAR LOS PRODUCTOS CON FILTRO DE TIPO
+	public function findAllProductos($tipo, $cat){
+		$result = array();
+		$this->db->like('TIPO_ID', $tipo);
+		$this->db->select ("TIPO_ID, TIPO_NOMBRE, CAT_ID ,CAT_NOMBRE, PROD_NOMBRE, ING_FECHA, PROD_STOCK_TOTAL, PROV_NOMBRE, PROD_POSICION");
+		$this->db->from("productos");
+		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
+		$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
+		$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
+		$this->db->join('ingreso','ingreso.ING_ID = inventario.INV_INGRESO_ID');
+		$this->db->join('proveedor','proveedor.PROV_RUT = ingreso.ING_PROV_RUT');
+		$this->db->group_by('productos.PROD_ID');
+		$consulta = $this->db->get();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+    return $result;
 }
-public function findAllCriticos(){
+//METODO BUSCAR LOS PODRUCTOS CRITICOS CON FILTRO DE TIPO
+public function findAllCriticos($tipo, $cat){
 	$result = array();
-	$bit= null;
-	$this->db->select('TIPO_PRODUCTO,PROD_NOMBRE,ING_FECHA,PROD_STOCK_TOTAL,PROD_STOCK_OPTIMO,PROD_PRIORIDAD,');
+	$this->db->like('TIPO_ID', $tipo);
+	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,PROD_STOCK_TOTAL,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
 	$this->db->from('productos');
-	$this->db->where('PROD_STOCK_CRITICO >= PROD_STOCK_TOTAL');
-	$this->db->join('inventario','INV_PROD_ID = PROD_ID');
-	$this->db->join('ingreso','ING_ID = INV_INGRESO_ID');
+	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
+	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
+	$this->db->where('productos.PROD_STOCK_CRITICO >= productos.PROD_STOCK_TOTAL');
+	$this->db->group_by('productos.PROD_ID');
+
 	$consulta = $this->db->get();
-		$productoscriticos = null;
-			if ($consulta->num_rows()==1) {
-				$productoscriticos = $consulta->row_object();
-			}
-			return $productoscriticos;
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+    return $result;
 		}
 
 public function motivosdebaja(){
 	$result = array();
-	$bit = null;
-		$this->db->select('TIPO_NOMBRE,PROD_NOMBRE,BAJA_FECHA,USU_NOMBRES,BAJA_DESC');
+		$this->db->select('TIPO_NOMBRE,CAT_NOMBRE,PROD_NOMBRE,INV_PROD_NOM,BAJA_FECHA,ING_FECHA,USU_NOMBRES,MOT_NOMBRE');
 		$this->db->from('baja');
-		$this->db->where('BAJA_INV_ID = INV_ID');
-		$this->db->join('inventario','BAJA_INV_ID = INV_ID');
-		$this->db->join('productos','INV_PROD_ID = PROD_ID');
-		$this->db->join('tipoprod','TIPO_ID = PROD_TIPOPROD_ID');
-		$this->db->join('usuario','USU_RUT = BAJA_USU_RUT');
+		$this->db->join('motivo','motivo.MOT_ID = baja.BAJA_MOTIVO_ID');
+		$this->db->join('usuario','usuario.USU_RUT = baja.BAJA_USU_RUT');
+		$this->db->join('ingreso','ingreso.ING_USU_RUT = usuario.USU_RUT');
+		$this->db->join('productos','productos.PROD_ID = ingreso.ING_PROD_ID');
+		$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
+		$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
+		$this->db->join('inventario','INV_ID = baja.BAJA_INV_ID');
 			$consulta = $this->db->get();
-			$motivosbaja = null;
-				if ($consulta->num_rows()==1) {
-					$motivosbaja = $consulta->row_object();
-				}
-				return $motivosbaja;
+				$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+    return $result;
 }
 
 public function vidautil(){
-	$result = array();
-	$bit = null;
 	$this->db->select('TIPO_NOMBRE,PROD_NOMBRE,PROV_NOMBRE,ING_FECHA,ING_VIDA_UTIL_PROVEEDOR,USU_NOMBRES');
 	$this->db->from('ingreso');
-	$this->db->join('proveedor','PROV_RUT = ING_PROV_RUT');
-	$this->db->join('usuario','USU_RUT = ING_USU_RUT');
-	$this->db->join('inventario','ING_ID = INV_INGRESO_ID');
-	$this->db->join('productos','PROD_ID = INV_PROD_ID');
-	$this->db->join('tipoprod','TIPO_NOMBRE = PROD_TIPOPROD_ID');
-	
+	$this->db->join('proveedor','proveedor.PROV_RUT = ingreso.ING_PROV_RUT');
+	$this->db->join('usuario','usuario.USU_RUT = ingreso.ING_USU_RUT');
+	$this->db->join('inventario','ingreso.ING_ID = inventario.INV_INGRESO_ID');
+	$this->db->join('productos','productos.PROD_ID = inventario.INV_PROD_ID');
+	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
+	$this->db->group_by('ingreso.ING_ID'); //PUEDE QUE ESTO HAGA FUNCIONAR LA CONSULTA EN PHPMYADMIN Y NO AQUI EN CASO DE ALGUN ERROR ... ELIMINAR EL GROUP_BY 	
 	$consulta = $this->db->get();
-	$vidautilproductos = null;
-	if ($consulta->num_rows()==1) {
-		$vidautilproductos = $consulta->row_object();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+    return $result;
+}
+	public function tipo(){
+		$this->db->select ('*');
+		$this->db->from('tipoprod');
+		$consulta = $this->db->get();
+		$result = null;
+		foreach ($consulta->result_array() as $row) {
+			$result[]= $row;
+		}
+		return $result;
 	}
-	return $vidautilproductos;
-}
 
-}
+			
+		}
+	
 
 
 /* End of file Reporte_Model.php */
