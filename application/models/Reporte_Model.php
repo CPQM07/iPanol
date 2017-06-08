@@ -45,7 +45,6 @@ public function findAllCriticos($tipo, $cat){
 	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
 	$this->db->where('productos.PROD_STOCK_CRITICO >= productos.PROD_STOCK_TOTAL');
 	$this->db->group_by('productos.PROD_ID');
-
 	$consulta = $this->db->get();
 		$result = null;
     foreach ($consulta->result_array() as $row) {
