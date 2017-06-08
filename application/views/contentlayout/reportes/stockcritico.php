@@ -47,7 +47,7 @@
        </div>
        </form>
       <div class="col-md-3">    
-                  <a href="<?= site_url('/Reportes/Pdfactual/');?>">
+                  <a href="<?= site_url('/Reportes/Pdfcritico/');?>">
                   <td>
                   <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i> Ver </button>
                 </td></a>                             
@@ -78,7 +78,7 @@
                 <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
                 <td><?= $value['PROD_PRIORIDAD']; ?></td>
                 
-              
+              </tr>
               <?php endforeach; ?>
     
               </tbody>

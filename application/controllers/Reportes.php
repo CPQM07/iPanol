@@ -14,8 +14,8 @@ class Reportes extends CI_Controller {
 
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
   public function Pdfcritico(){
-  
-      $datosC = $this->reporte->findAllCriticos();
+      $datosC = $this->reporte->findAllCriticos($tipo, $cat);
+
     $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos en Stock Critico', "");
@@ -37,7 +37,6 @@ class Reportes extends CI_Controller {
   }
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
   public function Pdfactual(){
- 
       $datosA= $this->reporte->findAllProductos();
     $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
