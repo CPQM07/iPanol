@@ -68,16 +68,7 @@ public function findAll(){
   return $result;
 }
 
- public function findById($id){
-    $result = null;
-    $this->db->where('USU_RUT',$id);
-    $consulta = $this->db->get('usuario');
-    if($consulta->num_rows() == 1){
-      $result = $this->create($consulta->row());
-    }
-    
-    return $result;
-  }
+ 
 
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {

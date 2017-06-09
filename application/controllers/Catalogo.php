@@ -78,6 +78,11 @@ class Catalogo extends CI_Controller {
 		$this->load->view('Catalogo/contactanos', FALSE);
 	}
 
+	public function carrito()
+	{
+		$this->load->view('Catalogo/carrito', FALSE);
+	}
+
 	public function porCategoria($id){
 		$dato['productos'] = $this->prod->findByCat($id);
 		//$dato['productos'] = $this->prod->findByTipProd($id);
@@ -95,25 +100,31 @@ class Catalogo extends CI_Controller {
 	}
 
 	public function insert_solicitud_from_catalogo(){
-	if (isset($_POST["mcantidadArticulo"]) and isset($_POST["mcantidadGruTrab"]) and isset($_POST["mfechaEntrega"]) ) {
-      $mcantidadArticulo = $_POST["mcantidadArticulo"];
-      $mcantidadGruTrab = $_POST["mcantidadGruTrab"];
-      $mfechaEntrega = $_POST["mfechaEntrega"];
-      $masignaturas = $_POST["masignaturas"];
-      $detalle = $POST['detalle'];
+		$fecha_actual = date("Y/m/d");
+		$mcantidadArticulo = $_POST["mcantidadArticulo"];
+	    $mcantidadGruTrab = $_POST["mcantidadGruTrab"];
+	    $mfechaEntrega = $_POST["mfechaEntrega"];
+	    $masignaturas = $_POST["masignaturas"];
+	    $detalle = $POST['detalle'];
 
-      $solicitud = $_POST['detallesolicitud'] 
+	    $usersession = $this->session->userdata('logged_in');
+
+	if (isset($_POST["mcantidadArticulo"]) and isset($_POST["mcantidadGruTrab"]) and isset($_POST["mfechaEntrega"]) and 
+		isset($_POST["masignaturas"]) and isset($_POST["detalle"])) {
+
+      $solicitud = $_POST['detallesolicitud']; 
       $_columns  =  array(
 		'SOL_ID' => 0,
-		'SOL_USU_RUT' => 0,
+		'SOL_USU_RUT' => $usersession['rut3'],
 		'SOL_ASIG_ID' => $masignaturas,
-		'SOL_FECHA_INICIO' => '',
+		'SOL_FECHA_INICIO' => $fecha_actual,
 		'SOL_FECHA_TERMINO' => $mfechaEntrega,
 		'SOL_NRO_GRUPOTRAB' => $mcantidadGruTrab,
 		'SOL_OBSERVACION' => 0,
 		'SOL_RUTA_PDF' => '',
 		'SOL_ESTADO' => 1
 		);
+
       $this->soli->create($_columns);
       $ultimoIngresado = $this->soli->insert();
 
@@ -139,14 +150,16 @@ class Catalogo extends CI_Controller {
 
 
 /*
-$columns  =  array(
-            'OBS_ID' => 0,
-            'OBS_TEXTO' => $texto,
-            'OBS_BAJA_ID' => $bajaid,
-            'OBS_FECHA' => date("Y-m-d H:i:s"),
-            'OBS_MOT_ID' => $motivo->get("MOT_ID"),
-            'OBS_MOT_NOMBRE' => $motivo->get("MOT_NOMBRE")
-            );
+public function findById($id){
+    $result = null;
+    $this->db->where('USU_RUT',$id);
+    $consulta = $this->db->get('usuario');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
+    }
+    
+    return $result;
+  }
 */
 
 
