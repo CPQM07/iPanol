@@ -17,7 +17,8 @@ private  $_columns  =  array(
 'ING_FECHA' => '',
 'ING_USU_RUT' => 0,
 'ING_VIDA_ULTIL_PROVEEDOR' => 0,
-'ING_PROV_RUT' => 0
+'ING_PROV_RUT' => 0,
+'ING_TIPO_INGRESO' => 0
 );
 
 public function get($attr){
@@ -60,6 +61,7 @@ public function findAll(){
   $bit = null;
    $this->db->join('usuario', 'usuario.USU_RUT = ingreso.ING_USU_RUT');
   $this->db->join('productos', 'ingreso.ING_PROD_ID = productos.PROD_ID');
+   $this->db->order_by('ING_ID', 'ASC');
   $consulta = $this->db->get('ingreso');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
@@ -81,18 +83,14 @@ public function findAllToArray(){
   return $result;
 }
 
-public function findById($id){
-  $result=array();
-  $bit = null;
-  $this->db->where('ING_ID',$id);
-  $consulta = $this->db->get('ingreso');
-  if($consulta->num_rows() > 0){
-    foreach ($consulta->result() as $row) {
-    $result[] = $this->create($row);
+  public function findById($id){
+    $result = null;
+    $this->db->where('ING_ID',$id);
+    $consulta = $this->db->get('ingreso');
+    if($consulta->num_rows() == 1){
+      $result = $this->create($consulta->row());
     }
-  }else{
-    $result[] = $this->create($this->_columns);
-  }
+    
     return $result;
   }
 
@@ -101,4 +99,9 @@ public function findById($id){
       $this->_columns[$key] = $value;
       }
     }
+
+  public function toArray(){  
+    return get_object_vars($this); 
+  }
+
 }

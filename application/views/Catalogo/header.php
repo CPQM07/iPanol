@@ -49,7 +49,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><button type="button" class="btn btn-block btn-danger fa fa-shopping-cart" data-toggle="modal" data-target="#carrito">Carrito de pedidos</button></li>
+								<li><a style="cursor: pointer;" data-toggle="modal" data-target="#carrito"><i class="fa fa-shopping-cart" id="contador"></i>Carrito</a></li>
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>
@@ -82,7 +82,7 @@
 	</header>
 
 <!--MODAL CARRITO-->
-<div class="modal fade" id="carrito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="carrito" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header btn-danger">
@@ -100,13 +100,8 @@
 						<th>CANTIDAD</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>RJ45</td>
-						<td>Fungible</td>
-						<td><input type="number" required="required" id="mcantidadArticulo" name="mcantidadArticulo" style="width:100px;"></td>
-					</tr>
+				<tbody id="carlist">
+					<?php print_r($_SESSION['productos']); ?>
 				</tbody>
 			</table>
 		<!--FIN CONTENIDO CARRITO-->

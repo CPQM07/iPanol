@@ -37,72 +37,109 @@
             <div class="box-body">
               <div class="row">
                 <form action="<?=site_url('Gestion/ingresar_producto_stock')?>" method="post" accept-charset="utf-8">
+                  
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Producto</label>
-
-                      <div class="input-group">
-                        <select name="producto" class="form-control select2">
-                          <option></option>
-                          <?php foreach ($productos as $key => $value): ?>
-                            <?php if ($value->get("PROD_ESTADO") != 0): ?>
-                              <option value="<?= $value->get("PROD_ID")  ?>"><?= "(#".$value->get("PROD_ID").") ".$value->get("PROD_NOMBRE")." [".$value->get("CAT_NOMBRE")."]" ?></option>
-                            <?php endif ?>
-                          <?php endforeach ?>
-                        </select>
-                        <div class="input-group-addon">
-                          <a href="" data-toggle="modal" data-target="#newPro">
-                            <i class="fa fa-plus"></i>
-                          </a>
+                        <div class="input-group">
+                          <select name="producto" class="form-control select2">
+                            <option></option>
+                            <?php foreach ($productos as $key => $value): ?>
+                              <?php if ($value->get("PROD_ESTADO") != 0): ?>
+                                <option value="<?= $value->get("PROD_ID")  ?>"><?= "(#".$value->get("PROD_ID").") ".$value->get("PROD_NOMBRE")." [".$value->get("CAT_NOMBRE")."]" ?></option>
+                              <?php endif ?>
+                            <?php endforeach ?>
+                          </select>
+                          <div class="input-group-addon">
+                            <a href="" data-toggle="modal" data-target="#newPro">
+                              <i class="fa fa-plus"></i>
+                            </a>
+                          </div>
                         </div>
-                      </div>
                       <!-- /.input group -->
                     </div>
                   </div>
-                  <div class="col-md-3">
 
+                  <div class="col-md-3">
                       <label>Cantidad</label>
                       <input type="number" name="cantidad" class="form-control">
                   </div>
                   <div class="col-md-3">
-                      <label>Orden de compra</label>
-                      <input type="number" name="ordencompra" class="form-control">
+                        <label>Vida útil (En meses)</label>
+                        <input name="vidautil" id="vidautil" type="number" class="form-control" >
                   </div>
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Proveedor</label>
-
-                      <div class="input-group">
-                        <select name="proveedor" class="form-control select2">
-                          <option></option>
-                          <?php foreach ($proveedores as $key => $value): ?>
-                            <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
-                          <?php endforeach ?>
+                      <label>Modo</label>
+                        <select id="modo" name="modo" class="form-control">
+                          <option value="0">Seleccione el modo de Ingreso</option>
+                          <option value="1">Compra</option>
+                          <option value="2">Donación</option>
                         </select>
-                        <div class="input-group-addon">
-                          <a href="" data-toggle="modal" data-target="#myProvee">
-                            <i class="fa fa-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                      <!-- /.input group -->
-                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
+
+                  <div class="col-md-12">
                       <label>Descripción</label>
-                      <input name="descripcion" type="textarea" class="form-control">
+                      <textarea name="descripcion" type="textarea" class="form-control"></textarea>
                   </div>
-                  <div class="col-md-6">
-                      <label>Vida útil</label>
-                      <input name="vidautil" type="number" class="form-control" >
-                  </div>
-                </div>
-                <br>
+
                 <div class="col-md-12">
                   <button type="submit" class="btn btn-block btn-success">Agregar</button>
                 </div>
+
+
+                             <!--INGRESO MODO COMPRA-->
+                <div class="modal fade" id="compraodonacion" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                        <h4 class="modal-title" id="myModalLabel">Compra</h4>
+                      </div>
+                      <div class="modal-body">
+                                  
+                          <div class="box-body">
+                           
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                  <label>Proveedor</label>
+
+                                  <div class="input-group">
+                                    <select name="proveedor" id="proveedor" class="form-control select2" style="width: 100%">
+                                      <option></option>
+                                      <?php foreach ($proveedores as $key => $value): ?>
+                                        <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
+                                      <?php endforeach ?>
+                                    </select>
+                                    <div class="input-group-addon">
+                                      <a href="" data-toggle="modal" data-target="#myProvee">
+                                        <i class="fa fa-plus"></i>
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <!-- /.input group -->
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                  <label>Orden de compra</label>
+                                  <input type="number" name="ordencompra" id="ordencompra" class="form-control">
+                              </div>
+                              <div class="col-md-12">
+                                  <label>Precio unitario</label>
+                                  <input type="number" name="preciounitario" id="preciounitario" class="form-control">
+                              </div>
+
+                          </div>
+                        
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!--INGRESO MODO COMPRA-->
 
                 </form>
 
@@ -132,7 +169,7 @@
                             <td><?= $value->get('PROD_NOMBRE') ?></td>
                             <td><?= $value->get('ING_CANTIDAD') ?></td>
                             <td>
-                              <button type="button" id="<?= $value->get('ING_ID') ?>" class="editar btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myModal">
+                              <button type="button" id="<?= $value->get('ING_ID') ?>" class="editar btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myPro">
                                 <i class="fa fa-edit"></i>
                               </button>
                             </td>
@@ -341,92 +378,55 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             <h4 class="modal-title" id="myModalLabel">Editar ingreso</h4>
           </div>
-          <div class="modal-body form-inline">
-            <div class="box-body">
+          <div class="modal-body">
+                      
+          <form role="form" action="<?= site_url('Gestion/editar_ingreso') ?>" method="post">
+              <input type="hidden" name="idingreso" id="idingreso">
               <div class="box-body">
-              <form role="form">
-              <div class="box-body">
-
-                <div class="form-group col-md-6">
-                  <label for="exampleInputEmail1">Nombre</label>
-                  <input type="text" class="form-control pull-right" id="exampleInputEmail1" placeholder="Ingrese el nombre">
+                <div class="form-group col-md-3">
+                  <label>Orden de Compra</label>
+                  <input type="text" class="form-control pull-right" id="ocedit" name="odecompraedit">
+                </div>
+                <div class="form-group col-md-3">
+                  <label>Precio</label>
+                  <input type="text" readonly class="form-control pull-right" id="precioedit" name="precioedit">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="exampleInputPassword1">Stock crítico</label>
-                  <input type="number" class="form-control pull-right" id="exampleInputPassword1">
+                  <label>Descripción</label>
+                  <input type="text" name="descedit" id="descedit" class="form-control pull-right" >
                 </div>
 
                 <div class="form-group col-md-6"><br>
-                  <label for="exampleInputPassword1">Stock óptimo</label>
-                  <input type="number" class="form-control pull-right" id="exampleInputPassword1">
+                  <label for="exampleInputPassword1">Vida Util (Meses)</label>
+                  <input type="number" name="vidautiledit" id="vuedit" class="form-control pull-right" >
                 </div>
 
                 <div class="form-group col-md-6"><br>
-                  <label for="exampleInputPassword1">Posición</label>
-                  <input type="number" class="form-control pull-right" id="exampleInputPassword1" placeholder="A-1">
-                </div>
-                
-                <div class="form-group col-md-6"><br>
-                  <label for="exampleInputPassword1">Prioridad</label>
-                  <input type="number" class="form-control pull-right" id="" placeholder="1-10">
-                </div>
-
-                <div class="form-group col-md-6"><br>
-                  <label for="exampleInputPassword1">Días de anticipación</label>
-                  <input type="number" class="form-control pull-right" id="">
-                </div>
-
-                <div class="form-group col-md-6">
-                  <label>Tipo de producto</label>
-                  <div class="pull-right">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                      Activo
-                    </label>
-
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                      Fungible
-                    </label>
-                  </div>
-                </div>
-
-
-
-                <div class="form-group col-md-6">
-                  <label>Categoría</label>
-                    <select class="form-control select2 pull-right" style="width: 100%;">
-                      <option selected="selected">Seleccione</option>
-                      <option>Herramienta</option>
-                      <option>Conectores</option>
-                    </select>
-                </div>
-
-                <br>
-
-                <div class="form-group col-md-6">
-                  <label for="exampleInputFile">Imagen</label>
-                  <input type="file" class="pull-right" id="exampleInputFile">
-                </div>
-
-
+                  <label>Proveedor</label>
+                      <select name="proveedor" id="provedit" class="form-control select2 pull-right" style="width: 100%">
+                          <option></option>
+                          <?php foreach ($proveedores as $key => $value): ?>
+                            <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
+                          <?php endforeach ?>
+                      </select>
                 </div>
               </div>
-              <!-- /.box-body -->
+            
 
-              </div>
             </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success">Guardar datos</button> 
-          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Guardar datos</button> 
+            </div>
           </div>
           </form>
         </div>
       </div>
     </div>
   <!--Producto-->
+
+ 
 
 
   <!--Proveedores-->
@@ -435,7 +435,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-            <h4 class="modal-title" id="myModalLabel">Editar ingreso</h4>
+            <h4 class="modal-title" id="myModalLabel">Ingresar Proveeedor</h4>
           </div>
           <div class="modal-body">
               <div class="box-body">
@@ -452,12 +452,12 @@
 
                 <div class="form-group ">
                   <label for="exampleInputEmail1">Nombre</label>
-                  <input type="text" class="form-control pull-right col-md-6" id="exampleInputEmail1" placeholder="Ingrese el nombre">
+                  <input type="text" class="form-control pull-right col-md-6" name="odecompra" placeholder="Ingrese el nombre">
                 </div>
                 <br>
                 <div class="form-group ">
                   <label for="exampleInputEmail1">Razón social</label>
-                  <input type="text" class="form-control pull-right col-md-6" id="exampleInputEmail1" placeholder="Ingrese razón social">
+                  <input type="text" class="form-control pull-right col-md-6" name="odecompra" placeholder="Ingrese razón social">
                 </div>
 
             </div>
@@ -480,6 +480,41 @@
         $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
       }
     });*/
+    $(document).on('change', '#modo', function(event) {
+      //event.preventDefault();
+      var selector =$(this).val();
+      if (selector == 1) {
+          $('#compraodonacion').modal('show');
+      }else if(selector == 2){
+          $('#compraodonacion').modal('hide');
+          limpiarformmodal();
+      }else{
+          $('#compraodonacion').modal('hide');
+      }
+
+    });
+
+    function limpiarformmodal(argument) {
+      $("#proveedor").val("").trigger('change');
+          $("#vidautil").val("");
+          $("#ordencompra").val("");
+          $("#preciounitario").val("");
+    }
+
+    $("#compraodonacion").on("hidden.bs.modal", function () {       
+        var selector =$("#modo").val();
+        if (selector == 1) {
+
+        }else if(selector == 2){
+            limpiarformmodal();
+        }else{
+            limpiarformmodal();
+        }
+
+    });
+
+
+
 
     $('#slider1').change(function() {
       var id=$('#slider1').val();
@@ -510,6 +545,40 @@
      }
   }
   document.getElementById('files-new').addEventListener('change', archivo, false);
+
+  $(".editar").click(function (argument) {
+    cleanformedit();
+          $.ajax({
+            url: "<?=site_url('/gestion/cargar_detalle_ingreso_ajax')?>",
+            type: 'POST',
+            dataType: 'json',
+            data: {idingreso: $(this).attr("id")},
+          })
+          .done(function(response) {
+            $("#ocedit").val(response._columns.ING_ORDEN_COMPRA);
+            $("#descedit").val(response._columns.ING_DESC);
+            $("#vuedit").val(response._columns.ING_VIDA_ULTIL_PROVEEDOR);
+            $("#provedit").val(response._columns.ING_PROV_RUT).trigger('change');
+            $("#idingreso").val(response._columns.ING_ID);
+            $("#precioedit").val(response._columns.ING_PRECIO_UNITARIO);
+          })
+          .fail(function() {
+            console.log("error");
+          })
+          .always(function() {
+            console.log("complete");
+          });
+    
+  })
+
+  function cleanformedit() {
+     $("#ocedit").val("");
+     $("#descedit").val("");
+     $("#vuedit").val("");
+     $("#provedit").val("").trigger('change');
+     $("#idingreso").val("");
+     $("#precioedit").val("");
+  }
 
   /*function validate() {
   var file_size = $('#files-new')[0].files[0].size;

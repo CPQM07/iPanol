@@ -24,7 +24,7 @@
 <!-- Sparkline -->
 <script src="<?= base_url('resources/plugins/sparkline/jquery.sparkline.min.js')  ?>"></script>
 <!-- Select2 -->
-<script src="<?= base_url('resources/plugins/select2/select2.full.min.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/select2/select2.js')  ?>"></script>
 <!-- DataTables -->
 <script src="<?= base_url('resources/plugins/datatables/jquery.dataTables.min.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/datatables/dataTables.bootstrap.min.js')  ?>"></script>

@@ -279,7 +279,9 @@ class Gestion extends CI_Controller {
               'ING_DESC' =>$_POST['descripcion'],
               'ING_USU_RUT' =>$usersesion['rut'],
               'ING_VIDA_ULTIL_PROVEEDOR' =>$_POST['vidautil'],
-              'ING_PROV_RUT' =>$_POST['proveedor']
+              'ING_PROV_RUT' =>$_POST['proveedor'],
+              'ING_PRECIO_UNITARIO' => $_POST["preciounitario"],
+              'ING_TIPO_INGRESO' => $_POST["modo"]
               );
     $ultimoingreso = $this->ing->insert($columns);
 
@@ -319,7 +321,7 @@ class Gestion extends CI_Controller {
       }      
     }
 
-
+  $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el stock de este producto.');
   redirect('Gestion/ingreso','refresh');
   }
 
@@ -597,13 +599,14 @@ class Gestion extends CI_Controller {
           }
         }
       }
-      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $cargo = "";$usurutsolicitante = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
       if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
       if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
       $asignaturaobj = $this->asig->findById($asignatura);
       $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $usurutsolicitante = $usuario->get("USU_RUT")."-".$usuario->get("USU_DV");
 
       
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
@@ -622,7 +625,7 @@ class Gestion extends CI_Controller {
       $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $ultimasolicitud));
      // print_r($asignacionesactuales);
 
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales,$usurutsolicitante);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
@@ -724,13 +727,14 @@ class Gestion extends CI_Controller {
 
 
 
-      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $cargo = "";$usurutsolicitante = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
       if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
       if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
       $asignaturaobj = $this->asig->findById($asignatura);
       $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $usurutsolicitante = $usuario->get("USU_RUT")."-".$usuario->get("USU_DV");
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$idsolicitud, "");
@@ -746,7 +750,7 @@ class Gestion extends CI_Controller {
 
       $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $idsolicitud));
 
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales,$usurutsolicitante);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
@@ -1004,6 +1008,26 @@ class Gestion extends CI_Controller {
       }
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode($arrayInv));
+    }
+
+
+    public function editar_ingreso(){
+      $idingreso = $_POST["idingreso"];
+         $_columns  =  array(
+              'ING_ORDEN_COMPRA'  => $_POST["odecompraedit"],
+              'ING_DESC' => $_POST["descedit"],
+              'ING_VIDA_ULTIL_PROVEEDOR' => $_POST["vidautiledit"],
+              'ING_PROV_RUT' => $_POST["proveedor"]
+              );
+      $this->ing->update($idingreso,$_columns);
+      $this->session->set_flashdata('Habilitar', 'Ingreso actualizado correctamente');
+      redirect('Gestion/ingreso','refresh');
+    }
+
+    public function cargar_detalle_ingreso_ajax(){
+      $idingreso = $_POST["idingreso"];
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($this->ing->findById($idingreso)->toArray()));
     }
 
 
