@@ -143,6 +143,7 @@
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
                       $('#carga_modal').modal('hide');
+                      eliminarPDF(response.path);
                       location.reload();
                     }
                   });
@@ -150,6 +151,19 @@
             }
           });
       });
+
+    function eliminarPDF(path){
+      setTimeout(myFunction, 3000);
+      $.ajax(
+        {
+          method:"POST",
+          url: "<?=site_url('/gestion/eliminarPDF')?>",
+          datatype:'json',
+          data: {"path": path},
+          success: function(response){
+          }
+        });
+      }
     });
 
     var data=0;

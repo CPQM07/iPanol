@@ -457,7 +457,7 @@ class Mantencion extends CI_Controller {
 
 
 
-	/*nuevoooooooooooooooooooooooooo*/
+/*nuevoooooooooooooooooooooooooo*/
 
 	public function inventario(){
 		$NuevoInventario = array();
@@ -504,9 +504,8 @@ class Mantencion extends CI_Controller {
 			'INV_ULTIMO_USUARIO' => $inventario->get('INV_ULTIMO_USUARIO'),
 			'INV_ACTUAL_USUARIO' => $inventario->get('INV_ACTUAL_USUARIO')
 	    );
-	   print_r($newarray);
 	  $this->output->set_content_type('application/json');
-      $this->output->set_output(json_encode(array($newarray )));
+      $this->output->set_output(json_encode($newarray));
 	}
 }
 

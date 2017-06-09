@@ -38,8 +38,34 @@ class Dashboard extends CI_Controller {
 		$coun['fungiblesAyer4']=$this->detalle->productoFungiblesAyer4();
 		$coun['fungiblesAyer5']=$this->detalle->productoFungiblesAyer5();
 		$coun['fungiblesAyer6']=$this->detalle->productoFungiblesAyer6();
+		$coun['numberProduct0'] = 2;
+      	$coun['numberProduct1'] = 3;
+      	$coun['numberProduct2'] = 1;
+      	$coun['percentProduct0'] = 3;
+      	$coun['percentProduct1'] = 2;
+      	$coun['percentProduct2'] = 1;
 		/*$coun['we']=$this->detalle->prueba();*/
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
+	}
+
+
+	public function numberProduct0(){
+
+		date_default_timezone_set("Chile/Continental");
+      	$fecha = date("Y-m-d h:i:s",time());
+
+      	$this->db->from('asignacion');
+      	$this->db->where('ASIG_FECHA',$fecha);
+      	$query = $this->db->get();
+      	$data['numberProduct0'] = 2;
+      	$data['numberProduct1'] = 3;
+      	$data['numberProduct2'] = 1;
+      	
+      	$data['percentProduct0'] = 50;
+      	$data['percentProduct1'] = 20;
+      	$data['percentProduct2'] = 11;
+
+		$this->layouthelper->LoadView("dashboard/dashboard" , $data);
 	}
 
 

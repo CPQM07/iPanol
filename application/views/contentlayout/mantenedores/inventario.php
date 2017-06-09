@@ -99,7 +99,7 @@
   <!-- /.content-wrapper -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="newPro" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="newPro" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -115,43 +115,25 @@
                           <input id="wea" name="inventario[INV_PROD_NOM]" type="text" class="col-md-12"  maxlength="50" required>
                         </div>
                       </div>
-                      <!-- <div class="form-group">
-                        <label class="col-sm-2 control-label">Categoria</label>
-
-                        <div class="col-md-9">
-                          <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option></option>
-                            <?php foreach ($categorias as $key => $value): ?>
-                              <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
-                            <?php endforeach ?>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Tipo</label>
-
-                        <div class="col-md-9">
-                          <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
-                            <option></option>
-                            <?php foreach ($tipos as $key => $value): ?>
-                              <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
-                            <?php endforeach ?>
-                          </select>
-                        </div>
-                      </div> -->
+                      
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Editar imagen</label>
 
-                        <div class="col-md-9">
-                        <div id="upload">
-                          <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                        <div class="col-md-4">
+                          <div id="upload">
+                            <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
                           </div>
                           <output id="list"></output>
                         </div>
+                        <div class="col-md-6 pagination-centered">
+                          <img class="col-md-6" style="text-align: center;" src="<?= base_url("/resources/images/Imagenes_Server/alicate.jpg"); ?>" alt="" width="100%" height="100%" />
+                        </div>
                       </div>
                     </div>
+                    </div>
+                  </div>
                     <!-- /.box-body -->
-                      <div class="row">
+                      <div class="form-group">
                         <div class="col-sm-6">
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -160,9 +142,7 @@
                         </div>
                       </div>
                     <!-- /.box-footer -->
-                  </form>
-                    </div>
-                  </div>
+                    </form>
                 </div>
             </div>
           </div>
@@ -184,6 +164,7 @@
   });
 
     $('.editar').click(function(){
+      $("#wea").val("");
       var id=$(this).attr("id");
       var nom = $(this).val();
           console.log(nom);
@@ -193,20 +174,7 @@
         data: {"id": id},
         url:"<?=site_url('/Mantencion/inventarioById')?>",
         success: function(data){
-          $("#wea").val(nom);
-          /*$("#id_pro").val(data.PROD_ID);
-          $("#nombre").val(data.PROD_NOMBRE);
-          $("#categoria").val(data.PROD_CAT_ID).trigger('change');
-          $("#tipo").val(data.PROD_TIPOPROD_ID).trigger('change');
-          $("#stocktotal").val(data.PROD_STOCK_TOTAL);
-          $("#stockcritico").val(data.PROD_STOCK_CRITICO);
-          $("#stockmargen").val(data.PROD_STOCK_OPTIMO);
-          $("#posicion").val(data.PROD_POSICION);
-          $("#slider2").val(data.PROD_PRIORIDAD);
-          $('#recibe2').text(data.PROD_PRIORIDAD);
-          $("#dias").val(data.PROD_DIAS_ANTIC);
-          $("#filess").val(data.PROD_IMAGEN);
-          $("#estado").val(data.PROD_ESTADO).trigger('change');*/
+          $("#wea").val(data.INV_PROD_NOM);
         }
       });
     });
