@@ -19,3 +19,5 @@
   <link rel="stylesheet" href="<?= base_url('resources/css/dataTables.css') ?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
+  <!-- pNotify -->
+  <link rel="stylesheet" href="<?= base_url('resources/css/pnotify.custom.min.css') ?>">

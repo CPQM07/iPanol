@@ -102,7 +102,7 @@ class Catalogo extends CI_Controller {
       $masignaturas = $_POST["masignaturas"];
       $detalle = $POST['detalle'];
 
-      $solicitud = $_POST['detallesolicitud'];
+      $solicitud = $_POST['detallesolicitud'] 
       $_columns  =  array(
 		'SOL_ID' => 0,
 		'SOL_USU_RUT' => 0,
@@ -132,21 +132,6 @@ class Catalogo extends CI_Controller {
           
       }
     }
-
-
-    public function agregarCarrito(){
-      $myarray = array();
-      if (isset($_SESSION["productos"])) {
-      	$myarray = $_SESSION["productos"];
-      }
-      $myarray[] = array("productoid" => $_POST["idprod"]);
-      $_SESSION["productos"] = $myarray;
-      print_r($_SESSION["productos"]);
-
-    }
-
-
-
 
 
 	

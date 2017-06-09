@@ -8,13 +8,13 @@
 						<h2>Categorías</h2>
                     
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
-							<?php foreach ($categorias as $key => $value): ?>
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title"><a href="<?= site_url("/Catalogo/?cat=".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
-									</div>
+				<?php foreach ($categorias as $key => $value): ?>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="<?= site_url("/Catalogo/?cat=".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
 								</div>
-			    			<?php endforeach ?>
+							</div>
+			    <?php endforeach ?>
 							</div><!--/categorias de productos-->
                         
                         <div class="brands_products"><!--por tipo de articulos-->
@@ -40,11 +40,10 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
+										<img src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
 										<h2><?= $value['PROD_NOMBRE']; ?></h2>
 										<p>Disponibles: <?= $value['STOCKACTUAL']; ?></p>
-										<input type="number" id="CANT<?=$value['PROD_TIPOPROD_ID']?>">
-										<a tipo="<?= $value['PROD_TIPOPROD_ID'] ?> " stockactual="<?= $value['STOCKACTUAL']; ?>" nom="<?= $value['PROD_NOMBRE'] ?>" id="<?= $value['PROD_ID'] ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Solicitar</a>
+										<a href="#" id="btnAgregarCarrito" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Solicitar</a>
 									</div>
 								</div>
 							</div>

@@ -75,7 +75,65 @@
       <!-- Main row -->
       <div class="row">
 
-        <div class="col-md-12">
+      <div class="col-md-3">
+          <!-- Info Boxes Style 2 -->
+          <div  id="activ" class="info-box bg-red">
+            <span class="info-box-icon">
+              <i class="icon ion-hammer"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Stock crítico</span>
+              <span class="info-box-number"><?= $numberProduct0 ?></span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: <?= $percentProduct0 ?>0%"></div>
+              </div>
+                  <span class="progress-description">
+                    Productos activos
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div id="fungi" class="info-box bg-red">
+            <span class="info-box-icon"><i class="ion ion-pin"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Stock crítico</span>
+              <span class="info-box-number"><?= $numberProduct1 ?></span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: <?= $percentProduct1  ?>0%"></div>
+              </div>
+                  <span class="progress-description">
+                    Productos fungibles
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div class="info-box bg-red">
+            <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Downloads</span>
+              <span class="info-box-number"><?= $numberProduct2 ?></span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: '.<?= $percentProduct2  ?>.'%"></div>
+              </div>
+                  <span class="progress-description">
+                    70% Increase in 30 Days
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-9">
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Cantidad productos fuera del pañol por dia</h3>
@@ -84,14 +142,14 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <div class="col-md-11">
+                <div class="col-md-10">
                   <div class="chart">
                     <!-- Sales Chart Canvas -->
                     <canvas id="chart-area4" width="600" height="200"></canvas>
                   </div>
                   <!-- /.chart-responsive -->
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                   <p class="text-center">
                     <strong>Productos</strong>
                   </p>
@@ -112,6 +170,8 @@
                   </div>
                   <!-- /.progress-group -->
                 </div>
+
+
                 <!-- /.col -->
                 <!-- /.col -->
               </div>
@@ -122,7 +182,6 @@
           </div>
           <!-- /.box -->
         </div>
-        <!-- /.col -->
         <button id="actHoy" value="<?= $activosHoy; ?>" class="hidden"></button>
         <button id="actAyer" value="<?= $activosAyer; ?>" class="hidden"></button>
         <button id="actAyer2" value="<?= $activosAyer2; ?>" class="hidden"></button>
@@ -138,6 +197,9 @@
         <button id="funAyer4" value="<?= $fungiblesAyer4; ?>" class="hidden"></button>
         <button id="funAyer5" value="<?= $fungiblesAyer5; ?>" class="hidden"></button>
         <button id="funAyer6" value="<?= $fungiblesAyer6; ?>" class="hidden"></button>
+        
+
+
       </div>
       <!-- /.row (main row) -->
     <!-- /.content -->
@@ -215,6 +277,79 @@
     }
   var ctx4 = document.getElementById("chart-area4").getContext("2d");
   window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+
     });
+
+    var producto = "martillo";
+
+    $( "#activ" ).mouseover(function() {
+      tooltip0.open();
+    });
+    $( "#activ" ).mousemove(function() {
+      tooltip0.get().css({
+          'top': event.clientY + 12,
+          'left': event.clientX + 12
+      });
+    });
+    $( "#activ" ).mouseout(function() {
+      tooltip0.remove();
+    });
+
+    $( "#fungi" ).mouseover(function() {
+      tooltip1.open();
+    });
+    $( "#fungi" ).mousemove(function() {
+      tooltip1.get().css({
+          'top': event.clientY + 12,
+          'left': event.clientX + 12
+      });
+    });
+    $( "#fungi" ).mouseout(function() {
+      tooltip1.remove();
+    });
+
+
+    tooltip0 = new PNotify({
+        title: "Activos",
+        text: "I'm not in a stack."+producto+" I'm positioned like a tooltip with JavaScript.",
+        hide: false,
+        buttons: {
+            closer: false,
+            sticker: false
+        },
+        history: {
+            history: false
+        },
+        animate_speed: "fast",
+        icon: "fa fa-wrench",
+        // Setting stack to false causes PNotify to ignore this notice when positioning.
+        stack: false,
+        auto_display: false
+    });
+
+
+    tooltip1 = new PNotify({
+        title: "Fungibles",
+        text: "I'm not in a stack."+producto+" I'm positioned like a tooltip with JavaScript.",
+        hide: false,
+        buttons: {
+            closer: false,
+            sticker: false
+        },
+        history: {
+            history: false
+        },
+        animate_speed: "fast",
+        icon: "fa fa-thumb-tack",
+        // Setting stack to false causes PNotify to ignore this notice when positioning.
+        stack: false,
+        auto_display: false
+    });
+
+
+
+
+
+
   </script>
   <?php } ?>

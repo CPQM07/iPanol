@@ -859,6 +859,11 @@ class Gestion extends CI_Controller {
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
 
+    public function eliminarPDF(){
+        $rutasavePDF = $_POST['path'];
+        unlink($rutasavePDF);
+    }
+
     public function generarPDFunitario(){
 
       $idInv = $_POST['idInv'];

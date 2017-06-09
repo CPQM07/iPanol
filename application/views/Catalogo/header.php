@@ -49,7 +49,11 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
+<<<<<<< HEAD
 								<li><a style="cursor: pointer;" data-toggle="modal" data-target="#carrito"><i class="fa fa-shopping-cart" id="contador"></i>Carrito</a></li>
+=======
+								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart"></i> Carrito de solicitudes</a></li>
+>>>>>>> bd67f878f2267259012c6adc5d0c74d6129257e8
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>
@@ -80,6 +84,7 @@
 				</div>
 			</div>
 	</header>
+<<<<<<< HEAD
 
 <!--MODAL CARRITO-->
 <div class="modal fade" id="carrito" role="dialog" aria-labelledby="myModalLabel">
@@ -139,3 +144,5 @@
   </div>
 </div>
 <!--MODAL CARRITO-->
+=======
+>>>>>>> bd67f878f2267259012c6adc5d0c74d6129257e8
