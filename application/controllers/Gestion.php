@@ -301,14 +301,14 @@ class Gestion extends CI_Controller {
         $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }
     }else if($producto->get("PROD_TIPOPROD_ID") == 2){
-      $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID' => $producto->get("PROD_ID")));
+      $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID'=>$producto->get("PROD_ID")));
       if ($insumo != null) {
         $total = intval($insumo->get('INV_PROD_CANTIDAD'))+intval($_POST['cantidad']);
         $this->inv->update($insumo->get("INV_ID"), array('INV_PROD_CANTIDAD' => $total,'INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $insumo->get("INV_ID")));
       }else{
-         $_columns  =  array(
+         $columnascrearinv  =  array(
                       'INV_ID' => 0,
-                      'INV_PROD_ID' => $producto->get("PROD_TIPOPROD_ID"),
+                      'INV_PROD_ID' => $producto->get("PROD_ID"),
                       'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
                       'INV_PROD_CANTIDAD' => $_POST['cantidad'],
                       'INV_PROD_ESTADO' => 1,
@@ -316,7 +316,7 @@ class Gestion extends CI_Controller {
                       'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
                       'INV_TIPO_ID' => 2
                       );
-        $ultimoidonventarioingresado = $this->inv->insertDirect($_columns);
+        $ultimoidonventarioingresado = $this->inv->insertDirect($columnascrearinv);
         $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }      
     }

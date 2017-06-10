@@ -40,7 +40,7 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-										<img src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
+										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
 										<h2><?= $value['PROD_NOMBRE']; ?></h2>
 										<p>Disponibles: <?= $value['STOCKACTUAL']; ?></p>
 										<a href="#" id="btnAgregarCarrito" class="btn btn-default add-to-cart" onclick="enviarAlCarrito()"><i class="fa fa-shopping-cart"></i>Solicitar</a>
