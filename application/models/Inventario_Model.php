@@ -147,5 +147,21 @@ public function findAll(){
     return $result;
   }
 
+    public function contarInventarioCritico($idTipo = null,$idCatego = null){//1->activo | 2->fungible
+      /*$this->load->database();
+      $id=1;
+      $idCatego=5;
+      $this->db->where('INV_TIPO_ID', $idTipo);
+      $this->db->where('INV_CATEGORIA_ID', $idCatego);
+      $res = $this->db->get('inventario');
+      $result = array();
+      foreach ($res->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      $cantidad count($result);
+      $critico = $this->db->select('PROD_STOCK_CRITICO');
+      $this->db->where('Field / comparison', $cantidad);*/
+    }
+
 
 }

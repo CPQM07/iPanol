@@ -125,14 +125,23 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
 }
 
 public function findByTipProd($id){
-   $result=array();
-   $bit = null;
-   $this->db->where('PROD_TIPOPROD_ID',$id);
-      $consulta = $this->db->get('productos');
-    foreach ($consulta->result() as $row) {
-      $result[] = $this->create($row);
-    }
+    $result=array();
+    $bit = null;
+    $this->db->where('PROD_TIPOPROD_ID',$id);
+    $consulta = $this->db->get('productos');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
       return $result;
 }
+
+public function productoStockCritico($id=null){
+  $result;
+    $querry = $this->db->query('SELECT productos.PROD_STOCK_CRITICO from productos WHERE productos.PROD_ID ='.$id);
+    foreach ($querry->result_array() as $data) {
+      $result = $data['PROD_STOCK_CRITICO'];
+    }
+    return $result;
+  }
 
 }

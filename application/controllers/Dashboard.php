@@ -9,11 +9,12 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		if ($this->session->userdata('logged_in')) {
 		$this->layouthelper->SetMaster('layout');
-		$this->load->model('DetSolicitud_Model','detalle',true);/*
-		$this->load->model('DetSolicitud_Model','cont',true);*/
+		$this->load->model('DetSolicitud_Model','detalle',true);
+		$this->load->model('Inventario_Model','inventario',true);
+		$this->load->model('Producto_Model','producto',true);
 	} else {
-		redirect('/Login');
-	}
+			redirect('/Login');
+		}
 	}
 
 	public function dashboard()
@@ -40,32 +41,34 @@ class Dashboard extends CI_Controller {
 		$coun['fungiblesAyer6']=$this->detalle->productoFungiblesAyer6();
 		$coun['numberProduct0'] = 2;
       	$coun['numberProduct1'] = 3;
-      	$coun['numberProduct2'] = 1;
-      	$coun['percentProduct0'] = 3;
-      	$coun['percentProduct1'] = 2;
-      	$coun['percentProduct2'] = 1;
+
+      	$total = count($this->producto->findAll());
+      	$parte = count($this->producto->findByTipProd(1));
+	    $porcentaje = round($parte / $total * 100);
+      	$coun['percentProduct0'] = $porcentaje;
+      	$coun['percentProduct1'] = count($this->producto->findByTipProd(2));
 		/*$coun['we']=$this->detalle->prueba();*/
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}
 
 
-	public function numberProduct0(){
-
-		date_default_timezone_set("Chile/Continental");
-      	$fecha = date("Y-m-d h:i:s",time());
-
-      	$this->db->from('asignacion');
-      	$this->db->where('ASIG_FECHA',$fecha);
-      	$query = $this->db->get();
-      	$data['numberProduct0'] = 2;
-      	$data['numberProduct1'] = 3;
-      	$data['numberProduct2'] = 1;
-      	
-      	$data['percentProduct0'] = 50;
-      	$data['percentProduct1'] = 20;
-      	$data['percentProduct2'] = 11;
-
-		$this->layouthelper->LoadView("dashboard/dashboard" , $data);
+	public function ej(){
+		/*$we=  $this->producto->productoStockCritico(2);
+		echo $we." ";
+		$wr = $this->producto->findByTipProd(1);
+		echo count($wr);*/
+		/*$this->layouthelper->LoadView("dashboard/dashboard" , $data);*/
+		/*echo round(7 / 9 * 100,9);*/
+		$cantidadd = count($this->producto->findByTipProd(2))
+		$ar[] = $this->producto->findByTipProd(2);
+		foreach ($ar->result() as $key => $value) {
+			$mos = $this->producto->productoStockCritico($value);
+		}
+		if ($mos == 0) {
+			echo("error");
+		}else{
+			echo $mos;
+		}
 	}
 
 

@@ -87,7 +87,7 @@
               <span class="info-box-number"><?= $numberProduct0 ?></span>
 
               <div class="progress">
-                <div class="progress-bar" style="width: <?= $percentProduct0 ?>0%"></div>
+                <div class="progress-bar" style="width: <?= $percentProduct0 ?>%"></div>
               </div>
                   <span class="progress-description">
                     Productos activos
@@ -104,7 +104,7 @@
               <span class="info-box-number"><?= $numberProduct1 ?></span>
 
               <div class="progress">
-                <div class="progress-bar" style="width: <?= $percentProduct1  ?>0%"></div>
+                <div class="progress-bar" style="width: <?= $percentProduct1  ?>%"></div>
               </div>
                   <span class="progress-description">
                     Productos fungibles
@@ -113,7 +113,7 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
-          <div class="info-box bg-red">
+          <!-- <div class="info-box bg-red">
             <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
 
             <div class="info-box-content">
@@ -127,8 +127,7 @@
                     70% Increase in 30 Days
                   </span>
             </div>
-            <!-- /.info-box-content -->
-          </div>
+          </div> -->
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
@@ -281,6 +280,8 @@
     });
 
     var producto = "martillo";
+    var cantidadActual = "3";
+    var limite = "2";
 
     $( "#activ" ).mouseover(function() {
       tooltip0.open();
@@ -311,7 +312,10 @@
 
     tooltip0 = new PNotify({
         title: "Activos",
-        text: "I'm not in a stack."+producto+" I'm positioned like a tooltip with JavaScript.",
+        text: 'Producto: '+producto+' \n                                                           Cantidad: '+cantidadActual+' | Límite: '+limite+' \n\n                                                                to show the elements underneath. Feel free to click any of them just like I wasn\'t even here.\n\nNote: HTML links don\'t trigger in some browsers, due to security settings.',
+        nonblock: {
+            nonblock: true
+        },
         hide: false,
         buttons: {
             closer: false,
