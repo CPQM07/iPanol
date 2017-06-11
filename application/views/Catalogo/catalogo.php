@@ -8,13 +8,13 @@
 						<h2>Categorías</h2>
                     
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
-				<?php foreach ($categorias as $key => $value): ?>
+						<?php foreach ($categorias as $key => $value): ?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title"><a href="<?= site_url("/Catalogo/?cat=".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
 								</div>
 							</div>
-			    <?php endforeach ?>
+			    		<?php endforeach ?>
 							</div><!--/categorias de productos-->
                         
                         <div class="brands_products"><!--por tipo de articulos-->
@@ -35,7 +35,21 @@
 						<h2 class="title text-center">Artículos para pedido</h2>
 
 					<?php if ($consulta != null): ?>
-					<?php foreach ($consulta as $key => $value): ?>		
+					<?php foreach ($consulta as $key => $value): ?>	
+					
+
+
+					<?php $disabled = ""; ?>
+					<?php if(isset($_SESSION["productos"])): ?>
+						<?php foreach ($_SESSION["productos"] as $key => $pro): ?>
+							<?php if ($value['PROD_ID'] == $pro['productoid']): ?>
+								<?php $disabled = "disabled"; ?>
+							<?php endif ?>			
+						<?php endforeach ?>
+					<?php endif ?>
+
+
+
 						<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
@@ -43,7 +57,8 @@
 										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
 										<h2><?= $value['PROD_NOMBRE']; ?></h2>
 										<p>Disponibles: <?= $value['STOCKACTUAL']; ?></p>
-										<a href="#" id="btnAgregarCarrito" class="btn btn-default add-to-cart" onclick="enviarAlCarrito()"><i class="fa fa-shopping-cart"></i>Solicitar</a>
+										<input type="number" id="CANT<?= $value['PROD_ID']?>">
+										<a <?php echo($disabled) ?> id="<?= $value['PROD_ID']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar</a>
 									</div>
 								</div>
 							</div>

@@ -144,6 +144,36 @@ class Catalogo extends CI_Controller {
       }
     }
 
+    public function agregarCarrito(){
+      $tipo ="";
+      $myarray = array();
+      if (isset($_SESSION["productos"])) {
+      	$myarray = $_SESSION["productos"];
+      }
+      $producto = $this->prod->findById($_POST["idprod"]);
+      if ($producto->get("PROD_TIPOPROD_ID") == 1)$tipo = "Activo";
+      if ($producto->get("PROD_TIPOPROD_ID") == 2)$tipo = "Fungible";
+      $myarray[] = array("productoid" => $_POST["idprod"],"nombre" => $producto->get("PROD_NOMBRE"),"tipo" => $tipo,"cantidad" => $_POST["cantidad"]);
+      $_SESSION["productos"] = $myarray;
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode(array("estado" => true ,"prodnombre" => $producto->get("PROD_NOMBRE"),"total" => count($myarray))));
+    }
+
+    public function limpiarCarrito(){
+    	$_SESSION["productos"] = null;
+    	$this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode(array("estado" => true)));
+    }
+
+    public function eliminarindexcarrito(){
+    	$indiceaeliminar = $_POST["indice"];
+    	$myarray = $_SESSION["productos"];
+    	unset($myarray[$indiceaeliminar]);
+    	$_SESSION["productos"] = $myarray;
+    	$this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode(array("estado" => true,"total" => count($myarray))));
+    }
+
 
 	
 }

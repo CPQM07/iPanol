@@ -49,7 +49,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart"></i> Carrito de solicitudes</a></li>
+								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart" id="totalcarrito"> <?php if(isset($_SESSION["productos"])) echo(count($_SESSION["productos"])); ?> </i> Carrito</a></li>
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>

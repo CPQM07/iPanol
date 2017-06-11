@@ -14,15 +14,20 @@
 					</tr>
 				</thead>
 				<tbody>
+				<?php if ($_SESSION["productos"] != null): ?>
+					<?php foreach ($_SESSION["productos"] as $key => $value): ?>
 					<tr style="font-size: 17px">
-						<td>1</td>
-						<td>RJ45</td>
-						<td>Fungible</td>
-						<td>43</td>
-						<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+						<td><?= $value["productoid"]  ?></td>
+						<td><?= $value["nombre"]  ?></td>
+						<td><?= $value["tipo"]  ?></td>
+						<td><?= $value["cantidad"]  ?></td>
+						<td>
+							<a style="cursor: pointer;" class="cart_quantity_delete fa fa-times" id="<?= $key ?>">
+							</a>
 						</td>
 					</tr>
+					<?php endforeach ?>
+				<?php endif ?>
 				</tbody>
 			</table>
 		<!--FIN CONTENIDO CARRITO-->
@@ -62,6 +67,7 @@
 	<section id="do_action">
 		<div class="container">
 			<div class="row">
+				<a class="btn btn-default check_out pull-right" id="limpiarcarrito" href="">Limpiar carrito</a>
 				<a class="btn btn-default check_out pull-right" href="">Realizar pedido</a>
 			</div>
 		</div>

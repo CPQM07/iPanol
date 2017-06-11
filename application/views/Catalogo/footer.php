@@ -13,13 +13,62 @@
 	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
     <script src="<?= base_url(); ?>resources/js/main.js"></script>
     <script src="<?= base_url(); ?>resources/js/datepicker.js"></script>
+    <script src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
 
-    <script type="text/javascript" charset="utf-8">
-    
-    function enviarAlCarrito(nombre, tipoProducto){
-    	$('#')
+     <script type="text/javascript" charset="utf-8">
+    var micarrito = new Array();
+    $(".add-to-cart").click(function(event) {
+    	var addcartobj = $(this);
+    	$.ajax({
+    		url: "<?=site_url('/catalogo/agregarCarrito')?>",
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {idprod:addcartobj.attr("id"),cantidad: $("#CANT"+addcartobj.attr("id")).val()},
+    	})
+    	.done(function(response) {
+    		if (response.estado) {
+    			$.notify("Se han añadido "+response.prodnombre, "success");
+    			$("#totalcarrito").text(" "+response.total);
+    			addcartobj.attr("disabled", true);
+    		}
+    	})
+    	.fail(function() {
+    		console.log("error");
+    	})
+    	.always(function() {
+    		console.log("complete");
+    	});
 
-    };
+    });
+
+    $(".cart_quantity_delete").click(function(event) {
+    	var objthis = $(this);
+    	$.ajax({
+    		url: "<?=site_url('/catalogo/eliminarindexcarrito')?>",
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {indice: $(this).attr("id")},
+    	})
+    	.done(function(response) {
+    			if (response.estado) {
+    			$.notify("Se ha quitado correctamente un producto de su carrito de pedidos", "success");
+    			$("#totalcarrito").text(" "+response.total);
+    			objthis.parent("td").parent("tr").remove();
+    		}
+    	})
+    	.fail(function() {
+    		console.log("error");
+    	})
+    	.always(function() {
+    		console.log("complete");
+    	});
+    	
+    });
+
+    $("#limpiarcarrito").click(function(event) {
+    	$.post("<?=site_url('/catalogo/limpiarCarrito')?>");	
+    });
+
 
     </script>
 </body>
