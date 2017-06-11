@@ -65,9 +65,9 @@
                       <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
                       <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
                       <?php if ($value['PROD_ESTADO'] == 1): ?>
-                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/1/');?><?=$value['PROD_ID'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/0/');?><?=$value['PROD_ID'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                       <?php else: ?>
-                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/2/');?><?=$value['PROD_ID'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/1/');?><?=$value['PROD_ID'];?>" class="btn btn-info btn-block">Habilitar</a></td>
                       <?php endif; ?>
                       <td><button type="button" id="<?= $value['PROD_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#editPro"><i class="fa fa-edit"></i></button></td>
                     </tr>
@@ -464,7 +464,6 @@
     $("#posicion").val("");
     $("#prioridad").val("");
     $("#dias").val("");
-    $("#imagen").val("");
     $("#listo").empty();
     $("#estado").val("");
     $("#id_pro").val("");

@@ -255,22 +255,26 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['producto'])){
 			$id=$_POST['id_pro'];
 			if(isset($_FILES['files'])){
-			$data = $_FILES['files'];
-			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
-			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 /*if ($this->copiarimg->validate()) {*/
-			 $nameimg = $this->copiarimg->upload();
-			 /*}*/
-			 if($data['size']>90112){
-				$config['image_library'] = 'gd2';
-				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
-				$config['create_thumb'] = FALSE;
-				$config['maintain_ratio'] = TRUE;
-				$config['width']         = 800;
-				$config['height']       = 800;
-				$this->load->library('image_lib', $config);
-				$this->image_lib->resize();
+				$data = $_FILES['files'];
+				//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
+				 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+				 /*if ($this->copiarimg->validate()) {*/
+				 $nameimg = $this->copiarimg->upload();
+				 /*}*/
+				 if($data['size']>90112){
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+					$config['create_thumb'] = FALSE;
+					$config['maintain_ratio'] = TRUE;
+					$config['width']         = 800;
+					$config['height']       = 800;
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();
+				}
 			}
+			if($nameimg==null){
+				$producto = $this->productos->findById($id);
+				$nameimg= $producto->get('PROD_IMAGEN');
 			}
 			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
@@ -287,13 +291,16 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function CambiarEstadoPROD($tipo, $id){
-    if ($tipo == 1) {
+	$producto = $this->productos->findById($id);
+	$nameimg= $producto->get('PROD_IMAGEN');
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 2));
+      $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
       redirect('/Mantencion/productos');
-    } elseif ($tipo == 2) {
+    } 
+    if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 1));
+      $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
       redirect('/Mantencion/productos');
     }
   	}
