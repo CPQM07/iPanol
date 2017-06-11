@@ -76,7 +76,7 @@
                       <td><?= $value['INV_TIPO_ID']->get('TIPO_NOMBRE'); ?></td>
                       <td><?= $value['INV_CATEGORIA_ID']->get('CAT_NOMBRE'); ?></td>
                       <td>
-                        <button value="<?= $value['INV_PROD_NOM']; ?>" id="<?= $value['INV_ID']; ?>" class="editar btn btn-block btn-danger" data-toggle="modal" data-target="#newPro">
+                        <button value="<?= $value['INV_PROD_NOM']; ?>" id="<?= $value['INV_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#newPro">
                           <i class="fa fa-edit"></i>
                         </button>
                       </td>
@@ -107,12 +107,13 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/1')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/edit_inventario')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
+                  <input id="id" name="id" type="number" style="width: 14px;height: 11px; visibility: hidden;">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
                         <div class="col-md-8">
-                          <input id="wea" name="inventario[INV_PROD_NOM]" type="text" class="col-md-12"  maxlength="50" required>
+                          <input id="nombre" name="inventario[INV_PROD_NOM]" type="text" class="col-md-12"  maxlength="50" required>
                         </div>
                       </div>
                       
@@ -121,12 +122,9 @@
 
                         <div class="col-md-4">
                           <div id="upload">
-                            <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" required>
+                            <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" href="javascript:void(0);" >
                           </div>
                           <output id="list"></output>
-                        </div>
-                        <div class="col-md-6 pagination-centered">
-                          <img class="col-md-6" style="text-align: center;" src="<?= base_url("/resources/images/Imagenes_Server/alicate.jpg"); ?>" alt="" width="100%" height="100%" />
                         </div>
                       </div>
                     </div>
@@ -164,39 +162,31 @@
   });
 
     $('.editar').click(function(){
-      $("#wea").val("");
+      limpiar();
       var id=$(this).attr("id");
       var nom = $(this).val();
-          console.log(nom);
       $.ajax({
         type:"POST",
         dataType:"json",
         data: {"id": id},
         url:"<?=site_url('/Mantencion/inventarioById')?>",
         success: function(data){
-          $("#wea").val(data.INV_PROD_NOM);
+          console.log(data);
+          $("#id").val(data.INV_ID);
+          $("#nombre").val(data.INV_PROD_NOM);
+          $('#list').prepend('<img class="thumb" src="../../resources/images/Imagenes_Server/'+data.INV_IMAGEN+'"><img />');
         }
       });
     });
 
 
   function limpiar(){
+    $("#id").val("");
     $("#nombre").val("");
-    $("#categoria").val("");
-    $("#tipo").val("");
-    $("#stocktotal").val("");
-    $("#stockcritico").val("");
-    $("#stockmargen").val("");
-    $("#posicion").val("");
-    $("#prioridad").val("");
-    $("#dias").val("");
-    $("#imagen").val("");
-    $("#estado").val("");
-    $("#id_pro").val("");
-
+    $("#list").empty();
   }
 
-/*function archivo(evt) {
+function archivo(evt) {
   var files = evt.target.files; // FileList object
 
     //Obtenemos la imagen del campo "file".
@@ -212,13 +202,13 @@
            return function(e) {
            // Creamos la imagen.
                   document.getElementById("list").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
-                   document.getElementById("listo").innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
            };
        })(f);
 
        reader.readAsDataURL(f);
    }
-}*/
+}
+document.getElementById('files-new').addEventListener('change', archivo, false);
 
 
 </script>

@@ -47,9 +47,20 @@ $this->db->insert('inventario',$columnas);
 return $this->db->insert_id();
 }
 
-public function update($id, $data) {
+/*public function update($id, $data) {
   $inventario = $this->db->get_where('inventario',array('INV_ID'=>$id));
   if($inventario->num_rows() > 0){
+    $this->db->where('INV_ID', $id);
+    return $this->db->update('inventario', $data);
+    }else{
+  $data['INV_ID'] = $id;
+  return $this->db->insert('inventario',$data);
+  }
+}*/
+public function update($id, $data,$img) {
+  $data['INV_IMAGEN']=$img;
+  $producto = $this->db->get_where('inventario',array('INV_ID'=>$id));
+  if($producto->num_rows() > 0){
     $this->db->where('INV_ID', $id);
     return $this->db->update('inventario', $data);
     }else{

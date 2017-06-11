@@ -457,13 +457,6 @@ class Mantencion extends CI_Controller {
 	//Fin Bajas***************************************************************************
 
 
-
-
-
-
-
-
-
 /*nuevoooooooooooooooooooooooooo*/
 
 	public function inventario(){
@@ -488,7 +481,7 @@ class Mantencion extends CI_Controller {
 	        $datos['inventario'] = $NuevoInventario;
 	      }
 	    $datos['tipos'] = $this->tipoProducto->findAll();
-	    $datos['categorias'] = $this->categorias->findAll();
+	    $datos['categorias'] = $this->categorias->findAllSelect();
 		$this->layouthelper->LoadView("mantenedores/inventario", $datos, null);
 	}
 
@@ -513,6 +506,36 @@ class Mantencion extends CI_Controller {
 	    );
 	  $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode($newarray));
+	}
+
+	public function edit_inventario(){
+		if(isset($_POST['inventario'])){
+			$id=$_POST['id'];
+			if(isset($_FILES['files'])){
+				$data = $_FILES['files'];
+				 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+				 $nameimg = $this->copiarimg->upload();
+				 if($data['size']>90112){
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+					$config['create_thumb'] = FALSE;
+					$config['maintain_ratio'] = TRUE;
+					$config['width']         = 800;
+					$config['height']       = 800;
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();
+				}
+			}
+			if($nameimg==null){
+				$producto = $this->inventario->findById($id);
+				$nameimg= $producto->get('INV_IMAGEN');
+			}
+			$nuevopro=$this->inventario->update($id,$_POST['inventario'],$nameimg);
+			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+			redirect('/Mantencion/inventario');
+		}else{
+			echo "usuario no fue agregado";
+		}
 	}
 }
 
