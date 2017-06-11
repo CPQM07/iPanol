@@ -57,7 +57,7 @@
 										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
 										<h2><?= $value['PROD_NOMBRE']; ?></h2>
 										<p>Disponibles: <?= $value['STOCKACTUAL']; ?></p>
-										<input type="number" id="CANT<?= $value['PROD_ID']?>">
+										<input type="number" placeholder="Cantidad a solicitar" class="form-control inputcantidad" min="1" max="<?= $value['STOCKACTUAL']; ?>" id="CANT<?= $value['PROD_ID']?>">
 										<a <?php echo($disabled) ?> id="<?= $value['PROD_ID']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar</a>
 									</div>
 								</div>

@@ -26,7 +26,7 @@ class Catalogo extends CI_Controller {
 		$dato['tipoProd'] = $this->tipprod->findAll();
         $config['base_url'] = base_url("index.php/Catalogo/index");
         $config['total_rows'] = $this->prod->contar($like,$cat,$tipo);
-        $config['per_page'] = 6;
+        $config['per_page'] = 9;
         $config['uri_segment'] = 3;
         $config['num_links'] = 5;
         $config['full_tag_open'] = '<ul class="pagination">';
@@ -161,8 +161,6 @@ class Catalogo extends CI_Controller {
 
     public function limpiarCarrito(){
     	$_SESSION["productos"] = null;
-    	$this->output->set_content_type('application/json');
-        $this->output->set_output(json_encode(array("estado" => true)));
     }
 
     public function eliminarindexcarrito(){

@@ -19,7 +19,10 @@
     var micarrito = new Array();
     $(".add-to-cart").click(function(event) {
     	var addcartobj = $(this);
-    	$.ajax({
+    	var cantidadsolicitada = $("#CANT"+addcartobj.attr("id")).val();
+    	var cantidadmaxima = $("#CANT"+addcartobj.attr("id")).attr("max");
+    	if (parseInt(cantidadsolicitada) <= parseInt(cantidadmaxima) && parseInt(cantidadsolicitada) > 0) {
+    		$.ajax({
     		url: "<?=site_url('/catalogo/agregarCarrito')?>",
     		type: 'POST',
     		dataType: 'json',
@@ -38,7 +41,19 @@
     	.always(function() {
     		console.log("complete");
     	});
+    	} else {
+    		$.notify("Lo sentimos no puede solicitar más de la cantidad actual en stock ó no ha ingresado la cantidad a solicitar¡¡", "warn");
+    	}
 
+    });
+
+    $(document).on('keyup', '.inputcantidad', function(event) {
+    	var objcant = $(this);
+    	if (parseInt(objcant.val()) <= parseInt(objcant.attr("max")) && parseInt(objcant.val()) > 0) {
+
+    	} else {
+    		objcant.val("");
+    	}
     });
 
     $(".cart_quantity_delete").click(function(event) {
