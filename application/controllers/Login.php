@@ -20,7 +20,7 @@ class Login extends CI_Controller {
 			$password =	 $_REQUEST['password'];
 		   $this->form_validation->set_rules('user', 'user', 'trim|required|xss_clean');
 		   $this->form_validation->set_rules('password', 'password', 'trim|required|xss_clean|callback_check_database');
-		   if($this->form_validation->run())
+			   if($this->form_validation->run())
 		   {
 		   		$user = $this->session->userdata('logged_in');
 	   			if(count($user['permisos']) > 0){
