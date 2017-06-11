@@ -33,6 +33,9 @@
 				<div class="col-sm-9 padding-right">
 					<div id="todos" class="features_items"><!--articulos para pedido-->
 						<h2 class="title text-center">Artículos para pedido</h2>
+					<div class="col-sm-12">
+					    <?php echo $pagination;  ?>
+					</div>
 
 					<?php if ($consulta != null): ?>
 					<?php foreach ($consulta as $key => $value): ?>	
@@ -73,8 +76,9 @@
 					<?php endif ?>
 		
 					</div><!--articulos para pedido-->
-
+					<div class="col-sm-12">
 					    <?php echo $pagination;  ?>
+					</div>
 					    
 				</div>
 			</div>

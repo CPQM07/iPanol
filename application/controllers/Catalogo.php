@@ -81,7 +81,8 @@ class Catalogo extends CI_Controller {
 
 	public function carrito()
 	{
-		$this->load->view('Catalogo/carrito', FALSE);
+		$data["asignaturas"] = $this->asig->findAll(array("ASIGNATURA_ESTADO" => 1));
+		$this->load->view('Catalogo/carrito',$data, FALSE);
 	}
 
 	public function porCategoria($id){

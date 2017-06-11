@@ -49,9 +49,10 @@ public function delete($id){
 }
 
 
-public function findAll(){
+public function findAll($condicion = null){
   $result=array();
   $bit = null;
+  if($condicion != null)$this->db->where($condicion);
   $consulta = $this->db->get('asignatura');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);

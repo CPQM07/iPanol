@@ -37,7 +37,7 @@
         <h5 class="pull-left" style="font-size:19px;"> Información adicional </h5>
 	    <br>
 	    <hr>
-	    <table class="table table-striped">
+	    <table class="table-responsive table table-striped">
 			<thead>
 				<tr>
 				    <th>ASIGNATURA</th>
@@ -49,8 +49,11 @@
 				<tr style="font-size: 15px">
 					<td> 
 					  <select name="asignaturas">
-						  <option value="x">IT Essentials</option>
-						  <option value="x">Networking I</option>
+					  		<?php if ($asignaturas != null): ?>
+					  			<?php foreach ($asignaturas as $key => $value): ?>
+						  		 <option value="<?= $value->get("ASIGNATURA_ID") ?>"><?= $value->get("ASIGNATURA_NOMBRE") ?></option>
+						  		<?php endforeach ?>
+					  		<?php endif ?>
 					  </select>
 					</td>
 					<td><input class="pull-left" required="required" type="number" id="cantidadGruTrab" name="cantidadGruTrab" style="width:130px;"></td>
