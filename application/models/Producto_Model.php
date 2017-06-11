@@ -99,6 +99,7 @@ public function contar($like = null,$categoria = null,$tipo = null) {
    }
 
 public function fetch_productos($limit, $start,$like = null,$categoria = null,$tipo = null) {
+        $this->db->where('PROD_ESTADO',1);
         if ($categoria!= null) $this->db->where('PROD_CAT_ID',$categoria);
         if ($tipo!= null) $this->db->where('PROD_TIPOPROD_ID',$tipo);
         if ($like!= null) $this->db->like('PROD_NOMBRE', $like);

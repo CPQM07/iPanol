@@ -13,6 +13,7 @@ class Catalogo extends CI_Controller {
 		$this->load->model('Usuario_Model', 'usu');
 		$this->load->model('Solicitud_Model','soli');
         $this->load->model('DetSolicitud_Model','detsol');
+        $this->load->model('Asignatura_Model','asig');
 	}
 
 	public function index()
