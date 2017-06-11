@@ -75,10 +75,10 @@
       <!-- Main row -->
       <div class="row">
 
-      <div class="col-md-3">
+        <div class="col-md-3">
           <!-- Info Boxes Style 2 -->
-          <div  id="activ" class="info-box bg-red">
-            <span class="info-box-icon">
+          <div id="acti" class="info-box bg-red">
+            <span  class="info-box-icon">
               <i class="icon ion-hammer"></i>
             </span>
 
@@ -113,22 +113,7 @@
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
-          <!-- <div class="info-box bg-red">
-            <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">Downloads</span>
-              <span class="info-box-number"><?= $numberProduct2 ?></span>
-
-              <div class="progress">
-                <div class="progress-bar" style="width: '.<?= $percentProduct2  ?>.'%"></div>
-              </div>
-                  <span class="progress-description">
-                    70% Increase in 30 Days
-                  </span>
-            </div>
-          </div> -->
-          <!-- /.info-box -->
+          
         </div>
         <!-- /.col -->
 
@@ -274,83 +259,62 @@
       ]
 
     }
-  var ctx4 = document.getElementById("chart-area4").getContext("2d");
-  window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+    var ctx4 = document.getElementById("chart-area4").getContext("2d");
+    window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
 
+    /*------------------------------------------------------------------------*/ 
     });
 
-    var producto = "martillo";
-    var cantidadActual = "3";
-    var limite = "2";
 
-    $( "#activ" ).mouseover(function() {
-      tooltip0.open();
-    });
-    $( "#activ" ).mousemove(function() {
-      tooltip0.get().css({
-          'top': event.clientY + 12,
-          'left': event.clientX + 12
+
+    $( "#acti" ).click(function() {
+      var acti=1;
+      $.ajax(
+      {
+        method:"POST",
+        url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
+        datatype:'json',
+        data: {"acti": acti},
+        success: function(response){
+          tooltip0 = new PNotify({
+            title: "Activos",
+            text: response.msjActivo,/*$('#form_notice').html()*/
+            animate_speed: "fast",
+            icon: "fa fa-wrench"
+          });
+          tooltip0.open();
+        }
+      });          
+      $( "#acti" ).mouseout(function() {
+        tooltip0.remove();
       });
     });
-    $( "#activ" ).mouseout(function() {
-      tooltip0.remove();
-    });
 
-    $( "#fungi" ).mouseover(function() {
-      tooltip1.open();
-    });
-    $( "#fungi" ).mousemove(function() {
-      tooltip1.get().css({
-          'top': event.clientY + 12,
-          'left': event.clientX + 12
+
+
+    $( "#fungi" ).click(function() {
+      var fungi=2;
+      $.ajax(
+      {
+        method:"POST",
+        url: "<?=site_url('/Dashboard/msjCriticoFungible')?>",
+        datatype:'json',
+        data: {"fungi": fungi},
+        success: function(response){
+          tooltip1 = new PNotify({
+            title: "Fungibles",
+            text: response.msjFungible,
+            type: "error",
+            animate_speed: "fast",
+            icon: "fa fa-thumb-tack"
+          });
+          tooltip1.open();
+        }
+      });          
+      $( "#fungi" ).mouseout(function() {
+        tooltip1.remove();
       });
     });
-    $( "#fungi" ).mouseout(function() {
-      tooltip1.remove();
-    });
-
-
-    tooltip0 = new PNotify({
-        title: "Activos",
-        text: 'Producto: '+producto+' \n                                                           Cantidad: '+cantidadActual+' | Límite: '+limite+' \n\n                                                                to show the elements underneath. Feel free to click any of them just like I wasn\'t even here.\n\nNote: HTML links don\'t trigger in some browsers, due to security settings.',
-        nonblock: {
-            nonblock: true
-        },
-        hide: false,
-        buttons: {
-            closer: false,
-            sticker: false
-        },
-        history: {
-            history: false
-        },
-        animate_speed: "fast",
-        icon: "fa fa-wrench",
-        // Setting stack to false causes PNotify to ignore this notice when positioning.
-        stack: false,
-        auto_display: false
-    });
-
-
-    tooltip1 = new PNotify({
-        title: "Fungibles",
-        text: "I'm not in a stack."+producto+" I'm positioned like a tooltip with JavaScript.",
-        hide: false,
-        buttons: {
-            closer: false,
-            sticker: false
-        },
-        history: {
-            history: false
-        },
-        animate_speed: "fast",
-        icon: "fa fa-thumb-tack",
-        // Setting stack to false causes PNotify to ignore this notice when positioning.
-        stack: false,
-        auto_display: false
-    });
-
-
 
 
 

@@ -47,31 +47,101 @@ class Dashboard extends CI_Controller {
 	    $porcentaje = round($parte / $total * 100);
       	$coun['percentProduct0'] = $porcentaje;
       	$coun['percentProduct1'] = count($this->producto->findByTipProd(2));
-		/*$coun['we']=$this->detalle->prueba();*/
+
+      	/*---------------------------------------------------------------------*/
+
+
+      	
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
 	}
 
 
-	public function ej(){
-		/*$we=  $this->producto->productoStockCritico(2);
-		echo $we." ";
-		$wr = $this->producto->findByTipProd(1);
-		echo count($wr);*/
-		/*$this->layouthelper->LoadView("dashboard/dashboard" , $data);*/
-		/*echo round(7 / 9 * 100,9);*/
-		$cantidadd = count($this->producto->findByTipProd(2))
-		$ar[] = $this->producto->findByTipProd(2);
-		foreach ($ar->result() as $key => $value) {
-			$mos = $this->producto->productoStockCritico($value);
+	public function msjCriticoActiv(){
+		$id = $_POST['acti'];
+		$NuevoProducto = array();
+	  $productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
+	  $larg = count($productos);
+	  foreach ($productos as $key => $value) {
+		    $NuevoProducto[] = array(
+		      'PROD_ID' => $value->get('PROD_ID'),
+		      'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+		      'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+		      'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+		      'PROD_CAT_ID' => $value->get('PROD_CAT_ID'),
+		      'PROD_TIPOPROD_ID' => $value->get('PROD_TIPOPROD_ID'),
+		      'PROD_POSICION' => $value->get('PROD_POSICION'),
+		      'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+		      'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+		      'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+		      'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+		      'PROD_ESTADO' => $value->get('PROD_ESTADO')
+		    );
+
 		}
-		if ($mos == 0) {
-			echo("error");
-		}else{
-			echo $mos;
-		}
+
+		$msjCriticoActiv = array();
+
+		for ($i=0; $i < $larg; $i++) {
+			$cantid = count($this->inventario->findAllByInvProdId($i));
+			$nuevoP[] = $NuevoProducto[$i];
+
+			foreach ($nuevoP as $data) {
+		      $stockCritico = $data['PROD_STOCK_CRITICO'];
+		      $nombreProducto = $data['PROD_NOMBRE'];
+			}
+
+		    if ($stockCritico>$cantid) {
+		    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantid." | Limite crítico: ".$stockCritico."<br/><br/>";
+			    $msjCriticoActiv = array($msj);
+		    }
+     	}
+		$this->output->set_content_type('application/json');
+     	$this->output->set_output(json_encode(array("msjActivo" =>$msjCriticoActiv)));
 	}
 
+	public function msjCriticoFungible(){
+		$id = $_POST['fungi'];
+		$NuevoProducto = array();
+	  $productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
+	  $larg = count($productos);
+	  foreach ($productos as $key => $value) {
+		    $NuevoProducto[] = array(
+		      'PROD_ID' => $value->get('PROD_ID'),
+		      'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+		      'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+		      'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+		      'PROD_CAT_ID' => $value->get('PROD_CAT_ID'),
+		      'PROD_TIPOPROD_ID' => $value->get('PROD_TIPOPROD_ID'),
+		      'PROD_POSICION' => $value->get('PROD_POSICION'),
+		      'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+		      'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+		      'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+		      'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+		      'PROD_ESTADO' => $value->get('PROD_ESTADO')
+		    );
 
+		}
+
+		$msjCriticoFungi = array();
+
+		for ($i=0; $i < $larg; $i++) {
+			$cantid = count($this->inventario->findAllByInvProdId($i));
+			$nuevoP[] = $NuevoProducto[$i];
+
+			foreach ($nuevoP as $data) {
+		      $stockCritico = $data['PROD_STOCK_CRITICO'];
+		      $nombreProducto = $data['PROD_NOMBRE'];
+			}
+
+		    if ($stockCritico>$cantid) {
+		    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantid." | Limite crítico: ".$stockCritico."<br/><br/>";
+			    $msjCriticoFungi = array($msj);
+		    }
+
+			$this->output->set_content_type('application/json');
+     		$this->output->set_output(json_encode(array("msjFungible"=>$msjCriticoFungi )));
+		}
+	}
 
 }
 
