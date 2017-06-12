@@ -80,6 +80,11 @@
     	
     });
 
+    $("#buscar").click(function(){
+    	var texto = $("#query").val();
+    	window.location.href = "<?=site_url('/Catalogo/buscar/')?>"+texto;
+    });
+
     $("#limpiarcarrito").click(function(event) {
     	$.post("<?=site_url('/catalogo/limpiarCarrito')?>");	
     });

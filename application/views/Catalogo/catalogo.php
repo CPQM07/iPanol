@@ -11,7 +11,7 @@
 						<?php foreach ($categorias as $key => $value): ?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="<?= site_url("/Catalogo/?cat=".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
+									<h4 class="panel-title"><a href="<?= site_url("/Catalogo/index/".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
 								</div>
 							</div>
 			    		<?php endforeach ?>
@@ -22,7 +22,7 @@
 						<div class="brands-name">
 							<?php foreach ($tipoProd as $key => $value): ?>	
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="<?= site_url("/Catalogo/?tipo=".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
+									<li><a href="<?= site_url("/Catalogo/tipo/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
 								</ul>
 							<?php endforeach ?>
 						</div>

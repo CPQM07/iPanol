@@ -1,5 +1,5 @@
 <?php include_once('header.php') ?>
-
+    <form action="" method="POST" accept-charset="utf-8">
 	<section id="cart_items">
 		<div class="container">
 			<div class="table-responsive cart_info">
@@ -14,7 +14,7 @@
 					</tr>
 				</thead>
 				<tbody>
-				<?php if ($_SESSION["productos"] != null): ?>
+				<?php if (isset($_SESSION["productos"])): ?>
 					<?php foreach ($_SESSION["productos"] as $key => $value): ?>
 					<tr style="font-size: 17px">
 						<td><?= $value["productoid"]  ?></td>
@@ -71,10 +71,11 @@
 		<div class="container">
 			<div class="row">
 				<a class="btn btn-default check_out pull-right" id="limpiarcarrito" href="">Limpiar carrito</a>
-				<a class="btn btn-default check_out pull-right" href="">Realizar pedido</a>
+				<a type="submit" class="btn btn-default check_out pull-right" href="">Realizar pedido</a>
 			</div>
 		</div>
 	</section><!--/#do_action(subir pedido)-->
+	</form>
 
 
 <?php include_once('footer.php') ?>

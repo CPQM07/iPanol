@@ -71,10 +71,8 @@
 						</div>
 					</div>
 					<div class="col-sm-3 pull-right">
-						<form id="form" method="POST" action="<?=site_url()?>/Catalogo/index/">
 							<input type="text" id="query" name="query" />
-							<input type="submit" id="buscar" value="Buscar...">						
-						</form>
+							<input type="button" id="buscar" value="Buscar...">						
 					</div>
 				</div>
 				</div>
