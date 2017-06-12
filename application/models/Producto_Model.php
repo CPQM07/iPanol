@@ -46,6 +46,23 @@ public function update($id, $data,$img) {
   $producto = $this->db->get_where('productos',array('PROD_ID'=>$id));
   if($producto->num_rows() > 0){
     $this->db->where('PROD_ID', $id);
+    if($data['PROD_ESTADO']==0){
+      $query = " UPDATE inventario SET 
+      INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_PROD_ESTADO '=".$data['PROD_ESTADO']."',
+      INV_IMAGEN=".$data['PROD_IMAGEN'].",
+      INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
+      INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
+      WHERE INV_PROD_ID=".$id;
+    }else{
+      $query = " UPDATE inventario SET 
+      INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_IMAGEN='".$data['PROD_IMAGEN']."',
+      INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
+      INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
+      WHERE `INV_PROD_ID` =".$id;
+    }
+    $this->db->query($query);
     return $this->db->update('productos', $data);
     }else{
   $data['PROD_ID'] = $id;
