@@ -146,11 +146,11 @@ class Mantencion extends CI_Controller {
 	}
 
   public function CambiarEstadoCAT($tipo, $id){
-    if ($tipo == 1) {
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->categorias->update($id, array('CAT_ESTADO' => 2));
+      $this->categorias->update($id, array('CAT_ESTADO' => 0));
       redirect('/Mantencion/categorias');
-    } elseif ($tipo == 2) {
+    } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->categorias->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');

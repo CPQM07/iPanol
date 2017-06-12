@@ -41,9 +41,9 @@
                         <td><?= $value->get('CAT_DESC'); ?></td>
                         <td><?= $value->get('CAT_CODIGO'); ?></td>
                         <?php if ($value->get('CAT_ESTADO') == 1): ?>
-                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/1/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/0/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                         <?php else: ?>
-                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/2/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
+                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/1/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
                         <?php endif; ?>
                         <td><button id="<?= $value->get('CAT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                         </td>
@@ -205,7 +205,7 @@ $(document).ready(function() {
           $("#nombre").val(data.CAT_NOMBRE);
           $("#desc").val(data.CAT_DESC);
           $("#cod").val(data.CAT_CODIGO);
-          $("#estado").val(data.CAT_ESTADO);
+          $("#estado").val(data.CAT_ESTADO).trigger('change');
           console.log(data);
         }
       });
