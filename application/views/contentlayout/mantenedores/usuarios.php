@@ -45,9 +45,9 @@
                   <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
                   <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
                   <?php if ($value['USU_ESTADO'] == 1): ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/0/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                   <?php else: ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/2/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
                   <?php endif; ?>
                   <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button></td>
                   </tr>

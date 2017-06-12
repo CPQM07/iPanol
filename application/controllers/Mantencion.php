@@ -101,11 +101,11 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function CambiarEstadoUSU($tipo, $id){
-    if ($tipo == 1) {
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->usuario->update($id, array('USU_ESTADO' => 2));
+      $this->usuario->update($id, array('USU_ESTADO' => 0));
       redirect('/Mantencion/usuarios');
-    } elseif ($tipo == 2) {
+    } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 1));
       redirect('/Mantencion/usuarios');
