@@ -153,6 +153,18 @@ public function findByTipProd($id){
       return $result;
 }
 
+public function findByTipProdYEstado($tipo=null,$estado=null){
+    $result=array();
+    $bit = null;
+    $this->db->where('PROD_TIPOPROD_ID',$tipo);
+    $this->db->where('PROD_ESTADO',$estado);
+    $consulta = $this->db->get('productos');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
+}
+
 public function productoStockCritico($id=null){
   $result;
     $querry = $this->db->query('SELECT productos.PROD_STOCK_CRITICO from productos WHERE productos.PROD_ID ='.$id);

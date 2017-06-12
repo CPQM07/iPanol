@@ -785,10 +785,11 @@ class Gestion extends CI_Controller {
     }
 
     public function codigos(){
-      $NuevoProducto = array();
-      $productos = $this->prod->findAll();
+      /*cod de barra activos*/
+      $NuevoProductoActivo = array();
+      $productos = $this->prod->findByTipProdYEstado(1,1);
       foreach ($productos as $key => $value) {
-        $NuevoProducto[] = array(
+        $NuevoProductoActivo[] = array(
           'PROD_ID' => $value->get('PROD_ID'),
           'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
           'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
@@ -802,9 +803,31 @@ class Gestion extends CI_Controller {
           'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
           'PROD_ESTADO' => $value->get('PROD_ESTADO')
         );
-        $datos['productos'] = $NuevoProducto;
+        $datos['productosActivos'] = $NuevoProductoActivo;
       }
+      /*cod de barra activos*/
       
+      /*cod de barra Fungibles*/
+      $NuevoProductoFungible = array();
+      $productos = $this->prod->findByTipProdYEstado(2,1);
+      foreach ($productos as $key => $value) {
+        $NuevoProductoFungible[] = array(
+          'PROD_ID' => $value->get('PROD_ID'),
+          'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+          'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+          'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+          'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+          'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
+          'PROD_POSICION' => $value->get('PROD_POSICION'),
+          'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+          'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+          'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+          'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+          'PROD_ESTADO' => $value->get('PROD_ESTADO')
+        );
+        $datos['productosFungibles'] = $NuevoProductoFungible;
+      }
+      /*cod de barra Fungibles*/
       $datos['categorias'] = $this->cat->findAll();
       $datos['tipos'] = $this->tipoP->findAll();
       $this->layouthelper->LoadView("gestion/codigos" , $datos);
@@ -986,7 +1009,7 @@ class Gestion extends CI_Controller {
 
     public function traerProductosByIdTipo(){
       $tipoP = $_POST['idTipo'];
-      $todoProByCat = $this->prod->findByTipProd($tipoP);
+      $todoProByCat = $this->prod->findByTipProdYEstado($tipoP,1);
       $arrayProd = array();
       foreach ($todoProByCat as $key => $value) {
         $arrayProd[] = array("id" =>$value->get('PROD_ID'),"nombre" =>$value->get('PROD_ID')." - ".$value->get('PROD_NOMBRE'));
@@ -995,19 +1018,41 @@ class Gestion extends CI_Controller {
       $this->output->set_output(json_encode($arrayProd));
     }
 
-    public function traerInventarioByIdTipo(){
-      $tipoP = $_POST['idTipo'];
-      $todoProByCat = $this->inv->findAllByInvProdId($tipoP);
+    public function traerInventarioByIdTipoYCategoria(){
+      $tipoC = $_POST['idTipo'];
+
+      /*cod de barra Fungibles*/
+      $NuevoProductoFungible = array();
+      $productos = $this->prod->findByTipProdYEstado($tipoC,1);
+      foreach ($productos as $key => $value) {
+        $NuevoProductoFungible[] = array(
+          'PROD_ID' => $value->get('PROD_ID'),
+          'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+          'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+          'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+          'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+          'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
+          'PROD_POSICION' => $value->get('PROD_POSICION'),
+          'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+          'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+          'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+          'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+          'PROD_ESTADO' => $value->get('PROD_ESTADO')
+        );
+      }
+      /*cod de barra Fungibles*/
+
+      $todoProByTipo = $NuevoProductoFungible;
       $arrayInv = array();
-      foreach ($todoProByCat as $key => $value) {
+      foreach ($todoProByTipo as $key => $value) {
         $arrayInv[] = array("
           <form id='formid' method='post' accept-charset='utf-8'>
-              <input value=".$value->get('INV_ID')." class='items' type='checkbox'>
+              <input value=".$value['PROD_ID']." class='items' type='checkbox'>
           </form>
               ",
-              $value->get('INV_ID'),
-              $value->get('INV_PROD_NOM'),
-              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode xd btn btn-danger btn-block">
+              $value['PROD_ID'],
+              $value['PROD_NOMBRE'],
+              '<button id="" name="" value='.$value['PROD_ID'].' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>'
             );
       }
