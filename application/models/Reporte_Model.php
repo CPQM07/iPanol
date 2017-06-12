@@ -19,7 +19,8 @@ function get($attr){
 // METODO BUSCAR LOS PRODUCTOS CON FILTRO DE TIPO
 	public function findAllProductos($tipo, $cat){
 		$result = array();
-		$this->db->like('TIPO_ID', $tipo);
+		//$this->db->like('TIPO_ID', $tipo);
+		
 		$this->db->select ("TIPO_ID, TIPO_NOMBRE, CAT_ID ,CAT_NOMBRE, PROD_NOMBRE, ING_FECHA, PROD_STOCK_TOTAL, PROV_NOMBRE, PROD_POSICION");
 		$this->db->from("productos");
 		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
@@ -27,30 +28,72 @@ function get($attr){
 		$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
 		$this->db->join('ingreso','ingreso.ING_ID = inventario.INV_INGRESO_ID');
 		$this->db->join('proveedor','proveedor.PROV_RUT = ingreso.ING_PROV_RUT');
+		if(($cat!='0')){
+			$this->db->where('CAT_ID', $cat);	
+		}
+		
+		if($tipo!='0'){
+			$this->db->where('TIPO_ID', $tipo);		
+		}
 		$this->db->group_by('productos.PROD_ID');
 		$consulta = $this->db->get();
+		
 		$result = null;
     foreach ($consulta->result_array() as $row) {
       $result[] = $row;
     }
+   // echo "AVLOR:";
+		//var_dump($result);
+		if(is_null($result))
+		{
+			$result =array(array( 
+"TIPO_ID"=>"0",
+"TIPO_NOMBRE"=>"SIN DATOS",
+"CAT_ID"=>"0",
+"CAT_NOMBRE"=>"0", 
+"PROD_NOMBRE"=>"0", 
+"ING_FECHA"=>"0",
+"PROD_STOCK_TOTAL"=>"0",
+"PROV_NOMBRE"=>"0",
+"PROD_POSICION"=>"0"));
+		}
     return $result;
 }
 //METODO BUSCAR LOS PODRUCTOS CRITICOS CON FILTRO DE TIPO
 public function findAllCriticos($tipo, $cat){
 	$result = array();
-	$this->db->like('TIPO_ID', $tipo);
-	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,PROD_STOCK_TOTAL,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
+	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,INV_PROD_CANTIDAD,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
 	$this->db->from('productos');
 	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
 	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
-	$this->db->where('productos.PROD_STOCK_CRITICO >= productos.PROD_STOCK_TOTAL');
+	$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
+	$this->db->where('inventario.INV_PROD_CANTIDAD < productos.PROD_STOCK_OPTIMO');
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
 	$this->db->group_by('productos.PROD_ID');
 	$consulta = $this->db->get();
+
 		$result = null;
     foreach ($consulta->result_array() as $row) {
       $result[] = $row;
     }
+    if (is_null($result)) {
+    	$tresult = array(array(
+    		"TIPO_ID"=>"0",
+    		"TIPO_NOMBRE"=>"SIN DATOS",
+    		"CAT_ID"=>"0",
+    		"CAT_NOMBRE"=>"SIN DATOS",
+    		"PROD_NOMBRE"=>"SIN DATOS",
+    		"PROD_STOCK_TOTAL"=>"0",
+    		"PROD_STOCK_OPTIMO"=>"0",
+    		"PROD_PRIORIDAD"=>"0" ));
+    }
     return $result;
+
 		}
 
 public function motivosdebaja(){
