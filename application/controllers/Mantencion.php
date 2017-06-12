@@ -162,16 +162,16 @@ class Mantencion extends CI_Controller {
 	  redirect('/Mantencion/categorias');
 	}
 
-	public function edit_categoria(){
-		if(isset($_POST['cat'])){
-			$id=$_POST['id'];
-			$this->categorias->update($id,$_POST['cat']);
-			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
-			redirect('/Mantencion/categorias');
-		}else{
-			echo "usuario no fue agregado";
-		}
-	}
+  public function edit_categoria(){
+    if(isset($_POST['cat'])){
+      $id=$_POST['id'];
+      $this->categorias->update($id,$_POST['cat']);
+      $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+      redirect('/Mantencion/categorias');
+    }else{
+      echo "usuario no fue agregado";
+    }
+  }
 	//Fin Categoria***************************************************************************
 
 	//Productos***************************************************************************
@@ -297,7 +297,7 @@ class Mantencion extends CI_Controller {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
       redirect('/Mantencion/productos');
-    } 
+    }
     if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
@@ -320,6 +320,30 @@ class Mantencion extends CI_Controller {
       redirect('/Mantencion/asignaturas');
     } else {
       echo "NO AGRAGADO";
+    }
+  }
+
+  public function findByIdAsig(){
+    $id= $_POST['id'];
+    $newarray = null;
+    $value = $this->asignatura->findById($id);
+    $newarray = array(
+    'ASIGNATURA_ID' => $value->get("ASIGNATURA_ID"),
+    'ASIGNATURA_NOMBRE' => $value->get("ASIGNATURA_NOMBRE"),
+    'ASIGNATURA_ESTADO' => $value->get("ASIGNATURA_ESTADO")
+    );
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($newarray));
+  }
+
+  public function EditAsig(){
+    if(isset($_POST['asig'])){
+      $id=$_POST['id'];
+      $this->asignatura->update($id,$_POST['asig']);
+      $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+      redirect('/Mantencion/asignaturas');
+    }else{
+      echo "asignatura no modificada";
     }
   }
 
@@ -463,7 +487,7 @@ class Mantencion extends CI_Controller {
 		$NuevoInventario = array();
 		$inventario = $this->inventario->findAll();
 	    foreach ($inventario as $key => $value) {
-	        $NuevoInventario[] = array(	
+	        $NuevoInventario[] = array(
 	        'INV_ID' => $value->get('INV_ID'),
 	    	'INV_PROD_ID' => $value->get('INV_PROD_ID'),
 			'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
@@ -489,7 +513,7 @@ class Mantencion extends CI_Controller {
 		$id= $_POST['id'];
 	 	$newarray = null;
 	  	$inventario = $this->inventario->findById($id);
-	  	$newarray = array(	
+	  	$newarray = array(
 	        'INV_ID' => $inventario->get('INV_ID'),
 	    	'INV_PROD_ID' => $inventario->get('INV_PROD_ID'),
 			'INV_PROD_NOM' => $inventario->get('INV_PROD_NOM'),
