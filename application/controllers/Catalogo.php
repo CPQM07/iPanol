@@ -103,25 +103,25 @@ class Catalogo extends CI_Controller {
 
 	public function insert_solicitud_from_catalogo(){
 		$fecha_actual = date("Y/m/d");
-		$mcantidadArticulo = $_POST["mcantidadArticulo"];
-	    $mcantidadGruTrab = $_POST["mcantidadGruTrab"];
-	    $mfechaEntrega = $_POST["mfechaEntrega"];
-	    $masignaturas = $_POST["masignaturas"];
+		$cantidadArticulo = $_POST["cantidadArticulo"];
+	    $cantidadGruTrab = $_POST["cantidadGruTrab"];
+	    $fechaEntrega = $_POST["fechaEntrega"];
+	    $asignaturas = $_POST["masignaturas"];
 	    $detalle = $POST['detalle'];
 
 	    $usersession = $this->session->userdata('logged_in');
 
-	if (isset($_POST["mcantidadArticulo"]) and isset($_POST["mcantidadGruTrab"]) and isset($_POST["mfechaEntrega"]) and 
-		isset($_POST["masignaturas"]) and isset($_POST["detalle"])) {
+	if (isset($_POST["cantidadArticulo"]) and isset($_POST["cantidadGruTrab"]) and isset($_POST["fechaEntrega"]) and 
+		isset($_POST["asignaturas"]) and isset($_POST["detalle"])) {
 
       $solicitud = $_POST['detallesolicitud']; 
       $_columns  =  array(
 		'SOL_ID' => 0,
 		'SOL_USU_RUT' => $usersession['rut3'],
-		'SOL_ASIG_ID' => $masignaturas,
+		'SOL_ASIG_ID' => $asignaturas,
 		'SOL_FECHA_INICIO' => $fecha_actual,
-		'SOL_FECHA_TERMINO' => $mfechaEntrega,
-		'SOL_NRO_GRUPOTRAB' => $mcantidadGruTrab,
+		'SOL_FECHA_TERMINO' => $fechaEntrega,
+		'SOL_NRO_GRUPOTRAB' => $cantidadGruTrab,
 		'SOL_OBSERVACION' => 0,
 		'SOL_RUTA_PDF' => '',
 		'SOL_ESTADO' => 1
