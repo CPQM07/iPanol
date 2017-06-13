@@ -1,12 +1,10 @@
-<?php include_once('header.php') ?>
-	
+<?php include_once('header.php') ?>	
 	<section>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						<h2>Categorías</h2>
-                    
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
 						<?php foreach ($categorias as $key => $value): ?>
 							<div class="panel panel-default">
@@ -16,7 +14,6 @@
 							</div>
 			    		<?php endforeach ?>
 							</div><!--/categorias de productos-->
-                        
                         <div class="brands_products"><!--por tipo de articulos-->
 							<h2>TIPO DE ARTÍCULO</h2>
 						<div class="brands-name">
@@ -29,19 +26,14 @@
 						</div><!--por tipo de articulos-->
 					</div>
 				</div>
-				
 				<div class="col-sm-9 padding-right">
 					<div id="todos" class="features_items"><!--articulos para pedido-->
 						<h2 class="title text-center">Artículos para pedido</h2>
 					<div class="col-sm-12">
 					    <?php echo $pagination;  ?>
 					</div>
-
 					<?php if ($consulta != null): ?>
 					<?php foreach ($consulta as $key => $value): ?>	
-					
-
-
 					<?php $disabled = ""; ?>
 					<?php if(isset($_SESSION["productos"])): ?>
 						<?php foreach ($_SESSION["productos"] as $key => $pro): ?>
@@ -50,9 +42,6 @@
 							<?php endif ?>			
 						<?php endforeach ?>
 					<?php endif ?>
-
-
-
 						<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
@@ -74,18 +63,14 @@
 									</div>
 								</div>
 					<?php endif ?>
-		
 					</div><!--articulos para pedido-->
 					<div class="col-sm-12">
 					    <?php echo $pagination;  ?>
-					</div>
-					    
+					</div>			    
 				</div>
 			</div>
 		</div>
 	</section>
-
-
 <?php include_once('footer.php') ?>
 
 

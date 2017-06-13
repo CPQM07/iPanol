@@ -61,6 +61,12 @@
                             </td>
                             <?php endif; ?>
 
+                             <?php if ($value->get('SOL_ESTADO') == 5): ?>
+                            <td>
+                            <p>Solicitud manual</p>
+                            </td>
+                            <?php endif; ?>
+
                             <?php if ($value->get('SOL_ESTADO') == 6): ?>
                               <td>
                                 <a href="<?= site_url('/Test/CambiarEstadoSOL/6/');?><?=$value->get('SOL_ID');?>" class="btn btn-success btn-block">PARCIALMENTE RECEPCIONADO</a>

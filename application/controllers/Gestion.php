@@ -1081,6 +1081,41 @@ class Gestion extends CI_Controller {
       $this->output->set_output(json_encode($this->ing->findById($idingreso)->toArray()));
     }
 
+   public function Solicitudes (){
+    $datos['Usuarios'] = $this->usu->findAll();
+    $datos['Solicitudes'] = $this->soli->findEstados();
+    $this->layouthelper->LoadView("gestion/solicitudes" , $datos);
+  }
+
+
+   public function CambiarEstadoSOL($estado, $id){
+    if ($estado == 1) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 2));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 2) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 1));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 3) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 7));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 4) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 6));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 6) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 4));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 7) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 3));
+      redirect('gestion/Solicitudes');
+    }
+  }
+
 
 
 }
