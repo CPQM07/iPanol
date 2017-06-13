@@ -994,7 +994,7 @@ class Gestion extends CI_Controller {
       /*va juntooooo*/
 
       date_default_timezone_set("Chile/Continental");
-      $fecha = date("d-m-Y-s",time());
+      $fecha = date("d-m-Y-h-i-s",time());
 
       $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
       $pdf->lastPage();
@@ -1021,38 +1021,39 @@ class Gestion extends CI_Controller {
     public function traerInventarioByIdTipoYCategoria(){
       $tipoC = $_POST['idTipo'];
 
-      /*cod de barra Fungibles*/
+      /*cod de barra Fungibles y Activos segun $_POST*/
       $NuevoProductoFungible = array();
-      $productos = $this->prod->findByTipProdYEstado($tipoC,1);
+      $productos = $this->inv->findByTipProdYEstado($tipoC,1);
       foreach ($productos as $key => $value) {
-        $NuevoProductoFungible[] = array(
-          'PROD_ID' => $value->get('PROD_ID'),
-          'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
-          'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
-          'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
-          'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
-          'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
-          'PROD_POSICION' => $value->get('PROD_POSICION'),
-          'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
-          'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
-          'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
-          'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
-          'PROD_ESTADO' => $value->get('PROD_ESTADO')
+        $NuevoProducto[] = array(
+          'INV_ID' => $value->get('INV_ID'),
+          'INV_PROD_ID' => $value->get('INV_PROD_ID'),
+          'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
+          'INV_PROD_CANTIDAD' => $value->get('INV_PROD_CANTIDAD'),
+          'INV_PROD_ESTADO' => $value->get('INV_PROD_ESTADO'),
+          'INV_PROD_CODIGO' => $value->get('INV_PROD_CODIGO'),
+          'INV_INGRESO_ID' => $value->get('INV_INGRESO_ID'),
+          'INV_CATEGORIA_ID' => $value->get('INV_CATEGORIA_ID'),
+          'INV_TIPO_ID' => $value->get('INV_TIPO_ID'),
+          'INV_FECHA' => $value->get('INV_FECHA'),
+          'INV_IMAGEN' => $value->get('INV_ID'),
+          'INV_ULTIMO_USUARIO' => $value->get('INV_ULTIMO_USUARIO'),
+          'INV_ACTUAL_USUARIO' => $value->get('INV_ACTUAL_USUARIO')
         );
       }
-      /*cod de barra Fungibles*/
+      /*cod de barra Fungibles y Activos segun $_POST*/
 
-      $todoProByTipo = $NuevoProductoFungible;
+      $todoProByTipo = $NuevoProducto;
       $arrayInv = array();
       foreach ($todoProByTipo as $key => $value) {
         $arrayInv[] = array("
           <form id='formid' method='post' accept-charset='utf-8'>
-              <input value=".$value['PROD_ID']." class='items' type='checkbox'>
+              <input value=".$value['INV_ID']." class='items' type='checkbox'>
           </form>
               ",
-              $value['PROD_ID'],
-              $value['PROD_NOMBRE'],
-              '<button id="" name="" value='.$value['PROD_ID'].' type="button" class="barcode xd btn btn-danger btn-block">
+              $value['INV_ID'],
+              $value['INV_PROD_NOM'],
+              '<button id="" name="" value='.$value['INV_ID'].' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>'
             );
       }

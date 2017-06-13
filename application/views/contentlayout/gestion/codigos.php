@@ -240,13 +240,7 @@
 
     });
 
-      $('.productos').select2().on("change", function(e) {
-          data = $('.productos').select2('data')[0]['id'];
-          if (data != 0) {
-            $('#dinamicajax').DataTable().ajax.reload();
-          }
 
-    });
 
         /*$('.productos').select2({
           maximumInputLength: 20,
@@ -324,6 +318,7 @@
                   success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
+                      arr.length=0;
                       location.reload();
                     }
               });

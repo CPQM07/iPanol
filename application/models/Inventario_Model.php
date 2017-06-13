@@ -158,6 +158,18 @@ public function findAll(){
     return $result;
   }
 
+  public function findByTipProdYEstado($tipo=null,$estado=null){
+    $result=array();
+    $bit = null;
+    $this->db->where('INV_TIPO_ID',$tipo);
+    $this->db->where('INV_PROD_ESTADO',$estado);
+    $consulta = $this->db->get('inventario');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
+}
+
     public function contarInventarioCritico($idTipo = null,$idCatego = null){//1->activo | 2->fungible
       /*$this->load->database();
       $id=1;
