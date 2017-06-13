@@ -10,7 +10,6 @@
         </div>
       </div>
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -60,7 +59,6 @@
                               <a href="<?= site_url('/Test/CambiarEstadoSOL/4/');?><?=$value->get('SOL_ID');?>" class="btn btn-warning btn-block">RECEPCIONADO</a>
                             </td>
                             <?php endif; ?>
-
                              <?php if ($value->get('SOL_ESTADO') == 5): ?>
                             <td>
                             <p>Solicitud manual</p>

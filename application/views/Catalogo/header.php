@@ -8,6 +8,8 @@
     <link href="<?= base_url(); ?>resources/css/font-awesome.min.css" rel="stylesheet">
 	<link href="<?= base_url(); ?>resources/css/main.css" rel="stylesheet">
 	<link href="<?= base_url(); ?>resources/css/responsive.css" rel="stylesheet">
+	<link href="<?= base_url()?>resources/plugins/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+  <link href="<?= base_url()?>resources/plugins/jQuery-Timepicker-Addon-master/dist/jquery-ui-timepicker-addon.min.css" rel="stylesheet"/>
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>

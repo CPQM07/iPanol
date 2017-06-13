@@ -57,7 +57,7 @@
 					  </select>
 					</td>
 					<td><input class="pull-left" required="required" type="number" id="cantidadGruTrab" name="cantidadGruTrab" style="width:130px;"></td>
-					<td><input class="input pull-left" required="required" type="date" id="fechaEntrega" name="fechaEntrega" style="width:250px;"></td>
+					<td><input class="input pull-left" required="required" type="text" id="fechaEntrega" name="fechaEntrega" style="width:250px;"></td>
 				</tr>
 			</tbody>
 		</table>
