@@ -269,7 +269,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/1')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_producto/0')?>" method="post" accept-charset="utf-8" enctype="multipart/form-data" onSubmit="return validate();">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>

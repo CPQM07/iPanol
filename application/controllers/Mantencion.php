@@ -244,8 +244,8 @@ class Mantencion extends CI_Controller {
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-			if($num==1){redirect('/Gestion/ingreso');}
-			else{redirect('/Mantencion/productos');}
+			if($num==1){redirect('/Mantencion/productos');}
+			else{redirect('/Gestion/ingreso');}
 		}else{
 			echo "usuario no fue agregado";
 		}
