@@ -27,7 +27,7 @@
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">BIENVENIDO - Yerko Pailemilla Parada
+								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - [Nombre de usuario aquí]
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
 								    <li><a href="<?= site_url('/Catalogo/') ?>">Cerrar sesión</a></li>
