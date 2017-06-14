@@ -32,14 +32,11 @@ class Reportes extends CI_Controller {
       public function Pdfactual(){
       $this->load->library('Pdf');
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
-=======
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-  public function Pdfcritico(){
     $buscartipo = $_POST["tipo"];
     $buscarcat = $_POST["cat"];
       $datos['buscar'] = $this->reporte->findAllCriticos($tipo, $cat);
     $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Actuales', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -51,10 +48,9 @@ class Reportes extends CI_Controller {
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-<<<<<<< HEAD
       $buscartipo = $this->input->post("tipo");
       $buscarcat = $this->input->post("cat");
-      var_dump($buscartipo);
+      //var_dump($buscartipo);
       $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
         $html = '';
         $html .= "<style type=text/css>";
@@ -99,32 +95,22 @@ class Reportes extends CI_Controller {
 
       $pdf->Output('', 'I');
       */
-=======
-
+/*
  $htmlpdf = $pdf->reporteCritico($datos); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
    $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
         $pdf->Output('', 'D');
   
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
+*/
   }
 
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-<<<<<<< HEAD
   public function Pdfcritico(){
       $buscartipo = $_POST["tipo"];
       $buscarcat = $_POST["cat"]; 
       $datosC['buscar'] = $this->reporte->findAllCriticos($buscartipo, $buscarcat);
 
     $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
-=======
-  public function Pdfactual(){
-
-      $buscartipo = $_POST["tipo"];
-      $buscarcat = $_POST["cat"];  
-      $datos['buscar'] = $this->reporte->findAllProductos($buscartipo, $buscarcat);
-      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos en Stock Critico', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -137,23 +123,17 @@ class Reportes extends CI_Controller {
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
 
-<<<<<<< HEAD
  $htmlpdf = $pdf->reporteCritico($datosC); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
    $pdf->writeHTML($htmlpdf, true, false, true, false, '');
-=======
       $htmlpdf = $pdf->reporteActual($datos); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
       ob_clean();
       $pdf->Output('', 'I');
   
   }
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-<<<<<<< HEAD
 
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-=======
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
     public function Pdfbaja(){
       $datosM = $this->reporte->motivosdebaja();
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);

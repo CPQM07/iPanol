@@ -20,8 +20,6 @@ function get($attr){
 	public function findAllProductosActivos($tipo, $cat){
 		$result = array();
 		//$this->db->like('TIPO_ID', $tipo);
-		
-<<<<<<< HEAD
 		$this->db->select ("TIPO_ID, CAT_ID, TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, PROD_POSICION,
 							count(inventario.INV_PROD_CANTIDAD) as Total");
 		$this->db->from("inventario");
@@ -30,27 +28,14 @@ function get($attr){
 		$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 		$this->db->where('tipoprod.TIPO_ID = 1');
 		if($cat!='0'){
-=======
-		$this->db->select ("TIPO_ID, TIPO_NOMBRE, CAT_ID ,CAT_NOMBRE, PROD_NOMBRE, ING_FECHA, PROD_STOCK_TOTAL, PROV_NOMBRE, PROD_POSICION");
-		$this->db->from("productos");
-		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
-		$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
-		$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
-		$this->db->join('ingreso','ingreso.ING_ID = inventario.INV_INGRESO_ID');
-		$this->db->join('proveedor','proveedor.PROV_RUT = ingreso.ING_PROV_RUT');
-		if(($cat!='0')){
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
 			$this->db->where('CAT_ID', $cat);	
 		}
 		
 		if($tipo!='0'){
 			$this->db->where('TIPO_ID', $tipo);		
 		}
-<<<<<<< HEAD
 		$this->db->group_by('inventario.INV_PROD_NOM');
-=======
 		$this->db->group_by('productos.PROD_ID');
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
 		$consulta = $this->db->get();
 		
 		$result = null;
@@ -63,7 +48,6 @@ function get($attr){
 		{
 			$result =array(array( 
 "TIPO_ID"=>"0",
-<<<<<<< HEAD
 "CAT_ID"=>"0",
 "TIPO_NOMBRE"=>"SIN DATOS",
 "CAT_NOMBRE"=>"0", 
@@ -106,16 +90,7 @@ function get($attr){
 "CAT_ID"=>"0",
 "TIPO_NOMBRE"=>"SIN DATOS",
 "CAT_NOMBRE"=>"0", 
-"INV_PROD_NOM"=>"0", 
-=======
-"TIPO_NOMBRE"=>"SIN DATOS",
-"CAT_ID"=>"0",
-"CAT_NOMBRE"=>"0", 
-"PROD_NOMBRE"=>"0", 
-"ING_FECHA"=>"0",
-"PROD_STOCK_TOTAL"=>"0",
-"PROV_NOMBRE"=>"0",
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
+"INV_PROD_NOM"=>"0",
 "PROD_POSICION"=>"0"));
 		}
     return $result;
@@ -123,24 +98,7 @@ function get($attr){
 //METODO BUSCAR LOS PODRUCTOS CRITICOS CON FILTRO DE TIPO
 public function findAllCriticos($tipo, $cat){
 	$result = array();
-<<<<<<< HEAD
 	//$this->db->like('TIPO_ID', $tipo);
-	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,
-		PROD_STOCK_TOTAL,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
-	$this->db->from('productos');
-	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
-	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
-	$this->db->where('productos.PROD_STOCK_CRITICO >= productos.PROD_STOCK_TOTAL');
-		if(($cat!='0')){
-			$this->db->where('CAT_ID', $cat);	
-		}
-		if($tipo!='0'){
-			$this->db->where('TIPO_ID', $tipo);		
-		}
-	$this->db->group_by('productos.PROD_ID');
-		$consulta = $this->db->get();
-		
-=======
 	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,INV_PROD_CANTIDAD,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
 	$this->db->from('productos');
 	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
@@ -155,13 +113,10 @@ public function findAllCriticos($tipo, $cat){
 	}
 	$this->db->group_by('productos.PROD_ID');
 	$consulta = $this->db->get();
-
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
 		$result = null;
     foreach ($consulta->result_array() as $row) {
       $result[] = $row;
     }
-<<<<<<< HEAD
 
 		if(is_null($result))
 		{
@@ -174,28 +129,10 @@ public function findAllCriticos($tipo, $cat){
 "PROD_STOCK_TOTAL"=>"0",
 "PROD_STOCK_OPTIMO"=>"0",
 "PROD_PRIORIDAD"=>"0"));
-=======
-    if (is_null($result)) {
-    	$tresult = array(array(
-    		"TIPO_ID"=>"0",
-    		"TIPO_NOMBRE"=>"SIN DATOS",
-    		"CAT_ID"=>"0",
-    		"CAT_NOMBRE"=>"SIN DATOS",
-    		"PROD_NOMBRE"=>"SIN DATOS",
-    		"PROD_STOCK_TOTAL"=>"0",
-    		"PROD_STOCK_OPTIMO"=>"0",
-    		"PROD_PRIORIDAD"=>"0" ));
-    }
-    return $result;
-
->>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
 		}
     return $result;
 }
 
-public function totalactivos(){
-
-}
 public function motivosdebaja(){
 	$result = array();
 		$this->db->select('TIPO_NOMBRE,CAT_NOMBRE,PROD_NOMBRE,INV_PROD_NOM,BAJA_FECHA,ING_FECHA,USU_NOMBRES,MOT_NOMBRE');
@@ -242,7 +179,6 @@ public function vidautil(){
 		return $result;
 	}
 
-			
 		}
 	
 
