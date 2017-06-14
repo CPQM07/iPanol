@@ -49,7 +49,7 @@
                   <th>Tipo de producto</th>
                   <th>Stock total</th>
                   <th>Stock crítico</th>
-                  <th>Stock crítico margen</th>
+                  <th>Stock Optimo</th>
                   <th>Estado</th>
                   <th>Editar</th>
                 </tr>
