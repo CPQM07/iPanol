@@ -81,19 +81,20 @@ class Dashboard extends CI_Controller {
 		}
 
 		$msjCriticoActiv = array();
-
+		$stockCritico = array();
+		$nombreProducto = array();
 		for ($i=0; $i < $larg; $i++) {
 			$cantid = count($this->inventario->findAllByInvProdId($i));
 			$nuevoP[] = $NuevoProducto[$i];
 
 			foreach ($nuevoP as $data) {
-		      $stockCritico = $data['PROD_STOCK_CRITICO'];
-		      $nombreProducto = $data['PROD_NOMBRE'];
+		      $stockCritico = array($data['PROD_STOCK_CRITICO']);
+		      $nombreProducto = array($data['PROD_NOMBRE']);
 			}
 
 		    if ($stockCritico>$cantid) {
-		    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantid." | Limite crítico: ".$stockCritico."<br/><br/>";
-			    $msjCriticoActiv = array($msj);
+		    	$msj = "Producto: ".$nombreProducto[0]."<br/>Cantidad: ".$cantid." | Limite crítico: ".$stockCritico[0]."<br/><br/>";
+			    $msjCriticoActiv[$i] = array($msj);
 		    }
      	}
 		$this->output->set_content_type('application/json');
@@ -101,8 +102,7 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function msjCriticoFungible(){
-		//$id = $_POST['fungi'];
-		$id=2;
+		$id = $_POST['fungi'];
 		$NuevoProducto = array();
 		$productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
 		$larg = count($productos);
@@ -126,26 +126,31 @@ class Dashboard extends CI_Controller {
 	      }
 
 		$msjCriticoFungi = array();
+		$msj = "";
+		$cantStockProduct= array();
+		$cantStockInven= array();
+		$nombreProducto="";
 		//print_r($this->inventario->returnAllIdInventario());
 		for ($i=0; $i < $larg; $i++) {
 
 			//$cantid = count($this->inventario->findAllByInvProdId($i));
 			foreach ($NuevoProducto as $data) {
-			    $cantStockProduct = $data['PROD_STOCK_CRITICO'];
+			    $cantStockProduct = array($data['PROD_STOCK_CRITICO']);
 			    $nombreProducto = $data['PROD_NOMBRE'];
 
 				foreach ($NuevoInventario as $data) {
-				    $cantStockInven = $data['INV_PROD_CANTIDAD'];
-				}
-				echo $cantStockProduct." - ".$nombreProducto." | "."Stock actual: ".$cantStockProduct." | <br>";
+				    $cantStockInven = array($data['INV_PROD_CANTIDAD']);
+				/*echo $cantStockProduct." - ".$nombreProducto." | "."Stock actual: ".$cantStockInven." | <br>";*/
 
 			    if ($cantStockProduct>$cantStockInven) {
-			    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantStockInven." | Limite crítico: ".$cantStockProduct."<br/><br/>";
-				    $msjCriticoFungi = array($msj);
-			    }
+			    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantStockInven[0]." | Stock crítico: ".$cantStockProduct[0]."<br/><br/>";
+			    	}
+				    $msjCriticoFungi[$i] = array($msj);
+				}
 
 			}
 		}
+		$fungCant = count($msjCriticoFungi);
 		$this->output->set_content_type('application/json');
  		$this->output->set_output(json_encode(array("msjFungible"=>$msjCriticoFungi )));
 	}

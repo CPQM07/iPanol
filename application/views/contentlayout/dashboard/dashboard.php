@@ -304,7 +304,6 @@
           tooltip1 = new PNotify({
             title: "Fungibles",
             text: response.msjFungible,
-            type: "error",
             animate_speed: "fast",
             icon: "fa fa-thumb-tack"
           });
