@@ -87,7 +87,7 @@
               <span id="activCant" class="info-box-number">0</span><!-- esteeee -->
 
               <div class="progress">
-                <div class="progress-bar" style="width: <?= $percentProduct0 ?>%"></div>
+                <div id="percentActiv" class="progress-bar"></div>
               </div>
                   <span class="progress-description">
                     Productos activos
@@ -104,7 +104,7 @@
               <span id="fungiCant" class="info-box-number">0</span>
 
               <div class="progress">
-                <div class="progress-bar" style="width: <?= $percentProduct1  ?>%"></div>
+                <div id="percentFungi" class="progress-bar"></div>
               </div>
                   <span class="progress-description">
                     Productos fungibles
@@ -282,6 +282,7 @@
             animate_speed: "fast",
             icon: "fa fa-wrench"
           });
+          $("#percentActiv").width( response.cantida ).addClass( "mod" );
           $("#activCant").text(response.cantida);
           tooltip0.open();
         }
@@ -308,6 +309,7 @@
             animate_speed: "fast",
             icon: "fa fa-thumb-tack"
           });
+          $("#percentFungi").width( response.cantida ).addClass( "mod" );
           $("#fungiCant").text(response.cantida);
           tooltip1.open();
         }
