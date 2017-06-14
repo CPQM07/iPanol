@@ -252,8 +252,13 @@ class Catalogo extends CI_Controller {
 	      $detallesol =$this->detsol->create($_columns);
 	      $detallesol->insert();
 	    }
-	    $_SESSION["productos"] = null;
-	  	redirect('Catalogo/carrito','refresh');
+	    $data["detalle"] = $_SESSION['productos'];
+	    $data["ultimaIngresado"] = $ultimoIngresado;
+	    $this->load->view('Catalogo/confirmacion', $data, FALSE);
+	    
+	  	//redirect('Catalogo/carrito','refresh');
+
+	  	$_SESSION["productos"] = null;
 	  	
 	  }
 
