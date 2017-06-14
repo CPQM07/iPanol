@@ -1,34 +1,4 @@
-<?php
-function validaRut($rut){
-    if(strpos($rut,"-")==false){
-        $RUT[0] = substr($rut, 0, -1);
-        $RUT[1] = substr($rut, -1);
-    }else{
-        $RUT = explode("-", trim($rut));
-    }
-    $elRut = str_replace(".", "", trim($RUT[0]));
-    $factor = 2;
-    for($i = strlen($elRut)-1; $i >= 0; $i--):
-        $factor = $factor > 7 ? 2 : $factor;
-        $suma += $elRut{$i}*$factor++;
-    endfor;
-    $resto = $suma % 11;
-    $dv = 11 - $resto;
-    if($dv == 11){
-        $dv=0;
-    }else if($dv == 10){
-        $dv="k";
-    }else{
-        $dv=$dv;
-    }
-   if($dv == trim(strtolower($RUT[1]))){
-       return true;
-   }else{
-       return false;
-   }
-}
 
-?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -108,18 +78,17 @@ function validaRut($rut){
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8">
+                  <form name="form1" id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8" >
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Rut</label>
                         <div class="col-md-9">
                         <div class="row">
                         <div class="col-md-6">
-                          <!-- <input name="new_usu[USU_RUT]" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "8" pattern=".{0}|.{7,}" min="1000000" required> -->
-                          <input type="text" name="new_usu[USU_RUT]" class="col-md-12" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
+                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
                           </div>
                           <div class="col-md-2">
-                          <input name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12" maxlength="1" required>
+                          <input id="dv" name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12" maxlength="1" required>
                           </div>
                         </div>
                         </div>
@@ -360,15 +329,44 @@ function validaRut($rut){
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
+  // Validador de Rut
+var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+        rutCompleto = rutCompleto.replace("‐","-");
+        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+            return false;
+        var tmp     = rutCompleto.split('-');
+        var digv    = tmp[1]; 
+        var rut     = tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        
+        return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+            S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+    }
+}
   $("#agregar").click(function(){
+    var rut=$('#rut').val();
+    var dv=$('#dv').val();
+    var rutOficial = rut+"-"+dv;
     var clave1=$('#new_clave').val();
     var clave2=$('#new_clave2').val();
-    if (clave1==clave2) {
-      return true;
-    }else{ 
-      $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
-      return false;
+    if (Fn.validaRut( rutOficial )){
+      if (clave1==clave2) {
+        return true;
+      }else{ 
+        $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
+        return false;
 
+      }
+   } else {
+        $.notify("RUT no valido", "error");
+        return false;
     }
   });
   $("#editar").click(function(){
@@ -443,5 +441,15 @@ function limpiar(){
     $("#estado").val("");
 
   }
+  //
+
+$("#btnvalida").click(function(){
+    if (Fn.validaRut( $("#txt_rut").val() )){
+        $("#msgerror").html("El rut ingresado es válido :D");
+    } else {
+        $("#msgerror").html("El Rut no es válido :'( ");
+    }
+});
+
 </script>
 <?php } ?>

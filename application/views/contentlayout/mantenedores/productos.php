@@ -47,7 +47,7 @@
                   <th>Nombre</th>
                   <th>Categoria</th>
                   <th>Tipo de producto</th>
-                  <th>Stock total</th>
+                  <th>Total ingresados</th>
                   <th>Stock crítico</th>
                   <th>Stock Optimo</th>
                   <th>Estado</th>
