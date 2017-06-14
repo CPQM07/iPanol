@@ -84,7 +84,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Stock crítico</span>
-              <span class="info-box-number"><?= $numberProduct0 ?></span>
+              <span id="activCant" class="info-box-number">0</span><!-- esteeee -->
 
               <div class="progress">
                 <div class="progress-bar" style="width: <?= $percentProduct0 ?>%"></div>
@@ -101,7 +101,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Stock crítico</span>
-              <span class="info-box-number"><?= $numberProduct1 ?></span>
+              <span id="fungiCant" class="info-box-number">0</span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: <?= $percentProduct1  ?>%"></div>
@@ -282,9 +282,10 @@
             animate_speed: "fast",
             icon: "fa fa-wrench"
           });
+          $("#activCant").text(response.cantida);
           tooltip0.open();
         }
-      });          
+      });
       $( "#acti" ).mouseout(function() {
         tooltip0.remove();
       });
@@ -307,6 +308,7 @@
             animate_speed: "fast",
             icon: "fa fa-thumb-tack"
           });
+          $("#fungiCant").text(response.cantida);
           tooltip1.open();
         }
       });          

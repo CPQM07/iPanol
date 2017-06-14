@@ -98,7 +98,7 @@ class Dashboard extends CI_Controller {
 		    }
      	}
 		$this->output->set_content_type('application/json');
-     	$this->output->set_output(json_encode(array("msjActivo" =>$msjCriticoActiv)));
+     	$this->output->set_output(json_encode(array("msjActivo" =>$msjCriticoActiv,"cantida" => count($msjCriticoActiv))));
 	}
 
 	public function msjCriticoFungible(){
@@ -152,7 +152,7 @@ class Dashboard extends CI_Controller {
 		}
 		$fungCant = count($msjCriticoFungi);
 		$this->output->set_content_type('application/json');
- 		$this->output->set_output(json_encode(array("msjFungible"=>$msjCriticoFungi )));
+ 		$this->output->set_output(json_encode(array("msjFungible"=>$msjCriticoFungi,"cantida" => count($msjCriticoFungi) )));
 	}
 
 }
