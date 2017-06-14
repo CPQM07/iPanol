@@ -193,9 +193,6 @@ class Catalogo extends CI_Controller {
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 
-
-
-
 	public function contactanos()
 	{
 		$this->load->view('Catalogo/contactanos', FALSE);
@@ -224,48 +221,42 @@ class Catalogo extends CI_Controller {
 	}
 
 	public function insert_solicitud_from_catalogo(){
-		$fecha_actual = date("Y/m/d");
-		$cantidadArticulo = $_POST["cantidadArticulo"];
-	    $cantidadGruTrab = $_POST["cantidadGruTrab"];
-	    $fechaEntrega = $_POST["fechaEntrega"];
-	    $asignaturas = $_POST["masignaturas"];
-	    $detalle = $POST['detalle'];
+	  if (isset($_SESSION['productos']) and $_SESSION['productos'] != null) {
+	  	$usersession = $this->session->userdata('logged_in');
+	  	$fecha_actual = date("Y-m-d H:i:s");
+	  	$cantidadGruTrab = $_POST["cantidadGruTrab"];
+	  	$fechaEntrega = $_POST["fechaEntrega"];
+	  	$asignaturas = $_POST["asignaturas"];
+	  	$_columns  =  array(
+					'SOL_ID' => 0,
+					'SOL_USU_RUT' => $usersession['rut'],
+					'SOL_ASIG_ID' => $asignaturas,
+					'SOL_FECHA_INICIO' => $fecha_actual,
+					'SOL_FECHA_TERMINO' => $fechaEntrega,
+					'SOL_NRO_GRUPOTRAB' => $cantidadGruTrab,
+					'SOL_OBSERVACION' => "",
+					'SOL_RUTA_PDF' => '',
+					'SOL_ESTADO' => 1
+					);
+        $nuevasolicitud =  $this->soli->create($_columns);
+        $ultimoIngresado = $nuevasolicitud->insert();
+        foreach ($_SESSION['productos'] as $key => $value) {
+	      	$_columns  =  array(
+				'DETSOL_ID' => 0,
+				'DETSOL_TIPOPROD' => $value['tipoid'],
+				'DETSOL_CANTIDAD' => $value['cantidad'],
+				'DETSOL_ESTADO' => 1,
+				'DETSOL_SOL_ID' => $ultimoIngresado,
+				'DETSOL_PROD_ID' => $value['productoid'],
+				);
+	      $detallesol =$this->detsol->create($_columns);
+	      $detallesol->insert();
+	    }
+	    $_SESSION["productos"] = null;
+	  	redirect('Catalogo/carrito','refresh');
+	  	
+	  }
 
-	    $usersession = $this->session->userdata('logged_in');
-
-	if (isset($_POST["cantidadArticulo"]) and isset($_POST["cantidadGruTrab"]) and isset($_POST["fechaEntrega"]) and 
-		isset($_POST["asignaturas"]) and isset($_POST["detalle"])) {
-
-      $solicitud = $_POST['detallesolicitud']; 
-      $_columns  =  array(
-		'SOL_ID' => 0,
-		'SOL_USU_RUT' => $usersession['rut3'],
-		'SOL_ASIG_ID' => $asignaturas,
-		'SOL_FECHA_INICIO' => $fecha_actual,
-		'SOL_FECHA_TERMINO' => $fechaEntrega,
-		'SOL_NRO_GRUPOTRAB' => $cantidadGruTrab,
-		'SOL_OBSERVACION' => 0,
-		'SOL_RUTA_PDF' => '',
-		'SOL_ESTADO' => 1
-		);
-
-      $this->soli->create($_columns);
-      $ultimoIngresado = $this->soli->insert();
-
-      foreach ($detalle as $key => $value) {
-      	$_columns  =  array(
-			'DETSOL_ID' => 0,
-			'DETSOL_TIPOPROD' => $value['tipo'],
-			'DETSOL_CANTIDAD' => $value['cantidad'],
-			'DETSOL_ESTADO' => 1,
-			'DETSOL_SOL_ID' => $ultimoIngresado,
-			'DETSOL_PROD_ID' => $value['pro_id'],
-			);
-      	$this->detsol->create($_columns);
-      	$this->detsol->insert();
-      }
-          
-      }
     }
 
     public function agregarCarrito(){
@@ -277,7 +268,7 @@ class Catalogo extends CI_Controller {
       $producto = $this->prod->findById($_POST["idprod"]);
       if ($producto->get("PROD_TIPOPROD_ID") == 1)$tipo = "Activo";
       if ($producto->get("PROD_TIPOPROD_ID") == 2)$tipo = "Fungible";
-      $myarray[] = array("productoid" => $_POST["idprod"],"nombre" => $producto->get("PROD_NOMBRE"),"tipo" => $tipo,"cantidad" => $_POST["cantidad"]);
+      $myarray[] = array("productoid" => $_POST["idprod"],"nombre" => $producto->get("PROD_NOMBRE"),"tipo" => $tipo,"cantidad" => $_POST["cantidad"],"tipoid" => $producto->get("PROD_TIPOPROD_ID"));
       $_SESSION["productos"] = $myarray;
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode(array("estado" => true ,"prodnombre" => $producto->get("PROD_NOMBRE"),"total" => count($myarray))));

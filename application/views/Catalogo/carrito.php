@@ -1,5 +1,5 @@
 <?php include_once('header.php') ?>
-    <form action="" method="POST" accept-charset="utf-8">
+    <form action="<?=site_url('Catalogo/insert_solicitud_from_catalogo')?>" method="POST" accept-charset="utf-8">
 	<section id="cart_items">
 		<div class="container">
 			<div class="table-responsive cart_info">
@@ -71,7 +71,7 @@
 		<div class="container">
 			<div class="row">
 				<a class="btn btn-default check_out pull-right" id="limpiarcarrito" href="">Limpiar carrito</a>
-				<a type="submit" class="btn btn-default check_out pull-right" href="">Realizar pedido</a>
+				<input type="submit" class="btn btn-default check_out pull-right" value="Realizar pedido"/>
 			</div>
 		</div>
 	</section><!--/#do_action(subir pedido)-->
