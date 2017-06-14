@@ -279,7 +279,9 @@ class Gestion extends CI_Controller {
               'ING_DESC' =>$_POST['descripcion'],
               'ING_USU_RUT' =>$usersesion['rut'],
               'ING_VIDA_ULTIL_PROVEEDOR' =>$_POST['vidautil'],
-              'ING_PROV_RUT' =>$_POST['proveedor']
+              'ING_PROV_RUT' =>$_POST['proveedor'],
+              'ING_PRECIO_UNITARIO' => $_POST["preciounitario"],
+              'ING_TIPO_INGRESO' => $_POST["modo"]
               );
     $ultimoingreso = $this->ing->insert($columns);
 
@@ -289,6 +291,7 @@ class Gestion extends CI_Controller {
                       'INV_ID' => 0,
                       'INV_PROD_ID' => $producto->get("PROD_ID"),
                       'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
+                      'INV_IMAGEN' => $producto->get("PROD_IMAGEN"),
                       'INV_PROD_CANTIDAD' => 1,
                       'INV_PROD_ESTADO' => 1,
                       'INV_INGRESO_ID' => $ultimoingreso,
@@ -299,27 +302,28 @@ class Gestion extends CI_Controller {
         $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }
     }else if($producto->get("PROD_TIPOPROD_ID") == 2){
-      $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID' => $producto->get("PROD_ID")));
+      $insumo = $this->inv->findByArrayOne(array('INV_PROD_ID'=>$producto->get("PROD_ID")));
       if ($insumo != null) {
         $total = intval($insumo->get('INV_PROD_CANTIDAD'))+intval($_POST['cantidad']);
         $this->inv->update($insumo->get("INV_ID"), array('INV_PROD_CANTIDAD' => $total,'INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $insumo->get("INV_ID")));
       }else{
-         $_columns  =  array(
+         $columnascrearinv  =  array(
                       'INV_ID' => 0,
-                      'INV_PROD_ID' => $producto->get("PROD_TIPOPROD_ID"),
+                      'INV_PROD_ID' => $producto->get("PROD_ID"),
                       'INV_PROD_NOM' => $producto->get("PROD_NOMBRE"),
+                      'INV_IMAGEN' => $producto->get("PROD_IMAGEN"),
                       'INV_PROD_CANTIDAD' => $_POST['cantidad'],
                       'INV_PROD_ESTADO' => 1,
                       'INV_INGRESO_ID' => $ultimoingreso,
                       'INV_CATEGORIA_ID' => $producto->get("PROD_CAT_ID"),
                       'INV_TIPO_ID' => 2
                       );
-        $ultimoidonventarioingresado = $this->inv->insertDirect($_columns);
+        $ultimoidonventarioingresado = $this->inv->insertDirect($columnascrearinv);
         $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
       }      
     }
 
-
+  $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el stock de este producto.');
   redirect('Gestion/ingreso','refresh');
   }
 
@@ -597,13 +601,14 @@ class Gestion extends CI_Controller {
           }
         }
       }
-      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $cargo = "";$usurutsolicitante = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
       if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
       if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
       $asignaturaobj = $this->asig->findById($asignatura);
       $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $usurutsolicitante = $usuario->get("USU_RUT")."-".$usuario->get("USU_DV");
 
       
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
@@ -622,7 +627,7 @@ class Gestion extends CI_Controller {
       $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $ultimasolicitud));
      // print_r($asignacionesactuales);
 
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$dividirfechas[0],$dividirfechas[1],$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales,$usurutsolicitante);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
@@ -724,13 +729,14 @@ class Gestion extends CI_Controller {
 
 
 
-      $cargo = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
+      $cargo = "";$usurutsolicitante = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
       if ($verificardocenteoalumno == 1)$cargo = "ESTUDIANTE";
       if($verificardocenteoalumno == 2)$cargo = "DOCENTE";
       $asignaturaobj = $this->asig->findById($asignatura);
       $asignaturanombre = $asignaturaobj->get("ASIGNATURA_NOMBRE");
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
+      $usurutsolicitante = $usuario->get("USU_RUT")."-".$usuario->get("USU_DV");
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$idsolicitud, "");
@@ -746,7 +752,7 @@ class Gestion extends CI_Controller {
 
       $asignacionesactuales = $this->asignacion->findByArray(array('ASIG_SOL_ID' => $idsolicitud));
 
-      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales);
+      $htmlpdf = $pdf->HTMLPDFSOLICITUD($idsolicitud,$cargo,$nombreapellidossolicitante,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usersesion['nombres'],$asignacionesactuales,$usurutsolicitante);
 
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
       ob_clean();
@@ -781,10 +787,11 @@ class Gestion extends CI_Controller {
     }
 
     public function codigos(){
-      $NuevoProducto = array();
-      $productos = $this->prod->findAll();
+      /*cod de barra activos*/
+      $NuevoProductoActivo = array();
+      $productos = $this->prod->findByTipProdYEstado(1,1);
       foreach ($productos as $key => $value) {
-        $NuevoProducto[] = array(
+        $NuevoProductoActivo[] = array(
           'PROD_ID' => $value->get('PROD_ID'),
           'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
           'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
@@ -798,9 +805,31 @@ class Gestion extends CI_Controller {
           'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
           'PROD_ESTADO' => $value->get('PROD_ESTADO')
         );
-        $datos['productos'] = $NuevoProducto;
+        $datos['productosActivos'] = $NuevoProductoActivo;
       }
+      /*cod de barra activos*/
       
+      /*cod de barra Fungibles*/
+      $NuevoProductoFungible = array();
+      $productos = $this->prod->findByTipProdYEstado(2,1);
+      foreach ($productos as $key => $value) {
+        $NuevoProductoFungible[] = array(
+          'PROD_ID' => $value->get('PROD_ID'),
+          'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
+          'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
+          'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
+          'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+          'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
+          'PROD_POSICION' => $value->get('PROD_POSICION'),
+          'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
+          'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
+          'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
+          'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
+          'PROD_ESTADO' => $value->get('PROD_ESTADO')
+        );
+        $datos['productosFungibles'] = $NuevoProductoFungible;
+      }
+      /*cod de barra Fungibles*/
       $datos['categorias'] = $this->cat->findAll();
       $datos['tipos'] = $this->tipoP->findAll();
       $this->layouthelper->LoadView("gestion/codigos" , $datos);
@@ -809,7 +838,6 @@ class Gestion extends CI_Controller {
     public function generarPDFGeneral(){
 
         $nomProd = $_POST["idBarcode"];
-        $nomCat = $_POST["nombreCat"];
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetTitle('Códigos de barra en general'); //Titlo del pdf
@@ -853,6 +881,11 @@ class Gestion extends CI_Controller {
         $rutaAJAX = base_url().'resources/pdf/barcode/'.$nomProd.'.pdf';
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+    }
+
+    public function eliminarPDF(){
+        $rutasavePDF = $_POST['path'];
+        unlink($rutasavePDF);
     }
 
     public function generarPDFunitario(){
@@ -962,7 +995,7 @@ class Gestion extends CI_Controller {
       /*va juntooooo*/
 
       date_default_timezone_set("Chile/Continental");
-      $fecha = date("d-m-Y-s",time());
+      $fecha = date("d-m-Y-h-i-s",time());
 
       $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
       $pdf->lastPage();
@@ -977,7 +1010,7 @@ class Gestion extends CI_Controller {
 
     public function traerProductosByIdTipo(){
       $tipoP = $_POST['idTipo'];
-      $todoProByCat = $this->prod->findByTipProd($tipoP);
+      $todoProByCat = $this->prod->findByTipProdYEstado($tipoP,1);
       $arrayProd = array();
       foreach ($todoProByCat as $key => $value) {
         $arrayProd[] = array("id" =>$value->get('PROD_ID'),"nombre" =>$value->get('PROD_ID')." - ".$value->get('PROD_NOMBRE'));
@@ -986,25 +1019,103 @@ class Gestion extends CI_Controller {
       $this->output->set_output(json_encode($arrayProd));
     }
 
-    public function traerInventarioByIdTipo(){
-      $tipoP = $_POST['idTipo'];
-      $todoProByCat = $this->inv->findAllByInvProdId($tipoP);
+    public function traerInventarioByIdTipoYCategoria(){
+      $tipoC = $_POST['idTipo'];
+
+      /*cod de barra Fungibles y Activos segun $_POST*/
+      $NuevoProductoFungible = array();
+      $productos = $this->inv->findByTipProdYEstado($tipoC,1);
+      foreach ($productos as $key => $value) {
+        $NuevoProducto[] = array(
+          'INV_ID' => $value->get('INV_ID'),
+          'INV_PROD_ID' => $value->get('INV_PROD_ID'),
+          'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
+          'INV_PROD_CANTIDAD' => $value->get('INV_PROD_CANTIDAD'),
+          'INV_PROD_ESTADO' => $value->get('INV_PROD_ESTADO'),
+          'INV_PROD_CODIGO' => $value->get('INV_PROD_CODIGO'),
+          'INV_INGRESO_ID' => $value->get('INV_INGRESO_ID'),
+          'INV_CATEGORIA_ID' => $value->get('INV_CATEGORIA_ID'),
+          'INV_TIPO_ID' => $value->get('INV_TIPO_ID'),
+          'INV_FECHA' => $value->get('INV_FECHA'),
+          'INV_IMAGEN' => $value->get('INV_ID'),
+          'INV_ULTIMO_USUARIO' => $value->get('INV_ULTIMO_USUARIO'),
+          'INV_ACTUAL_USUARIO' => $value->get('INV_ACTUAL_USUARIO')
+        );
+      }
+      /*cod de barra Fungibles y Activos segun $_POST*/
+
+      $todoProByTipo = $NuevoProducto;
       $arrayInv = array();
-      foreach ($todoProByCat as $key => $value) {
+      foreach ($todoProByTipo as $key => $value) {
         $arrayInv[] = array("
           <form id='formid' method='post' accept-charset='utf-8'>
-              <input value=".$value->get('INV_ID')." class='items' type='checkbox'>
+              <input value=".$value['INV_ID']." class='items' type='checkbox'>
           </form>
               ",
-              $value->get('INV_ID'),
-              $value->get('INV_PROD_NOM'),
-              '<button id="" name="" value='.$value->get('INV_ID').' type="button" class="barcode xd btn btn-danger btn-block">
+              $value['INV_ID'],
+              $value['INV_PROD_NOM'],
+              '<button id="" name="" value='.$value['INV_ID'].' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>'
             );
       }
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode($arrayInv));
     }
+
+
+    public function editar_ingreso(){
+      $idingreso = $_POST["idingreso"];
+         $_columns  =  array(
+              'ING_ORDEN_COMPRA'  => $_POST["odecompraedit"],
+              'ING_DESC' => $_POST["descedit"],
+              'ING_VIDA_ULTIL_PROVEEDOR' => $_POST["vidautiledit"],
+              'ING_PROV_RUT' => $_POST["proveedor"]
+              );
+      $this->ing->update($idingreso,$_columns);
+      $this->session->set_flashdata('Habilitar', 'Ingreso actualizado correctamente');
+      redirect('Gestion/ingreso','refresh');
+    }
+
+    public function cargar_detalle_ingreso_ajax(){
+      $idingreso = $_POST["idingreso"];
+      $this->output->set_content_type('application/json');
+      $this->output->set_output(json_encode($this->ing->findById($idingreso)->toArray()));
+    }
+
+   public function Solicitudes (){
+    $datos['Usuarios'] = $this->usu->findAll();
+    $datos['Solicitudes'] = $this->soli->findEstados();
+    $this->layouthelper->LoadView("gestion/solicitudes" , $datos);
+  }
+
+
+   public function CambiarEstadoSOL($estado, $id){
+    if ($estado == 1) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 2));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 2) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 1));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 3) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 7));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 4) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 6));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 6) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 4));
+      redirect('gestion/Solicitudes');
+    } elseif ($estado == 7) {
+      $this->session->set_flashdata('Update', 'Se Cambio el ESTADO Correctamente');
+      $this->soli->update($id, array('SOL_ESTADO' => 3));
+      redirect('gestion/Solicitudes');
+    }
+  }
 
 
 

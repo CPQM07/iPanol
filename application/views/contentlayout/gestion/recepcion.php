@@ -158,7 +158,6 @@ $(document).on("click",".getasignaciones",function (argument) {
                             $('#carga_modal').modal('show');
                         },
                     success: function(response){
-                      console.log(response);
                       if (response.estado) {
                         var obj = JSON.parse(response.allasig);
                         obj.forEach(function(rr){
@@ -235,7 +234,6 @@ $(document).on("click",".getasignaciones",function (argument) {
      if (countchcheados == countallbox) {
       flagcerrarsolono = true;
      }
-     console.log(arraycheckeadosmascantidad);
               $.ajax({
                     method: "POST",
                     url: "<?=site_url('/gestion/update_asignaciones_recepcionadas')?>",
@@ -245,7 +243,6 @@ $(document).on("click",".getasignaciones",function (argument) {
                             $('#carga_modal').modal('show');
                         },
                     success: function(response){
-                      console.log(response);
                       if (response.estado) {
                          $.notify(response.mensaje, "success");
                          $('#recproins').modal('hide');

@@ -101,11 +101,11 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function CambiarEstadoUSU($tipo, $id){
-    if ($tipo == 1) {
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->usuario->update($id, array('USU_ESTADO' => 2));
+      $this->usuario->update($id, array('USU_ESTADO' => 0));
       redirect('/Mantencion/usuarios');
-    } elseif ($tipo == 2) {
+    } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 1));
       redirect('/Mantencion/usuarios');
@@ -146,11 +146,11 @@ class Mantencion extends CI_Controller {
 	}
 
   public function CambiarEstadoCAT($tipo, $id){
-    if ($tipo == 1) {
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->categorias->update($id, array('CAT_ESTADO' => 2));
+      $this->categorias->update($id, array('CAT_ESTADO' => 0));
       redirect('/Mantencion/categorias');
-    } elseif ($tipo == 2) {
+    } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->categorias->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');
@@ -162,16 +162,16 @@ class Mantencion extends CI_Controller {
 	  redirect('/Mantencion/categorias');
 	}
 
-	public function edit_categoria(){
-		if(isset($_POST['cat'])){
-			$id=$_POST['id'];
-			$this->categorias->update($id,$_POST['cat']);
-			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
-			redirect('/Mantencion/categorias');
-		}else{
-			echo "usuario no fue agregado";
-		}
-	}
+  public function edit_categoria(){
+    if(isset($_POST['cat'])){
+      $id=$_POST['id'];
+      $this->categorias->update($id,$_POST['cat']);
+      $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+      redirect('/Mantencion/categorias');
+    }else{
+      echo "usuario no fue agregado";
+    }
+  }
 	//Fin Categoria***************************************************************************
 
 	//Productos***************************************************************************
@@ -244,8 +244,8 @@ class Mantencion extends CI_Controller {
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-			if($num==1){redirect('/Gestion/ingreso');}
-			else{redirect('/Mantencion/productos');}
+			if($num==1){redirect('/Mantencion/productos');}
+			else{redirect('/Gestion/ingreso');}
 		}else{
 			echo "usuario no fue agregado";
 		}
@@ -254,25 +254,31 @@ class Mantencion extends CI_Controller {
 	public function edit_producto(){
 		if(isset($_POST['producto'])){
 			$id=$_POST['id_pro'];
+			$producto=$_POST['producto'];
 			if(isset($_FILES['files'])){
-			$data = $_FILES['files'];
-			//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
-			 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
-			 /*if ($this->copiarimg->validate()) {*/
-			 $nameimg = $this->copiarimg->upload();
-			 /*}*/
-			 if($data['size']>90112){
-				$config['image_library'] = 'gd2';
-				$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
-				$config['create_thumb'] = FALSE;
-				$config['maintain_ratio'] = TRUE;
-				$config['width']         = 800;
-				$config['height']       = 800;
-				$this->load->library('image_lib', $config);
-				$this->image_lib->resize();
+				$data = $_FILES['files'];
+				//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
+				 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+				 /*if ($this->copiarimg->validate()) {*/
+				 /*$nameimg*/
+				 $producto['PROD_IMAGEN'] = $this->copiarimg->upload();
+				 /*}*/
+				 if($data['size']>90112){
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$producto['PROD_IMAGEN'] ;
+					$config['create_thumb'] = FALSE;
+					$config['maintain_ratio'] = TRUE;
+					$config['width']         = 800;
+					$config['height']       = 800;
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();
+				}
 			}
+			if($producto['PROD_IMAGEN']==null){
+				$product = $this->productos->findById($id);
+				$producto['PROD_IMAGEN'] = $product->get('PROD_IMAGEN');
 			}
-			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
+			$nuevopro=$this->productos->update($id,$producto);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
@@ -287,13 +293,16 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function CambiarEstadoPROD($tipo, $id){
-    if ($tipo == 1) {
+	$producto = $this->productos->findById($id);
+	$nameimg= $producto->get('PROD_IMAGEN');
+    if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 2));
+      $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
       redirect('/Mantencion/productos');
-    } elseif ($tipo == 2) {
+    }
+    if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 1));
+      $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
       redirect('/Mantencion/productos');
     }
   	}
@@ -313,6 +322,30 @@ class Mantencion extends CI_Controller {
       redirect('/Mantencion/asignaturas');
     } else {
       echo "NO AGRAGADO";
+    }
+  }
+
+  public function findByIdAsig(){
+    $id= $_POST['id'];
+    $newarray = null;
+    $value = $this->asignatura->findById($id);
+    $newarray = array(
+    'ASIGNATURA_ID' => $value->get("ASIGNATURA_ID"),
+    'ASIGNATURA_NOMBRE' => $value->get("ASIGNATURA_NOMBRE"),
+    'ASIGNATURA_ESTADO' => $value->get("ASIGNATURA_ESTADO")
+    );
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode($newarray));
+  }
+
+  public function EditAsig(){
+    if(isset($_POST['asig'])){
+      $id=$_POST['id'];
+      $this->asignatura->update($id,$_POST['asig']);
+      $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+      redirect('/Mantencion/asignaturas');
+    }else{
+      echo "asignatura no modificada";
     }
   }
 
@@ -450,20 +483,13 @@ class Mantencion extends CI_Controller {
 	//Fin Bajas***************************************************************************
 
 
-
-
-
-
-
-
-
-	/*nuevoooooooooooooooooooooooooo*/
+/*nuevoooooooooooooooooooooooooo*/
 
 	public function inventario(){
 		$NuevoInventario = array();
 		$inventario = $this->inventario->findAll();
 	    foreach ($inventario as $key => $value) {
-	        $NuevoInventario[] = array(	
+	        $NuevoInventario[] = array(
 	        'INV_ID' => $value->get('INV_ID'),
 	    	'INV_PROD_ID' => $value->get('INV_PROD_ID'),
 			'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
@@ -481,7 +507,7 @@ class Mantencion extends CI_Controller {
 	        $datos['inventario'] = $NuevoInventario;
 	      }
 	    $datos['tipos'] = $this->tipoProducto->findAll();
-	    $datos['categorias'] = $this->categorias->findAll();
+	    $datos['categorias'] = $this->categorias->findAllSelect();
 		$this->layouthelper->LoadView("mantenedores/inventario", $datos, null);
 	}
 
@@ -489,7 +515,7 @@ class Mantencion extends CI_Controller {
 		$id= $_POST['id'];
 	 	$newarray = null;
 	  	$inventario = $this->inventario->findById($id);
-	  	$newarray = array(	
+	  	$newarray = array(
 	        'INV_ID' => $inventario->get('INV_ID'),
 	    	'INV_PROD_ID' => $inventario->get('INV_PROD_ID'),
 			'INV_PROD_NOM' => $inventario->get('INV_PROD_NOM'),
@@ -504,9 +530,38 @@ class Mantencion extends CI_Controller {
 			'INV_ULTIMO_USUARIO' => $inventario->get('INV_ULTIMO_USUARIO'),
 			'INV_ACTUAL_USUARIO' => $inventario->get('INV_ACTUAL_USUARIO')
 	    );
-	   print_r($newarray);
 	  $this->output->set_content_type('application/json');
-      $this->output->set_output(json_encode(array($newarray )));
+      $this->output->set_output(json_encode($newarray));
+	}
+
+	public function edit_inventario(){
+		if(isset($_POST['inventario'])){
+			$id=$_POST['id'];
+			if(isset($_FILES['files'])){
+				$data = $_FILES['files'];
+				 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
+				 $nameimg = $this->copiarimg->upload();
+				 if($data['size']>90112){
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+					$config['create_thumb'] = FALSE;
+					$config['maintain_ratio'] = TRUE;
+					$config['width']         = 800;
+					$config['height']       = 800;
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();
+				}
+			}
+			if($nameimg==null){
+				$producto = $this->inventario->findById($id);
+				$nameimg= $producto->get('INV_IMAGEN');
+			}
+			$nuevopro=$this->inventario->update($id,$_POST['inventario'],$nameimg);
+			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
+			redirect('/Mantencion/inventario');
+		}else{
+			echo "usuario no fue agregado";
+		}
 	}
 }
 

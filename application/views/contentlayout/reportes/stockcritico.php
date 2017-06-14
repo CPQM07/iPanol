@@ -17,7 +17,11 @@
           <div class="form-group">
             <label>Tipo</label>
               <select name="tipo" class="form-control select2" style="width: 100%;">
+<<<<<<< HEAD
               <option value="0" selected="">Tipo Productos</option>
+=======
+              <option value=0 selected="">Tipo Productos</option>
+>>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
               <?php endforeach ?>
@@ -28,7 +32,11 @@
           <label>Categorias</label>
              <div class="form-group">
                 <select name="cat" class="form-control select2" style="width: 100%;">
+<<<<<<< HEAD
                    <option value="0" selected="">Tipo Categorias</option>
+=======
+                   <option value=0 selected="">Tipo Categorias</option>
+>>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -43,9 +51,11 @@
                <input type="submit" name="" class="btn btn-block btn-danger" 
                 data-toggle="modal" data-target="#myModal" value="Filtro">
             </div>
-         
        </div>
+<<<<<<< HEAD
     
+=======
+>>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
       <div class="col-md-3">    
                   <a target="_blank" href="<?= site_url('/Reportes/Pdfcritico/');?>">
                   <td>
@@ -54,7 +64,11 @@
                 </div>
                 </br>
                 </br>
+<<<<<<< HEAD
                    </form>
+=======
+                </form>
+>>>>>>> a6713caa606bc0083c6fc17e38223dfc5a8f0bcc
       <thead>
       <div class="box-body">
         <div class="box-body">

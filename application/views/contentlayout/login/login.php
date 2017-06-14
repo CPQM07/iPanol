@@ -45,11 +45,11 @@
         </div>
       </div><br>
 
-      <div class="row">
+      <!--<div class="row">
         <div class="col-xs-12">
           <button type="submit" class="btn btn-default btn-block btn-flat">Registrarse</button>
         </div>
-      </div>
+      </div>-->
     </form><br>
     <!--<a href="#" style="color: red;">Recuperar contraseña</a><br>-->
   </div>

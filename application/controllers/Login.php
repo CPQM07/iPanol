@@ -20,15 +20,15 @@ class Login extends CI_Controller {
 			$password =	 $_REQUEST['password'];
 		   $this->form_validation->set_rules('user', 'user', 'trim|required|xss_clean');
 		   $this->form_validation->set_rules('password', 'password', 'trim|required|xss_clean|callback_check_database');
-		   if($this->form_validation->run())
+			   if($this->form_validation->run())
 		   {
 		   		$user = $this->session->userdata('logged_in');
-	   			if(count($user['permisos']) > 0){
-					if (in_array(1, $user['permisos'])) {
+	   			if(count($user['cargo']) > 0){
+					if (in_array(1, $user['cargo'])) {
 	   					redirect('Mantencion/productos','refresh');
-	   				}elseif (in_array(2, $user['permisos'])) {
+	   				}elseif (in_array(2, $user['cargo'])) {
 	   					redirect('Mantencion/productos','refresh');
-	   				}elseif (in_array(3, $user['permisos'])) {
+	   				}elseif (in_array(3, $user['cargo'])) {
 	   					redirect('Mantencion/productos','refresh');
 	   				}
 	   			}else{
@@ -68,7 +68,7 @@ class Login extends CI_Controller {
 				  'dv' => $user->get('USU_DV'),
 				  'nombres' => $user->get('USU_NOMBRES'),
 				  'apellidos' => $user->get('USU_APELLIDOS'),
-				  'permisos' =>$user->getPermisos(),
+				  'cargo' =>$user->getCargo(),
 				  'carrera' => $user->getCarrera(),
 				  'correo' => $user->get('USU_EMAIL'),
 				  'telefono1' => $user->get('USU_TELEFONO1'),

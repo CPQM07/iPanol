@@ -70,6 +70,16 @@ public function findAll(){
   return $result;
 }
 
+public function findEstados(){
+  $result=array();
+  $this->db->join('usuario', 'usuario.USU_RUT = solicitud.SOL_USU_RUT');
+  $consulta = $this->db->get('solicitud');
+    foreach ($consulta->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
+
  public function findById($id){
     $result = null;
     $this->db->where('SOL_ID',$id);
@@ -78,10 +88,10 @@ public function findAll(){
     if($consulta->num_rows() == 1){
       $result = $this->create($consulta->row());
     }
-    
+
     return $result;
   }
-  
+
 
   public function findByArray($myarray = null,$arrayestadosOR = null){
         $this->load->database();
@@ -115,10 +125,29 @@ public function findAll(){
     $result = array();
     $querry = $this->db->query("select SOL_ID,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,,SOL_RUTA_PDF from solicitud JOIN detallesol on solicitud.SOL_ID = detallesol.DETSOL_SOL_ID where detallesol.DETSOL_ESTADO =".$estado." GROUP BY SOL_ID");
     foreach ($querry->result() as $data) {
-      $result[] = $this->create($data);  
+      $result[] = $this->create($data);
     }
     return $result;
   }
 
-}
+  public function count0(){/*contador Solicitudes pendientes por recepcionar*/
+    $this->db->where('SOL_ESTADO',3);
+    $this->db->or_where('SOL_ESTADO',5);
+    $consulta = $this->db->get('solicitud');
+    return $consulta->num_rows();
+  }
 
+  public function count1(){/*contador Solicitudes pendientes sin asignación*/
+    $this->db->where('SOL_ESTADO',1);
+    $consulta = $this->db->get('solicitud');
+    return $consulta->num_rows();
+  }
+
+  public function parciales(){ /*solicitudes parciales*/
+    $cont1 = $this->db->from('solicitud');
+    $this->db->where('SOL_ESTADO',7);
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
+  }
+
+}

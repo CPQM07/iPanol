@@ -1,3 +1,4 @@
+
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -45,9 +46,9 @@
                   <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
                   <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
                   <?php if ($value['USU_ESTADO'] == 1): ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/0/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                   <?php else: ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/2/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
                   <?php endif; ?>
                   <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button></td>
                   </tr>
@@ -77,18 +78,17 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8">
+                  <form name="form1" id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8" >
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Rut</label>
                         <div class="col-md-9">
                         <div class="row">
                         <div class="col-md-6">
-                          <!-- <input name="new_usu[USU_RUT]" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "8" pattern=".{0}|.{7,}" min="1000000" required> -->
-                          <input type="text" name="new_usu[USU_RUT]" class="col-md-12" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
+                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
                           </div>
                           <div class="col-md-2">
-                          <input name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12" maxlength="1" required>
+                          <input id="dv" name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12" maxlength="1" required>
                           </div>
                         </div>
                         </div>
@@ -329,15 +329,44 @@
 <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
+  // Validador de Rut
+var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+        rutCompleto = rutCompleto.replace("‐","-");
+        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+            return false;
+        var tmp     = rutCompleto.split('-');
+        var digv    = tmp[1]; 
+        var rut     = tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        
+        return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+            S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+    }
+}
   $("#agregar").click(function(){
+    var rut=$('#rut').val();
+    var dv=$('#dv').val();
+    var rutOficial = rut+"-"+dv;
     var clave1=$('#new_clave').val();
     var clave2=$('#new_clave2').val();
-    if (clave1==clave2) {
-      return true;
-    }else{ 
-      $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
-      return false;
+    if (Fn.validaRut( rutOficial )){
+      if (clave1==clave2) {
+        return true;
+      }else{ 
+        $.notify("Las dos claves son distintas, por favor vuelva a introducir la contraseña", "error");
+        return false;
 
+      }
+   } else {
+        $.notify("RUT no valido", "error");
+        return false;
     }
   });
   $("#editar").click(function(){
@@ -412,5 +441,15 @@ function limpiar(){
     $("#estado").val("");
 
   }
+  //
+
+$("#btnvalida").click(function(){
+    if (Fn.validaRut( $("#txt_rut").val() )){
+        $("#msgerror").html("El rut ingresado es válido :D");
+    } else {
+        $("#msgerror").html("El Rut no es válido :'( ");
+    }
+});
+
 </script>
 <?php } ?>

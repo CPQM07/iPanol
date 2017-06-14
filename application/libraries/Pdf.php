@@ -10,12 +10,18 @@ class Pdf extends TCPDF
     }
 
 
-    public function HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$usunombreapellido,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usuarionombresession,$asignaciones){
+    public function HTMLPDFSOLICITUD($ultimasolicitud,$cargo,$usunombreapellido,$asignaturanombre,$fechainicio,$fechatermino,$observaciones,$grupotrabajo,$usuarionombresession,$asignaciones,$rutsolicitante){
+    	$CI =& get_instance();
+		$CI->load->model('Usuario_Model');
+
     	$forasig = "";
     	foreach($asignaciones as $key => $current) {
 
     	  if($current['INV_ULTIMO_USUARIO'] == 0){
     	  	$current['INV_ULTIMO_USUARIO'] = "NO POSEE";
+    	  }else{
+    	  	$ultimousuarioobj = $CI->Usuario_Model->findById($current['INV_ULTIMO_USUARIO']);
+    	  	$current['INV_ULTIMO_USUARIO'] = $ultimousuarioobj->get("USU_NOMBRES")." ".$ultimousuarioobj->get("USU_APELLIDOS");
     	  }
     	  	
           $forasig .= '<tr>
@@ -37,7 +43,7 @@ class Pdf extends TCPDF
 						        <td colspan="1" style="text-align: center; color:red"><strong>'.$ultimasolicitud.'</strong></td>
 						      </tr>
 						      <tr>
-						        <td  colspan="2"><strong>'.$cargo.'</strong></td>
+						        <td  colspan="2"><strong>'.$cargo.'/ RUT: </strong>'.$rutsolicitante.'</td>
 						        <td  colspan="2" border="1" style="text-align: center;">'.$usunombreapellido.' </td>
 						        <td  colspan="1"><strong>FECHA:</strong></td>
 						        <td  colspan="1" border="1" style="text-align: center;" >'.date("d-m-Y").'</td>
@@ -47,14 +53,12 @@ class Pdf extends TCPDF
 						        <td colspan="4" border="1" style="text-align: center;">'.$asignaturanombre.'</td>
 						      </tr>
 						      <tr>
-						        <td colspan="6"><strong>FECHA Y HORA EN QUE SE REALIZA LA CLASE:</strong></td>
+						        <td colspan="6"><strong>FECHA Y HORA EN QUE SE SOLICITO Y PARA CUANDO</strong></td>
 						      </tr>
 						      <tr>
-						        <td colspan="1"><strong>FECHA:</strong></td>
-						        <td colspan="1">'.date("d-m-Y H:i:s").'</td>
-						        <td colspan="1"><strong>INICIO:</strong></td>
+						        <td colspan="2"><strong>INICIO:</strong></td>
 						        <td colspan="1">'.$fechainicio.'</td>
-						        <td colspan="1"><strong>TERMINO:</strong></td>
+						        <td colspan="2"><strong>TERMINO:</strong></td>
 						        <td colspan="1">'.$fechatermino.'</td>
 						      </tr>
 						      <tr>

@@ -41,11 +41,27 @@ public function insert($imagen=null){
 $this->db->insert('productos',$this->_columns);
 }
 
-public function update($id, $data,$img) {
-  $data['PROD_IMAGEN']=$img;
+public function update($id, $data) {
   $producto = $this->db->get_where('productos',array('PROD_ID'=>$id));
   if($producto->num_rows() > 0){
     $this->db->where('PROD_ID', $id);
+    if($data['PROD_ESTADO']==0){
+      $query = " UPDATE inventario SET 
+      INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_PROD_ESTADO '=".$data['PROD_ESTADO']."',
+      INV_IMAGEN=".$data['PROD_IMAGEN'].",
+      INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
+      INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
+      WHERE INV_PROD_ID=".$id;
+    }else{
+      $query = " UPDATE inventario SET 
+      INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_IMAGEN='".$data['PROD_IMAGEN']."',
+      INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
+      INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
+      WHERE `INV_PROD_ID` =".$id;
+    }
+    $this->db->query($query);
     return $this->db->update('productos', $data);
     }else{
   $data['PROD_ID'] = $id;
@@ -99,6 +115,7 @@ public function contar($like = null,$categoria = null,$tipo = null) {
    }
 
 public function fetch_productos($limit, $start,$like = null,$categoria = null,$tipo = null) {
+        $this->db->where('PROD_ESTADO',1);
         if ($categoria!= null) $this->db->where('PROD_CAT_ID',$categoria);
         if ($tipo!= null) $this->db->where('PROD_TIPOPROD_ID',$tipo);
         if ($like!= null) $this->db->like('PROD_NOMBRE', $like);
@@ -125,14 +142,35 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
 }
 
 public function findByTipProd($id){
-   $result=array();
-   $bit = null;
-   $this->db->where('PROD_TIPOPROD_ID',$id);
-      $consulta = $this->db->get('productos');
-    foreach ($consulta->result() as $row) {
-      $result[] = $this->create($row);
-    }
+    $result=array();
+    $bit = null;
+    $this->db->where('PROD_TIPOPROD_ID',$id);
+    $consulta = $this->db->get('productos');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
       return $result;
 }
+
+public function findByTipProdYEstado($tipo=null,$estado=null){
+    $result=array();
+    $bit = null;
+    $this->db->where('PROD_TIPOPROD_ID',$tipo);
+    $this->db->where('PROD_ESTADO',$estado);
+    $consulta = $this->db->get('productos');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
+}
+
+public function productoStockCritico($id=null){
+  $result;
+    $querry = $this->db->query('SELECT productos.PROD_STOCK_CRITICO from productos WHERE productos.PROD_ID ='.$id);
+    foreach ($querry->result_array() as $data) {
+      $result = $data['PROD_STOCK_CRITICO'];
+    }
+    return $result;
+  }
 
 }

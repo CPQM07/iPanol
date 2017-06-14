@@ -48,6 +48,7 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('gestion/baja')?>"><i class="fa fa-arrow-down"></i>Dar baja</a></li>
             <li><a href="<?=site_url('gestion/recepcion')?>"><i class="fa fa-sign-in"></i>Recepcionar</a></li>
             <li><a href="<?=site_url('gestion/codigos')?>"><i class="fa fa-barcode"></i>Códigos de barra</a></li>
+            <li><a href="<?=site_url('gestion/Solicitudes')?>"><i class="fa fa-gavel"></i>Modificar Estados</a></li>
           </ul>
         </li>
 
@@ -67,7 +68,7 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-file-text"></i></i>Asignatura</a></li>
             <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-tasks"></i></i>Motivos</a></li>
             <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-address-card"></i></i>Proveedores</a></li>
-            <li><a href="<?=site_url('mantencion/inventario')?>"><i class="fa fa-server"></i></i>Inventario</a></li>
+            <!-- <li><a href="<?=site_url('mantencion/inventario')?>"><i class="fa fa-server"></i></i>Inventario</a></li> -->
 
           </ul>
         </li>
@@ -125,6 +126,13 @@ $lasturl = array_pop($spliturl);
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Baja'];?>
+          </div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['Update'])): ?>
+          <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
+              <?= $_SESSION['Update'];?>
           </div>
         <?php endif; ?>
       </div>

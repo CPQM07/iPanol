@@ -57,6 +57,18 @@ public function update($id, $data) {
   return $this->db->insert('inventario',$data);
   }
 }
+/* METODO MALOOOOO ¡NO TOCAR!
+public function update($id, $data,$img) {
+  $data['INV_IMAGEN']=$img;
+  $producto = $this->db->get_where('inventario',array('INV_ID'=>$id));
+  if($producto->num_rows() > 0){
+    $this->db->where('INV_ID', $id);
+    return $this->db->update('inventario', $data);
+    }else{
+  $data['INV_ID'] = $id;
+  return $this->db->insert('inventario',$data);
+  }
+}*/
 
 public function delete($id){
   $this->db->where('INV_ID',$id);
@@ -145,6 +157,60 @@ public function findAll(){
       $result[] = $this->create($row);
     }
     return $result;
+  }
+
+  public function findByTipProdYEstado($tipo=null,$estado=null){
+    $result=array();
+    $bit = null;
+    $this->db->where('INV_TIPO_ID',$tipo);
+    $this->db->where('INV_PROD_ESTADO',$estado);
+    $consulta = $this->db->get('inventario');
+      foreach ($consulta->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      return $result;
+}
+
+    public function contarInventarioCritico($idTipo = null,$idCatego = null){//1->activo | 2->fungible
+      /*$this->load->database();
+      $id=1;
+      $idCatego=5;
+      $this->db->where('INV_TIPO_ID', $idTipo);
+      $this->db->where('INV_CATEGORIA_ID', $idCatego);
+      $res = $this->db->get('inventario');
+      $result = array();
+      foreach ($res->result() as $row) {
+        $result[] = $this->create($row);
+      }
+      $cantidad count($result);
+      $critico = $this->db->select('PROD_STOCK_CRITICO');
+      $this->db->where('Field / comparison', $cantidad);*/
+    }
+
+    public function selectCantidadStockById($id = null){
+      $this->db->select('INV_PROD_CANTIDAD');
+      $this->db->where('INV_ID', $id);
+      $query = $this->db->get('inventario');
+      foreach ($query as $key => $value) {
+        $cosa = $value['INV_PROD_CANTIDAD'];
+      }
+      return $cosa;
+    }
+
+    public function returnAllIdInventario(){
+      $result = array();
+      $querry = $this->db->query('SELECT inventario.INV_PROD_ID from inventario where inventario.INV_PROD_ESTADO =1');
+      foreach ($querry->result_array() as $data) {
+        $result[] = $data['INV_PROD_ID'];
+      }
+      return $result;
+    }
+
+    public function count2(){ /*contador productosBaja*/
+    $cont1 = $this->db->from('inventario');
+    $this->db->where('INV_PROD_ESTADO',0);
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
   }
 
 

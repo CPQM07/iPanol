@@ -75,7 +75,49 @@
       <!-- Main row -->
       <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-3">
+          <!-- Info Boxes Style 2 -->
+          <div id="acti" class="info-box bg-red">
+            <span  class="info-box-icon">
+              <i class="icon ion-hammer"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Stock crítico</span>
+              <span id="activCant" class="info-box-number">0</span><!-- esteeee -->
+
+              <div class="progress">
+                <div id="percentActiv" class="progress-bar"></div>
+              </div>
+                  <span class="progress-description">
+                    Productos activos
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          <div id="fungi" class="info-box bg-red">
+            <span class="info-box-icon"><i class="ion ion-pin"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Stock crítico</span>
+              <span id="fungiCant" class="info-box-number">0</span>
+
+              <div class="progress">
+                <div id="percentFungi" class="progress-bar"></div>
+              </div>
+                  <span class="progress-description">
+                    Productos fungibles
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+          
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-9">
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Cantidad productos fuera del pañol por dia</h3>
@@ -84,14 +126,14 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <div class="col-md-11">
+                <div class="col-md-10">
                   <div class="chart">
                     <!-- Sales Chart Canvas -->
                     <canvas id="chart-area4" width="600" height="200"></canvas>
                   </div>
                   <!-- /.chart-responsive -->
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                   <p class="text-center">
                     <strong>Productos</strong>
                   </p>
@@ -112,6 +154,8 @@
                   </div>
                   <!-- /.progress-group -->
                 </div>
+
+
                 <!-- /.col -->
                 <!-- /.col -->
               </div>
@@ -122,7 +166,6 @@
           </div>
           <!-- /.box -->
         </div>
-        <!-- /.col -->
         <button id="actHoy" value="<?= $activosHoy; ?>" class="hidden"></button>
         <button id="actAyer" value="<?= $activosAyer; ?>" class="hidden"></button>
         <button id="actAyer2" value="<?= $activosAyer2; ?>" class="hidden"></button>
@@ -138,6 +181,9 @@
         <button id="funAyer4" value="<?= $fungiblesAyer4; ?>" class="hidden"></button>
         <button id="funAyer5" value="<?= $fungiblesAyer5; ?>" class="hidden"></button>
         <button id="funAyer6" value="<?= $fungiblesAyer6; ?>" class="hidden"></button>
+        
+
+
       </div>
       <!-- /.row (main row) -->
     <!-- /.content -->
@@ -213,8 +259,68 @@
       ]
 
     }
-  var ctx4 = document.getElementById("chart-area4").getContext("2d");
-  window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+    var ctx4 = document.getElementById("chart-area4").getContext("2d");
+    window.myPie = new Chart(ctx4).Line(lineChartData, {responsive:true});
+
+    /*------------------------------------------------------------------------*/ 
     });
+
+
+
+    $( "#acti" ).click(function() {
+      var acti=1;
+      $.ajax(
+      {
+        method:"POST",
+        url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
+        datatype:'json',
+        data: {"acti": acti},
+        success: function(response){
+          tooltip0 = new PNotify({
+            title: "Activos",
+            text: response.msjActivo,/*$('#form_notice').html()*/
+            animate_speed: "fast",
+            icon: "fa fa-wrench"
+          });
+          $("#percentActiv").width( response.cantida ).addClass( "mod" );
+          $("#activCant").text(response.cantida);
+          tooltip0.open();
+        }
+      });
+      $( "#acti" ).mouseout(function() {
+        tooltip0.remove();
+      });
+    });
+
+
+
+    $( "#fungi" ).click(function() {
+      var fungi=2;
+      $.ajax(
+      {
+        method:"POST",
+        url: "<?=site_url('/Dashboard/msjCriticoFungible')?>",
+        datatype:'json',
+        data: {"fungi": fungi},
+        success: function(response){
+          tooltip1 = new PNotify({
+            title: "Fungibles",
+            text: response.msjFungible,
+            animate_speed: "fast",
+            icon: "fa fa-thumb-tack"
+          });
+          $("#percentFungi").width( response.cantida ).addClass( "mod" );
+          $("#fungiCant").text(response.cantida);
+          tooltip1.open();
+        }
+      });          
+      $( "#fungi" ).mouseout(function() {
+        tooltip1.remove();
+      });
+    });
+
+
+
+
   </script>
   <?php } ?>

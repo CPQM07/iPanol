@@ -27,7 +27,8 @@
                 <tr>
                   <th>ID</th>
                   <th>NOMBRE</th>
-                  <th>Acciones</th>
+                  <th>ESTADO</th>
+                  <th>EDITAR</th>
               </tr>
               </thead>
               <tbody>
@@ -44,6 +45,7 @@
                         <a href="<?= site_url('/Mantencion/CambiarEstadoAsig/2/');?><?=$value->get('ASIGNATURA_ID');?>" class="btn btn-info btn-block"><i class="fa fa-check"></i></a>
                       </td>
                     <?php endif; ?>
+                    <td><button id="<?= $value->get('ASIGNATURA_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -128,52 +130,67 @@
 
   <!--modalAsignatura-->
   <!--modalAsignaturaNUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-tittle">Editar Asignatura</h4>
-            <div class="modal-body">
-              <div class="box">
-                <div class="row">
-                  <form class="form-horizontal">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre</label>
+  <div class="modal fade bs-example-modal-lg" id="myEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-tittle">Editar Categoría</h4>
+          <div class="modal-body">
+            <div class="box">
+              <div class="row">
+                <form class="form-horizontal" action="<?=site_url('Mantencion/EditAsig')?>" method="post" accept-charset="utf-8">
+                 <input id="id" name="id" type="number" style="width: 14px;height: 11px; visibility: hidden;">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Nombre</label>
 
-                        <div class="col-md-9">
-                          <input type="text" class="col-md-12">
-                        </div>
+                      <div class="col-md-9">
+                        <input id="nombre"  name="asig[ASIGNATURA_NOMBRE]" type="text" class="col-md-12">
                       </div>
-
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">Estado</label>
-
-                        <div class="col-md-9">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
-                            <option>Activo</option>
-                            <option>Inactivo</option>
-                          </select>
-                        </div>
-                      </div>
-
-
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
-                  </div>
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
-                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                 </div>
-              <!-- /.box-footer -->
-            </form>
-            </div>
+                <div class="col-sm-6">
+                  <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                </div>
+              </div>
+            <!-- /.box-footer -->
+          </form>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+    <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+
+      $('.editar').click(function(){
+          limpiar();
+          var id=$(this).attr("id");
+          $.ajax({
+            type:"POST",
+            dataType:"json",
+            data: {"id": id},
+            url:"<?=site_url('/Mantencion/findByIdAsig')?>",
+            success: function(data){
+              $("#id").val(data.ASIGNATURA_ID);
+              $("#nombre").val(data.ASIGNATURA_NOMBRE);
+              console.log(data);
+            }
+          });
+        });
+    });
+
+    function limpiar(){
+        $("#id").val("");
+        $("#nombre").val("");
+      }
+    </script>
+    <?php } ?>

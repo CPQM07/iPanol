@@ -14,7 +14,7 @@
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Todos los códigos de barra por nombre</h3>
+                <h3 class="box-title">Códigos de barra de productos activos por nombre</h3>
             </div>
             <div class="box-body">
               <table id="example1" class="table table-bordered hover">
@@ -26,12 +26,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($productos as $key => $value): ?>
+                <?php foreach ($productosActivos as $key => $value): ?>
                   <tr>
                     <td class="success"><?= $value['PROD_NOMBRE']; ?></td>
                     <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
                     <td>
-                      <button id="" name="<?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+                      <button id="" name="<?= $value['PROD_ID']; ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
                         <i class="fa fa-barcode"></i>
                       </button>
                     </td>
@@ -42,58 +42,53 @@
             </div>
           </div>
       <!-- /.box -->
+          
 
           <!-- /.box -->
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Códigos de barra en detalle</h3>
-
+              <h3 class="box-title">Códigos de barra en detalle | Fungibles</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <div class="col-md-6">
-                  <label>Tipo de producto</label>
-                  <form name="formulario" id="formulario" method="POST">
-                    <input type="radio" name="tipo" id="tipo1" value="1"> Activo
-                    <input type="radio" name="tipo" id="tipo2" value="2"> Fungible
-                  </form>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Producto</label>
-                    <select class="form-control productos" style="width: 100%;">
-                      <option>Seleccione un tipo de producto</option>
-                    </select>
+                <div class="col-md-12">
+                    <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
+                    </table>
+                  <div class="col-md-12">
+                    <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
+                    Descargar códigos de barra de productos Fungibles seleccionados</button>
                   </div>
-                </div>
-<!-- <div class="form-group">
-  <td style="text-align: center;">
-    <label>
-      <input id="show" type="checkbox" data-toggle="toggle" data-on="<i class='fa fa-check'></i>" data-off="<i class='fa fa-close'></i>" data-onstyle="danger">
-    </label>
-  </td>
-</div> -->
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <div class="col-md-12">
-                  <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
-                  </table>
-                <div class="col-md-12">
-                  <button id="enviar" value="ola" class="btn btn-danger btn-block">Descargar códigos de barra seleccionados</button>
                 </div>
               </div>
             </div>
-          </div>
             <!-- ./box-body -->
-
           </div>
           <!-- /.box -->
 
-        </div>
-        <!-- /.col -->
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Códigos de barra en detalle | Activos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                    <table id="dinamicajax1" class="table table-responsive table-bordered table-hover">
+                    </table>
+                  <div class="col-md-12">
+                    <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
+                    Descargar códigos de barra de productos Activos seleccionados</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ./box-body -->
+          </div>
+          <!-- /.box -->
+
       </div>
+    </div>
       <!-- /.row (main row) -->
     <!-- /.content -->
   </div>
@@ -138,7 +133,7 @@
                     method:"POST",
                     url: "<?=site_url('/gestion/generarPDFGeneral')?>",
                     datatype:'json',
-                    data: {"idBarcode": nombreProd,"nombreCat": nomCat},
+                    data: {"idBarcode": nombreProd},
                     success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
@@ -150,12 +145,26 @@
             }
           });
       });
-    });
 
-    var data=0;
-    var tabla;
-    var asignaciones = new Array();
-        tabla = $('#dinamicajax').DataTable({
+    function eliminarPDF(path){
+      setTimeout(myFunction, 3000);
+      $.ajax(
+        {
+          method:"POST",
+          url: "<?=site_url('/gestion/eliminarPDF')?>",
+          datatype:'json',
+          data: {"path": path},
+          success: function(response){
+          }
+        });
+      }
+
+
+
+      /*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
+/*    var data = $('.productos').select2('data')[0]['id'];
+*/    
+    var tabla0 = $('#dinamicajax').DataTable({
           lengthMenu: [5,10, 20, 50, 100],
           "pagingType": "simple",
           "responsive": true,
@@ -168,13 +177,48 @@
           "ordering": true,
           "info": true,
           "ajax": {
-              "url": "<?=site_url('/gestion/traerInventarioByIdTipo')?>",
+              "url": "<?=site_url('/gestion/traerInventarioByIdTipoYCategoria')?>",
               "type": "POST",
               "beforeSend": function () {
                       $('#carga_modal').modal('show');
                   },
               "data": function (argument) {
-                return {'idTipo': data };
+                return {'idTipo': 2 };
+              },
+              "dataSrc": function ( json ) {
+                $('#carga_modal').modal('hide');
+                  return json;
+              }
+          },
+          "language": {"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+          },
+          "columns": [
+              { title: "Seleccionar",className: "text-center" },
+              { title: "ID",className: "text-center" },
+              { title: "Nombre",className: " text-center"},
+              { title: "Descargar código de barra unitario",className: "text-center"}]
+            });
+
+        var tabla1 = $('#dinamicajax1').DataTable({
+          lengthMenu: [5,10, 20, 50, 100],
+          "pagingType": "simple",
+          "responsive": true,
+          "paging": true,
+          "cache": false,
+          "processing": true,
+          "lengthChange": true,
+          "deferRender": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "ajax": {
+              "url": "<?=site_url('/gestion/traerInventarioByIdTipoYCategoria')?>",
+              "type": "POST",
+              "beforeSend": function () {
+                      $('#carga_modal').modal('show');
+                  },
+              "data": function (argument) {
+                return {'idTipo': 1 };
               },
               "dataSrc": function ( json ) {
                 $('#carga_modal').modal('hide');
@@ -191,42 +235,40 @@
             });
 
 
-      $("input[name=tipo]").change(function () {/*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
-          $('.productos').select2().on("change", function(e) {
-          data = $('.productos').select2('data')[0]['id'];
-          if (data != 0) {
-            $('#dinamicajax').DataTable().ajax.reload();
-          }
-        });
 
 
-        var idTipo = $(this).val();
-        $('.productos').select2({
+    });
+
+
+
+        /*$('.productos').select2({
           maximumInputLength: 20,
           ajax: {
-                url: "<?=site_url('/gestion/traerProductosByIdTipo')?>",
-                dataType: 'json',
-                method: "POST",
-                data: function (params) {
-                        var query = {
-                          idTipo: idTipo,
-                        }
-                        return query;
-                      },
-                processResults: function (data, params) {
-                return {
-                  results: $.map(data, function (item) {
-                      return {
-                          text: item.nombre,
-                          id: item.id
-                          }
-                        }),
-                      };
+              url: "<?=site_url('/gestion/traerProductosByIdTipo')?>",
+              dataType: 'json',
+              method: "POST",
+              data: function (params) {
+                      var query = {
+                        idTipo: 2 ,
+                      }
+                      return query;
                     },
-              cache: true
-              }, 
-            });
-      });
+              processResults: function (data, params) {
+              return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.nombre,
+                        id: item.id
+                        }
+                      }),
+                    };
+                  },
+            cache: true
+            }, 
+          });*/
+
+
+
 
 
         $(document).on("click",".xd",function function_name(argument) {/*GENERA PDF UNITARIO*/
@@ -261,7 +303,7 @@
 
         function deMenorAMayor(elem1, elem2) {return elem1-elem2;}
 
-        $('#enviar').click(function(){
+        $('.enviar').click(function(){
 
           if (selected.length != 0 && selected.length > 1){
 
@@ -275,6 +317,7 @@
                   success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
+                      arr.length=0;
                       location.reload();
                     }
               });
