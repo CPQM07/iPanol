@@ -68,7 +68,7 @@ $lasturl = array_pop($spliturl);
             <li><a href="<?=site_url('mantencion/asignaturas')?>"><i class="fa fa-file-text"></i></i>Asignatura</a></li>
             <li><a href="<?=site_url('mantencion/motivos')?>"><i class="fa fa-tasks"></i></i>Motivos</a></li>
             <li><a href="<?=site_url('mantencion/proveedores')?>"><i class="fa fa-address-card"></i></i>Proveedores</a></li>
-            <li><a href="<?=site_url('mantencion/inventario')?>"><i class="fa fa-server"></i></i>Inventario</a></li>
+            <!-- <li><a href="<?=site_url('mantencion/inventario')?>"><i class="fa fa-server"></i></i>Inventario</a></li> -->
 
           </ul>
         </li>

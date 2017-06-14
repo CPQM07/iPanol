@@ -254,16 +254,18 @@ class Mantencion extends CI_Controller {
 	public function edit_producto(){
 		if(isset($_POST['producto'])){
 			$id=$_POST['id_pro'];
+			$producto=$_POST['producto'];
 			if(isset($_FILES['files'])){
 				$data = $_FILES['files'];
 				//htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name'])
 				 $archivo = $this->copiarimg->__construct(htmlspecialchars($data['name']),htmlspecialchars($data['size']),htmlspecialchars($data['type']),htmlspecialchars($data['tmp_name']));
 				 /*if ($this->copiarimg->validate()) {*/
-				 $nameimg = $this->copiarimg->upload();
+				 /*$nameimg*/
+				 $producto['PROD_IMAGEN'] = $this->copiarimg->upload();
 				 /*}*/
 				 if($data['size']>90112){
 					$config['image_library'] = 'gd2';
-					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$nameimg;
+					$config['source_image'] = FCPATH.'resources/images/Imagenes_Server/'.$producto['PROD_IMAGEN'] ;
 					$config['create_thumb'] = FALSE;
 					$config['maintain_ratio'] = TRUE;
 					$config['width']         = 800;
@@ -272,11 +274,11 @@ class Mantencion extends CI_Controller {
 					$this->image_lib->resize();
 				}
 			}
-			if($nameimg==null){
-				$producto = $this->productos->findById($id);
-				$nameimg= $producto->get('PROD_IMAGEN');
+			if($producto['PROD_IMAGEN']==null){
+				$product = $this->productos->findById($id);
+				$producto['PROD_IMAGEN'] = $product->get('PROD_IMAGEN');
 			}
-			$nuevopro=$this->productos->update($id,$_POST['producto'],$nameimg);
+			$nuevopro=$this->productos->update($id,$producto);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
