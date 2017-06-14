@@ -105,25 +105,30 @@ class Pdf extends TCPDF
 	 return $htmlpdf;
     
 }
-    public function reporteActual($arrA){
+    public function reporteActual(){
+
     	/*$variable='';
     	foreach ($ar as $key => $value) {
     	$variable .="<p>".$value['PROD_NOMBRE']."</p><p>".$value['TIPO_NOMBRE']."</p>";
-
+		   		 
    		 }
    		 return $variable;*/
+   		 
    		 $forasig='';
-   		 foreach ($arrA as $key => $value) {
-   		 	
+   		 foreach ($buscar as $key => $value): {
+
    		  $forasig .= '<tr>
                       <td colspan="1">'.$value['TIPO_NOMBRE'].'</td>
+                      <td colspan="1">'.$value['CAT_NOMBRE'].'</td>
                       <td colspan="1">'.$value['PROD_NOMBRE'].'</td>
                       <td colspan="1">'.$value['ING_FECHA'].'</td>
                       <td colspan="1">'.$value['PROD_STOCK_TOTAL'].'</td>
                       <td colspan="1">'.$value['PROV_NOMBRE'].'</td>
                       <td colspan="1">'.$value['PROD_POSICION'].'</td>
-                  </tr>';
+                  	  </tr>';
               }
+              endforeach; 
+
               
 		$htmlpdf = '<html>
 						<head>  
@@ -143,6 +148,7 @@ class Pdf extends TCPDF
 						        <table border="1" style="text-align: center;">
 						          <tr bgcolor="lightgray">
 						            <td colspan="1"><strong>Tipo de Producto</strong></td>
+						            <td colspan="1"><strong>Categoria</strong></td>
 						            <td colspan="1"><strong>Producto</strong></td>
 						            <td colspan="1"><strong>Fecha</strong></td>
 						            <td colspan="1"><strong>Stock</strong></td>

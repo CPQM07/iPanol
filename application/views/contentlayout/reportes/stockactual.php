@@ -16,8 +16,8 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select name="tipo" class="form-control select2" style="width: 100%;">
-              <option selected="">Tipo Productos</option>
+              <select id="tipo" name="tipo" class="form-control select2" style="width: 100%;">
+              <option value=0 selected="">Tipo Productos</option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
               <?php endforeach ?>
@@ -27,8 +27,8 @@
                <div class="col-md-4">
           <label>Categorias</label>
              <div class="form-group">
-                <select name="cat" class="form-control select2" style="width: 100%;">
-                   <option selected="">Tipo Categorias</option>
+                <select id="cat" name="cat" class="form-control select2" style="width: 100%;">
+                   <option value=0 selected="">Tipo Categorias</option>
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -40,44 +40,42 @@
         </div>
        <div class="col-md-4" class="pull-right">
                <label>Acción</label>
-               <input type="submit" name="" class="btn btn-block btn-danger" 
+               <input type="submit"  class="btn btn-block btn-danger" 
                 data-toggle="modal" data-target="#myModal" value="Filtro">
             </div>
          
        </div>
        </form>
       <div class="col-md-3">    
-                  <a href="<?= site_url('/Reportes/Pdfactual/');?>">
+               <form id="pdf" action="Pdfactual" method="post">
                   <td>
-                  <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i> Ver </button>
-                </td></a>                             
+                  <button name="verpdf" type="submit" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i> Ver </button>
+                </td>                         
                 </div>
                 </br>
                 </br>
+                </form>
       <thead>
       <div class="box-body">
         <div class="box-body">
             <table id="example2" class="table table-bordered table-hover">    
                 <tr>
-                  <th>Tipo de Producto</th>
+                  <th>Nombre Producto</th>
+                  <th>Tipo</th>
                   <th>Categoria</th>
-                  <th>Producto</th>
-                  <th>Fecha</th>
-                  <th>Stock</th>
-                  <th>Proveedor</th>
                   <th>Posicion</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <?php foreach ($buscar as $key => $value): ?>
+           
               <tbody>
               <tr>
+                <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['TIPO_NOMBRE']; ?></td>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
-                <td><?= $value['PROD_NOMBRE']; ?></td>
-                <td><?= $value['ING_FECHA']; ?></td>
-                <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
-                <td><?= $value['PROV_NOMBRE']; ?></td>
                 <td><?= $value['PROD_POSICION']; ?></td>
+                <td><?= @$value['Total']; ?></td>
               
               <?php endforeach; ?>
     
@@ -85,7 +83,22 @@
             </table>
           </div>
       </div>
+       
     </div>
   </section>
   <!-- /.content -->
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $('#pdf').submit(function(){
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#tipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#cat").val()+"'  >");
+      console.log($("#tipo").val());
+      console.log($("#cat").val());
+
+      //return false;
+    });
+  });
+
+</script>
