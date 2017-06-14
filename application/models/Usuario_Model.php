@@ -75,10 +75,10 @@ public function findById($id){
     if($consulta->num_rows() == 1){
       $result = $this->create($consulta->row());
     }
-    
+
     return $result;
 }
- 
+
 
   public function setColumns ($row = null){
     foreach ($row as $key => $value) {
@@ -86,16 +86,16 @@ public function findById($id){
       }
     }
 
-    public function getPermisos()
+    public function getCargo()
     {
-      $result = $this->db->get_where("permisos",array('PERMISO_USU_RUT  '=>$this->_columns['USU_RUT']));
-      $permisos = array();
+      $result = $this->db->get_where("cargo",array('CARGO_ID'=>$this->_columns['USU_CARGO_ID']));
+      $cargo = array();
       if($result->num_rows() > 0){
         foreach ($result->result()  as $key => $value) {
-          $permisos[] = $value->PERMISO_PERFIL_ID;
+          $cargo[] = $value->CARGO_ID;
         }
       }
-      return $permisos;
+      return $cargo;
     }
 
     public function findByArray($myarray = null){
@@ -136,4 +136,3 @@ public function findById($id){
       return $user;
     }
 }
-
