@@ -98,4 +98,212 @@ public function findById($id){
       $this->_columns[$key] = $value;
       }
     }
+
+  public function productoActivoHoy(){ /*CANTIDAD PRODUCTOS ACTIVOS HOY*/
+    date_default_timezone_set("Chile/Continental");
+    $inicio = date ("Y-m-d",time());
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-1 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer2(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-2 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer3(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-3 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer4(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-4 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer5(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-5 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoActivoAyer6(){ /*CANTIDAD PRODUCTOS ACTIVOS AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-6 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',1);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  /*-------------------------------------------------------------------------------------*/
+
+  public function productoFungiblesHoy(){ /*CANTIDAD PRODUCTOS FUNGIBLES HOY*/
+    date_default_timezone_set("Chile/Continental");
+    $inicio = date ("Y-m-d H:i:s",time());/*OPCION2*/
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-1 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer2(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-2 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer3(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-3 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer4(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-4 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer5(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-5 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
+
+  public function productoFungiblesAyer6(){ /*CANTIDAD PRODUCTOS FUNGIBLES AYER*/
+    date_default_timezone_set("Chile/Continental");
+    $fecha = date ("Y-m-d",time());
+    $inicio = strtotime('-6 day', strtotime($fecha));
+    $inicio = date('Y-m-d',$inicio);
+    $this->db->select('INV_TIPO_ID');
+    $this->db->from('asignacion');
+    $this->db->join('inventario', 'asignacion.ASIG_INV_ID = inventario.INV_ID');
+    $this->db->where('asignacion.ASIG_FECHA<',$inicio." "."23:59:59");
+    $this->db->where('asignacion.ASIG_FECHA>',$inicio." "."00:00:00");
+    $this->db->where('inventario.INV_TIPO_ID',2);
+    $result = $this->db->get();
+    return $result->num_rows();
+  }
 }

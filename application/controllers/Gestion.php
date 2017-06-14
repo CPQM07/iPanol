@@ -838,7 +838,6 @@ class Gestion extends CI_Controller {
     public function generarPDFGeneral(){
 
         $nomProd = $_POST["idBarcode"];
-        $nomCat = $_POST["nombreCat"];
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetTitle('Códigos de barra en general'); //Titlo del pdf

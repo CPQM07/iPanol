@@ -186,5 +186,31 @@ public function findAll(){
       $this->db->where('Field / comparison', $cantidad);*/
     }
 
+    public function selectCantidadStockById($id = null){
+      $this->db->select('INV_PROD_CANTIDAD');
+      $this->db->where('INV_ID', $id);
+      $query = $this->db->get('inventario');
+      foreach ($query as $key => $value) {
+        $cosa = $value['INV_PROD_CANTIDAD'];
+      }
+      return $cosa;
+    }
+
+    public function returnAllIdInventario(){
+      $result = array();
+      $querry = $this->db->query('SELECT inventario.INV_PROD_ID from inventario where inventario.INV_PROD_ESTADO =1');
+      foreach ($querry->result_array() as $data) {
+        $result[] = $data['INV_PROD_ID'];
+      }
+      return $result;
+    }
+
+    public function count2(){ /*contador productosBaja*/
+    $cont1 = $this->db->from('inventario');
+    $this->db->where('INV_PROD_ESTADO',0);
+    $obj1 = $cont1->count_all_results();
+    return $obj1;
+  }
+
 
 }

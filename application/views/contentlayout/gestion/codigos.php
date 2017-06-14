@@ -31,7 +31,7 @@
                     <td class="success"><?= $value['PROD_NOMBRE']; ?></td>
                     <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
                     <td>
-                      <button id="" name="<?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+                      <button id="" name="<?= $value['PROD_ID']; ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
                         <i class="fa fa-barcode"></i>
                       </button>
                     </td>
@@ -57,7 +57,7 @@
                     </table>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
-                    Descargar códigos de barra seleccionados</button>
+                    Descargar códigos de barra de productos Fungibles seleccionados</button>
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@
                     </table>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
-                    Descargar códigos de barra seleccionados</button>
+                    Descargar códigos de barra de productos Activos seleccionados</button>
                   </div>
                 </div>
               </div>
@@ -133,12 +133,11 @@
                     method:"POST",
                     url: "<?=site_url('/gestion/generarPDFGeneral')?>",
                     datatype:'json',
-                    data: {"idBarcode": nombreProd,"nombreCat": nomCat},
+                    data: {"idBarcode": nombreProd},
                     success: function(response){
                       var win = window.open('', '_blank');
                       win.location.href = response.path;
                       $('#carga_modal').modal('hide');
-                      eliminarPDF(response.path);
                       location.reload();
                     }
                   });
