@@ -21,9 +21,9 @@
                     <th>#</th>
                     <th class="col-md-2">Estado</th>
                     <th>Solicitante</th>
-                    <th>Feca inicio</th>
+                    <th>Rut</th>
+                    <th>Fecha pedido</th>
                     <th>Fecha entrega</th>
-                    <th>Observación</th>
                     <th>Detalle</th>
                   </tr>
                 </thead>
@@ -44,12 +44,13 @@
                       </div>
                     <?php endif ?>
                     </td>
-                    <td><?= $value->get("SOL_USU_RUT")  ?></td>
+                    <td><?= $value->get("USU_NOMBRES")." ".$value->get("USU_APELLIDOS")." (".$value->get("CARGO_NOMBRE").")" ?></td>
+                    <td><?= $value->get("USU_RUT")."-".$value->get("USU_DV")  ?></td>
                     <td><?= $value->get("SOL_FECHA_INICIO")  ?></td>
                     <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
-                    <td><?= $value->get("SOL_OBSERVACION")  ?></td>
                     <td class="text-center">
                       <a iddetalle="<?= $value->get("SOL_ID")  ?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
+                      <a title="Rechazar solicitud" idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
                     </td>
                   </tr>
                 <?php endforeach ?>
@@ -151,6 +152,12 @@
 
     <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
     <script type="text/javascript" charset="utf-8">
+     $(".rechazarsolicitud").tooltip({
+      show: {
+        effect: "slideDown",
+        delay: 250
+      }
+    });
 
     $(function() {
       $(".datatabledigital").dataTable({

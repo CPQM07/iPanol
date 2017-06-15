@@ -42,7 +42,7 @@
                     <div class="form-group">
                       <label>Producto</label>
                         <div class="input-group">
-                          <select name="producto" class="form-control select2">
+                          <select required name="producto" class="form-control select2">
                             <option></option>
                             <?php foreach ($productos as $key => $value): ?>
                               <?php if ($value->get("PROD_ESTADO") != 0): ?>

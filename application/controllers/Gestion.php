@@ -50,7 +50,7 @@ class Gestion extends CI_Controller {
   public function entregadigital()
   {
      $data["solicitudes"] = $this->soli->findByArrayIN(array(7,1));//busco las solicitudes enviadas por el catalogo y las parcialmente entregadas 1 y 7
-     $this->layouthelper->LoadView("gestion/entregadigital" , $data );
+     $this->layouthelper->LoadView("gestion/entregadigital",$data);
   }
 
   public function get_detalle_solicitud(){

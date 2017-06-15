@@ -20,8 +20,8 @@
 	                </button>
 	                <h4 class="modal-title" >Cargando.....</h4>
 	            </div>
-	            <div class="modal-body text-center">
-	               <img class="img-responsive" src="<?= base_url("/resources/images/loading.gif")?>"></img>
+	            <div class="modal-body">
+	               <img class="img-responsive img-circle" style="margin-left: 80px;" src="<?= base_url("/resources/images/loading.gif")?>"></img>
 	            </div>
 	        </div>
 	    </div>
