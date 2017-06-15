@@ -1,4 +1,5 @@
 <?php include_once('header.php') ?>
+
     <form action="<?=site_url('Catalogo/insert_solicitud_from_catalogo')?>" method="POST" accept-charset="utf-8">
 	<section id="cart_items">
 		<div class="container">

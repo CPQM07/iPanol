@@ -253,7 +253,7 @@ class Catalogo extends CI_Controller {
 	      $detallesol->insert();
 	    }
 	    $data["detalle"] = $_SESSION['productos'];
-	    $data["ultimaIngresado"] = $ultimoIngresado;
+	    $data["ultimoID"] = $ultimoIngresado;
 	    $this->load->view('Catalogo/confirmacion', $data, FALSE);
 	    
 	  	//redirect('Catalogo/carrito','refresh');

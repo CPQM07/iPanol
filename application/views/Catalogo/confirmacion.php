@@ -59,33 +59,38 @@
 				</div>
 			</div>
 		</div><!--/header-middle-->
-	
-		<div class="header-bottom"><!--header-bottom-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						
-						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="<?= site_url('/Catalogo/') ?>">Inicio</a></li>
-								<li><a href="<?= site_url('/Catalogo/contactanos') ?>">Contáctanos</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-3 pull-right">
-							<input type="text" id="query" name="query" />
-							<input type="button" id="buscar" value="Buscar...">						
-					</div>
-				</div>
-				</div>
-			</div>
 	</header>
 
 
 
-   <h2> <?= $ultimaIngresado ?> </h2>
+   <h2>N° de su pedido: <?= $ultimoID ?> </h2>
+   <hr>
+   <h3>Detalle de su solicitud</h3>
 
-   <h3><button class="btn btn-danger" style="color: white;"><a href="<?= site_url('/Catalogo/') ?>">Volver al inicio</button></a></h3>
+   <table class="table table-striped">
+				<thead style="background: #FF1010; color: white;">
+					<tr style="font-size: 15px">
+						<th>ARTICULOS PEDIDOS</th>
+						<th></th>
+						<th>CANTIDAD</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if (isset($_SESSION["productos"])): ?>
+					<?php foreach ($detalle as $key => $value): ?>
+					<tr style="font-size: 17px">
+						<td> <?= $value["nombre"]  ?></td>
+						<td></td>
+						<td><?= $value["cantidad"] ?></td>
+						<td></td>
+					</tr>
+					<?php endforeach ?>
+				<?php endif ?>
+				</tbody>
+			</table>
+
+   <button class="btn btn-danger"><a href="<?= site_url('/Catalogo/') ?>">Volver al inicio</button></a>
 
 
 
