@@ -16,11 +16,21 @@ parent::__construct();
 function get($attr){
 	return $this->_columns[$attr];
 }
+	public function tipo(){
+		$this->db->select ('*');
+		$this->db->from('tipoprod');
+		$consulta = $this->db->get();
+		$result = null;
+		foreach ($consulta->result_array() as $row) {
+			$result[]= $row;
+		}
+		return $result;
+	}
 // METODO BUSCAR LOS PRODUCTOS CON FILTRO DE TIPO
 	public function findAllProductosActivos($tipo, $cat){
 		$result = array();
 		//$this->db->like('TIPO_ID', $tipo);
-		$this->db->select ("TIPO_ID, CAT_ID, TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, PROD_POSICION,
+		$this->db->select ("TIPO_ID, CAT_ID, INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, PROD_POSICION,INV_PROD_CANTIDAD,
 							count(inventario.INV_PROD_CANTIDAD) as Total");
 		$this->db->from("inventario");
 		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = inventario.INV_TIPO_ID');
@@ -49,9 +59,10 @@ function get($attr){
 			$result =array(array( 
 "TIPO_ID"=>"0",
 "CAT_ID"=>"0",
-"TIPO_NOMBRE"=>"SIN DATOS",
-"CAT_NOMBRE"=>"0", 
-"INV_PROD_NOM"=>"0", 
+"INV_PROD_CODIGO"=>"0",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_NOMBRE"=>"SIN REGISTRO", 
+"INV_PROD_NOM"=>"SIN REGISTRO", 
 "PROD_POSICION"=>"0",
 "Total"=>"0"));
 		}
@@ -60,8 +71,8 @@ function get($attr){
 	public function findAllProductosFungibles($tipo, $cat){
 		$result = array();
 		//$this->db->like('TIPO_ID', $tipo);
-		
-		$this->db->select ("TIPO_ID, CAT_ID, TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, PROD_POSICION");
+		$this->db->select ("TIPO_ID, CAT_ID, INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, 
+			INV_PROD_CANTIDAD, PROD_POSICION");
 		$this->db->from("inventario");
 		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = inventario.INV_TIPO_ID');
 		$this->db->join('categoria','categoria.CAT_ID = inventario.INV_CATEGORIA_ID');
@@ -88,23 +99,68 @@ function get($attr){
 			$result =array(array( 
 "TIPO_ID"=>"0",
 "CAT_ID"=>"0",
-"TIPO_NOMBRE"=>"SIN DATOS",
-"CAT_NOMBRE"=>"0", 
-"INV_PROD_NOM"=>"0",
+"INV_PROD_CODIGO"=>"0",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_NOMBRE"=>"SIN REGISTRO", 
+"INV_PROD_NOM"=>"SIN REGISTRO",
+"INV_PROD_CANTIDAD"=>"0",
 "PROD_POSICION"=>"0"));
 		}
     return $result;
 }
 //METODO BUSCAR LOS PODRUCTOS CRITICOS CON FILTRO DE TIPO
-public function findAllCriticos($tipo, $cat){
+public function findAllCriticosActivos($tipo, $cat){
 	$result = array();
 	//$this->db->like('TIPO_ID', $tipo);
-	$this->db->select('TIPO_ID, TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,PROD_NOMBRE,INV_PROD_CANTIDAD,PROD_STOCK_OPTIMO,PROD_PRIORIDAD');
-	$this->db->from('productos');
+	$this->db->select('TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,INV_PROD_CODIGO,INV_PROD_NOMBRE,
+						PROD_STOCK_OPTIMO,PROD_STOCK_CRITICO,INV_PROD_ID, PROD_PRIORIDAD, 
+						count(*) as Cantidad');
+	$this->db->from('inventario');
 	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
 	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
 	$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
-	$this->db->where('inventario.INV_PROD_CANTIDAD < productos.PROD_STOCK_OPTIMO');
+	$this->db->where('INV_PROD_ESTADO = 1 and tipoprod.TIPO_ID =1' );
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
+	$this->db->group_by('productos.PROD_ID');
+	$this->db->query('having Cantidad <= productos.PROD_STOCK_CRITICO');
+	$consulta = $this->db->get();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+
+		if(is_null($result))
+		{
+			$result =array(array( 
+"TIPO_ID"=>"0",
+"INV_PROD_CODIGO"=>"0", 
+"INV_PROD_NOMBRE"=>"SIN REGISTRO", 
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_ID"=>"0",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"PROD_STOCK_OPTIMO"=>"0",
+"PROD_STOCK_CRITICO"=>"0",
+"PROD_PRIORIDAD"=>"0",
+"Cantidad"=>"0"));
+		}
+    return $result;
+}
+public function findAllCriticosFungibles($tipo, $cat){
+	$result = array();
+	//$this->db->like('TIPO_ID', $tipo);
+	$this->db->select('TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,INV_PROD_CODIGO,INV_PROD_NOMBRE,
+						PROD_STOCK_OPTIMO,PROD_STOCK_CRITICO,INV_PROD_ID, PROD_PRIORIDAD');
+	$this->db->from('inventario');
+	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
+	$this->db->join('categoria','categoria.CAT_ID = productos.PROD_CAT_ID');
+	$this->db->join('inventario','inventario.INV_PROD_ID = productos.PROD_ID');
+	$this->db->where('INV_PROD_ESTADO = 1 and tipoprod.TIPO_ID =2 and inventario.INV_PROD_CANTIDAD 
+						<= productos.PROD_STOCK_CRITICO' );
 	if ($cat!='0') {
 		$this->db->where('CAT_ID',$cat);
 	}
@@ -122,13 +178,15 @@ public function findAllCriticos($tipo, $cat){
 		{
 			$result =array(array( 
 "TIPO_ID"=>"0",
-"TIPO_NOMBRE"=>"SIN DATOS",
+"INV_PROD_CODIGO"=>"0",
+"INV_PROD_NOMBRE"=>"SIN REGISTRO",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
 "CAT_ID"=>"0",
-"CAT_NOMBRE"=>"0", 
-"PROD_NOMBRE"=>"0", 
-"PROD_STOCK_TOTAL"=>"0",
+"CAT_NOMBRE"=>"SIN REGISTRO", 
 "PROD_STOCK_OPTIMO"=>"0",
-"PROD_PRIORIDAD"=>"0"));
+"PROD_STOCK_CRITICO"=>"0",
+"PROD_PRIORIDAD"=>"0",
+"INV_PROD_CANTIDAD"=>"0"));
 		}
     return $result;
 }
@@ -168,17 +226,6 @@ public function vidautil(){
     }
     return $result;
 }
-	public function tipo(){
-		$this->db->select ('*');
-		$this->db->from('tipoprod');
-		$consulta = $this->db->get();
-		$result = null;
-		foreach ($consulta->result_array() as $row) {
-			$result[]= $row;
-		}
-		return $result;
-	}
-
 		}
 	
 

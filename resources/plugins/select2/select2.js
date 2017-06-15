@@ -946,7 +946,7 @@ S2.define('select2/results',[
     if (data._resultId != null) {
       option.id = data._resultId;
     }
-
+    
     if (data.title) {
       option.title = data.title;
     }

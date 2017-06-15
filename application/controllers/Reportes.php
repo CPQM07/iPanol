@@ -14,22 +14,26 @@ class Reportes extends CI_Controller {
   public function index(){
 
   }
-      public function Vistastockactual(){ 
+  public function Vistastockactual(){ 
       $datos['categoria'] = $this->categorias->findAll();
       $datos['tipo'] = $this->reporte->tipo();
-          if ($_POST) {
+      if ($this->input->post('filtro')) {
         $buscartipo = $this->input->post('tipo');
         $buscarcat = $this->input->post('cat');
-        $_SESSION['buscartipo'] = $buscartipo;
-        $_SESSION['buscarcat'] = $buscarcat;
-      }else {
-        $buscartipo = "";
-        $buscarcat = "";
+        
+        if ($buscartipo == 1) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscar'] = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
+        }
+        if ($buscartipo == 2) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscar'] = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);        }
+        
       }
-      $datos['buscar'] = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
-      $datos['buscar2'] = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);
-      $this->layouthelper->Loadview("reportes/stockactual",$datos,false); 
-      }
+        $this->layouthelper->Loadview("reportes/stockactual",$datos,false); 
+  }
       
       public function Pdfactual(){
       $this->load->library('Pdf');
@@ -49,9 +53,7 @@ class Reportes extends CI_Controller {
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-      $buscartipo = $this->input->post("tipo");
-      $buscarcat = $this->input->post("cat");
-      echo "lorea tipo: ".$buscartipo;
+      if ($buscartipo == 1) {      
       $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
         $html = '';
         $html .= "<style type=text/css>";
@@ -68,6 +70,7 @@ class Reportes extends CI_Controller {
                   </tr>";
                foreach ($TotalProductos as $value) 
         {
+        $codigo = $value['INV_PROD_CODIGO'];
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
@@ -87,7 +90,46 @@ class Reportes extends CI_Controller {
           $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
           //$tipos = utf8_decode("Tipo".$tipo.".pdf");
           $pdf->Output($categoria, 'I');
-        
+      }
+            if ($buscartipo == 2) {      
+      $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);
+        $html = '';
+        $html .= "<style type=text/css>";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
+        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "</style>";
+        $html .= "<h4>Actualmente: ".count($TotalProductos)." Productos</h4>";
+        $html .= "<table width='100%'>";
+        $html .= "<tr><th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>Nombre Producto</th>
+                  <th>Fecha ingreso</th>
+                  <th>Stock</th>
+                  </tr>";
+               foreach ($TotalProductos as $value) 
+        {
+        $codigo = $value['INV_PROD_CODIGO'];
+        $nomprod = $value['INV_PROD_NOM'];
+        $nomtipo = $value['TIPO_NOMBRE'];
+        $nomcat = $value['CAT_NOMBRE'];
+        $posicion = $value['PROD_POSICION'];
+        $total = $value['INV_PROD_CANTIDAD'];
+            $html .= "<tr>
+                      <td class='nomprod'>".$codigo."</td>
+                      <td class='nomprod'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class= 'posicion' >".$posicion."</td>
+                      <td class= 'total' >".$total."</td>
+                      </tr>";
+        }
+        $html .= "</table>";
+          $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+          ob_clean();
+          $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
+          //$tipos = utf8_decode("Tipo".$tipo.".pdf");
+          $pdf->Output($categoria, 'I');
+      }  
       /*
       $htmlpdf = $pdf->reporteActual($datos); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
       $pdf->writeHTML($htmlpdf, true, false, true, false, '');
@@ -106,6 +148,26 @@ class Reportes extends CI_Controller {
   }
 
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
+    public function Vistastockcritico(){ 
+      $datos['categoria'] = $this->categorias->findAll();
+      $datos['tipo'] = $this->reporte->tipo();
+      if ($this->input->post('filtro')) {
+        $buscartipo = $this->input->post('tipo');
+        $buscarcat = $this->input->post('cat');
+        
+        if ($buscartipo == 1) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscar'] = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat);
+        }
+        if ($buscartipo == 2) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscar'] = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat);        }
+        
+      }
+        $this->layouthelper->Loadview("reportes/stockactual",$datos,false); 
+  }
   public function Pdfcritico(){
       $buscartipo = $_POST["tipo"];
       $buscarcat = $_POST["cat"]; 
@@ -182,19 +244,6 @@ class Reportes extends CI_Controller {
    
   }
   //CONTROLADORES PARA CARGAS LAS VISTAS
-  public function Vistastockcritico(){
-      $datos['categoria'] = $this->categorias->findAll();
-      $datos['tipo'] = $this->reporte->tipo();
-          if ($_POST) {
-        $buscartipo = $this->input->post('tipo');
-        $buscarcat = $this->input->post('cat');
-      }else {
-        $buscartipo = "";
-        $buscarcat = "";
-      }
-      $datos['buscar'] = $this->reporte->findAllCriticos($buscartipo, $buscarcat);
-      $this->layouthelper->Loadview("reportes/stockcritico",$datos,false); 
-  }
     
   public function Vistavidautil(){
        $datos['vida']=$this->reporte->vidautil();
