@@ -28,7 +28,7 @@ function get($attr){
 		$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 		$this->db->where('tipoprod.TIPO_ID = 1');
 		if($cat!='0'){
-			$this->db->where('CAT_ID', $cat);	
+	    	$this->db->where('CAT_ID', $cat);	
 		}
 		
 		if($tipo!='0'){

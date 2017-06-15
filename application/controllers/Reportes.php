@@ -20,6 +20,8 @@ class Reportes extends CI_Controller {
           if ($_POST) {
         $buscartipo = $this->input->post('tipo');
         $buscarcat = $this->input->post('cat');
+        $_SESSION['buscartipo'] = $buscartipo;
+        $_SESSION['buscarcat'] = $buscarcat;
       }else {
         $buscartipo = "";
         $buscarcat = "";
@@ -35,7 +37,6 @@ class Reportes extends CI_Controller {
 //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
     $buscartipo = $_POST["tipo"];
     $buscarcat = $_POST["cat"];
-      $datos['buscar'] = $this->reporte->findAllCriticos($tipo, $cat);
     $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Actuales', "");
@@ -50,7 +51,7 @@ class Reportes extends CI_Controller {
       $pdf->AddPage();
       $buscartipo = $this->input->post("tipo");
       $buscarcat = $this->input->post("cat");
-      //var_dump($buscartipo);
+      echo "lorea tipo: ".$buscartipo;
       $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
         $html = '';
         $html .= "<style type=text/css>";

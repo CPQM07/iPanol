@@ -37,7 +37,7 @@
                   <?php endforeach ?>
                 </select>
               </div>
-        </div>
+        </div> 
        <div class="col-md-4" class="pull-right">
                <label>Acción</label>
                <input type="submit"  class="btn btn-block btn-danger" 
@@ -46,7 +46,13 @@
        </div>
        </form>
       <div class="col-md-3">    
-               <form id="pdf" action="Pdfactual" method="post">
+               <form id="pdf" action="Pdfactual" method="post" target="_blank">
+                  <input id="recuperartipo" type="hidden" name="recuperartipo" 
+                         value="<?= $_SESSION['buscartipo'] ?>">
+                  <input id="recuperarcat" type="hidden" name="recuperarcat" 
+                         value="<?= $_SESSION['buscarcat'] ?>">
+                  <?php echo "tipo: ".$_SESSION['buscartipo']; ?>
+                  <?php echo "cat: ".$_SESSION['buscarcat']; ?>
                   <td>
                   <button name="verpdf" type="submit" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i> Ver </button>
                 </td>                         
@@ -67,7 +73,7 @@
                 </tr>
               </thead>
               <?php foreach ($buscar as $key => $value): ?>
-           
+              
               <tbody>
               <tr>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
@@ -91,14 +97,14 @@
 <script>
 $(document).ready(function(){
   $('#pdf').submit(function(){
-     $(this).append("<input name='tipo' type='hidden' value='"+$("#tipo").val()+"'  >");
-     $(this).append("<input name='cat' type='hidden' value='"+$("#cat").val()+"'  >");
-      console.log($("#tipo").val());
-      console.log($("#cat").val());
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+      console.log($("#recuperartipo").val());
+      console.log($("#recuperarcat").val());
 
-      //return false;
+    //  return false;
     });
   });
 
 </script>
-</div>  
+</div>
