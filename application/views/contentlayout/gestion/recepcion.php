@@ -86,10 +86,13 @@
                 </div>
                       <div class="row">
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                          <button type="button" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
-                        <div class="col-sm-6">
-                          <button type="submit" id="recepcionar" class="btn btn-danger col-md-12">Recepcionar</button>
+                        <div class="col-sm-3">
+                          <button type="button" value="reccer" class="recepcionar btn btn-danger col-md-12">Recepcionar/Cerrar</button>
+                        </div>
+                        <div class="col-sm-3">
+                          <button type="button" value="rec" class="recepcionar btn btn-danger col-md-12">Recepcionar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -205,8 +208,9 @@ $(document).on("click",".getasignaciones",function (argument) {
     })
           
 
-   $("#recepcionar").click(function(event) {
+   $(".recepcionar").click(function(event) {
    var countallbox = 0;
+   var recepcionarsiono = $(this).val();
     var countchcheados = 0;
     var arrayidcheckeados = new Array();
     var arraycheckeadosmascantidad = new Array();
@@ -238,7 +242,7 @@ $(document).on("click",".getasignaciones",function (argument) {
                     method: "POST",
                     url: "<?=site_url('/gestion/update_asignaciones_recepcionadas')?>",
                     datatype: "json",
-                    data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud ,"checkeadostipo2": arraycheckeadosmascantidad},
+                    data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud ,"checkeadostipo2": arraycheckeadosmascantidad,"flagrecepcionarocerrar" : recepcionarsiono},
                     beforeSend: function () {
                             $('#carga_modal').modal('show');
                         },

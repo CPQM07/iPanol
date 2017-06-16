@@ -1,10 +1,8 @@
-  <link rel="stylesheet" href="<?= base_url('resources/css/bootstrap3.css') ?>">
-  <!-- bootstrap -->
-  <link rel="stylesheet" href="<?= base_url('resources/css/bootstrap.css') ?>">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <!-- font-awesome -->
   <link rel="stylesheet" href="<?= base_url('resources/css/font-awesome.css') ?>">
   <!-- DataTables -->
-  <link rel="stylesheet" href="<?= base_url('resources/css/dataTables.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('resources/plugins/DataTables/datatables.css') ?>">
   <!-- AdminLTE -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
   <!-- Ionicons -->

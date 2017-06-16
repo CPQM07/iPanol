@@ -4,14 +4,8 @@
 <?php $this->view('partialayout/headerlayout');  ?><!-- Dentro de esta vista esta el CSSLAYOUT -->
 
 <body class="hold-transition skin-red-light sidebar-mini">
-	
-	  <?php $this->view('partialayout/topbarlayout'); ?>
 
-	  <?php $this->view('partialayout/sidebarlayout'); ?>    
-
-	  <?php $this->load->view('contentlayout/'.$CONTENT); ?>
-
-	  <div id="carga_modal" class="modal fade" role="dialog" aria-hidden="true">
+	<div id="carga_modal" class="modal fade" role="dialog" aria-hidden="true">
 	    <div class="modal-dialog modal-sm">
 	        <div class="modal-content">
 
@@ -26,6 +20,12 @@
 	        </div>
 	    </div>
 	</div>
+	
+	  <?php $this->view('partialayout/topbarlayout'); ?>
+
+	  <?php $this->view('partialayout/sidebarlayout'); ?>    
+
+	  <?php $this->load->view('contentlayout/'.$CONTENT); ?>
 
 	  <?php $this->view('partialayout/footerlayout'); ?>
 

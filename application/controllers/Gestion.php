@@ -450,6 +450,10 @@ class Gestion extends CI_Controller {
       $this->soli->update($solicitudid,array('SOL_ESTADO' => 4));
     }
 
+    if ($_POST["flagrecepcionarocerrar"] == "reccer") {
+      $this->soli->update($solicitudid,array('SOL_ESTADO' => 4));
+    }
+
      $this->output->set_content_type('application/json');
      $this->output->set_output(json_encode(array("estado" => true ,"mensaje" =>"Se a guardado correctamente la recepcion de productos para esta solicitud")));
   }
@@ -725,9 +729,6 @@ class Gestion extends CI_Controller {
         }
 
       }
-
-
-
 
       $cargo = "";$usurutsolicitante = "";$asignaturanombre = "";$usuario = $this->usu->findById($rutusu);
       $verificardocenteoalumno = $usuario->get("USU_CARGO_ID");
