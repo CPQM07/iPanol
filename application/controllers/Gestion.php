@@ -336,7 +336,7 @@ class Gestion extends CI_Controller {
    public function recepcion_ajax()
   {
      $newarray = array();
-     $solicitudes = $this->soli->findByArrayIN(array(3,5));
+     $solicitudes = $this->soli->findByArrayIN(array(3,5,6));
      foreach ($solicitudes as $key => $value) {
       $usuario = $this->usu->findById($value->get('SOL_USU_RUT'));
       $cargo = $this->cargo->findById($usuario->get("USU_CARGO_ID"));
