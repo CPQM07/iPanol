@@ -26,9 +26,13 @@
 <!-- Select2 -->
 <script src="<?= base_url('resources/plugins/select2/select2.js')  ?>"></script>
 <!-- DataTables -->
-<script src="<?= base_url('resources/plugins/datatables/jquery.dataTables.min.js')  ?>"></script>
-<script src="<?= base_url('resources/plugins/datatables/dataTables.bootstrap.min.js')  ?>"></script>
-
+<script src="<?= base_url('resources/plugins/DataTables/DataTables-1.10.15/js/jquery.dataTables.min.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.min.js')  ?>"></script>
+<script src="<?= base_url('/resources/plugins/DataTables/Buttons-1.3.1/js/dataTables.buttons.min.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/DataTables/JSZip-3.1.3/jszip.min.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/DataTables/pdfmake-0.1.27/build/pdfmake.min.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/DataTables/pdfmake-0.1.27/build/vfs_fonts.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/DataTables/Buttons-1.3.1/js/buttons.html5.min.js')  ?>"></script>
 <!-- ChartJS 1.0.1 -->
 <script src="<?= base_url('resources/js/grachart.js')  ?>"></script><!-- charjs -->
 <script src="<?= base_url('resources/js/notify.min.js')  ?>"></script><!-- charjs -->

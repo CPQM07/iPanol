@@ -3,6 +3,8 @@
   <link rel="stylesheet" href="<?= base_url('resources/css/font-awesome.css') ?>">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?= base_url('resources/plugins/DataTables/datatables.css') ?>">
+    <!-- DataTables -->
+  <link rel="stylesheet" href="<?= base_url('resources/plugins/DataTables/Buttons-1.3.1/css/buttons.dataTables.min.css') ?>">
   <!-- AdminLTE -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
   <!-- Ionicons -->

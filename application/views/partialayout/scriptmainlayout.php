@@ -18,6 +18,20 @@ $(function(){
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                     }
                 });
+                $(".datatablebotones").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ]
+                });
                 $(".datatable2").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
                     cache: false,

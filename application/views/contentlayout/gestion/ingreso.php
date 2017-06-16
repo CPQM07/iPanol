@@ -151,7 +151,7 @@
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <table id="example2" class="datatable table table-bordered table-hover">
+                    <table id="example2" class="datatablebotones table table-bordered table-hover">
                       <thead>
                       <tr>                        
                         <th>Fecha de ingreso</th>
