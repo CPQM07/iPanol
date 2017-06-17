@@ -178,7 +178,7 @@
     });
  
     $(".notify1").hover(function() {
-      $(".notify1").notify("Esta asignacion es restrictiva y parcial, ya que debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
+      $(".notify1").notify("Esta asignacion es restrictiva y parcial,debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
@@ -228,7 +228,9 @@
                 },
                 "columns": [
                     { title: "Id",
-                        className: "text-sm" },
+                        className: "text-sm hidden" },
+                    { title: "Codigo",
+                        className: "text-sm"},
                     { title: "Stock",
                         className: "text-red text-center"},
                     { title: "Nombre",
@@ -258,7 +260,7 @@
            })
     })
 
-    $(".rechazarsolicitud").click(function(event) {
+    $(document).on('click', '.rechazarsolicitud', function(event) {
       idsol = $(this).attr("idsolicitud");
        $.ajax({
                     method: "POST",
@@ -266,10 +268,10 @@
                     datatype: "json",
                     data:  {"idsolicitud": idsol},
                     success: function(response){
-                      if (response.true) {
-                        $('#dinamicajax').DataTable().ajax.reload();
+                      if (response.estado) {
                         $.notify(response.mensaje, "success"); 
-                      }         
+                      }
+                      $('#dinamicajax').DataTable().ajax.reload();
                     }
            })
     });

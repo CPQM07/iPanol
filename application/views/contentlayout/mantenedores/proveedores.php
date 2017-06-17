@@ -34,6 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php if ($proveedor != null): ?>               
                 <?php foreach ($proveedor as $key => $value): ?>
                   <tr>
                     <td><?= $value->get('PROV_RUT'); ?></td>
@@ -52,6 +53,7 @@
                     </td>
                   </tr>
                 <?php endforeach; ?>
+                <?php endif ?>
                 </tbody>
               </table>
             </div>
@@ -69,7 +71,7 @@
   <!-- /.content-wrapper -->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-    <div class="modal fade bs-example-modal-lg" id="NUEVOPROVEEDOR" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-lg" id="NUEVOPROVEEDOR"  role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -131,7 +133,7 @@
 
   <!--ModalELIMINAR-->
   <!--ModalELIMINAR-->
-    <div class="modal fade" id="ELIMINAR" tabindex="-1" role="dialog">
+    <div class="modal fade" id="ELIMINAR" role="dialog">
       <div class="modal-danger" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -152,7 +154,7 @@
   <!--ModalELIMINAR-->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
-  <div class="modal fade bs-example-modal-lg" id="EDITAR" tabindex="-1" role="dialog">
+  <div class="modal fade bs-example-modal-lg" id="EDITAR" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">

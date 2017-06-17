@@ -58,7 +58,7 @@
         <div class="box-body">
           <h3>Historial de productos / insumos dados de baja</h3>
           <div class="box-body">
-              <table name="example2" class="datatablebotones table table-bordered table-hover">
+              <table name="example2" class="datatablebaja table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Fecha</th>
@@ -192,6 +192,43 @@
     <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
     <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
+
+       $(".datatablebaja").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                         {
+                                extend: 'excelHtml5',
+                                text: 'Exportar a Excel',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4]
+                                        },
+                                customize: function( xlsx ) {
+                                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                    $('row:first c', sheet).attr( 's', '42' );
+                                }
+                            },
+                         {
+                            extend: 'pdfHtml5',
+                            text: 'Exportar a pdf',
+                            exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4 ]
+                                        }
+                        },
+                          {
+                                extend: 'copyHtml5',
+                                text: 'Copiar Todo',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4 ]
+                                        }
+                            },
+                    ]
+                });
 
       $('.selectinv').select2({
             minimumInputLength: 1,

@@ -151,7 +151,7 @@
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <table id="example2" class="datatablebotones table table-bordered table-hover">
+                    <table id="example2" class="datatableingre table table-bordered table-hover">
                       <thead>
                       <tr>                        
                         <th>Fecha de ingreso</th>
@@ -475,11 +475,43 @@
 
   $(document).ready(function() {
 
-    /*$('#files-new').on('change', function() {
-      if(this.files[0].size/1024 > 2120){
-        $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
-      }
-    });*/
+        $(".datatableingre").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                         {
+                                extend: 'excelHtml5',
+                                text: 'Exportar a Excel',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3]
+                                        },
+                                customize: function( xlsx ) {
+                                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                    $('row:first c', sheet).attr( 's', '42' );
+                                }
+                            },
+                         {
+                            extend: 'pdfHtml5',
+                            text: 'Exportar a pdf',
+                            exportOptions: {
+                                            columns: [ 0, 1, 2, 3]
+                                        }
+                        },
+                          {
+                                extend: 'copyHtml5',
+                                text: 'Copiar Todo',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3 ]
+                                        }
+                            },
+                    ]
+                });
+
     $(document).on('change', '#modo', function(event) {
       //event.preventDefault();
       var selector =$(this).val();
