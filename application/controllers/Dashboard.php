@@ -58,10 +58,11 @@ class Dashboard extends CI_Controller {
 
 
 	public function msjCriticoActiv(){
-		$id = $_POST['acti'];
+		/*$id = $_POST['acti'];*/
+		$id=1;
 		$NuevoProducto = array();
 	  $productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
-	  $larg = count($productos);
+/*	  $larg = count($productos);
 	  foreach ($productos as $key => $value) {
 		    $NuevoProducto[] = array(
 		      'PROD_ID' => $value->get('PROD_ID'),
@@ -97,12 +98,49 @@ class Dashboard extends CI_Controller {
 			    $msjCriticoActiv[$i] = array($msj);
 		    }
      	}
-		$this->output->set_content_type('application/json');
-     	$this->output->set_output(json_encode(array("msjActivo" =>$msjCriticoActiv,"cantida" => count($msjCriticoActiv))));
+*/
+
+     	if ($productos != null) {
+			foreach ($productos as $key => $value) {
+        	$CANTIDAD = 0;
+        	if ($value["PROD_TIPOPROD_ID"] == 1) {
+        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
+        	}else if($value["PROD_TIPOPROD_ID"] == 2){
+        	$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
+        	if ($inventariotipofungible != null) {
+        		$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
+        		}	
+        	}
+
+        	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
+        }
+    	}
+
+
+		/*$this->output->set_content_type('application/json');
+     	$this->output->set_output(json_encode(
+     		array("msjActivo" =>$msjCriticoActiv,"cantida" => count($msjCriticoActiv))
+     		));*/
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public function msjCriticoFungible(){
-		$id = $_POST['fungi'];
+		/*$id = $_POST['fungi'];*/
+		$id=2;
 		$NuevoProducto = array();
 		$productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
 		$larg = count($productos);
@@ -142,9 +180,9 @@ class Dashboard extends CI_Controller {
 				    $cantStockInven = array($data['INV_PROD_CANTIDAD']);
 				/*echo $cantStockProduct." - ".$nombreProducto." | "."Stock actual: ".$cantStockInven." | <br>";*/
 
-			    if ($cantStockProduct>$cantStockInven) {
-			    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantStockInven[0]." | Stock crítico: ".$cantStockProduct[0]."<br/><br/>";
-			    	}
+				    if ($cantStockProduct>$cantStockInven) {
+				    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantStockInven[0]." | Stock crítico: ".$cantStockProduct[0]."<br/><br/>";
+				    	}
 				    $msjCriticoFungi[$i] = array($msj);
 				}
 
