@@ -254,11 +254,12 @@ class Catalogo extends CI_Controller {
 	    }
 	    $data["detalle"] = $_SESSION['productos'];
 	    $data["ultimoID"] = $ultimoIngresado;
+	    $_SESSION["productos"] = null;
 	    $this->load->view('Catalogo/confirmacion', $data, FALSE);
 	    
 	  	//redirect('Catalogo/carrito','refresh');
 
-	  	$_SESSION["productos"] = null;
+	  	
 	  	
 	  }
 

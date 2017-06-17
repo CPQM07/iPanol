@@ -50,7 +50,7 @@
                     <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
                     <td class="text-center">
                       <a iddetalle="<?= $value->get("SOL_ID")  ?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
-                      <a title="Rechazar solicitud" idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
+                      <a idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
                     </td>
                   </tr>
                 <?php endforeach ?>
@@ -166,7 +166,7 @@
                     responsive: true,
                     "pagingType": "simple",
                     "bPaginate": true,
-                    "bLengthChange": false,
+                    "bLengthChange": true,
                     "bFilter": true,
                     "bInfo": true,
                     "bAutoWidth": false,
@@ -257,6 +257,22 @@
                     }
            })
     })
+
+    $(".rechazarsolicitud").click(function(event) {
+      idsol = $(this).attr("idsolicitud");
+       $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/rechazar_solicitud')?>",
+                    datatype: "json",
+                    data:  {"idsolicitud": idsol},
+                    success: function(response){
+                      if (response.true) {
+                        $('#dinamicajax').DataTable().ajax.reload();
+                        $.notify(response.mensaje, "success"); 
+                      }         
+                    }
+           })
+    });
 
     $(document).on('click', '.ADDinv', function(){
     var id = $(this).attr("id");

@@ -349,13 +349,21 @@ class Gestion extends CI_Controller {
               "<a target='_blank' href='".base_url()."resources/pdf/".$value->get('SOL_RUTA_PDF')."' class='fa fa-file-pdf-o'></a>",
               "<button idsol='".$value->get('SOL_ID')."' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>"
 
-              );
-       
+              );    
      }
 
      $this->output->set_content_type('application/json');
      $this->output->set_output(json_encode($newarray));
      //$this->layouthelper->LoadView("gestion/recepcion",$data);
+  }
+
+  public function rechazar_solicitud()
+  {
+    $idsolicitud = $this->input->post('idsolicitud');
+    $this->soli->update($idsolicitud,array('SOL_ESTADO' => 2));
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode(array("estado" => true,"mensaje" => "Se ha rechazado correctamente la solicitud N°".$idsolicitud)));
+
   }
 
   public function get_all_asignaciones_by_sol(){

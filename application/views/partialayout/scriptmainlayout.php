@@ -27,8 +27,7 @@ $(function(){
                     },
                     dom: 'Bfrtip',
                     buttons: [
-                        'excelHtml5',
-                        'csvHtml5',
+                        'excel',
                         'pdfHtml5'
                     ]
                 });
