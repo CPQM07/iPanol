@@ -49,6 +49,7 @@ public function update($id, $data) {
       $query = " UPDATE inventario SET 
       INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
       INV_PROD_ESTADO =".$data['PROD_ESTADO'].",
+      INV_PROD_CODIGO =".$data['PROD_CAT_ID'].$id.",
       INV_IMAGEN='".$data['PROD_IMAGEN']."',
       INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
       INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
@@ -56,6 +57,7 @@ public function update($id, $data) {
     }else{
       $query = " UPDATE inventario SET 
       INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_PROD_CODIGO =".$data['PROD_CAT_ID'].$id.",
       INV_IMAGEN='".$data['PROD_IMAGEN']."',
       INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
       INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
