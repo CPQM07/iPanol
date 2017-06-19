@@ -38,11 +38,11 @@
                 </select>
               </div>
         </div> 
-                       <div class="col-md-4">
-          <label>Tipos de baja</label>
+          <div class="col-md-4">
+            <label>Tipos de baja</label>
              <div class="form-group">
                 <select id="mot" name="mot" class="form-control select2" >
-                <option value="0">Todos los tipos de baja</option>x
+                <option value="0">Todos los tipos de baja</option>
                    <?php foreach ($motivos as $key => $value): ?>
                     <?php if ($value['MOT_ESTADO']==1):?>
                 <option value=" <?= $value['MOT_ID']  ?>"><?= $value['MOT_NOMBRE'];  ?>
@@ -79,7 +79,7 @@
                 </br>
                 </form>
             </div>
-            <table id="example2" class="table table-bordered table-hover">    
+            <table id="example2" class="datatable table table-bordered table-hover">    
               <thead>
                 <tr>
                   <th>Codigo</th>

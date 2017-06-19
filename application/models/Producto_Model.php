@@ -48,8 +48,8 @@ public function update($id, $data) {
     if($data['PROD_ESTADO']==0){
       $query = " UPDATE inventario SET 
       INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
-      INV_PROD_ESTADO '=".$data['PROD_ESTADO']."',
-      INV_IMAGEN=".$data['PROD_IMAGEN'].",
+      INV_PROD_ESTADO =".$data['PROD_ESTADO'].",
+      INV_IMAGEN='".$data['PROD_IMAGEN']."',
       INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
       INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
       WHERE INV_PROD_ID=".$id;
