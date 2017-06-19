@@ -16,25 +16,72 @@ class Catalogo extends CI_Controller {
         $this->load->model('Asignatura_Model','asig');
 	}
 
-	public function index($categoria = null)
+	public function index()
 	{
 		$this->load->library('pagination');
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$config['base_url'] = base_url("index.php/Catalogo/index");
-		$like = null;$cat = null;$tipo = null;
-		if (isset($_POST['query']))$like = $_POST['query'];
-		if ($categoria != null){
-			$cat = $categoria;
+		$config['uri_segment'] = 3;
+		$config['base_url'] = base_url("index.php/Catalogo/index/");
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$dato['categorias'] = $this->cat->findAll();
+		$dato['tipoProd'] = $this->tipprod->findAll();
+        $config['total_rows'] = $this->prod->contar(null,null,null);
+        $config['per_page'] = 6;
+        $config['num_links'] = 5;
+        $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		$config['first_link'] = false;
+		$config['last_link'] = false;
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo';
+		$config['prev_tag_open'] = '<li class="prev">';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = '&raquo';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';    
+        $this->pagination->initialize($config);
+        
+        $productos = $this->prod->fetch_productos($config["per_page"], $page,null,null,null);
+    
+    	if ($productos != null) {
+			foreach ($productos as $key => $value) {
+        	$CANTIDAD = 0;
+        	if ($value["PROD_TIPOPROD_ID"] == 1) {
+        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
+        	}else if($value["PROD_TIPOPROD_ID"] == 2){
+        	$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
+        	if ($inventariotipofungible != null) {
+        		$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
+        		}	
+        	}
+
+        	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
+        }
+    	}
+        $dato["consulta"] = $productos;
+        $dato['pagination'] = $this->pagination->create_links();
+		$this->load->view('Catalogo/catalogo', $dato, FALSE);
+	}
+
+	public function categoria($categoria = null)
+	{
+		$this->load->library('pagination');
+
 			$config['uri_segment'] = 4;
-			$config['base_url'] = base_url("index.php/Catalogo/index/".$categoria);
+			$config['base_url'] = base_url("index.php/Catalogo/categoria/".$categoria);
 			$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
-		}
-		if (isset($_GET['tipo']))$tipo = $_GET['tipo'];
 		$dato['categorias'] = $this->cat->findAll();
 		$dato['tipoProd'] = $this->tipprod->findAll();
         
-        $config['total_rows'] = $this->prod->contar($like,$cat,$tipo);
+        $config['total_rows'] = $this->prod->contar(null,$categoria,null);
         $config['per_page'] = 6;
         
         $config['num_links'] = 5;
@@ -58,7 +105,7 @@ class Catalogo extends CI_Controller {
 		$config['num_tag_close'] = '</li>';    
         $this->pagination->initialize($config);
         
-        $productos = $this->prod->fetch_productos($config["per_page"], $page,$like,$cat,$tipo);
+        $productos = $this->prod->fetch_productos($config["per_page"], $page,null,$categoria,null);
     
     	if ($productos != null) {
 			foreach ($productos as $key => $value) {
