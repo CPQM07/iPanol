@@ -84,7 +84,8 @@ $lasturl = array_pop($spliturl);
           </a>
           <ul class="treeview-menu">
            <li><a href="<?=site_url('Reportes/Vistastockcritico')?>"><i class="fa fa-archive"></i> Stock critico</a></li>
-           <li><a href="<?=site_url('Reportes/Vistastockactual')?>"><i class="fa fa-archive"></i> Stock actual</a></li>
+           <li><a href="<?=site_url('Reportes/Vistastockactual')?>"><i class="fa fa-archive"></i>
+          Stock actual</a></li>
            <li><a href="<?=site_url('Reportes/Vistamotivosbaja')?>"><i class="fa fa-archive"></i> Motivos de baja a los productos</a>
            </li>
            <li><a href="<?=site_url('Reportes/Vistavidautil')?>"><i class="fa fa-archive"></i> Vida util de los productos</a></li>

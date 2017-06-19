@@ -49,14 +49,15 @@
         <div class="box-body">
           <?php if (isset($buscar) > 0): ?>
             <div class="col-sm-offset-9 col-md-3">    
-               <form id="pdf" action="Pdfactual" method="post" target="_blank">
+               <form id="pdf" action="Pdfcritico" method="post" target="_blank">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
                   
                   <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar </button>
-                                         
+                  <?php echo "tipo ".$buscartipo; ?>         
+                  <?php echo "cat".$buscarcat; ?>              
                 </br>
                 </br>
                 </form>
@@ -68,27 +69,30 @@
                   <th>Nombre Producto</th>
                   <th>Tipo</th>
                   <th>Categoria</th>
-                  <th>Posicion</th>
+                  <th>Stock Optimo</th>
+                  <th>Stock Critico</th>
+                  <th>Prioridad</th>
                   <th>Total</th>
                 </tr>
               </thead>
-              <?php foreach ($buscar as $key => $value): ?>
               <tbody>
-              <tr>
+              <?php foreach ($buscar as $key => $value): ?>
+                <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['TIPO_NOMBRE']; ?></td>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
                 <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
                 <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
-                <td><?= $value['PROD_PRIORIDAD']; ?></td>
+                <td><?= $value['PROD_PRIORIDAD']; ?></td>                
+                  <?php if ($value['TIPO_ID'] == 1): ?>
+                <td> <?= @$value['CANTIDAD']; ?></td>
+                <?php endif ?>
                 <?php if ($value['TIPO_ID'] == 2): ?>
                   <td><?= $value['INV_PROD_CANTIDAD']; ?></td>
                   <?php endif ?>
-                  <?php if ($value['TIPO_ID']== 1): ?>
-                <td> <?= @$value['Cantidad']; ?></td>
-                <?php endif ?>
               <?php endforeach ?>
+              </tr>
               </tbody>
             </table>
           <?php endif ?>
@@ -113,7 +117,7 @@ $(document).ready(function(){
       console.log($("#tipo").val());
       console.log($("#cat").val());
 
-     //return false;
+     return;
     });
   });
 

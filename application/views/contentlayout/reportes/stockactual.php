@@ -49,7 +49,7 @@
         <div class="box-body">
           <?php if (isset($buscar) > 0): ?>
             <div class="col-sm-offset-9 col-md-3">    
-               <form id="pdf" action="Pdfactual" method="post" target="_blank">
+               <form id="pdf" action="pdfactual" method="post" target="_blank">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
@@ -72,8 +72,8 @@
                   <th>Total</th>
                 </tr>
               </thead>
-              <?php foreach ($buscar as $key => $value): ?>
               <tbody>
+              <?php foreach ($buscar as $key => $value): ?>
               <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
@@ -87,6 +87,7 @@
                 <td> <?= @$value['Total']; ?></td>
                 <?php endif ?>
               <?php endforeach ?>
+              </tr>
               </tbody>
             </table>
           <?php endif ?>
