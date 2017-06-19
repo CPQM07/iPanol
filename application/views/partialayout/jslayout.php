@@ -11,7 +11,7 @@
 <script src="<?= base_url('resources/plugins/input-mask/jquery.inputmask.date.extensions.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/input-mask/jquery.inputmask.extensions.js')  ?>"></script>
 <!-- date-range-picker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="<?= base_url('resources/js/moment.min.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/daterangepicker/daterangepicker.js')  ?>"></script>
 <!-- bootstrap datepicker -->
 <script src="<?= base_url('resources/plugins/datepicker/bootstrap-datepicker.js')  ?>"></script>

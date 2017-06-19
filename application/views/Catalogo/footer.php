@@ -9,19 +9,26 @@
 		
 	</footer><!--/Footer-->
 	
-    <script src="<?= base_url(); ?>resources/js/jquery.js"></script>
-	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
-    <script src="<?= base_url(); ?>resources/js/main.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>resources/js/jquery.js"></script>
+	<script type="text/javascript" src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>resources/js/main.js"></script>
     <script type="text/javascript" src="<?= base_url()?>resources/plugins/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="<?= base_url()?>resources/plugins/jQuery-Timepicker-Addon-master/dist/jquery-ui-timepicker-addon.min.js"></script>
-    <script src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
+    <script type="text/javascript" src="<?= base_url('resources/plugins/moment/min/moment-with-locales.min.js')  ?>"></script>
+    <script type="text/javascript" src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
 
      <script type="text/javascript" charset="utf-8">
      $(function () {
-     	 $('#fechaEntrega').datetimepicker({ dateFormat: 'yy-mm-dd',timeFormat:  "HH:mm:ss",
+     	moment.locale("es"); 
+     	console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
+     	 $('#fechaEntrega').datetimepicker({ 
+     	 	 dateFormat: 'yy-mm-dd',
+     	 	 timeFormat:  "HH:mm:ss",
      	 	 prevText: 'Anterior',
 			 nextText: 'Siguiente',
 			 currentText: 'Hoy',
+			 minDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+ 			 maxDate: moment().add(14, 'days').format("YYYY-MM-DD HH:mm:ss"),
 			 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 			 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
 			 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -29,8 +36,81 @@
 			 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
 		});
      })
-    var micarrito=new Array;$(".add-to-cart").click(function(a){var t=$(this),o=$("#CANT"+t.attr("id")).val(),r=$("#CANT"+t.attr("id")).attr("max");parseInt(o)<=parseInt(r)&&parseInt(o)>0?$.ajax({url:"<?=site_url('/catalogo/agregarCarrito')?>",type:"POST",dataType:"json",data:{idprod:t.attr("id"),cantidad:$("#CANT"+t.attr("id")).val()}}).done(function(a){a.estado&&($.notify("Se han añadido "+a.prodnombre,"success"),$("#totalcarrito").text(" "+a.total),t.attr("disabled",!0))}).fail(function(){console.log("error")}).always(function(){console.log("complete")}):$.notify("Lo sentimos no puede solicitar más de la cantidad actual en stock ó no ha ingresado la cantidad a solicitar¡¡","warn")}),$(document).on("keyup",".inputcantidad",function(a){var t=$(this);parseInt(t.val())<=parseInt(t.attr("max"))&&parseInt(t.val())>0||t.val("")}),$(".cart_quantity_delete").click(function(a){var t=$(this);$.ajax({url:"<?=site_url('/catalogo/eliminarindexcarrito')?>",type:"POST",dataType:"json",data:{indice:$(this).attr("id")}}).done(function(a){a.estado&&($.notify("Se ha quitado correctamente un producto de su carrito de pedidos","success"),$("#totalcarrito").text(" "+a.total),t.parent("td").parent("tr").remove())}).fail(function(){console.log("error")}).always(function(){console.log("complete")})}),$("#buscar").click(function(){var a=$("#query").val();window.location.href="<?=site_url('/Catalogo/buscar/')?>"+a}),$("#limpiarcarrito").click(function(a){$.post("<?=site_url('/catalogo/limpiarCarrito')?>")});
-    	$('#timepicker').timepicker('setTime', '12:45 AM');
+
+        var micarrito = new Array();
+    $(".add-to-cart").click(function(event) {
+    	var addcartobj = $(this);
+    	var cantidadsolicitada = $("#CANT"+addcartobj.attr("id")).val();
+    	var cantidadmaxima = $("#CANT"+addcartobj.attr("id")).attr("max");
+    	if (parseInt(cantidadsolicitada) <= parseInt(cantidadmaxima) && parseInt(cantidadsolicitada) > 0) {
+    		$.ajax({
+    		url: "<?=site_url('/catalogo/agregarCarrito')?>",
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {idprod:addcartobj.attr("id"),cantidad: $("#CANT"+addcartobj.attr("id")).val()},
+    	})
+    	.done(function(response) {
+    		if (response.estado) {
+    			$.notify("Se han añadido "+response.prodnombre, "success");
+    			$("#totalcarrito").text(" "+response.total);
+    			addcartobj.attr("disabled", true);
+    		}
+    	})
+    	.fail(function() {
+    		console.log("error");
+    	})
+    	.always(function() {
+    		console.log("complete");
+    	});
+    	} else {
+    		$.notify("Lo sentimos no puede solicitar más de la cantidad actual en stock ó no ha ingresado la cantidad a solicitar¡¡", "warn");
+    	}
+
+    });
+
+    $(document).on('keyup', '.inputcantidad', function(event) {
+    	var objcant = $(this);
+    	if (parseInt(objcant.val()) <= parseInt(objcant.attr("max")) && parseInt(objcant.val()) > 0) {
+
+    	} else {
+    		objcant.val("");
+    	}
+    });
+
+    $(".cart_quantity_delete").click(function(event) {
+    	var objthis = $(this);
+    	$.ajax({
+    		url: "<?=site_url('/catalogo/eliminarindexcarrito')?>",
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {indice: $(this).attr("id")},
+    	})
+    	.done(function(response) {
+    			if (response.estado) {
+    			$.notify("Se ha quitado correctamente un producto de su carrito de pedidos", "success");
+    			$("#totalcarrito").text(" "+response.total);
+    			objthis.parent("td").parent("tr").remove();
+    		}
+    	})
+    	.fail(function() {
+    		console.log("error");
+    	})
+    	.always(function() {
+    		console.log("complete");
+    	});
+    	
+    });
+
+    $("#buscar").click(function(){
+    	var texto = $("#query").val();
+    	window.location.href = "<?=site_url('/Catalogo/buscar/')?>"+texto;
+    });
+
+    $("#limpiarcarrito").click(function(event) {
+    	$.post("<?=site_url('/catalogo/limpiarCarrito')?>");	
+    });
+
+
     </script>
 </body>
 </html>
