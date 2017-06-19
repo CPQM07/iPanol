@@ -340,6 +340,10 @@ class Catalogo extends CI_Controller {
         $this->output->set_output(json_encode(array("estado" => true,"total" => count($myarray))));
     }
 
+    public function confirmacion(){
+    	$this->load->view('Catalogo/confirmacion', FALSE);
+    }
+
 
 	
 }
