@@ -349,13 +349,21 @@ class Gestion extends CI_Controller {
               "<a target='_blank' href='".base_url()."resources/pdf/".$value->get('SOL_RUTA_PDF')."' class='fa fa-file-pdf-o'></a>",
               "<button idsol='".$value->get('SOL_ID')."' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>"
 
-              );
-       
+              );    
      }
 
      $this->output->set_content_type('application/json');
      $this->output->set_output(json_encode($newarray));
      //$this->layouthelper->LoadView("gestion/recepcion",$data);
+  }
+
+  public function rechazar_solicitud()
+  {
+    $idsolicitud = $this->input->post('idsolicitud');
+    $this->soli->update($idsolicitud,array('SOL_ESTADO' => 2));
+    $this->output->set_content_type('application/json');
+    $this->output->set_output(json_encode(array("estado" => true,"mensaje" => "Se ha rechazado correctamente la solicitud N°".$idsolicitud)));
+
   }
 
   public function get_all_asignaciones_by_sol(){
@@ -488,12 +496,14 @@ class Gestion extends CI_Controller {
        foreach ($inventario as $key => $value) {
         if ($value->get('INV_TIPO_ID') == 1) {
            $allinv[] = array($value->get('INV_ID'),
+            $value->get('INV_PROD_CODIGO'),
                           $value->get('INV_PROD_CANTIDAD'),
                           $value->get('INV_PROD_NOM'),
                           $value->get('INV_PROD_CANTIDAD'),
                           "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
         }else if($value->get('INV_TIPO_ID') == 2){
              $allinv[] = array($value->get('INV_ID'),
+              $value->get('INV_PROD_CODIGO'),
                           $value->get('INV_PROD_CANTIDAD'),
                           $value->get('INV_PROD_NOM'),
                           "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
@@ -517,12 +527,14 @@ class Gestion extends CI_Controller {
     foreach ($inventario as $key => $value) {
       if ($value->get('INV_TIPO_ID') == 1) {
          $allinv[] = array($value->get('INV_ID'),
+          $value->get('INV_PROD_CODIGO'),
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         $value->get('INV_PROD_CANTIDAD'),
                         "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
       }else if($value->get('INV_TIPO_ID') == 2){
            $allinv[] = array($value->get('INV_ID'),
+            $value->get('INV_PROD_CODIGO'),
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",

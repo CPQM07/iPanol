@@ -40,7 +40,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="datatablebotones table table-bordered table-striped">
+              <table id="example1" class="datatableprod table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>ID</th>
@@ -391,6 +391,43 @@
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
+
+    $(".datatableprod").dataTable({
+                    lengthMenu: [5,10, 20, 50, 100],
+                    cache: false,
+                    responsive: true,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                         {
+                                extend: 'excelHtml5',
+                                text: 'Exportar a Excel',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4, 5,6 ]
+                                        },
+                                customize: function( xlsx ) {
+                                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                    $('row:first c', sheet).attr( 's', '42' );
+                                }
+                            },
+                         {
+                            extend: 'pdfHtml5',
+                            text: 'Exportar a pdf',
+                            exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4, 5,6 ]
+                                        }
+                        },
+                          {
+                                extend: 'copyHtml5',
+                                text: 'Copiar Todo',
+                                exportOptions: {
+                                            columns: [ 0, 1, 2, 3,4, 5,6 ]
+                                        }
+                            },
+                    ]
+                });
 
     /*$('.input-file').change(function (){
      var sizeByte = this.files[0].size;

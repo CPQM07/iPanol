@@ -108,6 +108,7 @@ public function findEstados(){
 
    public function findByArrayIN($arraydeIDinv = null,$arraycondiciones = null){
     $this->load->database();
+    
     $this->db->get('solicitud');
     $this->db->select("SOL_ID,USU_NOMBRES,CARGO_NOMBRE,USU_APELLIDOS,USU_RUT,USU_DV,SOL_USU_RUT,SOL_ASIG_ID, DATE_FORMAT(SOL_FECHA_INICIO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_INICIO,DATE_FORMAT(SOL_FECHA_TERMINO,'%d-%m-%Y %H:%i:%s') as SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION,SOL_ESTADO,SOL_RUTA_PDF");
     $this->db->join('usuario', 'usuario.USU_RUT = solicitud.SOL_USU_RUT');

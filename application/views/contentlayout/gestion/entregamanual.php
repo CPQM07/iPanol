@@ -208,7 +208,9 @@
                 },
                 "columns": [
                     { title: "Id",
-                        className: "text-sm" },
+                        className: "text-sm hidden" },
+                    { title: "Codigo",
+                        className: "text-sm"},
                     { title: "Stock",
                         className: "text-red text-center"},
                     { title: "Nombre",

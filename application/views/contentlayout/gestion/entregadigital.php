@@ -50,7 +50,7 @@
                     <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
                     <td class="text-center">
                       <a iddetalle="<?= $value->get("SOL_ID")  ?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
-                      <a title="Rechazar solicitud" idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
+                      <a idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
                     </td>
                   </tr>
                 <?php endforeach ?>
@@ -166,7 +166,7 @@
                     responsive: true,
                     "pagingType": "simple",
                     "bPaginate": true,
-                    "bLengthChange": false,
+                    "bLengthChange": true,
                     "bFilter": true,
                     "bInfo": true,
                     "bAutoWidth": false,
@@ -178,7 +178,7 @@
     });
  
     $(".notify1").hover(function() {
-      $(".notify1").notify("Esta asignacion es restrictiva y parcial, ya que debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
+      $(".notify1").notify("Esta asignacion es restrictiva y parcial,debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
@@ -228,7 +228,9 @@
                 },
                 "columns": [
                     { title: "Id",
-                        className: "text-sm" },
+                        className: "text-sm hidden" },
+                    { title: "Codigo",
+                        className: "text-sm"},
                     { title: "Stock",
                         className: "text-red text-center"},
                     { title: "Nombre",
@@ -257,6 +259,22 @@
                     }
            })
     })
+
+    $(document).on('click', '.rechazarsolicitud', function(event) {
+      idsol = $(this).attr("idsolicitud");
+       $.ajax({
+                    method: "POST",
+                    url: "<?=site_url('/gestion/rechazar_solicitud')?>",
+                    datatype: "json",
+                    data:  {"idsolicitud": idsol},
+                    success: function(response){
+                      if (response.estado) {
+                        $.notify(response.mensaje, "success"); 
+                      }
+                      $('#dinamicajax').DataTable().ajax.reload();
+                    }
+           })
+    });
 
     $(document).on('click', '.ADDinv', function(){
     var id = $(this).attr("id");
