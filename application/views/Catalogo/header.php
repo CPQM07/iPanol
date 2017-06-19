@@ -19,7 +19,7 @@
 
 <body>
 	<header id="header"><!--header-->
-
+<?php $user = $this->session->userdata('logged_in');?>
 	<!--SESSION USUARIO-->
 	    <div class="header_top"><!--header_top-->
 			<div class="container">
@@ -27,10 +27,10 @@
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - [Nombre de usuario aquí]
+								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres'] ?>
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
-								    <li><a href="<?= site_url('/Catalogo/') ?>">Cerrar sesión</a></li>
+								    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
 								  </ul>
 								</div>
 							</ul>

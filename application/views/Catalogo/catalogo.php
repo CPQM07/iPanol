@@ -9,7 +9,7 @@
 						<?php foreach ($categorias as $key => $value): ?>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="<?= site_url("/Catalogo/index/".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
+									<h4 class="panel-title" ><a href="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
 								</div>
 							</div>
 			    		<?php endforeach ?>

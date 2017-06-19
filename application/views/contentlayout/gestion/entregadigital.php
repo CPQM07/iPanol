@@ -271,7 +271,7 @@
                       if (response.estado) {
                         $.notify(response.mensaje, "success"); 
                       }
-                      $('#dinamicajax').DataTable().ajax.reload();
+                      location.reload();
                     }
            })
     });
@@ -313,7 +313,12 @@
     var parcialocerrar = $(this).attr("id");
     
     if ($("#asignacion").text() != "") {
-    if (observaciones != "") {
+        if (observaciones != "") {
+
+       }else{
+          $.notify("Debe ingresar una observación", "warn");
+          return false;
+       }
         $("#resulasignacion tbody tr").each(function (index) 
         {
             var idinv, nombreinv, cantidadinv, idprod;
@@ -352,9 +357,7 @@
                     }
            })
 
-       }else{
-          $.notify("Debe ingresar una observación", "warn");
-       }
+      
     }else{
       if(parcialocerrar == "asignarparcial"){
         $.notify("Debe agregar asignación de inventario para esta solicitud", "warn");

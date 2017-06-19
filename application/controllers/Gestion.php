@@ -519,7 +519,10 @@ class Gestion extends CI_Controller {
 
   public function get_inv_by_productos_id(){
     $allinv = array();
+    $todoslosiddeproductos = array(0);
+    if (isset($_POST['productosid'])) {
     $todoslosiddeproductos = $_POST['productosid'];
+    }
     $inventario = $this->inv->findByArrayIN($todoslosiddeproductos,array('INV_PROD_ESTADO' =>1));
     //print_r($inventario);
     //exit();
