@@ -52,7 +52,7 @@
                     <td><?= $value->get('PROV_DV'); ?></td>
                     <td><?= $value->get('PROV_NOMBRE'); ?></td>
                     <td><?= $value->get('PROV_RSOCIAL'); ?></td>
-                    
+
                     <?php if ($value->get('PROV_TIPO') == 1): ?>
                       <td>PERSONA NATURAL</td>
                     <?php else: ?>
@@ -124,22 +124,22 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Tipo</label>
-                        <div class="col-md-9">
-                          <select class="form-control" name="PROV[PROV_TIPO]">
-                            <option selected disabled>Seleccione Tipo</option>
-                            <option value="1">Persona Natural</option>
-                            <option value="2">Persona Juridica</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label class="col-sm-2 control-label">Estado</label>
                         <div class="col-md-9">
                           <select class="form-control" name="PROV[PROV_ESTADO]">
                             <option selected disabled>Seleccione Estado</option>
                             <option value="1">Habilitado</option>
                             <option value="2">Deshabilitado</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Tipo</label>
+                        <div class="col-md-9">
+                          <select class="form-control" name="PROV[PROV_TIPO]">
+                            <option selected disabled>Seleccione Tipo</option>
+                            <option value="1">Persona Natural</option>
+                            <option value="2">Persona Juridica</option>
                           </select>
                         </div>
                       </div>
