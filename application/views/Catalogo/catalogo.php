@@ -29,7 +29,7 @@
 				<div class="col-sm-9 padding-right">
 					<div id="todos" class="features_items"><!--articulos para pedido-->
 						<h2 class="title text-center">Artículos para pedido</h2>
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-center">
 					    <?php echo $pagination;  ?>
 					</div>
 					<?php if ($consulta != null): ?>
@@ -42,7 +42,7 @@
 							<?php endif ?>			
 						<?php endforeach ?>
 					<?php endif ?>
-						<div class="col-sm-4">
+						<div class="col-sm-4" style="width: 280px">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
@@ -64,7 +64,7 @@
 								</div>
 					<?php endif ?>
 					</div><!--articulos para pedido-->
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-center">
 					    <?php echo $pagination;  ?>
 					</div>			    
 				</div>

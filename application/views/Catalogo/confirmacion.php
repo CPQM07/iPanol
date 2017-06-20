@@ -80,13 +80,14 @@
 
     <div class="header-bottom"><!--header-bottom-->
 		<div class="container">
-			<div class="row">
+			<div class="row col-sm-12">
 				<div class="col-sm-9">					
 					<div class="mainmenu pull-left">
 						<ul class="nav navbar-nav collapse navbar-collapse">
 							<li style="font-size: 21px;">N° de su pedido: <?= $ultimoID ?> </li>
-							<li style="font-size: 21px;">Solicitado por: <?= $user['nombres'] ?>  </li>
-							<li style="font-size: 21px;">Hora: <?= date("H:m A"); ?> </li>
+							<li style="font-size: 15px;">Solicitado por: <?= $nombreuser ?>  </li>
+							<li style="font-size: 15px;">Fecha de entrega: <?= $fechaentrega ?> </li>
+							<li style="font-size: 13px;">Grupos de trabajo: <?= $grupo ?> </li>
 						</ul>
 					</div>
 				</div>

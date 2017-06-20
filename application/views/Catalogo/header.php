@@ -51,7 +51,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart" id="totalcarrito"> <?php if(isset($_SESSION["productos"])) echo(count($_SESSION["productos"])); ?> </i> Carrito</a></li>
+								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart" id="totalcarrito"> <?php if(isset($_SESSION["productos"])) echo("".count($_SESSION["productos"]).""); ?> </i> Carrito</a></li>
 								<li><a href="<?= site_url('/Login/index') ?>"><i class="fa fa-lock"></i> Ingreso de usuarios</a></li>
 							</ul>
 						</div>
@@ -73,8 +73,12 @@
 						</div>
 					</div>
 					<div class="col-sm-3 pull-right">
-							<input type="text" id="query" name="query" />
-							<input type="button" id="buscar" value="Buscar...">						
+							<div class="input-group input-group-sm">
+				                <input type="text" placeholder="Buscar ..." id="query" name="query" class="form-control">
+				                    <span class="input-group-btn">
+				                      <button type="button" id="buscar" class="btn btn-danger btn-flat fa fa-search"></button>
+				                    </span>
+				            </div>
 					</div>
 				</div>
 				</div>
