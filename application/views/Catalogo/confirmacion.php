@@ -67,7 +67,7 @@
 
 <div class="container">
     <div class="col-sm-12 col-md-8 col-md-offset-2">
-        <div class="panel panel-danger">
+        <div class="panel panel-success">
             <div class="panel-heading" style="font-size: 20px;">Solicitud de artículos realizada correctamente.</div>
                 <div class="panel-body">
   	                <table class=table>
@@ -92,7 +92,7 @@
 					</table> 
 			    </div>
 		<div class="panel-footer">
-		    <a href="<?= site_url('/Catalogo/') ?>" class="btn btn-danger btn-block">Volver al inicio</a>
+		    <a href="<?= site_url('/Catalogo/') ?>" class="btn btn-success btn-block">Volver al inicio</a>
 		</div>
 		</div>
 	</div>
