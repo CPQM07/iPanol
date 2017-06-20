@@ -85,14 +85,10 @@
 					<div>
 						<ul>
 							<li style="font-size: 21px;">N° de su pedido: <?= $ultimoID ?> </li>
-<<<<<<< HEAD
 							<li style="font-size: 15px;">Solicitado por: <?= $nombreuser ?>  </li>
 							<li style="font-size: 15px;">Fecha de entrega: <?= $fechaentrega ?> </li>
 							<li style="font-size: 13px;">Grupos de trabajo: <?= $grupo ?> </li>
-=======
 							<li style="font-size: 21px;">Solicitado por: <?= $user['nombres']." ".$user['apellidos'] ?>  </li>
-							<li style="font-size: 21px;">Hora: <?= date("H:m A"); ?> </li>
->>>>>>> 7db5543dcdfe9f6efbab39fbd575950c1a24f077
 						</ul>
 					</div>
 				</div>

@@ -427,6 +427,7 @@
     productosid = new Array();
     $("#detallesol").text('');
     $("#setidsol").text("");
+    $("#total").text("");
    }
 
     </script>
