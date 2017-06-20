@@ -27,7 +27,7 @@
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres'] ?>
+								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres']." ".$user['apellidos'] ?>
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
 								    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
@@ -67,8 +67,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-9">					
-					<div class="mainmenu pull-left">
-						<ul class="nav navbar-nav collapse navbar-collapse">
+					<div>
+						<ul>
 							<li style="font-size: 23px;">Solicitud de artículos realizada correctamente.</li>
 						</ul>
 					</div>
@@ -82,15 +82,15 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-9">					
-					<div class="mainmenu pull-left">
-						<ul class="nav navbar-nav collapse navbar-collapse">
+					<div>
+						<ul>
 							<li style="font-size: 21px;">N° de su pedido: <?= $ultimoID ?> </li>
-							<li style="font-size: 21px;">Solicitado por: <?= $user['nombres'] ?>  </li>
+							<li style="font-size: 21px;">Solicitado por: <?= $user['nombres']." ".$user['apellidos'] ?>  </li>
 							<li style="font-size: 21px;">Hora: <?= date("H:m A"); ?> </li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-sm-3 pull-right">
+				<div class="col-sm- pull-right">
 					<button class="btn btn-sucess pull-right"><a href="<?= site_url('/Catalogo/') ?>">Volver al inicio</a></button>	
 				</div>
 			</div>
