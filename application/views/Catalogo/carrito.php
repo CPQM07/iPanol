@@ -78,7 +78,7 @@
 		<div class="container">
 			<div class="row">
 				<a class="btn btn-default check_out" id="limpiarcarrito" href="">Limpiar carrito</a>
-				<input type="submit" class="btn btn-default check_out" value="Realizar pedido"/>
+				<input type="submit" class="btn btn-success check_out" value="Realizar pedido"/>
 			</div>
 		</div>
 	</section><!--/#do_action(subir pedido)-->
