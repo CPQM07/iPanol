@@ -428,8 +428,32 @@ class Mantencion extends CI_Controller {
 	//Proveedores***************************************************************************
 	public function proveedores(){
 	  $datos['proveedor'] = $this->proveedores->findAll();
-	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos,	 null);
+	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
 	}
+
+  public function NuevoProveedor(){
+
+    $this->form_validation->set_rules('PROV[PROV_RUT]', 'RUT', 'min_length[7]|max_length[8]|required');
+    $this->form_validation->set_rules('PROV[PROV_DV]', 'DIGITO VERIFICADOR', 'exact_length[1]|alpha_numeric|required');
+    $this->form_validation->set_rules('PROV[PROV_NOMBRE]', 'NOMBRE', 'required');
+    $this->form_validation->set_rules('PROV[PROV_RSOCIAL]', 'RAZON SOCIAL', 'required');
+    $this->form_validation->set_rules('PROV[PROV_ESTADO]', 'ESTADO', 'required');
+    $this->form_validation->set_rules('PROV[PROV_TIPO]', 'TIPO', 'required');
+
+    if ($this->form_validation->run() == FALSE) {
+      $datos['proveedor'] = $this->proveedores->findAll();
+  	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
+    } else {
+    		if(isset($_POST['PROV'])){
+    			$NuevoProveedor=$this->proveedores->create($_POST['PROV']);
+    			$NuevoProveedor->insert();
+    			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
+    			redirect('/Mantencion/proveedores');
+    		}else{
+    			echo "usuario no fue agregado";
+    		}
+    }
+  }
 
   public function findByIdProveedor(){
     $id= $_POST['id'];

@@ -92,13 +92,12 @@ $lasturl = array_pop($spliturl);
         </li>
 
       </ul>
-    </section>
+    </section><br><br><br>
   </aside>
 
 
   <!-- MENSAJES DE OPERACIONES -->
     <div class="col-md-6 pull-right">
-      <br>
       <div class="messages">
         <?php if (isset($_SESSION['Deshabilitar'])): ?>
           <div class="alert alert-danger alert-dismissible">

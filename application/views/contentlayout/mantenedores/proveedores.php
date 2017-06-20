@@ -14,6 +14,16 @@
       </div>
     </section>
 
+    <?php if (validation_errors()): ?>
+      <div class="col-md-6 pull-right">
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-warning"></i>Oops!</h4>
+            <?= validation_errors(); ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -28,19 +38,27 @@
                   <th>DV</th>
                   <th>NOMBRE</th>
                   <th>RAZON SOCIAL</th>
+                  <th>TIPO</th>
                   <th>ESTADO</th>
                   <th>ELIMINAR</th>
                   <th>EDITAR</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php if ($proveedor != null): ?>               
+                <?php if ($proveedor != null): ?>
                 <?php foreach ($proveedor as $key => $value): ?>
                   <tr>
                     <td><?= $value->get('PROV_RUT'); ?></td>
                     <td><?= $value->get('PROV_DV'); ?></td>
                     <td><?= $value->get('PROV_NOMBRE'); ?></td>
                     <td><?= $value->get('PROV_RSOCIAL'); ?></td>
+                    
+                    <?php if ($value->get('PROV_TIPO') == 1): ?>
+                      <td>PERSONA NATURAL</td>
+                    <?php else: ?>
+                      <td>PERSONA JURIDICA</td>
+                    <?php endif; ?>
+
                     <?php if ($value->get('PROV_ESTADO') == 1): ?>
                       <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROV/1/');?><?=$value->get('PROV_RUT');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                     <?php else: ?>
@@ -76,33 +94,53 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-tittle">Nuevo Proveedor</h4>
+
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal">
+                  <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor'); ?>">
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre</label>
+                        <label class="col-sm-2 control-label">RUT</label>
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <div class="col-md-10">
+                            <input type="text" name="PROV[PROV_RUT]" id="PROV[PROV_RUT]" placeholder="11111111" minlength="7" maxlength="8" value="<?= set_value('PROV[PROV_RUT]');  ?>" class="col-md-12">
+                          </div>
+                          <div class="col-md-2">
+                            <input type="text" name="PROV[PROV_DV]" id="PROV[PROV_DV]" placeholder="1" maxlength="1" value="<?= set_value('PROV[PROV_DV]'); ?>" class="col-md-12">
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">DV</label>
+                        <label class="col-sm-2 control-label">NOMBRE</label>
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Razon Social</label>
+                        <label class="col-sm-2 control-label">RAZON SOCIAL</label>
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>"class="col-md-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Tipo</label>
+                        <div class="col-md-9">
+                          <select class="form-control" name="PROV[PROV_TIPO]">
+                            <option selected disabled>Seleccione Tipo</option>
+                            <option value="1">Persona Natural</option>
+                            <option value="2">Persona Juridica</option>
+                          </select>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Estado</label>
                         <div class="col-md-9">
-                          <input type="text" class="col-md-12">
+                          <select class="form-control" name="PROV[PROV_ESTADO]">
+                            <option selected disabled>Seleccione Estado</option>
+                            <option value="1">Habilitado</option>
+                            <option value="2">Deshabilitado</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -112,7 +150,7 @@
                           <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="col-sm-6">
-                          <button type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                          <button id="agregar" type="submit" class="btn btn-danger col-md-12">Agregar</button>
                         </div>
                       </div>
                     <!-- /.box-footer -->
@@ -132,6 +170,7 @@
 <!-- /.content-wrapper -->
 
   <!--ModalELIMINAR-->
+  <?php if ($proveedor > 0): ?>
   <!--ModalELIMINAR-->
     <div class="modal fade" id="ELIMINAR" role="dialog">
       <div class="modal-danger" role="document">
@@ -151,6 +190,8 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   <!--ModalELIMINAR-->
+  <?php endif; ?>
+
   <!--ModalELIMINAR-->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
@@ -226,5 +267,6 @@
       $("#nombre").val("");
       $("#rsocial").val("");
     }
+
   </script>
   <?php } ?>
