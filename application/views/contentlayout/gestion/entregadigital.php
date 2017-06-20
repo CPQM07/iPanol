@@ -309,16 +309,16 @@
 
    $(".generarprestamo").click(function (argument) {
     var observaciones = prompt('Ingrese una obeservación para poder asignar productos a esta solicitud:','');
+    if (observaciones === null) {
+      $.notify("Ha cancelado la opción de ingresar una observación", "warn");
+        return; //break out of the function early
+    }
     var arrayasig = new Array();
     var parcialocerrar = $(this).attr("id");
     
     if ($("#asignacion").text() != "") {
         if (observaciones != "") {
 
-       }else{
-          $.notify("Debe ingresar una observación", "warn");
-          return false;
-       }
         $("#resulasignacion tbody tr").each(function (index) 
         {
             var idinv, nombreinv, cantidadinv, idprod;
@@ -357,11 +357,21 @@
                     }
            })
 
+         }else{
+          $.notify("Debe ingresar una observación", "warn");
+          return false;
+       }
       
     }else{
       if(parcialocerrar == "asignarparcial"){
-        $.notify("Debe agregar asignación de inventario para esta solicitud", "warn");
+        $.notify("Debe agregar asignación de inventario para esta solicitud", "warn");//never inside
       }else if(parcialocerrar == "asignarcerrar"){
+        if (observaciones === null) {
+      $.notify("Ha cancelado la opción de ingresar una observación", "warn");
+        return; //break out of the function early
+    }
+      if (observaciones != "") {
+
        $("#resulasignacion tbody tr").each(function (index) 
         {
             var idinv, nombreinv, cantidadinv, idprod;
@@ -399,6 +409,13 @@
                         }      
                     }
            })
+
+
+        }else{
+          $.notify("Debe ingresar una observación", "warn");
+          return false;
+        }
+
       }
     }
 
