@@ -29,7 +29,7 @@
 				<div class="col-sm-9 padding-right">
 					<div id="todos" class="features_items"><!--articulos para pedido-->
 						<h2 class="title text-center">Artículos para pedido</h2>
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-center">
 					    <?php echo $pagination;  ?>
 					</div>
 					<?php if ($consulta != null): ?>
@@ -42,12 +42,12 @@
 							<?php endif ?>			
 						<?php endforeach ?>
 					<?php endif ?>
-						<div class="col-sm-4">
+						<div class="col-sm-4" style="width: 280px">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
 										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
-										<h2 style="height: 70px" ><?= $value['PROD_NOMBRE']; ?></h2>
+										<h2 style="height: 90px" ><?= $value['PROD_NOMBRE']; ?></h2>
 										<p><u>Disponibles: <?= $value['STOCKACTUAL']; ?></u></p>
 										<input type="number" placeholder="Cantidad a solicitar" class="form-control inputcantidad" min="1" max="<?= $value['STOCKACTUAL']; ?>" id="CANT<?= $value['PROD_ID']?>">
 										<a <?php echo($disabled) ?> id="<?= $value['PROD_ID']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar</a>
@@ -64,7 +64,7 @@
 								</div>
 					<?php endif ?>
 					</div><!--articulos para pedido-->
-					<div class="col-sm-12">
+					<div class="col-sm-12 text-center">
 					    <?php echo $pagination;  ?>
 					</div>			    
 				</div>

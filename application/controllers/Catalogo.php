@@ -6,14 +6,18 @@ class Catalogo extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Producto_Model', 'prod');
-		$this->load->model('Categoria_Model', 'cat');
-		$this->load->model('TipoProd_Model', 'tipprod');
-		$this->load->model('Inventario_Model', 'inv');
-		$this->load->model('Usuario_Model', 'usu');
-		$this->load->model('Solicitud_Model','soli');
-        $this->load->model('DetSolicitud_Model','detsol');
-        $this->load->model('Asignatura_Model','asig');
+		if ($this->session->userdata('logged_in')["cargo"][0] == 1 or $this->session->userdata('logged_in')["cargo"][0] == 2) {
+			$this->load->model('Producto_Model', 'prod');
+			$this->load->model('Categoria_Model', 'cat');
+			$this->load->model('TipoProd_Model', 'tipprod');
+			$this->load->model('Inventario_Model', 'inv');
+			$this->load->model('Usuario_Model', 'usu');
+			$this->load->model('Solicitud_Model','soli');
+	        $this->load->model('DetSolicitud_Model','detsol');
+	        $this->load->model('Asignatura_Model','asig');
+	    }else{
+	      redirect('/Login');
+	    }
 	}
 
 	public function index()
@@ -267,47 +271,60 @@ class Catalogo extends CI_Controller {
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 
-	public function insert_solicitud_from_catalogo(){
-	  if (isset($_SESSION['productos']) and $_SESSION['productos'] != null) {
+	public function crearsolicitud(){
+	  if (isset($_SESSION['productos']) and $_SESSION['productos'] != null and $this->input->post('fechaEntrega') != "" and $this->input->post('cantidadGruTrab') != "") {
 	  	$usersession = $this->session->userdata('logged_in');
 	  	$fecha_actual = date("Y-m-d H:i:s");
-	  	$cantidadGruTrab = $_POST["cantidadGruTrab"];
-	  	$fechaEntrega = $_POST["fechaEntrega"];
-	  	$asignaturas = $_POST["asignaturas"];
-	  	$_columns  =  array(
-					'SOL_ID' => 0,
-					'SOL_USU_RUT' => $usersession['rut'],
-					'SOL_ASIG_ID' => $asignaturas,
-					'SOL_FECHA_INICIO' => $fecha_actual,
-					'SOL_FECHA_TERMINO' => $fechaEntrega,
-					'SOL_NRO_GRUPOTRAB' => $cantidadGruTrab,
-					'SOL_OBSERVACION' => "",
-					'SOL_RUTA_PDF' => '',
-					'SOL_ESTADO' => 1
-					);
-        $nuevasolicitud =  $this->soli->create($_columns);
-        $ultimoIngresado = $nuevasolicitud->insert();
-        foreach ($_SESSION['productos'] as $key => $value) {
-	      	$_columns  =  array(
-				'DETSOL_ID' => 0,
-				'DETSOL_TIPOPROD' => $value['tipoid'],
-				'DETSOL_CANTIDAD' => $value['cantidad'],
-				'DETSOL_ESTADO' => 1,
-				'DETSOL_SOL_ID' => $ultimoIngresado,
-				'DETSOL_PROD_ID' => $value['productoid'],
-				);
-	      $detallesol =$this->detsol->create($_columns);
-	      $detallesol->insert();
-	    }
-	    $data["detalle"] = $_SESSION['productos'];
-	    $data["ultimoID"] = $ultimoIngresado;
-	    $_SESSION["productos"] = null;
-	    $this->load->view('Catalogo/confirmacion', $data, FALSE);
-	    
-	  	//redirect('Catalogo/carrito','refresh');
 
-	  	
-	  	
+	  	if ($this->input->post('fechaEntrega') > $fecha_actual) {
+	  		$cantidadGruTrab = $_POST["cantidadGruTrab"];
+		  	$fechaEntrega = $_POST["fechaEntrega"];
+		  	$asignaturas = $_POST["asignaturas"];
+		  	$_columns  =  array(
+						'SOL_ID' => 0,
+						'SOL_USU_RUT' => $usersession['rut'],
+						'SOL_ASIG_ID' => $asignaturas,
+						'SOL_FECHA_INICIO' => $fecha_actual,
+						'SOL_FECHA_TERMINO' => $fechaEntrega,
+						'SOL_NRO_GRUPOTRAB' => $cantidadGruTrab,
+						'SOL_OBSERVACION' => "",
+						'SOL_RUTA_PDF' => '',
+						'SOL_ESTADO' => 1
+						);
+	        $nuevasolicitud =  $this->soli->create($_columns);
+	        $ultimoIngresado = $nuevasolicitud->insert();
+	        foreach ($_SESSION['productos'] as $key => $value) {
+		      	$_columns  =  array(
+					'DETSOL_ID' => 0,
+					'DETSOL_TIPOPROD' => $value['tipoid'],
+					'DETSOL_CANTIDAD' => $value['cantidad'],
+					'DETSOL_ESTADO' => 1,
+					'DETSOL_SOL_ID' => $ultimoIngresado,
+					'DETSOL_PROD_ID' => $value['productoid'],
+					);
+		      $detallesol =$this->detsol->create($_columns);
+		      $detallesol->insert();
+		    }
+		    $data["detalle"] = $_SESSION['productos'];
+		    $data["ultimoID"] = $ultimoIngresado;
+		    $data["fechaentrega"] = $fechaEntrega;
+		    $data["nombreuser"] = $usersession['nombres']." ".$usersession['apellidos'];
+		    $data["grupo"] = $cantidadGruTrab;
+
+		    if (intval($ultimoIngresado) > 0) {
+		    	$_SESSION["productos"] = null;
+		    	$this->load->view('Catalogo/confirmacion', $data, FALSE);
+		    }else{
+		    	$this->session->set_flashdata('camposvacios', 'Lo sentimos ocurrio un error inesperado revise que este correctamente logeado');
+	  			redirect('Catalogo/carrito','refresh');
+		    }		    
+	  	}else{
+	  		$this->session->set_flashdata('camposvacios', 'Lo sentimos la fecha de entrega ingresada no puede ser mayor a la fecha actual, minutos y segundos tambien son contabilizados¡¡');
+	  	redirect('Catalogo/carrito','refresh');
+	  	}
+	  }else{
+	  	$this->session->set_flashdata('camposvacios', 'Lo sentimos existe alguno de los campos vacios, o no tiene productos agregados al carrito, favor revisar (Fecha,Grupo,Asignatura,Productos).');
+	  	redirect('Catalogo/carrito','refresh');
 	  }
 
     }

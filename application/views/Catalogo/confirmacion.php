@@ -27,7 +27,7 @@
 					<div class="col-sm-6">					
 							<ul class="nav navbar-nav">
 								<div class="dropdown">
-								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres'] ?>
+								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres']." ".$user['apellidos'] ?>
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
 								    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
@@ -61,96 +61,102 @@
 			</div>
 		</div><!--/header-middle-->
 	</header>
+<br>
 
+<!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
-	<div class="header-bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-9">					
-					<div class="mainmenu pull-left">
-						<ul class="nav navbar-nav collapse navbar-collapse">
-							<li style="font-size: 23px;">Solicitud de artículos realizada correctamente.</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+<div class="container">
+    <div class="col-sm-12 col-md-8 col-md-offset-2">
+        <div class="panel panel-success">
+            <div class="panel-heading" style="font-size: 20px;">Solicitud de artículos realizada correctamente.</div>
+                <div class="panel-body">
+  	                <table class=table>
+                        <tbody>
+                            <tr> 
+                                <th scope=row>N° de su pedido:</th>
+                                <td><?= $ultimoID ?></td> 
+                            </tr>
+					        <tr> 
+					            <th scope=row>Fecha de entrega:</th> 
+					            <td><?= $fechaentrega ?></td>  
+					        </tr>
+					        <tr> 
+					            <th scope=row>Grupos de trabajo:</th> 
+					            <td><?= $grupo ?></td> 
+					        </tr>
+					        <tr> 
+					            <th scope=row>Solicitado por:</th> 
+					            <td><?= $user['nombres']." ".$user['apellidos'] ?></td> 
+					        </tr> 
+					    </tbody> 
+					</table> 
+			    </div>
+		<div class="panel-footer">
+		    <a href="<?= site_url('/Catalogo/') ?>" class="btn btn-success btn-block">Volver al inicio</a>
 		</div>
-    </div>
-    
-
-    <div class="header-bottom"><!--header-bottom-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-9">					
-					<div class="mainmenu pull-left">
-						<ul class="nav navbar-nav collapse navbar-collapse">
-							<li style="font-size: 21px;">N° de su pedido: <?= $ultimoID ?> </li>
-							<li style="font-size: 21px;">Solicitado por: <?= $user['nombres'] ?>  </li>
-							<li style="font-size: 21px;">Hora: <?= date("H:m A"); ?> </li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-3 pull-right">
-					<button class="btn btn-sucess pull-right"><a href="<?= site_url('/Catalogo/') ?>">Volver al inicio</a></button>	
-				</div>
-			</div>
 		</div>
-    </div>
+	</div>
+</div>
 
-    <div class="header-bottom"><!--header-bottom-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-9">	
-				<hr>										
-					<h3>Detalle de su solicitud</h3>
-		            <table class="table table-striped">
-						<thead style="background: #FF1010; color: white;">
-							<tr style="font-size: 15px">
-								<th>ARTICULOS PEDIDOS</th>
-								<th></th>
-								<th>CANTIDAD</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						<?php if (isset($detalle)): ?>
+<!--/////////////////////////////////////////////////////////////--><hr><!--/////////////////////////////////////////////////////////////////////////-->
+
+<div class="header-bottom">
+<div class="container">
+    <div class="col-sm-12 col-md-8 col-md-offset-2">
+        <div class="panel panel-danger">
+            <div class="panel-heading" style="font-size: 20px;">Detalle de su solicitud</div>
+                <div class="panel-body">
+  	                <table class=table> 
+  	                    <thead> 
+  	                        <tr> 
+  	                           <th>#</th> 
+  	                           <th>ARTICULOS PEDIDOS</th> 
+  	                           <th></th>
+  	                           <th>CANTIDAD</th> 
+  	                        </tr> 
+  	                    </thead> 
+  	                    <tbody> 
+  	                    <?php if (isset($detalle)): ?>
 							<?php foreach ($detalle as $key => $value): ?>
-							<tr style="font-size: 17px">
-								<td> <?= $value["nombre"]  ?></td>
-								<td></td>
-								<td><?= $value["cantidad"] ?></td>
-								<td></td>
-							</tr>
-							<?php endforeach ?>
+  	                        <tr> 
+  	                           <th scope=row><?= $value["productoid"]  ?></th>
+  	                           <td><?= $value["nombre"]  ?></td> 
+  	                           <td></td>
+  	                           <td><?= $value["cantidad"] ?></td> 
+  	                        </tr> 
+  	                        <?php endforeach ?>
 						<?php endif ?>
-						</tbody>
-					</table>
-				</div>
-			</div>
+  	                    </tbody> 
+  	                </table>
+			    </div>
 		</div>
-    </div>
+	</div>
+</div>
+</div>
 
-        <div class="footer-bottom">
-			<div class="container">
-				<div class="row">
-					<p class="pull-left">Copyright © 2017 iPañol. Todos los derechos reservados.</p>
-					<p class="pull-right">Diseñado por INACAP Renca.</p>
-				</div>
-			</div>
+<!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<div class="footer-bottom">
+	<div class="container">
+		<div class="row">
+			<p class="pull-left">Copyright © 2017 iPañol. Todos los derechos reservados.</p>
+			<p class="pull-right">Diseñado por INACAP Renca.</p>
 		</div>
+	</div>
+</div>
 		
 	
-    <script src="<?= base_url(); ?>resources/js/jquery.js"></script>
-	<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
-    <script src="<?= base_url(); ?>resources/js/main.js"></script>
-    <script type="text/javascript" src="<?= base_url()?>resources/plugins/jquery-ui/jquery-ui.js"></script>
-    <script type="text/javascript" src="<?= base_url()?>resources/plugins/jQuery-Timepicker-Addon-master/dist/jquery-ui-timepicker-addon.min.js"></script>
-    <script src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
+<script src="<?= base_url(); ?>resources/js/jquery.js"></script>
+<script src="<?= base_url(); ?>resources/js/bootstrap.js"></script>
+<script src="<?= base_url(); ?>resources/js/main.js"></script>
+<script type="text/javascript" src="<?= base_url()?>resources/plugins/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="<?= base_url()?>resources/plugins/jQuery-Timepicker-Addon-master/dist/jquery-ui-timepicker-addon.min.js"></script>
+<script src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
 
-     <script type="text/javascript" charset="utf-8">
-     $(function () {
-     	 
-     })
-    </script>
+ <script type="text/javascript" charset="utf-8">
+ $(function () {
+ 	 
+ })
+</script>
 </body>
-</html>
+</html>	

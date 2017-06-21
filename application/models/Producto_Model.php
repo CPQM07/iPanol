@@ -49,6 +49,7 @@ public function update($id, $data) {
       $query = " UPDATE inventario SET 
       INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
       INV_PROD_ESTADO =".$data['PROD_ESTADO'].",
+      INV_PROD_CODIGO =".$data['PROD_CAT_ID'].$id.",
       INV_IMAGEN='".$data['PROD_IMAGEN']."',
       INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
       INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
@@ -56,6 +57,7 @@ public function update($id, $data) {
     }else{
       $query = " UPDATE inventario SET 
       INV_PROD_NOM ='".$data['PROD_NOMBRE']."',
+      INV_PROD_CODIGO =".$data['PROD_CAT_ID'].$id.",
       INV_IMAGEN='".$data['PROD_IMAGEN']."',
       INV_TIPO_ID=".$data['PROD_TIPOPROD_ID'].",
       INV_CATEGORIA_ID=".$data['PROD_CAT_ID']." 
@@ -67,6 +69,22 @@ public function update($id, $data) {
   $data['PROD_ID'] = $id;
   return $this->db->insert('producto',$data);
   }
+}
+
+public function insertLogs($tipo,$rut=null,$id,$dato){
+  if($tipo==1){
+    $ultR='select PROD_ID from productos order by prod_id DESC limit 1';
+    $ultimoOBJ= $this->db->query($ultR);
+    $ya=$ultimoOBJ->row();
+    foreach($ya as $ar){
+      $id=$ar;
+    }
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Productos", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+  }else{
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Productos", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+  }
+ $this->db->query($query);
+ return true;
 }
 
 public function delete($id){

@@ -27,6 +27,12 @@ public function get($attr){
   return $this->_columns[$attr];
 }
 
+public function insertLogs($tipo,$rut,$id,$dato){
+  $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Usuario", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+ $this->db->query($query);
+ return true;
+}
+
 public function create($row){
   $usuario =  new Usuario_Model();
   foreach ($row as $key => $value)

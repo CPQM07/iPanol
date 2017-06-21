@@ -5,17 +5,17 @@ class Dashboard extends CI_Controller {
 
 	public function __construct()
 	{
-	/*$hoy = getDate();*/
+		/*$hoy = getDate();*/
 		parent::__construct();
-		if ($this->session->userdata('logged_in')) {
-		$this->layouthelper->SetMaster('layout');
-		$this->load->model('Solicitud_Model','solicitud',true);
-		$this->load->model('Inventario_Model','inventario',true);
-		$this->load->model('Producto_Model','producto',true);
-		$this->load->model('Asignacion_Model','asignacion',true);
-	} else {
-			redirect('/Login');
-		}
+		if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
+			$this->layouthelper->SetMaster('layout');
+			$this->load->model('Solicitud_Model','solicitud',true);
+			$this->load->model('Inventario_Model','inventario',true);
+			$this->load->model('Producto_Model','producto',true);
+			$this->load->model('Asignacion_Model','asignacion',true);
+	    }else{
+	      redirect('/Login');
+	    }
 	}
 
 	public function dashboard()

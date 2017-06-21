@@ -3,7 +3,7 @@
 
 <?php $this->view('partialayout/headerlayout');  ?><!-- Dentro de esta vista esta el CSSLAYOUT -->
 
-<body class="hold-transition skin-red-light sidebar-mini">
+<body class="hold-transition skin-red-light fixed sidebar-mini">
 
 	<div id="carga_modal" class="modal fade" role="dialog" aria-hidden="true">
 	    <div class="modal-dialog modal-sm">

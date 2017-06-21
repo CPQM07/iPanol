@@ -211,10 +211,10 @@
                         <div class="col-md-9">
                         <div class="row">
                           <div class="col-md-6">
-                          <input id="rut" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" disabled>
+                          <input id="rutEdit" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" disabled>
                           </div>
                           <div class="col-md-2">
-                          <input id="dv" name="new_usu[USU_DV]" type="text" class="col-md-12" disabled>
+                          <input id="dvEdit" name="new_usu[USU_DV]" type="text" class="col-md-12" disabled>
                           </div>
                         </div>
                         </div>
@@ -408,9 +408,9 @@ var Fn = {
         data: {"id": id},
         url:"<?=site_url('/Mantencion/findById_usuario')?>",
         success: function(data){
-          $("#rut").val(data.USU_RUT);
           $("#rutE").val(data.USU_RUT);
-          $("#dv").val(data.USU_DV);
+          $("#rutEdit").val(data.USU_RUT);
+          $("#dvEdit").val(data.USU_DV);
           $("#nombre").val(data.USU_NOMBRES);
           $("#apellido").val(data.USU_APELLIDOS);
           $("#cargo").val(data.USU_CARGO_ID).trigger('change');
@@ -428,8 +428,8 @@ var Fn = {
 });
 
 function limpiar(){
-    $("#rut").val("");
-    $("#dv").val("");
+    $("#rutEdit").val("");
+    $("#dvEdit").val("");
     $("#nombre").val("");
     $("#apellido").val("");
     $("#cargo").val("");

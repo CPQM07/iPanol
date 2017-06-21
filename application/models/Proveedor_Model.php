@@ -12,7 +12,9 @@ private  $_columns  =  array(
 'PROV_RUT' => 0,
 'PROV_DV' => 0,
 'PROV_NOMBRE' => '',
-'PROV_RSOCIAL' => ''
+'PROV_RSOCIAL' => '',
+'PROV_ESTADO' => 0,
+'PROV_TIPO' => 0
 );
 
 public function get($attr){
@@ -70,4 +72,9 @@ public function findById($id){
 
     return $result;
   }
+
+  public function setLog($tipo){
+
+  }
+
 }

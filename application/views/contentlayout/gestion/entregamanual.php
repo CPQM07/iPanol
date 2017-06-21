@@ -130,8 +130,7 @@
                           <td></td>
                         </tr>
                       </tfoot>
-                    <tbody id="asignacion">
-                    </tbody>
+                    <tbody id="asignacion"></tbody>
                 </table>
               </div>
             </div>
@@ -162,11 +161,15 @@
      tipo = 0;
       cat =0;
           $('#reservationtime').daterangepicker({
+                minDate: moment(),
                 showWeekNumbers: true,
                 timePicker: true,
                 timePicker24Hour: true,
-                startDate: moment().subtract(29, 'days'),
-                endDate: moment(),
+                startDate: moment(),
+                dateLimit: {
+                    days: 5
+                },
+                minDate: moment(),
                 locale: {format: 'DD/MM/YYYY HH:mm:ss'},
               },function (start, end) {
                 $('#daterange-btn span').html(start.format('DD/MM/YYYY HH:mm:ss') + '-' + end.format('DD/MM/YYYY HH:mm:ss'));
@@ -294,14 +297,38 @@
 
    $("#generarprestamo").click(function (argument) {
     var observaciones = prompt('Ingrese una obeservación para poder asignar productos a esta solicitud:','');
+    if (observaciones === null) {
+      $.notify("Ha cancelado la opción de ingresar una observación", "warn");
+        return; //break out of the function early
+    }
     var rutusu = $("#usuariossel").val();
     var asignatura = $("#asignatura").val();
     var grupotrabajo = $("#grupotrabajo").val();
     var reservationtime = $("#reservationtime").val();
 
-    if ($("#asignacion").text() != "") {
+    if ($.trim($("#asignacion").text()) != "") {
 
-    if (observaciones != "") {
+    if ($.trim(observaciones) != "") {
+
+      if (asignatura == "") {
+        $.notify("No ha seleccionado una asignatura", "warn");
+        return; //break out of the function early
+      }
+      if (grupotrabajo == "") {
+        $.notify("No ha escrito ningun numero en el grupo de trabajo", "warn");
+        return; //break out of the function early
+      }
+      if (rutusu == "") {
+        $.notify("No ha seleccionado un usuario", "warn");
+        return; //break out of the function early
+      }
+      if (reservationtime == "") {
+        $.notify("No ha seleccionado un rango de fechas", "warn");
+        return; //break out of the function early
+      }
+
+
+
       var arrayasig = new Array();
         $("#resulasignacion tbody tr").each(function (index) 
         {
@@ -347,7 +374,7 @@
     }
 
     }else{
-      $.notify("Debe a lo menos asignar un producto, actulamente la asignación se encuentra vacía", "warn");
+      $.notify("Debe a lo menos asignar un producto, actualmente la asignación se encuentra vacía", "warn");
     }
      
    });

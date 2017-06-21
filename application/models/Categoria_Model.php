@@ -33,6 +33,21 @@ public function insert(){
 $this->db->insert('categoria',$this->_columns);
 }
 
+public function insertLogs($tipo,$rut=null,$id,$dato){
+  if($tipo==1){
+    $ultR='select CAT_ID from categoria order by CAT_ID DESC limit 1';
+    $ultimoOBJ= $this->db->query($ultR);
+    $ya=$ultimoOBJ->row();
+    foreach($ya as $ar){
+      $id=$ar;
+    }
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Categoria", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+  }else{
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Categoria", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+}
+ $this->db->query($query);
+ return true;
+}
 public function update($id, $data) {
   $categoria = $this->db->get_where('categoria',array('CAT_ID'=>$id));
   if($categoria->num_rows() > 0){

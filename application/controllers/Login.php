@@ -10,10 +10,10 @@ class Login extends CI_Controller {
 	}
 	public function index()
 	{
+	    $this->session->unset_userdata('logged_in');//matamos la session apenas entre al login
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$data =array();
-		$data;
 		if(isset($_REQUEST['user']) && isset($_REQUEST['password']))
 		{
 			$user     =  $_REQUEST['user'];
@@ -25,11 +25,11 @@ class Login extends CI_Controller {
 		   		$user = $this->session->userdata('logged_in');
 	   			if(count($user['cargo']) > 0){
 					if (in_array(1, $user['cargo'])) {
-	   					redirect('Mantencion/productos','refresh');
+	   					redirect('Catalogo','refresh');
 	   				}elseif (in_array(2, $user['cargo'])) {
-	   					redirect('Mantencion/productos','refresh');
+	   					redirect('Catalogo','refresh');
 	   				}elseif (in_array(3, $user['cargo'])) {
-	   					redirect('Mantencion/productos','refresh');
+	   					redirect('dashboard/dashboard','refresh');
 	   				}
 	   			}else{
    					session_destroy();
@@ -39,7 +39,7 @@ class Login extends CI_Controller {
 
 		   }else
 		   {
-		   	   $data['error'] = "Usuario y/o contraseña incorrecta";
+		   	   $data['error'] = "Rut no valido y/o contraseña incorrecta";
 		   }
 
 		}
