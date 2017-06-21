@@ -48,7 +48,7 @@
                 </select>
               </div>
         </div> 
-       <div class="col-md-3" class="pull-right" align="pull-right">
+       <div class="col-md-1" class="pull-right" align="pull-right">
                <label>Acción</label>
                <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
@@ -73,14 +73,15 @@
                 </br>
                 </br>
                 </form>
-                <form id="excel" action="excelvida" method="post" target="_blank">
-                <meta charset="utf-8">
+                  <form id="excel" action="excelvida" method="post" target="_blank">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
                   <input id="recuperaradq" type="hidden" name="recuperaradq"
-                         value="<?= @$buscaradq  ?>">
+                  value="<?= @$buscaradq  ?>">
+
+                  
                   <button name="verexcel" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar EXCEL</button>
                                          
                 </br>
@@ -92,9 +93,9 @@
               <thead>
                 <tr>
                   <th>Codigo</th>
-                  <th>Nombre Producto</th>
                   <th>Tipo</th>
                   <th>Categoria</th>
+                  <th>Nombre Producto</th>
                   <th>Fecha Ingreso</th>
                 <?php if (@$buscaradq == 1): ?>  
                   <th>Nombre Proveedor</th>
@@ -112,25 +113,33 @@
               <?php foreach ($buscar as $key => $value): ?>
               <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
-                <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['TIPO_NOMBRE']; ?></td>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
+                <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['ING_FECHA']; ?></td>
-                <td>0</td>
-                <?php if ($value['INV_PROD_CODIGO'] !=0): ?>
-
-                <?php if (@$buscaradq == 1 && @$buscartipo == 1): ?>
+                
+                <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
+                <?php if (@$buscaradq == 1): ?>
                 <td> <?=$value['PROV_NOMBRE']; ?></td>
                 <td> <?=$value['PROV_RUT']; ?></td>
                 <td> Compra</td>
               <?php endif ?>
               
-              <?php if (@$buscaradq == 2 && @$buscartipo == 2): ?>
+              <?php if (@$buscaradq == 2): ?>
                 <td>donacion</td>
-                
-                <td> <?=$value['ING_VIDA_ULTIL_PROVEEDOR']; ?> Meses</td>
-                <?php endif ?>   
               <?php endif ?>
+              <?php endif ?> 
+              <?php if (@$value['INV_PROD_CODIGO'] == 0): ?>
+                 <?php if (@$buscaradq == 1): ?>
+                    <td> <?=$value['PROV_NOMBRE']; ?></td>
+                <td> <?=$value['PROV_RUT']; ?></td>
+                <td> Compra</td>
+                 <?php endif ?>
+                 <?php if ($buscaradq == 2): ?>
+                  <td> donacion </td>
+                 <?php endif ?>
+               <?php endif ?> 
+                <td> <?=$value['ING_VIDA_ULTIL_PROVEEDOR']; ?> Meses</td>
               <?php endforeach ?>
               </tr>
               </tbody>
