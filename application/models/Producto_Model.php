@@ -71,6 +71,22 @@ public function update($id, $data) {
   }
 }
 
+public function insertLogs($tipo,$rut=null,$id,$dato){
+  if($tipo==1){
+    $ultR='select PROD_ID from productos order by prod_id DESC limit 1';
+    $ultimoOBJ= $this->db->query($ultR);
+    $ya=$ultimoOBJ->row();
+    foreach($ya as $ar){
+      $id=$ar;
+    }
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Productos", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+  }else{
+    $query='INSERT INTO `logmantenedores` (`logman_mantenedor`, `logman_tipo`, `logman_usu_rut`, `logman_id_registro`, `logman_texto`)VALUES ("Productos", '.$tipo.','.$rut.','.$id.',"'.$dato.'")';
+  }
+ $this->db->query($query);
+ return true;
+}
+
 public function delete($id){
   $sql="update productos set PROD_ESTADO=0 WHERE PROD_ID=".$id;
   $query = $this->db->query($sql);

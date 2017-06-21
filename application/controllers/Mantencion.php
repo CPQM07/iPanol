@@ -77,6 +77,9 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['new_usu'])){
 			$nuevousuario=$this->usuario->create($_POST['new_usu']);
 			$nuevousuario->insert();
+			$usu=$_POST['new_usu'];
+    		$usersesion = $this->session->userdata('logged_in');
+			$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],'hola');
 			$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
@@ -87,6 +90,8 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['new_usu'])){
 			$id=$_POST['rut'];
 			$this->usuario->update($id,$_POST['new_usu']);
+			$usersesion = $this->session->userdata('logged_in');
+			$this->usuario->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
 			$this->session->set_flashdata('Habilitar', 'El Usuario se a editado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
@@ -104,10 +109,14 @@ class Mantencion extends CI_Controller {
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 0));
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->usuario->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
       redirect('/Mantencion/usuarios');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 1));
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->usuario->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
       redirect('/Mantencion/usuarios');
     }
   	}
@@ -138,20 +147,26 @@ class Mantencion extends CI_Controller {
 		if(isset($_POST['cat'])){
 			$nuevo=$this->categorias->create($_POST['cat']);
 			$nuevo->insert();
+			$usersesion = $this->session->userdata('logged_in');
+			$this->categorias->insertLogs(1,$usersesion['rut'],0,'$_POST[new_usu]');
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			redirect('/Mantencion/categorias');
 		}else{
-			echo "usuario no fue agregado";
+			echo "categorias no fue agregado";
 		}
 	}
 
   public function CambiarEstadoCAT($tipo, $id){
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->categorias->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
       $this->categorias->update($id, array('CAT_ESTADO' => 0));
       redirect('/Mantencion/categorias');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->categorias->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
       $this->categorias->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');
     }
@@ -166,10 +181,12 @@ class Mantencion extends CI_Controller {
     if(isset($_POST['cat'])){
       $id=$_POST['id'];
       $this->categorias->update($id,$_POST['cat']);
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->categorias->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
       $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
       redirect('/Mantencion/categorias');
     }else{
-      echo "usuario no fue agregado";
+      echo "categorias no fue agregado";
     }
   }
 	//Fin Categoria***************************************************************************
@@ -243,11 +260,13 @@ class Mantencion extends CI_Controller {
 			}
 			$nuevopro=$this->productos->create($_POST['producto']);
 			$nuevopro->insert($nameimg);
+			$usersesion = $this->session->userdata('logged_in');
+			$this->productos->insertLogs(1,$usersesion['rut'],0,'$_POST[new_usu]');
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			if($num==1){redirect('/Mantencion/productos');}
 			else{redirect('/Gestion/ingreso');}
 		}else{
-			echo "usuario no fue agregado";
+			echo "productos no fue agregado";
 		}
 	}
 
@@ -279,10 +298,12 @@ class Mantencion extends CI_Controller {
 				$producto['PROD_IMAGEN'] = $product->get('PROD_IMAGEN');
 			}
 			$nuevopro=$this->productos->update($id,$producto);
+			$usersesion = $this->session->userdata('logged_in');
+			$this->productos->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
-			echo "usuario no fue agregado";
+			echo "productos no fue agregado";
 		}
 	}
 
@@ -298,11 +319,15 @@ class Mantencion extends CI_Controller {
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->productos->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
       redirect('/Mantencion/productos');
     }
     if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
+      $usersesion = $this->session->userdata('logged_in');
+	  $this->productos->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
       redirect('/Mantencion/productos');
     }
   	}
