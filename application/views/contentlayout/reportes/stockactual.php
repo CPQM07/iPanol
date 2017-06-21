@@ -40,7 +40,7 @@
         </div> 
        <div class="col-md-4" class="pull-right">
                <label>Acción</label>
-               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="filtro">
+               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
        </div>
        </form>
@@ -61,8 +61,8 @@
                 </br>
                 </br>
                 </form>
+                <form id="excel" action="excelactual" method="post" target="_blank">
                 <meta charset="utf-8">
-                               <form id="excel" action="excelactual" method="post" target="_blank">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
@@ -73,7 +73,6 @@
                 </br>
                 </br>
                 </form>
-            </div>
             </div>
             </div>
             <table id="example2" class="datatable table table-bordered table-hover">    

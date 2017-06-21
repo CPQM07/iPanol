@@ -55,7 +55,7 @@
 
        <div class="col-md-3" class="pull-right">
                <label>Acción</label>
-               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="filtro">
+               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
        </div>
        </form>
@@ -69,15 +69,29 @@
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
-                         <input id="recuperarmot" type="hidden" name="recuperarmot" 
+                  <input id="recuperarmot" type="hidden" name="recuperarmot" 
                          value="<?= @$buscarmot?>">
                   
-                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar </button>
-                  <?php echo "tipo ".$buscartipo; ?>         
-                  <?php echo "cat".$buscarcat; ?>              
+                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar PDF</button>             
                 </br>
                 </br>
                 </form>
+                <form id="excel" action="excelbaja" method="post" target="_blank">
+                <meta charset="utf-8">
+                  <input id="recuperartipo" type="hidden" name="recuperartipo" 
+                         value="<?= @$buscartipo ?>">
+                  <input id="recuperarcat" type="hidden" name="recuperarcat" 
+                         value="<?= @$buscarcat?>">
+                  <input id="recuperarmot" type="hidden" name="recuperarmot" 
+                         value="<?= @$buscarmot?>">
+                  
+                  
+                  <button name="verexcel" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar EXCEL</button>
+                                         
+                </br>
+                </br>
+                </form>
+            </div>
             </div>
             <table id="example2" class="datatable table table-bordered table-hover">    
               <thead>
@@ -87,7 +101,7 @@
                   <th>Tipo</th>
                   <th>Categoria</th>
                   <th>Fecha dado de baja</th>
-                  <th>Motivo</th>
+                  <th>Motivo de baja</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,6 +143,14 @@ $(document).ready(function(){
 
      return;
     });
+     $('#excel').submit(function(){
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+     $(this).append("<input name='mot' type='hidden' value='"+$("#recuperarmot").val()+"'  >");
+    console.log($("#tipo").val());
+      console.log($("#cat").val());
+     //return false;
+  });
   });
 
 </script>

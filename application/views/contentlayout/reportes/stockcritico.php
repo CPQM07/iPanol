@@ -40,7 +40,7 @@
         </div> 
        <div class="col-md-4" class="pull-right">
                <label>Acción</label>
-               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="filtro">
+               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
        </div>
        </form>
@@ -55,12 +55,23 @@
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
                   
-                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar </button>
-                  <?php echo "tipo ".$buscartipo; ?>         
-                  <?php echo "cat".$buscarcat; ?>              
+                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar PDF</button>              
                 </br>
                 </br>
                 </form>
+                <form id="excel" action="excelcritico" method="post" target="_blank">
+                <meta charset="utf-8">
+                  <input id="recuperartipo" type="hidden" name="recuperartipo" 
+                         value="<?= @$buscartipo ?>">
+                  <input id="recuperarcat" type="hidden" name="recuperarcat" 
+                         value="<?= @$buscarcat?>">
+                  
+                  <button name="verexcel" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar EXCEL</button>
+                                         
+                </br>
+                </br>
+                </form>
+            </div>
             </div>
             <table id="example2" class="datatable table table-bordered table-hover">    
               <thead>
@@ -119,6 +130,13 @@ $(document).ready(function(){
 
      return;
     });
+     $('#excel').submit(function(){
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+    console.log($("#tipo").val());
+      console.log($("#cat").val());
+     //return false;
+  });
   });
 
 </script>

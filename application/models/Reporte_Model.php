@@ -320,6 +320,73 @@ public function vidautilDonaciones($tipo, $cat, $adq){
 		}
     return $result;
 }
+    public function productospreciounitario($tipo, $cat){
+	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,
+		CAT_NOMBRE, INV_PROD_NOM,ING_PRECIO_UNITARIO,ING_TIPO_INGRESO,sum(ingreso.ING_PRECIO_UNITARIO)as totalprecio');
+	$this->db->from('inventario');
+	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
+	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
+	
+	$this->db->where('ingreso.ING_PRECIO_UNITARIO > 0');
+	$this->db->group_by('inventario.INV_PROD_NOM');
+	$consulta = $this->db->get();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+
+		if(is_null($result))
+		{
+			$result =array(array( 
+"INV_PROD_CODIGO"=>"0",				
+"TIPO_ID"=>"0",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_ID"=>"0",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"INV_PROD_NOM"=>"SIN REGISTRO",
+"ING_PRECIO_UNITARIO"=>"0",
+"ING_TIPO_INGRESO"=>"0",
+"totalprecio" =>"0"));
+		}
+    return $result;
+	}
+
+public function productospreciototal($tipo, $cat){
+		$this->db->select('TIPO_NOMBRE,INV_PROD_CANTIDAD, sum(ingreso.ING_PRECIO_UNITARIO) as total');
+	$this->db->from('ingreso');
+	$this->db->join('inventario','ingreso.ING_ID = inventario.INV_INGRESO_ID');
+	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
+	
+	$this->db->where('ingreso.ING_PRECIO_UNITARIO > 0');
+	$consulta = $this->db->get();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+
+		if(is_null($result))
+		{
+			$result =array(array( 
+"TIPO_NOMBRE"=>"SIN DATOS",		
+"INV_PROD_CANTIDAD"=>"0",		
+"total" =>"0"));
+		}
+    return $result;
+}
+
 		}
 	
 
