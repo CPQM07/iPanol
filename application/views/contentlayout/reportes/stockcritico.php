@@ -95,7 +95,7 @@
                 <td><?= $value['CAT_NOMBRE']; ?></td>
                 <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
                 <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
-                <td><?= $value['PROD_PRIORIDAD']; ?></td>                
+                <td><?= @$value['PROD_PRIORIDAD']; ?></td>                
                   <?php if ($value['TIPO_ID'] == 1): ?>
                 <td> <?= @$value['CANTIDAD']; ?></td>
                 <?php endif ?>
