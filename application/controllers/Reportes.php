@@ -37,26 +37,167 @@ class Reportes extends CI_Controller {
         $this->layouthelper->Loadview("reportes/stockactual",$datos,false); 
   }
       public function excelactual(){
-        $this->load->library('excel');
+        $this->load->library('Excel');
         $objPHPExcel = new PHPExcel();
         $buscartipo = $_POST["tipo"];
         $buscarcat = $_POST["cat"];
+        $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
+        // Se asignan las propiedades del libro
+        $objPHPExcel->getProperties()->setCreator("Bryan Cordova and Elliott Urrutia") // Nombre del autor
+            ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
+            ->setTitle("Reporte") // Titulo
+            ->setSubject("Reporte Excel con PHP") //Asunto
+            ->setDescription("Reporte de stock actual") //Descripción
+            ->setKeywords("reporte stock actual") //Etiquetas
+            ->setCategory("Reporte excel"); //Categorias
+        $tituloReporte = "Reporte stock actual de Productos";
+        $titulosColumnas = array('Codigo', 'Nombre Producto', 'Tipo', 'Categoria','Posicion','Total');
+        // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Codigo')
-            ->setCellValue('B1', 'Nombre Producto')
-            ->setCellValue('C1', 'Tipo')
-            ->setCellValue('A2', 'Categoria')
-            ->setCellValue('B2', 'Posicion')
-            ->setCellValue('C2', 'Total');
-            $objPHPExcel->getActiveSheet()->setTitle('Usuarios');
-            $objPHPExcel->setActiveSheetIndex(0);
-            header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="01simple.xls"');
+            ->mergeCells('A1:F1');
+        // Se agregan los titulos del reporte
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
+            ->setCellValue('A3',  $titulosColumnas[0])  //Titulo de las columnas
+            ->setCellValue('B3',  $titulosColumnas[1])
+            ->setCellValue('C3',  $titulosColumnas[2])
+            ->setCellValue('D3',  $titulosColumnas[3])
+            ->setCellValue('E3',  $titulosColumnas[4])
+            ->setCellValue('F3',  $titulosColumnas[5]);
+            //Se agregan los datos de los productos
+ 
+        $i = 4; //Numero de fila donde se va a comenzar a rellenar
+            foreach ($TotalProductos as $value) {
+              $codigo = $value['INV_PROD_CODIGO'];
+              $nomprod = $value['INV_PROD_NOM'];
+              $nomtipo = $value['TIPO_NOMBRE'];
+              $nomcat = $value['CAT_NOMBRE'];
+              $posicion = $value['PROD_POSICION'];
+              $total = $value['Total'];
+
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $posicion)
+            ->setCellValue('F'.$i, $total);
+        $i++;
+ }
+$estiloTituloReporte = array(
+    'font' => array(
+        'name'      => 'Verdana',
+        'bold'      => true,
+        'italic'    => false,
+        'strike'    => false,
+        'size' =>16,
+        'color'     => array(
+            'rgb' => 'FFFFFF'
+        )
+    ),
+    'fill' => array(
+      'type'  => PHPExcel_Style_Fill::FILL_SOLID,
+      'color' => array(
+            'argb' => 'FF220835')
+  ),
+    'borders' => array(
+        'allborders' => array(
+            'style' => PHPExcel_Style_Border::BORDER_NONE
+        )
+    ),
+    'alignment' => array(
+        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        'rotation' => 0,
+        'wrap' => TRUE
+    )
+);
+ 
+$estiloTituloColumnas = array(
+    'font' => array(
+        'name'  => 'Arial',
+        'bold'  => true,
+        'color' => array(
+            'rgb' => 'FFFFFF'
+        )
+    ),
+    'fill' => array(
+        'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
+  'rotation'   => 90,
+        'startcolor' => array(
+            'rgb' => 'c47cf2'
+        ),
+        'endcolor' => array(
+            'argb' => 'FF431a5d'
+        )
+    ),
+    'borders' => array(
+        'top' => array(
+            'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+            'color' => array(
+                'rgb' => '143860'
+            )
+        ),
+        'bottom' => array(
+            'style' => PHPExcel_Style_Border::BORDER_MEDIUM ,
+            'color' => array(
+                'rgb' => '143860'
+            )
+        )
+    ),
+    'alignment' =>  array(
+        'horizontal'=> PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        'vertical'  => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+        'wrap'      => TRUE
+    )
+);
+ 
+$estiloInformacion = new PHPExcel_Style();
+$estiloInformacion->applyFromArray( array(
+    'font' => array(
+        'name'  => 'Arial',
+        'color' => array(
+            'rgb' => '000000'
+        )
+    ),
+    'fill' => array(
+  'type'  => PHPExcel_Style_Fill::FILL_SOLID,
+  'color' => array(
+            'argb' => 'FFd9b7f4')
+  ),
+    'borders' => array(
+        'left' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THIN ,
+      'color' => array(
+              'rgb' => '3a2a47'
+            )
+        )
+    )
+));
+$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:F3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:F".($i-1));
+for($i = 'A'; $i <= 'F'; $i++){
+    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
+}
+// Se asigna el nombre a la hoja
+$objPHPExcel->getActiveSheet()->setTitle('Stock Actual');
+ 
+// Se activa la hoja para que sea la que se muestre cuando el archivo se abre
+$objPHPExcel->setActiveSheetIndex(0);
+ 
+// Inmovilizar paneles
+//$objPHPExcel->getActiveSheet(0)->freezePane('A4');
+$objPHPExcel->getActiveSheet(0)->freezePaneByColumnAndRow(0,4);
+// Se manda el archivo al navegador web, con el nombre que se indica, en formato Excel5
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment;filename="Reportestockactual.xls"');
 header('Cache-Control: max-age=0');
  
-$objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');
 exit;
+
       }
       public function Pdfactual(){
       $this->load->library('Pdf');

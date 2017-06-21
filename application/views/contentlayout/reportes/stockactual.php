@@ -50,6 +50,7 @@
           <?php if (isset($buscar) > 0): ?>
             <div class="col-sm-offset-9 col-md-3">    
                <form id="pdf" action="pdfactual" method="post" target="_blank">
+               <meta charset="utf-8">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
@@ -60,6 +61,7 @@
                 </br>
                 </br>
                 </form>
+                <meta charset="utf-8">
                                <form id="excel" action="excelactual" method="post" target="_blank">
                   <input id="recuperartipo" type="hidden" name="recuperartipo" 
                          value="<?= @$buscartipo ?>">
