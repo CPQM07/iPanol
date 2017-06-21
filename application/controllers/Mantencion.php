@@ -76,12 +76,17 @@ class Mantencion extends CI_Controller {
 
 	public function new_usuario(){
 		if(isset($_POST['new_usu'])){
-			$nuevousuario=$this->usuario->create($_POST['new_usu']);
-			$nuevousuario->insert();
 			$usu=$_POST['new_usu'];
-    		$usersesion = $this->session->userdata('logged_in');
-			$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],'hola');
-			$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
+			$value=$this->usuario->findById($usu['USU_RUT']);
+			if($value==null){
+				$nuevousuario=$this->usuario->create($_POST['new_usu']);
+				$nuevousuario->insert();
+	    		$usersesion = $this->session->userdata('logged_in');
+				$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],'hola');
+				$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
+			}else{
+				$this->session->set_flashdata('Deshabilitar', 'El Usuario ya se encuentra registrado');
+			}
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
