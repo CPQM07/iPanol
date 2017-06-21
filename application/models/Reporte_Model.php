@@ -241,25 +241,87 @@ public function motivosdebaja($tipo, $cat, $mot){
     return $result;
 }
 
-public function vidautil(){
-	$this->db->select('TIPO_NOMBRE,PROD_NOMBRE,PROV_NOMBRE,ING_FECHA,ING_VIDA_UTIL_PROVEEDOR,USU_NOMBRES');
-	$this->db->from('ingreso');
-	$this->db->join('proveedor','proveedor.PROV_RUT = ingreso.ING_PROV_RUT');
-	$this->db->join('usuario','usuario.USU_RUT = ingreso.ING_USU_RUT');
-	$this->db->join('inventario','ingreso.ING_ID = inventario.INV_INGRESO_ID');
-	$this->db->join('productos','productos.PROD_ID = inventario.INV_PROD_ID');
-	$this->db->join('tipoprod','tipoprod.TIPO_ID = productos.PROD_TIPOPROD_ID');
-	$this->db->group_by('ingreso.ING_ID'); //PUEDE QUE ESTO HAGA FUNCIONAR LA CONSULTA EN PHPMYADMIN Y NO AQUI EN CASO DE ALGUN ERROR ... ELIMINAR EL GROUP_BY 	
+public function vidautilCompras($tipo, $cat, $adq){
+	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,
+ INV_PROD_NOM,ING_FECHA,PROV_NOMBRE,PROV_RUT,ING_VIDA_ULTIL_PROVEEDOR,ING_TIPO_INGRESO');
+	$this->db->from('inventario');
+	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
+	$this->db->join('proveedor','ingreso.ING_PROV_RUT = proveedor.PROV_RUT');
+	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
+	if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
+	}
+	$this->db->group_by('inventario.INV_PROD_NOM');
 	$consulta = $this->db->get();
 		$result = null;
     foreach ($consulta->result_array() as $row) {
       $result[] = $row;
     }
+
+		if(is_null($result))
+		{
+			$result =array(array( 
+"INV_PROD_CODIGO"=>"0",				
+"TIPO_ID"=>"0",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_ID"=>"0",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"INV_PROD_NOM"=>"SIN REGISTRO",
+"ING_FECHA"=>"0-0-0", 
+"PROV_NOMBRE"=>"SIN REGISTRO",
+"PROV_RUT"=>"0",
+"ING_VIDA_ULTIL_PROVEEDOR"=>"0",
+"ING_TIPO_INGRESO"=>"0"));
+		}
+    return $result;
+}
+public function vidautilDonaciones($tipo, $cat, $adq){
+	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,
+ INV_PROD_NOM,ING_FECHA,ING_VIDA_ULTIL_PROVEEDOR,ING_TIPO_INGRESO');
+	$this->db->from('inventario');
+	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
+	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
+	if ($cat!='0') {
+		$this->db->where('CAT_ID',$cat);
+	}
+	if ($tipo!='0') {
+		$this->db->where('TIPO_ID',$tipo);
+	}
+	if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
+	}
+	$this->db->group_by('inventario.INV_PROD_NOM');
+	$consulta = $this->db->get();
+		$result = null;
+    foreach ($consulta->result_array() as $row) {
+      $result[] = $row;
+    }
+
+		if(is_null($result))
+		{
+			$result =array(array( 
+"INV_PROD_CODIGO"=>"0",				
+"TIPO_ID"=>"0",
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_ID"=>"0",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"INV_PROD_NOM"=>"SIN REGISTRO",
+"ING_FECHA"=>"0-0-0",
+"ING_VIDA_ULTIL_PROVEEDOR"=>"0",
+"ING_TIPO_INGRESO"=>"0"));
+		}
     return $result;
 }
 		}
 	
-
 
 /* End of file Reporte_Model.php */
 /* Location: ./application/models/Reporte_Model.php */

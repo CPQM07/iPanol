@@ -14,6 +14,7 @@ class Reportes extends CI_Controller {
   public function index(){
 
   }
+  //METODO PARA LOS REPORTES DE STOCK ACTUAL
   public function Vistastockactual(){ 
       $datos['motivo'] = $this->reporte->motivo();
       $datos['categoria'] = $this->categorias->findAll();
@@ -37,43 +38,32 @@ class Reportes extends CI_Controller {
   }
       public function excelactual(){
         $this->load->library('excel');
+        $objPHPExcel = new PHPExcel();
         $buscartipo = $_POST["tipo"];
         $buscarcat = $_POST["cat"];
-        $this->excel->setActiveSheetIndex(0);
-        $this->excel->getActiveSheet()->setTitle('Reporte actual activos');
-        $this->excel->getActiveSheet()->setCellValue('A1', 'Un poco de texto');
-        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(50);
-        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-        $this->excel->getActiveSheet()->mergeCells('A1:Z1');
-        $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
-        $row = 1;
-        foreach ($TotalProductos as $value) 
-        {
-        $codigo = $value['INV_PROD_CODIGO'];
-        $nomprod = $value['INV_PROD_NOM'];
-        $nomtipo = $value['TIPO_NOMBRE'];
-        $nomcat = $value['CAT_NOMBRE'];
-        $posicion = $value['PROD_POSICION'];
-        $total = $value['Total'];
-        $this->excel->getActiveSheet()->fromArray(array($codigo, $nomprod, $nomtipo, $nomcat,
-          $posicion, $total), null, 'A'.$row);
-        $row++;
-        }
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="reportes.xls"');
-        header('Cache-Control: max-age=0'); //no cache
-        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
-        
-        // Forzamos a la descarga
-        $objWriter->save('php://output');
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Codigo')
+            ->setCellValue('B1', 'Nombre Producto')
+            ->setCellValue('C1', 'Tipo')
+            ->setCellValue('A2', 'Categoria')
+            ->setCellValue('B2', 'Posicion')
+            ->setCellValue('C2', 'Total');
+            $objPHPExcel->getActiveSheet()->setTitle('Usuarios');
+            $objPHPExcel->setActiveSheetIndex(0);
+            header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="01simple.xls"');
+header('Cache-Control: max-age=0');
+ 
+$objWriter=PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel5');
+$objWriter->save('php://output');
+exit;
       }
       public function Pdfactual(){
       $this->load->library('Pdf');
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-    $buscartipo = $_POST["tipo"];
-    $buscarcat = $_POST["cat"];
-    $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $buscartipo = $_POST["tipo"];
+      $buscarcat = $_POST["cat"];
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Actuales', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -99,8 +89,8 @@ class Reportes extends CI_Controller {
                   <th>Tipo</th>
                   <th>Categoria</th>
                   <th>Nombre Producto</th>
-                  <th>Fecha ingreso</th>
-                  <th>Stock</th>
+                  <th>Posición</th>
+                  <th>Total</th>
                   </tr>";
                foreach ($TotalProductos as $value) 
         {
@@ -141,7 +131,7 @@ class Reportes extends CI_Controller {
                   <th>Categoria</th>
                   <th>Nombre Producto</th>
                   <th>Posición</th>
-                  <th>Stock</th>
+                  <th>Total</th>
                   </tr>";
                foreach ($TotalProductos as $value) 
         {
@@ -167,24 +157,10 @@ class Reportes extends CI_Controller {
           //$tipos = utf8_decode("Tipo".$tipo.".pdf");
           $pdf->Output($categoria, 'I');
       }  
-      /*
-      $htmlpdf = $pdf->reporteActual($datos); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
-      $pdf->writeHTML($htmlpdf, true, false, true, false, '');
-      ob_clean();
-      
-
-      $pdf->Output('', 'I');
-      */
-/*
- $htmlpdf = $pdf->reporteCritico($datos); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
-   $pdf->writeHTML($htmlpdf, true, false, true, false, '');
-      ob_clean();
-        $pdf->Output('', 'D');
-  
-*/
   }
+//////////////////////////////////////////////////////////////////////////
+//METODO PARA LOS REPORTES STOCK CRITICO
 
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
     public function Vistastockcritico(){ 
       $datos['categoria'] = $this->categorias->findAll();
       $datos['tipo'] = $this->reporte->tipo();
@@ -207,10 +183,9 @@ class Reportes extends CI_Controller {
   public function Pdfcritico(){
       $this->load->library('Pdf');
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-    $buscartipo = $_POST["tipo"];
-    $buscarcat = $_POST["cat"];
-    $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $buscartipo = $_POST["tipo"];
+      $buscarcat = $_POST["cat"];
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Criticos', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -318,9 +293,9 @@ class Reportes extends CI_Controller {
       }
   
   }
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
+  ////////////////////////////////////////////////////////////////////////////////////
+//METODO PARA LOS REPORTES DE MOTIVOS BAJA
 
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
     public function Vistamotivosbaja(){
       $datos['motivos'] = $this->reporte->motivo();
       $datos['categoria'] = $this->categorias->findAll();
@@ -340,11 +315,10 @@ class Reportes extends CI_Controller {
     public function Pdfbaja(){
       $this->load->library('Pdf');
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
-//METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-    $buscartipo = $_POST["tipo"];
-    $buscarcat = $_POST["cat"];
-    $buscarmot = $_POST["mot"];
-    $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $buscartipo = $_POST["tipo"];
+      $buscarcat = $_POST["cat"];
+      $buscarmot = $_POST["mot"];
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Criticos', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -396,14 +370,42 @@ class Reportes extends CI_Controller {
           //$tipos = utf8_decode("Tipo".$tipo.".pdf");
           $pdf->Output($categoria, 'I');
       }
-  //METODO PARA LOS REPORTES DE LA VIDA UTIL .... DATOS ASOCIADOS AL ARRAY Y LUEGO SE LES OTORGA EL VALOR DE LA VARIABLE LA CUAL CONTIENE LOS DATOS DE LA CONSULTA
-    public function Pdfvida(){
-      $datosV = $this->reporte->vidautil();
-      print_r($datosV);
-      exit();
-    $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      ////////////////////////////////////////////////////////////////////////////7
+
+  //METODO LOS REPORTES DE VIDA UTIL
+
+public function Vistavidautil(){
+      $datos['categoria'] = $this->categorias->findAll();
+      $datos['tipo'] = $this->reporte->tipo();
+      if ($this->input->post('filtro')) {
+        $buscartipo = $this->input->post('tipo');
+        $buscarcat = $this->input->post('cat');
+        $buscaradq = $this->input->post('adq');
+      if ($buscaradq == 1) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscaradq'] = $buscaradq;
+        $datos['buscar'] = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);    
+      }  
+            if ($buscaradq == 2 ) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscaradq'] = $buscaradq;
+        $datos['buscar'] = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);    
+    }
+}
+        $this->layouthelper->Loadview("reportes/vidautil",$datos,false); 
+  
+}
+  public function Pdfvida(){
+      $this->load->library('Pdf');
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+      $buscartipo = $_POST["tipo"];
+      $buscarcat = $_POST["cat"];
+      $buscaradq = $_POST["adq"];
+      $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
-      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Vida Util de los Productos', "");
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Vida Útil de Productos', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
       $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -412,24 +414,104 @@ class Reportes extends CI_Controller {
       $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-      $pdf->AddPage();
-
- $htmlpdf = $pdf->reporteVida($datosV); //DEFINIR METODO QUE ESPECIFICA EL PDF AL QUE PERTENECE
-   $pdf->writeHTML($htmlpdf, true, false, true, false, '');
-      ob_clean();
-        $pdf->Output('', 'I');
-   
-  }
-  //CONTROLADORES PARA CARGAS LAS VISTAS
-
- 
-  public function Vistavidautil(){
-       $datos['vida']=$this->reporte->vidautil();
-       $datos['tipo'] = $this->reporte->tipo();
-     $this->layouthelper->Loadview("reportes/vidautil",$datos,false);
-  }
-
-}
+      $pdf->AddPage(); 
+      if ($buscaradq == 1) {
+          
+      $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);
+        $html = '';
+        $html .= "<style type=text/css>";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
+        $html .= "td{border:1px solid black; }";
+        $html .= "</style>";
+        $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
+        $html .= "<table width='100%'>";
+        $html .= "<tr><th>Codigo</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>Nombre Producto</th>
+                  <th>Fecha Ingreso</th>
+                  <th>Nombre Proveedor</th>
+                  <th>Rut</th>
+                  <th>Vida util</th>
+                  <th>Tipo Ingreso</th>
+                  </tr>";
+               foreach ($vida as $value) 
+        {
+        $codigo = $value['INV_PROD_CODIGO'];
+        $nomtipo = $value['TIPO_NOMBRE'];
+        $nomcat = $value['CAT_NOMBRE'];
+        $prodnom = $value['INV_PROD_NOM'];
+        $fechaing = $value['ING_FECHA'];
+        $nomprov = $value['PROV_NOMBRE'];
+        $rutprov = $value['PROV_RUT'];
+        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
+        $ingtipo = $value['ING_TIPO_INGRESO'];
+            $html .= "<tr>
+                      <td class='codigo'>".$codigo."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class= 'producto' >".$prodnom."</td>
+                      <td class= 'ingreso' >".$fechaing."</td>
+                      <td class= 'proveedor' >".$nomprov."</td>
+                      <td class= 'rut' >".$rutprov."</td>
+                      <td class= 'vidautil' >".$vidautil."</td>
+                      <td class= 'tipoingreso' >".$ingtipo."</td>
+                      </tr>";
+        }
+        $html .= "</table>";
+          $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+          ob_clean();
+          $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
+          //$tipos = utf8_decode("Tipo".$tipo.".pdf");
+          $pdf->Output($categoria, 'I');
+        }
+        //ÇAQUI EMPIESA LA CONDICION 2
+        if ($buscaradq == 2) {
+          $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);
+        $html = '';
+        $html .= "<style type=text/css>";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
+        $html .= "td{border:1px solid black; }";
+        $html .= "</style>";
+        $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
+        $html .= "<table width='100%'>";
+        $html .= "<tr><th>Codigo</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>Nombre Producto</th>
+                  <th>Fecha Ingreso</th>
+                  <th>Vida util</th>
+                  <th>Tipo Ingreso</th>
+                  </tr>";
+               foreach ($vida as $value) 
+        {
+        $codigo = $value['INV_PROD_CODIGO'];
+        $nomtipo = $value['TIPO_NOMBRE'];
+        $nomcat = $value['CAT_NOMBRE'];
+        $prodnom = $value['INV_PROD_NOM'];
+        $fechaing = $value['ING_FECHA'];
+        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
+        $ingtipo = $value['ING_TIPO_INGRESO'];
+            $html .= "<tr>
+                      <td class='codigo'>".$codigo."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class= 'producto' >".$prodnom."</td>
+                      <td class= 'ingreso' >".$fechaing."</td>
+                      <td class= 'vidautil' >".$vidautil."</td>
+                      <td class= 'tipoingreso' >".$ingtipo."</td>
+                      </tr>";
+        }
+        $html .= "</table>";
+          $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+          ob_clean();
+          $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
+          //$tipos = utf8_decode("Tipo".$tipo.".pdf");
+          $pdf->Output($categoria, 'I');
+            
+          } 
+}}
+///////////////////////////////////////////////////////////////////////////////////
 
 /* End of file reportes.php */
 /* Location: ./application/controllers/reportes.php */

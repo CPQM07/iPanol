@@ -1,9 +1,8 @@
-<!-- Vista reporte Vida util-->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h3>Vida util de los productos</h3>
+    <h3>Vida útil de productos</h3>
   </section>
 
   <!-- Main content -->
@@ -13,193 +12,142 @@
     <div class="box">
       <div class="box-header with-border">
       <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label>Mes</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">Mes</option>
-              <option>Enero</option>
-              <option>Febrero</option>
-              <option>Marzo</option>
-              <option>Abril</option>
-              <option>Mayo</option>
-              <option>Junio</option>
-              <option>Julio</option>
-              <option>Agosto</option>
-              <option>Septiembre</option>
-              <option>Octubre</option>
-              <option>Noviembre</option>
-
-            </select>
-          </div>
-        </div>
-         <div class="col-md-4">
+          <div class="col-md-4">
+          <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">Tipo producto</option>
-              <option>Activo</option>
-              <option>Fungible</option>
-            </select>
+              <select id="tipo" name="tipo" class="form-control select2">
+              <option value="0">Tipos de productos</option>
+              <?php foreach ($tipo as $key => $value): ?>
+              <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
+              <?php endforeach ?>
+        </select>
           </div>
         </div>
-        <div class="col-md-4" class="pull-right">
-          <label>Acción</label>
-          <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#myModal">Filtrar</button>
-        </div>
-      </div>
-      </div>
+               <div class="col-md-4">
+          <label>Categorias</label>
+             <div class="form-group">
+                <select id="cat" name="cat" class="form-control select2" >
+                <option value="0">Todas las categorias</option>x
+                   <?php foreach ($categoria as $key => $value): ?>
+                    <?php if ($value->get("CAT_ESTADO") == 1): ?>
+                       <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
+                       </option>
+                    <?php endif ?>
+                  <?php endforeach ?>
+                </select>
+              </div>
+        </div> 
+        <div class="col-md-4">
+          <label>Adquisición</label>
+             <div class="form-group">
+                <select id="adq" name="adq" class="form-control select2" required="true" >
+                <option value="">Todas las adquisiciones</option>  
+                       <option value="1">Compra</option>
+                       <option value="2">Donación</option>
+                </select>
+              </div>
+        </div> 
+       <div class="col-md-1" class="pull-right" align="pull-right">
+               <label>Acción</label>
+               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
+            </div>
+       </div>
+       </form>
+       
       <div class="box-body">
         <div class="box-body">
-            <table id="example2" class="table table-bordered table-hover">
+          <?php if (isset($buscar) > 0): ?>
+            <div class="col-sm-offset-9 col-md-3">    
+               <form id="pdf" action="Pdfvida" method="post" target="_blank">
+                  <input id="recuperartipo" type="hidden" name="recuperartipo" 
+                         value="<?= @$buscartipo ?>">
+                  <input id="recuperarcat" type="hidden" name="recuperarcat" 
+                         value="<?= @$buscarcat?>">
+                  <input id="recuperaradq" type="hidden" name="recuperaradq"
+                  value="<?= @$buscaradq  ?>">
+
+                  
+                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar </button>
+                                         
+                </br>
+                </br>
+                </form>
+            </div>
+            <table id="example2" class="datatable table table-bordered table-hover">    
               <thead>
                 <tr>
-                  <th>Tipo de Producto</th>
-                  <th>Producto</th>
-                  <th>Proveedor</th>
-                  <th>Ingreso</th>
-                  <th>Vida util</th>
-                  <th>Recepcionista</th>
-                  <th>Editar</th>
-                  <th>Observaciones</th>
+                  <th>Codigo</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>Nombre Producto</th>
+                  <th>Fecha Ingreso</th>
+                <?php if (@$buscaradq == 1): ?>  
+                  <th>Nombre Proveedor</th>
+                  <th>Rut Proveedor</th>
+                  <th>Tipo Ingreso</th>
+                <th>Vida Util</th>
+                <?php endif ?>
+                <?php if (@$buscaradq == 2 ): ?>
+                <th>Tipo Ingreso</th>
+                <th>Vida Util</th>
+                <?php endif ?>
                 </tr>
               </thead>
               <tbody>
+              <?php foreach ($buscar as $key => $value): ?>
               <tr>
-                <td>Stock Critico</td>
-                <td>RJ45</td>
-                <td>2017/05/14</td>
-                <td>5</td>
-                <td>Fungible</td>
-                <td>Soledad H.</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                 <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
-              <tr>
-                <td>Stock Critico</td>
-                <td>RJ45</td>
-                <td>2017/05/14</td>
-                <td>5</td>
-                <td>Fungible</td>
-                <td>Soledad H.</td>
-                <td>
-                <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                   <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>Stock Critico</td>
-                <td>RJ45</td>
-                <td>2017/05/14</td>
-                <td>5</td>
-                <td>Fungible</td>
-                <td>Soledad H.</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                   <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
-              </tr>
-              <tr>
-               <td>Stock Critico</td>
-                <td>RJ45</td>
-                <td>2017/05/14</td>
-                <td>5</td>
-                <td>Fungible</td>
-                <td>Soledad H.</td>
-                <td>
-               <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                   <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
-              </tr>
-              <tr>
-               <td>Stock Critico</td>
-                <td>Mouse</td>
-                <td>2017/05/4</td>
-                <td>5</td>
-                <td>Activo</td>
-                <td>Soledad H.</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
-              </tr>
-              <tr>
-               <td>Stock Critico</td>
-                <td>Martillo</td>
-                <td>2017/05/11</td>
-                <td>1</td>
-                <td>Activo</td>
-                <td>Soledad H.</td>
-                <td>
-                  <button type="button" class="btn btn-primary btn-block  " data-toggle="modal" data-target="#myModal" data-skin="skin-blue"><i class="fa fa-eye"></i></button>
-                </td>
-                <td>
-                   <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-save"></i></button>
-                </td>
+                <td><?= $value['INV_PROD_CODIGO']; ?></td>
+                <td><?= $value['TIPO_NOMBRE']; ?></td>
+                <td><?= $value['CAT_NOMBRE']; ?></td>
+                <td><?= $value['INV_PROD_NOM']; ?></td>
+                <td><?= $value['ING_FECHA']; ?></td>
+                <td>0</td>
+                <?php if ($value['INV_PROD_CODIGO'] !=0): ?>
+
+                <?php if (@$buscaradq == 1 && @$buscartipo == 1): ?>
+                <td> <?=$value['PROV_NOMBRE']; ?></td>
+                <td> <?=$value['PROV_RUT']; ?></td>
+                <td> Compra</td>
+              <?php endif ?>
+              
+              <?php if (@$buscaradq == 2 && @$buscartipo == 2): ?>
+                <td>donacion</td>
+                
+                <td> <?=$value['ING_VIDA_ULTIL_PROVEEDOR']; ?> Meses</td>
+                <?php endif ?>   
+              <?php endif ?>
+              <?php endforeach ?>
               </tr>
               </tbody>
             </table>
+          <?php endif ?>
           </div>
       </div>
+       
     </div>
-    <!-- /.box -->
-
-
-
-
-
   </section>
   <!-- /.content -->
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
 
+  <?php if(isset($buscartipo) && isset($buscarcat)): ?>
+    $("#cat").val('<?=$buscarcat?>').trigger('change');
+    $("#tipo").val('<?=$buscartipo?>').trigger('change');
+    $("#adq").val('<?=$buscaradq?>').trigger('change');
+  <?php endif; ?>
+  $('#pdf').submit(function(){
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+     $(this).append("<input name='adq' type='hidden' value='"+$("#recuperaradq").val()+"'  >");
+      console.log($("#tipo").val());
+      console.log($("#cat").val());
 
+     //return false;
+    });
+  });
 
-
-<!--Observaciones-->
-  <div class="modal fade myObs" aria-labelledby="myModalLabel">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-          <h4 class="modal-title" id="myModalLabel">Editar ingreso</h4>
-        </div>
-        <div class="modal-body">
-            <div class="box-body">
-
-              <div class="form-group ">
-                <label >Texto</label>
-                <input type="text" class="form-control pull-right col-md-6"  placeholder="Ingrese el texto">
-              </div>
-              <br>
-              <div class="form-group">
-                <label>Motivo</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Motivos</option>
-                  <option>Reparado</option>
-                  <option>Merma</option>
-                  <option>Necesita presupuesto</option>
-                  <option>En espera de repuestos</option>
-                </select>
-             </div>
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success">Guardar datos</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--Observaciones-->
+</script>
+</div>

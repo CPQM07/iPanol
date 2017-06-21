@@ -55,11 +55,24 @@
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
                   
-                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar </button>
+                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar PDF</button>
                                          
                 </br>
                 </br>
                 </form>
+                               <form id="excel" action="excelactual" method="post" target="_blank">
+                  <input id="recuperartipo" type="hidden" name="recuperartipo" 
+                         value="<?= @$buscartipo ?>">
+                  <input id="recuperarcat" type="hidden" name="recuperarcat" 
+                         value="<?= @$buscarcat?>">
+                  
+                  <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar EXCEL</button>
+                                         
+                </br>
+                </br>
+                </form>
+            </div>
+            </div>
             </div>
             <table id="example2" class="datatable table table-bordered table-hover">    
               <thead>
@@ -111,10 +124,15 @@ $(document).ready(function(){
      $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
       console.log($("#tipo").val());
       console.log($("#cat").val());
-
+        //return false;
+          });
+        $('#excel').submit(function(){
+     $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
+     $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+    console.log($("#tipo").val());
+      console.log($("#cat").val());
      //return false;
-    });
   });
-
+      });
 </script>
 </div>
