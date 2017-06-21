@@ -16,7 +16,7 @@ private  $_columns  =  array(
 'ING_DESC' => '',
 'ING_FECHA' => '',
 'ING_USU_RUT' => 0,
-'ING_VIDA_ULTIL_PROVEEDOR' => 0,
+'ING_VIDA_UTIL_PROVEEDOR' => 0,
 'ING_PROV_RUT' => 0,
 'ING_TIPO_INGRESO' => 0
 );

@@ -31,7 +31,14 @@ class Gestion extends CI_Controller {
   }
 
   public function index()
-  {   
+  {  
+   /* $productos = $this->prod->findAll();
+    foreach ($productos as $key => $value) {
+      $todoslosinv = $this->inv->findByArray(array("INV_PROD_ID" => $value->get("PROD_ID")));
+      foreach ($todoslosinv as $key2 => $value2) {
+        $this->inv->update($value2->get("INV_ID"),array("INV_IMAGEN" => $value->get("PROD_IMAGEN")));
+      }
+    }*/
     $this->layouthelper->LoadView("pruebas/indexcontent" , null);
   }
 
@@ -279,7 +286,7 @@ class Gestion extends CI_Controller {
               'ING_ORDEN_COMPRA'  =>$_POST['ordencompra'],
               'ING_DESC' =>$_POST['descripcion'],
               'ING_USU_RUT' =>$usersesion['rut'],
-              'ING_VIDA_ULTIL_PROVEEDOR' =>$_POST['vidautil'],
+              'ING_VIDA_UTIL_PROVEEDOR' =>$_POST['vidautil'],
               'ING_PROV_RUT' =>$_POST['proveedor'],
               'ING_PRECIO_UNITARIO' => $_POST["preciounitario"],
               'ING_TIPO_INGRESO' => $_POST["modo"]
@@ -1085,7 +1092,7 @@ class Gestion extends CI_Controller {
          $_columns  =  array(
               'ING_ORDEN_COMPRA'  => $_POST["odecompraedit"],
               'ING_DESC' => $_POST["descedit"],
-              'ING_VIDA_ULTIL_PROVEEDOR' => $_POST["vidautiledit"],
+              'ING_VIDA_UTIL_PROVEEDOR' => $_POST["vidautiledit"],
               'ING_PROV_RUT' => $_POST["proveedor"]
               );
       $this->ing->update($idingreso,$_columns);

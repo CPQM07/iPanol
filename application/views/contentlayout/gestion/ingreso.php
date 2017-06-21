@@ -589,7 +589,7 @@
           .done(function(response) {
             $("#ocedit").val(response._columns.ING_ORDEN_COMPRA);
             $("#descedit").val(response._columns.ING_DESC);
-            $("#vuedit").val(response._columns.ING_VIDA_ULTIL_PROVEEDOR);
+            $("#vuedit").val(response._columns.ING_VIDA_UTIL_PROVEEDOR);
             $("#provedit").val(response._columns.ING_PROV_RUT).trigger('change');
             $("#idingreso").val(response._columns.ING_ID);
             $("#precioedit").val(response._columns.ING_PRECIO_UNITARIO);
