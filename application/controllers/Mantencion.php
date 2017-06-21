@@ -6,7 +6,7 @@ class Mantencion extends CI_Controller {
   public function __construct()
   {
 		parent::__construct();
-    if ($this->session->userdata('logged_in')) {
+    if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->library('CopiarImg','copiarimg',false);
 		$this->load->model('Cargo_Model','cargo', true);
@@ -22,6 +22,7 @@ class Mantencion extends CI_Controller {
   } else {
     redirect('/Login');
   }
+  
 
   }
 

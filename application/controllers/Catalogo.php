@@ -6,14 +6,18 @@ class Catalogo extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Producto_Model', 'prod');
-		$this->load->model('Categoria_Model', 'cat');
-		$this->load->model('TipoProd_Model', 'tipprod');
-		$this->load->model('Inventario_Model', 'inv');
-		$this->load->model('Usuario_Model', 'usu');
-		$this->load->model('Solicitud_Model','soli');
-        $this->load->model('DetSolicitud_Model','detsol');
-        $this->load->model('Asignatura_Model','asig');
+		if ($this->session->userdata('logged_in')["cargo"][0] == 1 or $this->session->userdata('logged_in')["cargo"][0] == 2) {
+			$this->load->model('Producto_Model', 'prod');
+			$this->load->model('Categoria_Model', 'cat');
+			$this->load->model('TipoProd_Model', 'tipprod');
+			$this->load->model('Inventario_Model', 'inv');
+			$this->load->model('Usuario_Model', 'usu');
+			$this->load->model('Solicitud_Model','soli');
+	        $this->load->model('DetSolicitud_Model','detsol');
+	        $this->load->model('Asignatura_Model','asig');
+	    }else{
+	      redirect('/Login');
+	    }
 	}
 
 	public function index()
@@ -306,8 +310,14 @@ class Catalogo extends CI_Controller {
 		    $data["fechaentrega"] = $fechaEntrega;
 		    $data["nombreuser"] = $usersession['nombres']." ".$usersession['apellidos'];
 		    $data["grupo"] = $cantidadGruTrab;
-		    $_SESSION["productos"] = null;
-		    $this->load->view('Catalogo/confirmacion', $data, FALSE);
+
+		    if (intval($ultimoIngresado) > 0) {
+		    	$_SESSION["productos"] = null;
+		    	$this->load->view('Catalogo/confirmacion', $data, FALSE);
+		    }else{
+		    	$this->session->set_flashdata('camposvacios', 'Lo sentimos ocurrio un error inesperado revise que este correctamente logeado');
+	  			redirect('Catalogo/carrito','refresh');
+		    }		    
 	  	}else{
 	  		$this->session->set_flashdata('camposvacios', 'Lo sentimos la fecha de entrega ingresada no puede ser mayor a la fecha actual, minutos y segundos tambien son contabilizados¡¡');
 	  	redirect('Catalogo/carrito','refresh');

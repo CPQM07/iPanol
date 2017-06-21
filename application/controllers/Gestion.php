@@ -6,27 +6,28 @@ class Gestion extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
-    $this->layouthelper->SetMaster('layout');
-    $this->load->model('Usuario_Model','usu',true);
-    $this->load->model('Asignatura_Model','asig',true);
-    $this->load->model('Producto_Model','prod',true);
-    $this->load->model('Proveedor_Model','prov',true);
-    $this->load->model('Categoria_Model','cat',true);
-    $this->load->model('Ingreso_Model','ing',true);
-    $this->load->model('Inventario_Model','inv',true);
-    $this->load->model('Solicitud_Model','soli',true);
-    $this->load->model('DetSolicitud_Model','detsol',true);
-    $this->load->model('Asignacion_Model','asignacion',true);
-    $this->load->model('Baja_Model','baja',true);
-    $this->load->model('Motivo_Model','mot',true);
-    $this->load->model('Observaciones_Model','obs',true);
-    $this->load->model('Baja_Model','baja',true);
-    $this->load->model('Cargo_Model','cargo',true);
-    /*nuevo*/
-    $this->load->model('TipoProd_Model','tipoP',true);
-    $this->load->helper('array');
-    /*nuevo*/
-
+    if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
+        $this->layouthelper->SetMaster('layout');
+        $this->load->model('Usuario_Model','usu',true);
+        $this->load->model('Asignatura_Model','asig',true);
+        $this->load->model('Producto_Model','prod',true);
+        $this->load->model('Proveedor_Model','prov',true);
+        $this->load->model('Categoria_Model','cat',true);
+        $this->load->model('Ingreso_Model','ing',true);
+        $this->load->model('Inventario_Model','inv',true);
+        $this->load->model('Solicitud_Model','soli',true);
+        $this->load->model('DetSolicitud_Model','detsol',true);
+        $this->load->model('Asignacion_Model','asignacion',true);
+        $this->load->model('Baja_Model','baja',true);
+        $this->load->model('Motivo_Model','mot',true);
+        $this->load->model('Observaciones_Model','obs',true);
+        $this->load->model('Baja_Model','baja',true);
+        $this->load->model('Cargo_Model','cargo',true);
+        $this->load->model('TipoProd_Model','tipoP',true);
+        $this->load->helper('array');
+      }else{
+        redirect('/Login');
+      }
   }
 
   public function index()
