@@ -132,7 +132,7 @@ public function findById($id){
       $datos=array();
       $user = null;
 
-      $result = $this->db->get_where('usuario',array('USU_RUT'=>$rut));
+      $result = $this->db->get_where('usuario',array('USU_RUT'=>$rut ,'USU_ESTADO' => 1));
       if ($result->num_rows() > 0) {
         $row = $result->row_object();
         if($row->USU_CLAVE == $clave){

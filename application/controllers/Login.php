@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 
 		   }else
 		   {
-		   	   $data['error'] = "Rut no valido y/o contraseña incorrecta";
+		   	   $data['error'] = "Credenciales no validas";
 		   }
 
 		}

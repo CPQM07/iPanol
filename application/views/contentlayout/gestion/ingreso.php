@@ -40,7 +40,7 @@
                   
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label>Producto</label>
+                      <label>Producto (*)</label>
                         <div class="input-group">
                           <select required name="producto" class="form-control select2">
                             <option></option>
@@ -61,25 +61,25 @@
                   </div>
 
                   <div class="col-md-3">
-                      <label>Cantidad</label>
-                      <input type="number" name="cantidad" class="form-control">
+                      <label>Cantidad (*)</label>
+                      <input type="number" required name="cantidad" class="form-control">
                   </div>
                   <div class="col-md-3">
-                        <label>Vida útil (En meses)</label>
+                        <label>Vida útil (En meses)(*)</label>
                         <input name="vidautil" id="vidautil" type="number" class="form-control" >
                   </div>
                   <div class="col-md-3">
-                      <label>Modo</label>
-                        <select id="modo" name="modo" class="form-control">
-                          <option value="0">Seleccione el modo de Ingreso</option>
+                      <label>Modo (*)</label>
+                        <select required id="modo" name="modo" class="form-control select2">
+                          <option ></option>
                           <option value="1">Compra</option>
                           <option value="2">Donación</option>
                         </select>
                   </div>
 
                   <div class="col-md-12">
-                      <label>Descripción</label>
-                      <textarea name="descripcion" type="textarea" class="form-control"></textarea>
+                      <label>Descripción (*)</label>
+                      <textarea name="descripcion" required type="textarea" class="form-control"></textarea>
                   </div>
 
                 <div class="col-md-12">
@@ -93,7 +93,7 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                        <h4 class="modal-title" id="myModalLabel">Compra</h4>
+                        <h4 class="modal-title" id="myModalLabel">Modo de adquisición (Compra)</h4>
                       </div>
                       <div class="modal-body">
                                   
@@ -101,7 +101,7 @@
                            
                             <div class="col-md-12">
                                 <div class="form-group">
-                                  <label>Proveedor</label>
+                                  <label>Proveedor (*)</label>
 
                                   <div class="input-group">
                                     <select name="proveedor" id="proveedor" class="form-control select2" style="width: 100%">
@@ -121,11 +121,11 @@
                               </div>
 
                               <div class="col-md-12">
-                                  <label>Orden de compra</label>
+                                  <label>Orden de compra (*)</label>
                                   <input type="number" name="ordencompra" id="ordencompra" class="form-control">
                               </div>
                               <div class="col-md-12">
-                                  <label>Precio unitario</label>
+                                  <label>Precio unitario (*)</label>
                                   <input type="number" name="preciounitario" id="preciounitario" class="form-control">
                               </div>
 

@@ -100,7 +100,7 @@ class Gestion extends CI_Controller {
                                     );
      }   
 
-     $data["motivos"] = $this->mot->findByArray();//array('MOT_DIF' => 1)
+     $data["motivos"] = $this->mot->findByArray(array("MOT_ESTADO" => 1));//array('MOT_DIF' => 1)
      $data["bajas"] = $arraytodasbajas;
      $data['categorias'] = $this->cat->findByArray(array('CAT_ESTADO' => 1));
      $this->layouthelper->LoadView("gestion/baja" , $data);
@@ -257,7 +257,9 @@ class Gestion extends CI_Controller {
      $data['productos'] = $this->prod->findAll();
      $data['ingresos'] = $this->ing->findAll();
      $data['categorias'] = $this->cat->findAllSelect();
-      $data['tipos'] = $this->tipoP->findAll();
+
+     
+     $data['tipos'] = $this->tipoP->findAll();
      $this->layouthelper->LoadView("gestion/ingreso" , $data);
   }
 
@@ -265,7 +267,28 @@ class Gestion extends CI_Controller {
     $usersesion = $this->session->userdata('logged_in');
     $producto = $this->prod->findById($_POST['producto']);
 
-    $columns =array(
+    if (trim($_POST['producto']) != "" and trim($_POST['cantidad']) != "" and trim($_POST['descripcion']) != "" and trim($_POST['vidautil']) != "" and trim($_POST['modo']) != "") {
+
+      }else{
+      $this->session->set_flashdata('Deshabilitar', 'Lo sentimos existe uno de los campos requeridos vacíos');
+      redirect('Gestion/ingreso','refresh');
+      }
+
+      if ($_POST['modo'] == 1) {
+        if (trim($_POST['ordencompra']) != "" and trim($_POST['preciounitario']) != "" and trim($_POST['proveedor']) != "") {
+          # code...
+        }else{
+          $this->session->set_flashdata('Deshabilitar', 'Lo sentimos al seleccionar modo compra debe ingresar Orden de compra, Precio Unitario y Seleccionar un Proveedor');
+          redirect('Gestion/ingreso','refresh');
+        }
+      }elseif ($_POST['modo'] == 2) {
+        # code...
+      }else{
+        $this->session->set_flashdata('Deshabilitar', 'Lo sentimos no ha seleccionado ningun modo de adquisición');
+      redirect('Gestion/ingreso','refresh');
+      }
+      
+      $columns =array(
               'ING_PROD_ID' =>$_POST['producto'],
               'ING_CANTIDAD' =>$_POST['cantidad'],
               'ING_ORDEN_COMPRA'  =>$_POST['ordencompra'],
@@ -318,6 +341,8 @@ class Gestion extends CI_Controller {
 
   $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el stock de este producto.');
   redirect('Gestion/ingreso','refresh');
+
+    
   }
 
   public function recepcion()
@@ -1074,11 +1099,16 @@ class Gestion extends CI_Controller {
 
     public function editar_ingreso(){
       $idingreso = $_POST["idingreso"];
+      $ocom = null;$proveedor = null; $vidautil = null; $desc = null;
+      if (isset($_POST["odecompraedit"]) and $_POST["odecompraedit"] != "") $ocom = $_POST["odecompraedit"];
+      if (isset($_POST["descedit"]) and $_POST["descedit"] != "") $desc = $_POST["descedit"];
+      if (isset($_POST["vidautiledit"]) and $_POST["vidautiledit"] != "") $vidautil = $_POST["vidautiledit"];
+      if (isset($_POST["proveedor"]) and $_POST["proveedor"] != "") $proveedor = $_POST["proveedor"];
          $_columns  =  array(
-              'ING_ORDEN_COMPRA'  => $_POST["odecompraedit"],
-              'ING_DESC' => $_POST["descedit"],
-              'ING_VIDA_UTIL_PROVEEDOR' => $_POST["vidautiledit"],
-              'ING_PROV_RUT' => $_POST["proveedor"]
+              'ING_ORDEN_COMPRA'  => $ocom,
+              'ING_DESC' => $desc,
+              'ING_VIDA_UTIL_PROVEEDOR' => $vidautil,
+              'ING_PROV_RUT' => $proveedor
               );
       $this->ing->update($idingreso,$_columns);
       $this->session->set_flashdata('Habilitar', 'Ingreso actualizado correctamente');
