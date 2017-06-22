@@ -50,7 +50,7 @@
                     <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
                     <td class="text-center">
                       <a iddetalle="<?= $value->get("SOL_ID")  ?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
-                      <a idsolicitud="<?= $value->get("SOL_ID")  ?>" class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
+                      <a idsolicitud="<?= $value->get("SOL_ID")  ?>"  class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
                     </td>
                   </tr>
                 <?php endforeach ?>
@@ -63,35 +63,57 @@
         </div>
       </div>
 
-          <div class="row">
-            <div class="col-md-3">
-              <div class="box-header">
-                <h3 class="box-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3><br><br><br>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body">
-                <table class="table table-bordered table-hover">
-                  <thead>
-                    <tr bgcolor="CCCCCC">
-                      <th>Id</th>
-                      <th>Producto / insumo</th>
-                      <th>Cantidad</th>
-                    </tr>
-                  </thead>
-                  <tbody id="detallesol">
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.box-body -->
-            </div>
-   
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="col-md-12">
+                      <div class="box-header">
+                      <h3 class="box-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3><br><br><br>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <table style="font-size: 10px" class="table table-bordered table-hover">
+                        <thead>
+                          <tr bgcolor="CCCCCC">
+                            <th>#</th>
+                            <th>Producto / insumo</th>
+                            <th>Cantidad</th>
+                            <th>Posición</th>
+                          </tr>
+                        </thead>
+                        <tbody id="detallesol">
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="col-md-12">
+                      <div class="box-body">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                          <ol class="carousel-indicators" id="carousel-indicators">      
+                          </ol>
+                          <div class="carousel-inner" id="carousel-inner">
+                          </div>
+                          <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="fa fa-angle-left"></span>
+                          </a>
+                          <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="fa fa-angle-right"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+              
                   <div class="col-md-5">
                     <div class="box-header">
                       <h3 class="box-title">Asignación de insumos</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                      <table id="dinamicajax" class="table table-bordered table-hover">
+                      <table style="font-size: 10px" id="dinamicajax" class="table table-bordered table-hover">
                         
                       </table>
                     </div>
@@ -100,13 +122,13 @@
 
 
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box-header">
                       <h3 class="box-title">Asignación final</h3><br><br><br>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                       <table id="resulasignacion"  class="table table-responsive table-condensed">
+                       <table style="font-size: 9px" id="resulasignacion"  class="table table-responsive table-condensed">
                     <thead>
                     <tr>
                       <th>Id</th>
@@ -152,13 +174,6 @@
 
     <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
     <script type="text/javascript" charset="utf-8">
-     $(".rechazarsolicitud").tooltip({
-      show: {
-        effect: "slideDown",
-        delay: 250
-      }
-    });
-
     $(function() {
       $(".datatabledigital").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
@@ -230,13 +245,13 @@
                     { title: "Id",
                         className: "text-sm hidden" },
                     { title: "Codigo",
-                        className: "text-sm"},
+                        className: "text-center"},
                     { title: "Stock",
                         className: "text-red text-center"},
                     { title: "Nombre",
                         className: "text-green text-center"},
                     { title: "Cantidad",
-                        className: "text-sm"},
+                        className: "text-center"},
                     { title: "Accion"}]
             });
 
@@ -250,9 +265,19 @@
                     datatype: "json",
                     data:  {"idsolicitud": idsol},
                     success: function(response){
+                        var i = 0;
                         response.forEach(function(rr) {
                         var obj = JSON.parse(rr);
-                        $("#detallesol").append('<tr><td>'+obj.ID+'</td><td>'+obj.PROD_NOMBRE+'</td><td>'+obj.CANTIDAD+'</td></tr>')
+                        if (i == 0) {
+                          $("#carousel-indicators").append('<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class="active"></li>');
+                          $("#carousel-inner").append(' <div class="item active"><img style="width: 100%;height: 250px" src="'+obj.IMAGEN+'" alt="First slide"> <div class="carousel-caption"><h3 style="color: yellow">'+obj.PROD_NOMBRE+'</h3></div></div>');
+                          i++;
+                        }else{
+                          $("#carousel-indicators").append('<li data-target="#carousel-example-generic" data-slide-to="'+i+'" class=""></li>');
+                          $("#carousel-inner").append(' <div class="item"><img style="width: 100%;height: 250px" src="'+obj.IMAGEN+'" alt="First slide"> <div class="carousel-caption"><h3 style="color: yellow">'+obj.PROD_NOMBRE+'</h3></div></div>');
+                          i++;
+                        }
+                        $("#detallesol").append('<tr><td>'+obj.ID+'</td><td>'+obj.PROD_NOMBRE+'</td><td>'+obj.CANTIDAD+'</td><td>'+obj.POSICION+'</td></tr>')
                         productosid.push(obj.PROD_ID);
                     }); 
                     $('#dinamicajax').DataTable().ajax.reload();             
@@ -445,6 +470,8 @@
     $("#detallesol").text('');
     $("#setidsol").text("");
     $("#total").text("");
+    $("#carousel-inner").text("");
+    $("#carousel-indicators").text("");
    }
 
     </script>

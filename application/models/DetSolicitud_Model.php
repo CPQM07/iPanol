@@ -32,6 +32,7 @@ public function create($row){
 
 public function findByArray($myarray = null){
   $this->load->database();
+  $this->db->join('productos', 'productos.PROD_ID = detallesol.DETSOL_PROD_ID');
   $res = $this->db->get_where('detallesol',$myarray);
   //$this->db->order_by('SOL_ID', 'ASC');
   $result = array();

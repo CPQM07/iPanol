@@ -8,23 +8,6 @@ class Gestion extends CI_Controller {
     parent::__construct();
     if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
         $this->layouthelper->SetMaster('layout');
-        $this->load->model('Usuario_Model','usu',true);
-        $this->load->model('Asignatura_Model','asig',true);
-        $this->load->model('Producto_Model','prod',true);
-        $this->load->model('Proveedor_Model','prov',true);
-        $this->load->model('Categoria_Model','cat',true);
-        $this->load->model('Ingreso_Model','ing',true);
-        $this->load->model('Inventario_Model','inv',true);
-        $this->load->model('Solicitud_Model','soli',true);
-        $this->load->model('DetSolicitud_Model','detsol',true);
-        $this->load->model('Asignacion_Model','asignacion',true);
-        $this->load->model('Baja_Model','baja',true);
-        $this->load->model('Motivo_Model','mot',true);
-        $this->load->model('Observaciones_Model','obs',true);
-        $this->load->model('Baja_Model','baja',true);
-        $this->load->model('Cargo_Model','cargo',true);
-        $this->load->model('TipoProd_Model','tipoP',true);
-        $this->load->helper('array');
       }else{
         redirect('/Login');
       }
@@ -70,6 +53,8 @@ class Gestion extends CI_Controller {
        $tododetjson[]  =  json_encode(array(
                   'ID' => $value->get("DETSOL_ID"),
                   'TIPOPROD' => $value->get("DETSOL_TIPOPROD"),
+                  'IMAGEN' => base_url('resources/images/Imagenes_Server/'.$value->get("PROD_IMAGEN")),
+                  "POSICION" => $value->get("PROD_POSICION"),
                   'CANTIDAD' => $value->get("DETSOL_CANTIDAD"),
                   'ESTADO' => $value->get("DETSOL_ESTADO"),
                   'SOL_ID' => $value->get("DETSOL_SOL_ID"),
@@ -508,14 +493,14 @@ class Gestion extends CI_Controller {
                           $value->get('INV_PROD_CANTIDAD'),
                           $value->get('INV_PROD_NOM'),
                           $value->get('INV_PROD_CANTIDAD'),
-                          "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                          "<button type='button' tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom='".$value->get('INV_PROD_NOM')."' class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
         }else if($value->get('INV_TIPO_ID') == 2){
              $allinv[] = array($value->get('INV_ID'),
               $value->get('INV_PROD_CODIGO'),
                           $value->get('INV_PROD_CANTIDAD'),
                           $value->get('INV_PROD_NOM'),
                           "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
-                          "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                          "<button type='button' tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom='".$value->get('INV_PROD_NOM')."' class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
         }
       }
     }
@@ -542,14 +527,14 @@ class Gestion extends CI_Controller {
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         $value->get('INV_PROD_CANTIDAD'),
-                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo=".$value->get('INV_TIPO_ID')." cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom='".$value->get('INV_PROD_NOM')."' class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
       }else if($value->get('INV_TIPO_ID') == 2){
            $allinv[] = array($value->get('INV_ID'),
             $value->get('INV_PROD_CODIGO'),
                         $value->get('INV_PROD_CANTIDAD'),
                         $value->get('INV_PROD_NOM'),
                         "<input type='number' min='1' max=".$value->get('INV_PROD_CANTIDAD')." id='INPUT".$value->get('INV_ID')."' class='form-control' >",
-                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom=".$value->get('INV_PROD_NOM')." class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
+                        "<button type='button' prodid=".$value->get('INV_PROD_ID')." tipo='".$value->get('INV_TIPO_ID')."' cant=".$value->get('INV_PROD_CANTIDAD')." id=".$value->get('INV_ID')." nom='".$value->get('INV_PROD_NOM')."' class='ADDinv btn btn-block btn-success btn-flat fa fa-plus'></button>");
       }
     }
     $this->output->set_content_type('application/json');
