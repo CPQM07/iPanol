@@ -61,6 +61,16 @@ public function findAll(){
   return $result;
 }
 
+public function findByArray($myarray = null){
+  $result = null;
+  $this->load->database();
+  $res = $this->db->get_where('proveedor',$myarray);
+  foreach ($res->result_array() as $row) {
+    $result[] = $row;
+  }
+  return $result;
+}
+
 public function findById($id){
     $result = null;
     $this->db->where('PROV_RUT',$id);
