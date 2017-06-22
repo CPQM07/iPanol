@@ -82,7 +82,8 @@ class Mantencion extends CI_Controller {
 				$nuevousuario=$this->usuario->create($_POST['new_usu']);
 				$nuevousuario->insert();
 	    		$usersesion = $this->session->userdata('logged_in');
-				$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],'hola');
+	    		$texto = implode(",", $_POST['new_usu']);
+				$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],$texto);
 				$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
 			}else{
 				$this->session->set_flashdata('Deshabilitar', 'El Usuario ya se encuentra registrado');
@@ -97,7 +98,8 @@ class Mantencion extends CI_Controller {
 			$id=$_POST['rut'];
 			$this->usuario->update($id,$_POST['new_usu']);
 			$usersesion = $this->session->userdata('logged_in');
-			$this->usuario->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
+			$texto = implode(",", $_POST['new_usu']);
+			$this->usuario->insertLogs(2,$usersesion['rut'],$id,$texto);
 			$this->session->set_flashdata('Habilitar', 'El Usuario se a editado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
@@ -116,13 +118,13 @@ class Mantencion extends CI_Controller {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 0));
       $usersesion = $this->session->userdata('logged_in');
-	  $this->usuario->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->usuario->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
       redirect('/Mantencion/usuarios');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->usuario->update($id, array('USU_ESTADO' => 1));
       $usersesion = $this->session->userdata('logged_in');
-	  $this->usuario->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->usuario->insertLogs(3,$usersesion['rut'],$id,'Cambio de Estado-Habilitar');
       redirect('/Mantencion/usuarios');
     }
   	}
@@ -154,7 +156,8 @@ class Mantencion extends CI_Controller {
 			$nuevo=$this->categorias->create($_POST['cat']);
 			$nuevo->insert();
 			$usersesion = $this->session->userdata('logged_in');
-			$this->categorias->insertLogs(1,$usersesion['rut'],0,'$_POST[new_usu]');
+			$texto = implode(",", $_POST['cat']);
+			$this->categorias->insertLogs(1,$usersesion['rut'],0,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			redirect('/Mantencion/categorias');
 		}else{
@@ -166,13 +169,13 @@ class Mantencion extends CI_Controller {
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $usersesion = $this->session->userdata('logged_in');
-	  $this->categorias->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->categorias->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
       $this->categorias->update($id, array('CAT_ESTADO' => 0));
       redirect('/Mantencion/categorias');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $usersesion = $this->session->userdata('logged_in');
-	  $this->categorias->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->categorias->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
       $this->categorias->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');
     }
@@ -188,7 +191,8 @@ class Mantencion extends CI_Controller {
       $id=$_POST['id'];
       $this->categorias->update($id,$_POST['cat']);
       $usersesion = $this->session->userdata('logged_in');
-	  $this->categorias->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
+      $texto = implode(",", $_POST['cat']);
+	  $this->categorias->insertLogs(2,$usersesion['rut'],$id,$texto);
       $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
       redirect('/Mantencion/categorias');
     }else{
@@ -264,10 +268,13 @@ class Mantencion extends CI_Controller {
 				$this->image_lib->resize();
 			}
 			}
-			$nuevopro=$this->productos->create($_POST['producto']);
-			$nuevopro->insert($nameimg);
+			$prod=$_POST['producto'];
+			$prod['PROD_IMAGEN']=$nameimg;
+			$nuevopro=$this->productos->create($prod);
+			$nuevopro->insert();
 			$usersesion = $this->session->userdata('logged_in');
-			$this->productos->insertLogs(1,$usersesion['rut'],0,'$_POST[new_usu]');
+			$texto = implode(",",$prod);
+			$this->productos->insertLogs(1,$usersesion['rut'],0,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			if($num==1){redirect('/Mantencion/productos');}
 			else{redirect('/Gestion/ingreso');}
@@ -305,7 +312,8 @@ class Mantencion extends CI_Controller {
 			}
 			$nuevopro=$this->productos->update($id,$producto);
 			$usersesion = $this->session->userdata('logged_in');
-			$this->productos->insertLogs(2,$usersesion['rut'],$id,'$_POST[new_usu]');
+			$texto = implode(",",$producto);
+			$this->productos->insertLogs(2,$usersesion['rut'],$id,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
@@ -326,14 +334,14 @@ class Mantencion extends CI_Controller {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
       $usersesion = $this->session->userdata('logged_in');
-	  $this->productos->insertLogs(4,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->productos->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
       redirect('/Mantencion/productos');
     }
     if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
       $usersesion = $this->session->userdata('logged_in');
-	  $this->productos->insertLogs(3,$usersesion['rut'],$id,'$_POST[new_usu]');
+	  $this->productos->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
       redirect('/Mantencion/productos');
     }
   	}

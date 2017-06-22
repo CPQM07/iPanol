@@ -36,9 +36,8 @@ public function create($row){
   return $producto;
 }
 
-public function insert($imagen=null){
-  $this->_columns['PROD_IMAGEN']=$imagen;
-$this->db->insert('productos',$this->_columns);
+public function insert(){
+  $this->db->insert('productos',$this->_columns);
 }
 
 public function update($id, $data) {
