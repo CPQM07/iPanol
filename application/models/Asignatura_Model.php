@@ -76,4 +76,11 @@ public function findAll($condicion = null){
       $this->columns[$key] = $value;
       }
     }
+
+    public function lastInsert(){
+      $this->db->order_by("ASIGNATURA_ID, DESC");
+      $this->db->limit(1);
+      $last = $this->db->get('asignatura');
+      return intval($last);
+    }
 }

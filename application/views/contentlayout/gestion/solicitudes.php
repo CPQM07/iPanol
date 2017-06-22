@@ -25,7 +25,8 @@
                   <th>FECHA INICIO</th>
                   <th>FECHA TERMINO</th>
                   <th>OBSERVACIONES</th>
-                  <th>Acciones</th>
+                  <th>ESTADO ACTUAL</th>
+                  <th>CAMBIAR A</th>
               </tr>
               </thead>
               <tbody>
@@ -38,44 +39,89 @@
                     <td><?= $value->get('SOL_OBSERVACION'); ?></td>
                     <?php if ($value->get('SOL_ESTADO') == 1): ?>
                       <td>
-                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/1/');?><?=$value->get('SOL_ID');?>" class="btn btn-success btn-block">SOLICITADO</a>
+                        <a class="btn btn-success btn-block">SOLICITADO</a>
                       </td>
                     <?php endif; ?>
 
-                      <?php if ($value->get('SOL_ESTADO') == 2): ?>
-                        <td>
-                          <a href="<?= site_url('/Gestion/CambiarEstadoSOL/2/');?><?=$value->get('SOL_ID');?>" class="btn btn-danger btn-block">RECHAZADO</a>
-                        </td>
-                        <?php endif; ?>
+                    <?php if ($value->get('SOL_ESTADO') == 2): ?>
+                      <td>
+                        <a class="btn btn-danger btn-block">RECHAZADO</a>
+                      </td>
+                    <?php endif; ?>
 
-                        <?php if ($value->get('SOL_ESTADO') == 3): ?>
-                          <td>
-                            <a href="<?= site_url('/Gestion/CambiarEstadoSOL/3/');?><?=$value->get('SOL_ID');?>" class="btn btn-info btn-block">DESPACHADO</a>
-                          </td>
-                          <?php endif; ?>
+                    <?php if ($value->get('SOL_ESTADO') == 3): ?>
+                      <td>
+                          <a class="btn btn-info btn-block">DESPACHADO</a>
+                      </td>
+                    <?php endif; ?>
 
-                          <?php if ($value->get('SOL_ESTADO') == 4): ?>
-                            <td>
-                              <a href="<?= site_url('/Gestion/CambiarEstadoSOL/4/');?><?=$value->get('SOL_ID');?>" class="btn btn-warning btn-block">RECEPCIONADO</a>
-                            </td>
-                            <?php endif; ?>
-                             <?php if ($value->get('SOL_ESTADO') == 5): ?>
-                            <td>
-                            <p>Solicitud manual</p>
-                            </td>
-                            <?php endif; ?>
+                    <?php if ($value->get('SOL_ESTADO') == 4): ?>
+                      <td>
+                        <a class="btn btn-warning btn-block">RECEPCIONADO</a>
+                      </td>
+                    <?php endif; ?>
 
-                            <?php if ($value->get('SOL_ESTADO') == 6): ?>
-                              <td>
-                                <a href="<?= site_url('/Gestion/CambiarEstadoSOL/6/');?><?=$value->get('SOL_ID');?>" class="btn btn-success btn-block">PARCIALMENTE RECEPCIONADO</a>
-                              </td>
-                            <?php endif; ?>
+                    <?php if ($value->get('SOL_ESTADO') == 5): ?>
+                      <td>
+                        <p>Solicitud manual</p>
+                      </td>
+                    <?php endif; ?>
 
-                              <?php if ($value->get('SOL_ESTADO') == 7): ?>
-                                <td>
-                                  <a href="<?= site_url('/Gestion/CambiarEstadoSOL/7/');?><?=$value->get('SOL_ID');?>" class="btn btn-info btn-block">PARCIALMENTE DESPACHADO</a>
-                                </td>
-                              <?php endif; ?>
+                    <?php if ($value->get('SOL_ESTADO') == 6): ?>
+                      <td>
+                        <a class="btn btn-success btn-block">PARCIALMENTE RECEPCIONADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 7): ?>
+                      <td>
+                        <a class="btn btn-info btn-block">PARCIALMENTE DESPACHADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <!--CAMBIAR ESTADO DISPONIBLE-->
+                    <?php if ($value->get('SOL_ESTADO') == 1): ?>
+                      <td>
+                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/1/');?><?=$value->get('SOL_ID');?>" class="btn btn-danger btn-block">RECHAZADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 2): ?>
+                      <td>
+                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/2/');?><?=$value->get('SOL_ID');?>" class="btn btn-success btn-block">SOLICITADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 3): ?>
+                      <td>
+                          <a href="<?= site_url('/Gestion/CambiarEstadoSOL/3/');?><?=$value->get('SOL_ID');?>" class="btn btn-info btn-block">PARCIALMENTE DESPACHADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 4): ?>
+                      <td>
+                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/4/');?><?=$value->get('SOL_ID');?>" class="btn btn-warning btn-block">PARCIALMENTE RECEPCIONADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 5): ?>
+                      <td>
+                        <p>Solicitud manual</p>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 6): ?>
+                      <td>
+                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/6/');?><?=$value->get('SOL_ID');?>" class="btn btn-success btn-block">RECEPCIONADO</a>
+                      </td>
+                    <?php endif; ?>
+
+                    <?php if ($value->get('SOL_ESTADO') == 7): ?>
+                      <td>
+                        <a href="<?= site_url('/Gestion/CambiarEstadoSOL/7/');?><?=$value->get('SOL_ID');?>" class="btn btn-info btn-block">DESPACHADO</a>
+                      </td>
+                    <?php endif; ?>
+
                   </tr>
                 <?php endforeach; ?>
               </tbody>

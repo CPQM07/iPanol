@@ -88,7 +88,7 @@ $lasturl = array_pop($spliturl);
            <li><a href="<?=site_url('Reportes/Vistamotivosbaja')?>"><i class="fa fa-archive"></i> Motivos de baja a los productos</a>
            </li>
            <li><a href="<?=site_url('Reportes/Vistavidautil')?>"><i class="fa fa-archive"></i> Vida util de los productos</a></li>
-           <li><a href="<?=site_url('Reportes/Vistapreciounitario')?>"><i class="fa fa-archive"></i> Precio 
+           <li><a href="<?=site_url('Reportes/Vistapreciounitario')?>"><i class="fa fa-archive"></i> Precio
            de los productos</a></li>
           </ul>
         </li>
@@ -97,39 +97,38 @@ $lasturl = array_pop($spliturl);
     </section><br><br><br>
   </aside>
 
-
   <!-- MENSAJES DE OPERACIONES -->
     <div class="col-md-6 pull-right">
       <div class="messages">
-        <?php if (isset($_SESSION['Deshabilitar'])): ?>
+        <?php if (isset($_SESSION['Deshabilitar'])): ?> <br><br><br>
           <div class="alert alert-danger alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Deshabilitar'];?>
           </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['Habilitar'])): ?>
+        <?php if (isset($_SESSION['Habilitar'])): ?> <br><br><br>
           <div class="alert alert-info alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Habilitar'];?>
           </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['Observacion'])): ?>
+        <?php if (isset($_SESSION['Observacion'])): ?> <br><br><br>
           <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Observacion'];?>
           </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['Baja'])): ?>
+        <?php if (isset($_SESSION['Baja'])): ?> <br><br><br>
           <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>
               <?= $_SESSION['Baja'];?>
           </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['Update'])): ?>
+        <?php if (isset($_SESSION['Update'])): ?> <br><br><br>
           <div class="alert alert-info alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <h4><i class="icon fa fa-check"></i><?= $user['nombres'] ?></h4>

@@ -16,13 +16,14 @@ class Mantencion extends CI_Controller {
 		$this->load->model('Proveedor_Model', 'proveedores', true);
 		$this->load->model('Producto_Model', 'productos', true);
 		$this->load->model('TipoProd_Model', 'tipoProducto', true);
-    	$this->load->model('Motivo_Model', 'motivo', true);
-    	$this->load->model('Asignatura_Model', 'asignatura', true);
-    	$this->load->model('Inventario_Model','inventario',true);
+  	$this->load->model('Motivo_Model', 'motivo', true);
+  	$this->load->model('Asignatura_Model', 'asignatura', true);
+  	$this->load->model('Inventario_Model','inventario',true);
+    $this->load->model('Logs_Model','logs',true);
   } else {
     redirect('/Login');
   }
-  
+
 
   }
 
@@ -357,6 +358,13 @@ class Mantencion extends CI_Controller {
     if (isset($_POST['asignatura'])) {
       $NuevaAsignatura = $this->asignatura->create($_POST['asignatura']);
       $NuevaAsignatura->insert();
+
+      $LOGS['ASIGID'] = $this->asignatura->lastInsert();
+      $LOGS['Texto'] = implode(",", $_POST['asignatura']);
+      $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+      $this->logs->setLog('Asignaturas', 1, $LOGS['Sesion']['rut'], $LOGS['ASIGID'], $LOGS['Texto']);
+
       $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
       redirect('/Mantencion/asignaturas');
     } else {
@@ -379,8 +387,16 @@ class Mantencion extends CI_Controller {
 
   public function EditAsig(){
     if(isset($_POST['asig'])){
-      $id=$_POST['id'];
-      $this->asignatura->update($id,$_POST['asig']);
+      $AsigID = $_POST['id'];
+      $this->asignatura->update($AsigID, $_POST['asig']);
+
+      $LOGS['Asignatura'] = $_POST['asig'];
+      $LOGS['AsigID'] = $AsigID;
+      $LOGS['Texto'] = implode(",", $_POST['asig']);
+      $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+      $this->logs->setLog('Asignaturas', 2, $LOGS['Sesion']['rut'], $LOGS['AsigID'], $LOGS['Texto']);
+
       $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
       redirect('/Mantencion/asignaturas');
     }else{
@@ -411,6 +427,13 @@ class Mantencion extends CI_Controller {
     if (isset($_POST['motivo'])) {
       $NuevoMotivo = $this->motivo->create($_POST['motivo']);
       $NuevoMotivo->insert();
+
+      $LOGS['MOTIVOID'] = $this->motivo->lastInsert();
+      $LOGS['Texto'] = implode(",", $_POST['motivo']);
+      $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+      $this->logs->setLog('Motivos', 1, $LOGS['Sesion']['rut'], $LOGS['MOTIVOID'], $LOGS['Texto']);
+      
       $this->session->set_flashdata('Info', 'Se Agregó Correctamente');
       redirect('/Mantencion/motivos');
     } else {
@@ -454,8 +477,16 @@ class Mantencion extends CI_Controller {
 
   public function updateMotivo(){
     if(isset($_POST['MOT'])){
-      $id=$_POST['id'];
-      $this->motivo->update($id,$_POST['MOT']);
+      $MotivoID = $_POST['id'];
+      $this->motivo->update($MotivoID, $_POST['MOT']);
+
+      $LOGS['Motivo'] = $_POST['MOT'];
+      $LOGS['MotivoID'] = $MotivoID = $_POST['id'];
+      $LOGS['Texto'] = implode(",", $_POST['MOT']);
+      $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+      $this->logs->setLog('Motivos', 2, $LOGS['Sesion']['rut'], $LOGS['MotivoID'], $LOGS['Texto']);
+
       $this->session->set_flashdata('Habilitar', 'Se Actualizó Correctamente');
       redirect('/Mantencion/motivos');
     }else{
@@ -483,14 +514,28 @@ class Mantencion extends CI_Controller {
       $datos['proveedor'] = $this->proveedores->findAll();
   	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
     } else {
-    		if(isset($_POST['PROV'])){
-    			$NuevoProveedor=$this->proveedores->create($_POST['PROV']);
-    			$NuevoProveedor->insert();
-    			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-    			redirect('/Mantencion/proveedores');
-    		}else{
-    			echo "usuario no fue agregado";
-    		}
+      $Proveedor = $_POST['PROV'];
+      $Consulta = $this->asignatura->findById($Proveedor['PROV_RUT']);
+
+      if ($Consulta == NULL) {
+        if(isset($_POST['PROV'])){
+          $NuevoProveedor=$this->proveedores->create($_POST['PROV']);
+          $NuevoProveedor->insert();
+
+          $LOGS['Preveedor'] = $_POST['PROV'];
+          $LOGS['Texto'] = implode(",", $_POST['PROV']);
+          $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+          $this->logs->setLog('Proveedores', 1, $LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']);
+          //var_dump($LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']); die();
+
+          $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
+          redirect('/Mantencion/proveedores');
+        }else{
+          echo "Proveedor no fue agregado";
+        }
+
+      }
     }
   }
 
@@ -513,6 +558,14 @@ class Mantencion extends CI_Controller {
     if(isset($_POST['PROV'])){
       $id=$_POST['id'];
       $this->proveedores->update($id,$_POST['PROV']);
+
+      $LOGS['Preveedor'] = $_POST['PROV'];
+      $LOGS['PreveedorRUT'] = $_POST['id'];
+      $LOGS['Texto'] = implode(",", $_POST['PROV']);
+      $LOGS['Sesion'] = $this->session->userdata('logged_in');
+
+      $this->logs->setLog('Proveedores', 2, $LOGS['Sesion']['rut'], $LOGS['PreveedorRUT'], $LOGS['Texto']);
+
       $this->session->set_flashdata('Habilitar', 'Se Agregó Correctamente');
       redirect('/Mantencion/proveedores');
     }else{

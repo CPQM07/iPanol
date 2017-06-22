@@ -79,7 +79,7 @@ public function findById($id){
     if($consulta->num_rows() == 1){
       $result = $this->create($consulta->row());
     }
-    
+
     return $result;
   }
 
@@ -88,4 +88,12 @@ public function findById($id){
       $this->_columns[$key] = $value;
       }
     }
+
+  public function lastInsert(){
+    $this->db->order_by("MOT_ID, DESC");
+    $this->db->limit(1);
+    $last = $this->db->get('motivo');
+    return intval($last);
+  }
+
 }

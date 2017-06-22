@@ -73,8 +73,4 @@ public function findById($id){
     return $result;
   }
 
-  public function setLog($tipo){
-
-  }
-
 }

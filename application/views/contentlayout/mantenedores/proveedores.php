@@ -170,7 +170,7 @@
 <!-- /.content-wrapper -->
 
   <!--ModalELIMINAR-->
-  <?php if ($proveedor > 0): ?>
+  <?php if ($proveedor): ?>
   <!--ModalELIMINAR-->
     <div class="modal fade" id="ELIMINAR" role="dialog">
       <div class="modal-danger" role="document">
