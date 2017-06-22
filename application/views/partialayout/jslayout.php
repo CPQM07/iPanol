@@ -6,10 +6,6 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="<?= base_url('resources/plugins/knob/jquery.knob.js')  ?>"></script>
-<!-- InputMask -->
-<script src="<?= base_url('resources/plugins/input-mask/jquery.inputmask.js') ?> "></script>
-<script src="<?= base_url('resources/plugins/input-mask/jquery.inputmask.date.extensions.js')  ?>"></script>
-<script src="<?= base_url('resources/plugins/input-mask/jquery.inputmask.extensions.js')  ?>"></script>
 <!-- date-range-picker -->
 <script src="<?= base_url('resources/js/moment.min.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/daterangepicker/daterangepicker.js')  ?>"></script>
@@ -24,7 +20,7 @@
 <!-- Sparkline -->
 <script src="<?= base_url('resources/plugins/sparkline/jquery.sparkline.min.js')  ?>"></script>
 <!-- Select2 -->
-<script src="<?= base_url('resources/plugins/select2/select2.js')  ?>"></script>
+<script src="<?= base_url('resources/plugins/select2-3.5.4/select2.js')  ?>"></script>
 <!-- DataTables -->
 <script src="<?= base_url('resources/plugins/DataTables/DataTables-1.10.15/js/jquery.dataTables.min.js')  ?>"></script>
 <script src="<?= base_url('resources/plugins/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.min.js')  ?>"></script>

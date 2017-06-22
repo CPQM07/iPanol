@@ -16,7 +16,7 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?= base_url('resources/css/datepicker3.css') ?>">
   <!-- Select2 -->
-  <link rel="stylesheet" href="<?= base_url('resources/css/select2.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('resources/plugins/select2-3.5.4/select2.css') ?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
   <!-- pNotify -->

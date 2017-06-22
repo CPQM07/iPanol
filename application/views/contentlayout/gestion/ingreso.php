@@ -38,11 +38,11 @@
               <div class="row">
                 <form action="<?=site_url('Gestion/ingresar_producto_stock')?>" method="post" accept-charset="utf-8">
                   
-                  <div class="col-md-3">
+                  <div class="col-md-5">
                     <div class="form-group">
                       <label>Producto (*)</label>
                         <div class="input-group">
-                          <select required name="producto" class="form-control select2">
+                          <select style="width: 100%" id="prodselect" required name="producto" class="select2">
                             <option></option>
                             <?php foreach ($productos as $key => $value): ?>
                               <?php if ($value->get("PROD_ESTADO") != 0): ?>
@@ -60,17 +60,17 @@
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                       <label>Cantidad (*)</label>
                       <input type="number" min="1" max="1000" required name="cantidad" class="form-control">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                         <label>Vida útil (En meses)(*)</label>
                         <input name="vidautil" id="vidautil" type="number" class="form-control" >
                   </div>
                   <div class="col-md-3">
                       <label>Modo (*)</label>
-                        <select required id="modo" name="modo" class="form-control select2">
+                        <select required id="modo" name="modo" style="width: 100%" class="select2">
                           <option ></option>
                           <option value="1">Compra</option>
                           <option value="2">Donación</option>
@@ -104,7 +104,7 @@
                                   <label>Proveedor (*)</label>
 
                                   <div class="input-group">
-                                    <select name="proveedor" id="proveedor" class="form-control select2" style="width: 100%">
+                                    <select name="proveedor" id="proveedor" class="select2" style="width: 100%">
                                       <option></option>
                                       <?php foreach ($proveedores as $key => $value): ?>
                                         <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
@@ -281,7 +281,7 @@
                         <label class="col-sm-2 control-label">Categoria</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
@@ -293,7 +293,7 @@
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select name="producto[PROD_TIPOPROD_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
@@ -472,9 +472,7 @@
   <!--Proveedores-->
   <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
   <script type="text/javascript">
-
   $(document).ready(function() {
-
         $(".datatableingre").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
                     cache: false,

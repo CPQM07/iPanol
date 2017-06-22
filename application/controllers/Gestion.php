@@ -100,6 +100,7 @@ class Gestion extends CI_Controller {
                                     );
      }   
 
+     $data["inventario"] = $this->inv->findByArray(array('INV_PROD_ESTADO'  => 1,"INV_TIPO_ID" => 1));
      $data["motivos"] = $this->mot->findByArray(array("MOT_ESTADO" => 1));//array('MOT_DIF' => 1)
      $data["bajas"] = $arraytodasbajas;
      $data['categorias'] = $this->cat->findByArray(array('CAT_ESTADO' => 1));

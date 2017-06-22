@@ -19,8 +19,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select name="forminventario" class="form-control selectinv" style="width: 100%;">
-                  <option value="0"></option>
+                <select name="forminventario" class="select2" style="width: 100%;">
+                <option></option>
+                <?php if ($inventario != null): ?>
+                  <?php foreach ($inventario as $key => $value): ?>
+                    <option value=" <?= $value->get("INV_ID") ?>"> <?= "(#".$value->get("INV_ID").")".$value->get("INV_PROD_NOM")  ?></option>
+                  <?php endforeach ?>
+                <?php endif ?>
                 </select>
               </div>
             </div>
@@ -31,8 +36,8 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Motivo Origen</label>
-              <select name="formmotivoorigen" class="form-control select2" style="width: 100%;">
-                <option value="0"></option>
+              <select name="formmotivoorigen" class="select2" style="width: 100%;">
+                <option></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <?php if ($value['MOT_DIF'] == 1): ?>
                      <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
@@ -230,11 +235,11 @@
                     ]
                 });
 
-      $('.selectinv').select2({
+     /* $('.selectinv').select2({
             minimumInputLength: 1,
             maximumInputLength: 20,
             ajax: {
-                    url: "<?=site_url('/gestion/get_iventario_by_cat_ajax')?>",
+                    url: "<?//=site_url('/gestion/get_iventario_by_cat_ajax')?>",
                     dataType: 'json',
                     method: "POST",
                     data: function (params) {
@@ -244,22 +249,21 @@
                             return query;
                           },    
                     processResults: function (data, params) {
-                    return {
-                      results: $.map(data, function (item) {
-                            return {
-                                text: item.text,
-                                id: item.id
-                            }
-                }),
-                    };
-                  },
-            cache: true
+                      return {
+                        results: $.map(data, function (item) {
+                              return {
+                                  text: item.text,
+                                  id: item.id
+                              }
+                          }),
+                      };
+                    },
             },
 
     });
 
     })
-
+*/
     $(".obsbaja").click(function (argument) {
       clear();
        var id = $(this).attr("idbaja");

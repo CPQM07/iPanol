@@ -8,7 +8,8 @@ $(function () {
 
 $(function(){
 	$(".select2").select2({
-		placeholder:"seleccionar"
+		placeholder:"seleccionar",
+        locale: 'es'
 	});
 	  			$(".datatable").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
