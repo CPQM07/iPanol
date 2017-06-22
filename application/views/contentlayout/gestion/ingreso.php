@@ -62,7 +62,7 @@
 
                   <div class="col-md-3">
                       <label>Cantidad (*)</label>
-                      <input type="number" required name="cantidad" class="form-control">
+                      <input type="number" min="1" max="1000" required name="cantidad" class="form-control">
                   </div>
                   <div class="col-md-3">
                         <label>Vida útil (En meses)(*)</label>

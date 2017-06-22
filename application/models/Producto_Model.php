@@ -190,4 +190,15 @@ public function productoStockCritico($id=null){
     return $result;
   }
 
+public function findByArray($myarray = null){
+  $result = null;
+  $this->load->database();
+  $this->db->join('categoria', 'productos.PROD_CAT_ID = categoria.CAT_ID');
+  $res = $this->db->get_where('productos',$myarray);
+  foreach ($res->result() as $row) {
+    $result[] = $this->create($row);
+  }
+  return $result;
+}
+
 }

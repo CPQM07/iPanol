@@ -253,8 +253,8 @@ class Gestion extends CI_Controller {
 
   public function ingreso()
   {
-     $data['proveedores'] = $this->prov->findAll();
-     $data['productos'] = $this->prod->findAll();
+     $data['proveedores'] = $this->prov->findByArray(array("PROV_ESTADO" => 1));
+     $data['productos'] = $this->prod->findByArray(array("PROD_ESTADO" => 1));
      $data['ingresos'] = $this->ing->findAll();
      $data['categorias'] = $this->cat->findAllSelect();
 

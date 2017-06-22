@@ -53,7 +53,6 @@ public function delete($id){
 
 public function findAll(){
   $result=array();
-  $bit = null;
   $consulta = $this->db->get('proveedor');
     foreach ($consulta->result() as $row) {
     $result[] = $this->create($row);
@@ -65,8 +64,8 @@ public function findByArray($myarray = null){
   $result = null;
   $this->load->database();
   $res = $this->db->get_where('proveedor',$myarray);
-  foreach ($res->result_array() as $row) {
-    $result[] = $row;
+  foreach ($res->result() as $row) {
+    $result[] = $this->create($row);
   }
   return $result;
 }
