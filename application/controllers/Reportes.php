@@ -16,22 +16,23 @@ class Reportes extends CI_Controller {
   }
   //METODO PARA LOS REPORTES DE STOCK ACTUAL
   public function Vistastockactual(){ 
-      $datos['motivo'] = $this->reporte->motivo();
       $datos['categoria'] = $this->categorias->findAll();
       $datos['tipo'] = $this->reporte->tipo();
       if ($this->input->post('filtro')) {
         $buscartipo = $this->input->post('tipo');
         $buscarcat = $this->input->post('cat');
-        
+        $buscaradq = $this->input->post('adq');
         if ($buscartipo == 1) {
         $datos['buscartipo'] = $buscartipo;
         $datos['buscarcat'] = $buscarcat;
-        $datos['buscar'] = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
+        $datos['buscaradq'] = $buscaradq;
+        $datos['buscar'] = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat, $buscaradq);
         }
         if ($buscartipo == 2) {
         $datos['buscartipo'] = $buscartipo;
         $datos['buscarcat'] = $buscarcat;
-        $datos['buscar'] = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);        }
+        $datos['buscaradq'] = $buscaradq;
+        $datos['buscar'] = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat ,$buscaradq);        }
         
       }
         $this->layouthelper->Loadview("reportes/stockactual",$datos,false); 
@@ -41,6 +42,9 @@ class Reportes extends CI_Controller {
         $objPHPExcel = new PHPExcel();
         $buscartipo = $_POST["tipo"];
         $buscarcat = $_POST["cat"];
+        $buscaradq = $_POST["adq"];
+        $compra = "Compra";
+        $donacion = "Donacion";
         // Se asignan las propiedades del libro
         $objPHPExcel->getProperties()->setCreator("Bryan Cordova and Elliott Urrutia") // Nombre del autor
             ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
@@ -50,10 +54,11 @@ class Reportes extends CI_Controller {
             ->setKeywords("reporte stock actual") //Etiquetas
             ->setCategory("Reporte excel"); //Categorias
         $tituloReporte = "Reporte stock actual de Productos";
-        $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Posicion','Total');
+        $titulosColumnas = array('Codigo  ' , 'Nombre Producto', 'Tipo', 'Categoria','Tipo Ingreso'
+                                ,'Posicion','Total');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:F1');
+            ->mergeCells('A1:G1');
         // Se agregan los titulos del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
@@ -62,12 +67,13 @@ class Reportes extends CI_Controller {
             ->setCellValue('C3',  $titulosColumnas['2'])
             ->setCellValue('D3',  $titulosColumnas['3'])
             ->setCellValue('E3',  $titulosColumnas['4'])
-            ->setCellValue('F3',  $titulosColumnas['5']);
+            ->setCellValue('F3',  $titulosColumnas['5'])
+            ->setCellValue('G3',  $titulosColumnas['6']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
         if ($buscartipo == 1) {
-          $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
-                    foreach ($TotalProductos as $value) {
+          $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat, $buscaradq);
+            foreach ($TotalProductos as $value) {
               $codigo = $value['INV_PROD_CODIGO'];
               $nomprod = $value['INV_PROD_NOM'];
               $nomtipo = $value['TIPO_NOMBRE'];
@@ -75,17 +81,31 @@ class Reportes extends CI_Controller {
               $posicion = $value['PROD_POSICION'];
               $total = $value['Total'];
 
+        if ($buscaradq == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $posicion)
-            ->setCellValue('F'.$i, $total);
+            ->setCellValue('E'.$i, $compra)
+            ->setCellValue('F'.$i, $posicion)
+            ->setCellValue('G'.$i, $total);
         $i++;
         }
+        if ($buscaradq == 2) {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $posicion)
+            ->setCellValue('G'.$i, $total);
+        $i++;
+        }
+        }
       }if ($buscartipo == 2) {
-        $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);
+        $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat,$buscaradq);
             foreach ($TotalProductos as $value) { 
               $codigo = $value['INV_PROD_CODIGO'];
               $nomprod = $value['INV_PROD_NOM'];
@@ -93,14 +113,28 @@ class Reportes extends CI_Controller {
               $nomcat = $value['CAT_NOMBRE'];
               $posicion = $value['PROD_POSICION'];
               $total = $value['INV_PROD_CANTIDAD'];
+        if ($buscaradq == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $posicion)
-            ->setCellValue('F'.$i, $total);
+            ->setCellValue('E'.$i, $compra)
+            ->setCellValue('F'.$i, $posicion)
+            ->setCellValue('G'.$i, $total);
         $i++;
+        }
+        if ($buscaradq == 2) {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $posicion)
+            ->setCellValue('G'.$i, $total);
+        $i++;
+        }
         }
  }
 $estiloTituloReporte = array(
@@ -184,11 +218,11 @@ $estiloInformacion->applyFromArray( array(
         )
     )
 ));
-$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:F3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:F".($i-1));
+$objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:G".($i-1));
 // Tamaño automatico
-for($i = 'A'; $i <= 'F'; $i++){
+for($i = 'A'; $i <= 'G'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
@@ -215,6 +249,9 @@ exit;
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $buscartipo = $_POST["tipo"];
       $buscarcat = $_POST["cat"];
+      $buscaradq = $_POST["adq"];
+      $compra = "Compra";
+      $donacion = "Donacion";
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Actuales', "");
@@ -227,8 +264,9 @@ exit;
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-      if ($buscartipo == 1) {      
-                $html = '';
+      if ($buscartipo == 1) {
+      $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat, $buscaradq); 
+              $html = '';
         $html .= "<style type=text/css>";
         $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
         $html .= "td{background-color: #AAC7E3; color: #fff}";
@@ -237,14 +275,14 @@ exit;
         $html .= "<table width='100%'>";
         $html .= "<tr>
                   <th>Codigo</th>
+                  <th>Nombre Producto</th>
                   <th>Tipo</th>
                   <th>Categoria</th>
-                  <th>Nombre Producto</th>
+                  <th>Tipo Ingreso</th>
                   <th>Posición</th>
                   <th>Total</th>
                   </tr>";
-      $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat);
-               foreach ($TotalProductos as $value) 
+      foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
         $nomprod = $value['INV_PROD_NOM'];
@@ -252,15 +290,28 @@ exit;
         $nomcat = $value['CAT_NOMBRE'];
         $posicion = $value['PROD_POSICION'];
         $total = $value['Total'];
+        if ($buscaradq == 1) {
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
-                      <td class='tipo'>".$nomprod."</td>
-                      <td class='categoria'>".$nomtipo."</td>
-                      <td class='nombre'>".$nomcat."</td>
+                      <td class='producto'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='compra'>".$compra."</td>
+                      <td class= 'posicion' >".$posicion."</td>
+                      <td class= 'posicion' >".$total."</td>
+                      </tr>";
+        }if ($buscaradq == 2) {
+            $html .= "<tr>
+                      <td class='codigo'>".$codigo."</td>
+                      <td class='producto'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='compra'>".$donacion."</td>
                       <td class= 'posicion' >".$posicion."</td>
                       <td class= 'posicion' >".$total."</td>
                       </tr>";
         }
+      }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
           ob_clean();
@@ -269,7 +320,23 @@ exit;
           $pdf->Output($categoria, 'I');
       }
             if ($buscartipo == 2) {      
-      $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat);
+      $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat, $buscaradq);
+              $html = '';
+        $html .= "<style type=text/css>";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
+        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "</style>";
+        $html .= "<h4>Actualmente: ".count($TotalProductos)." Productos</h4>";
+        $html .= "<table width='100%'>";
+        $html .= "<tr>
+                  <th>Codigo</th>
+                  <th>Nombre Producto</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>
+                  <th>Tipo Ingreso</th>
+                  <th>Posición</th>
+                  <th>Total</th>
+                  </tr>";
                foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
@@ -278,15 +345,28 @@ exit;
         $nomcat = $value['CAT_NOMBRE'];
         $posicion = $value['PROD_POSICION'];
         $total = $value['INV_PROD_CANTIDAD'];
+        if ($buscaradq == 1) {
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='nomprod'>".$nomprod."</td>
                       <td class='tipo'>".$nomtipo."</td>
                       <td class='categoria'>".$nomcat."</td>
+                      <td class='donacion'>".$compra."</td>
+                      <td class= 'posicion' >".$posicion."</td>
+                      <td class= 'total' >".$total."</td>
+                      </tr>";
+        }if ($buscaradq == 2) {
+            $html .= "<tr>
+                      <td class='codigo'>".$codigo."</td>
+                      <td class='nomprod'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='donacion'>".$donacion."</td>
                       <td class= 'posicion' >".$posicion."</td>
                       <td class= 'total' >".$total."</td>
                       </tr>";
         }
+      }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
           ob_clean();
@@ -304,15 +384,18 @@ exit;
       if ($this->input->post('filtro')) {
         $buscartipo = $this->input->post('tipo');
         $buscarcat = $this->input->post('cat');
+        $buscaradq = $this->input->post('adq');
           if ($buscartipo == 1) {
           $datos['buscartipo'] = $buscartipo;
           $datos['buscarcat'] = $buscarcat;
-          $datos['buscar'] = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat);
+          $datos['buscaradq'] = $buscaradq;
+          $datos['buscar'] = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat,$buscaradq);
         }
           if ($buscartipo == 2) {
           $datos['buscartipo'] = $buscartipo;
           $datos['buscarcat'] = $buscarcat;
-          $datos['buscar'] = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat);        }
+          $datos['buscaradq'] = $buscaradq;
+          $datos['buscar'] = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat,$buscaradq);        }
         
       }
         $this->layouthelper->Loadview("reportes/stockcritico",$datos,false); 
@@ -323,6 +406,9 @@ exit;
         date_default_timezone_set('America/Santiago');
         $buscartipo = $_POST["tipo"];
         $buscarcat = $_POST["cat"];
+        $buscaradq = $_POST["adq"];
+        $compra = "Compra";
+        $donacion = "Donacion";
         // Se asignan las propiedades del libro
         $objPHPExcel->getProperties()->setCreator("Bryan Cordova and Elliott Urrutia") // Nombre del autor
             ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
@@ -330,13 +416,12 @@ exit;
             ->setSubject("Reporte Excel con PHP") //Asunto
             ->setDescription("Reporte de stock critico") //Descripción
             ->setKeywords("reporte stock critico") //Etiquetas
-            ->setCategory("Reporte excel"); //Categorias
+            ->setCategory("Reporte excel");     //Categorias
         $tituloReporte = "Reporte stock critico de Productos";
-        $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Stock Optimo    ',
-                                  'Stock Critico','Prioridad  ','Total');
+        $titulosColumnas = array('Codigo  ' , 'Nombre Producto', 'Tipo','Categoria', 'Tipo Ingreso','Stock Optimo    ', 'Stock Critico','Prioridad  ','Total');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:H1');
+            ->mergeCells('A1:I1');
         // Se agregan los titulos del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
@@ -347,13 +432,15 @@ exit;
             ->setCellValue('E3',  $titulosColumnas['4'])
             ->setCellValue('F3',  $titulosColumnas['5'])
             ->setCellValue('G3',  $titulosColumnas['6'])
-            ->setCellValue('H3',  $titulosColumnas['7']);
+            ->setCellValue('H3',  $titulosColumnas['7'])
+            ->setCellValue('I3',  $titulosColumnas['8']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
               if ($buscartipo == 1) {      
-      $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat);
+      $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat, $buscaradq);
                foreach ($TotalProductos as $value) 
         {
+  
         $codigo = $value['INV_PROD_CODIGO'];
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
@@ -362,41 +449,73 @@ exit;
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['CANTIDAD'];
-
+        if ($buscaradq == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $stockop)
-            ->setCellValue('F'.$i, $stockcri)
-            ->setCellValue('G'.$i, $prioridad)
-            ->setCellValue('H'.$i, $cantidad);
+            ->setCellValue('E'.$i, $compra)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
         $i++;
         }
+        if ($buscaradq == 2) {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
+        $i++;
+        }
+      }
       }if ($buscartipo == 2) {
-      $TotalProductos = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat);
+      $TotalProductos = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat, $buscaradq);
                foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $stockop = $value['PROD_STOCK_OPTIMO'];
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['INV_PROD_CANTIDAD'];
 
+        if ($buscaradq == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $stockop)
-            ->setCellValue('F'.$i, $stockcri)
-            ->setCellValue('G'.$i, $prioridad)
-            ->setCellValue('H'.$i, $cantidad);
+            ->setCellValue('E'.$i, $compra)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
         $i++;
+        }
+        if ($buscaradq == 2) {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
+        $i++;
+        }
         }
  }
 $estiloTituloReporte = array(
@@ -480,11 +599,11 @@ $estiloInformacion->applyFromArray( array(
         )
     )
 ));
-$objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:H".($i-1));
+$objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:I3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:I".($i-1));
 // Tamaño automatico
-for($i = 'A'; $i <= 'H'; $i++){
+for($i = 'A'; $i <= 'I'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
@@ -511,6 +630,7 @@ exit;
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $buscartipo = $_POST["tipo"];
       $buscarcat = $_POST["cat"];
+      $buscaradq = $_POST["adq"];
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Criticos', "");
@@ -523,7 +643,11 @@ exit;
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
-        $html = '';
+        $compra = "Compra";
+        $donacion = "Donacion";                  
+      if ($buscartipo == 1) {      
+      $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat, $buscaradq);
+              $html = '';
         $html .= "<style type=text/css>";
         $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
         $html .= "td{background-color: #AAC7E3; color: #fff}";
@@ -535,13 +659,12 @@ exit;
                   <th>Nombre Producto</th>
                   <th>Tipo</th>
                   <th>Categoria</th>                  
+                  <th>Tipo Ingreso</th>
                   <th>Optimp</th>
                   <th>Critico</th>
                   <th>Prioridad</th>
                   <th>Total</th>
                   </tr>";
-      if ($buscartipo == 1) {      
-      $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat);
                foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
@@ -552,17 +675,32 @@ exit;
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['CANTIDAD'];
+        if ($buscaradq == 1) {
             $html .= "<tr>
                       <td class='codigo' >".$codigo."</td>
-                      <td class='tipo' >".$nomprod."</td>
-                      <td class='categoria'>".$nomtipo."</td>
-                      <td class='nombre'>".$nomcat."</td>
+                      <td class='producto' >".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='compra'>".$compra."</td>
+                      <td class= 'optimo' >".$stockop."</td>
+                      <td class= 'critico' >".$stockcri."</td>
+                      <td class='prioridad' >".$prioridad."</td>
+                      <td class='cantidad' >".$cantidad."</td>
+                      </tr>";
+        }if ($buscaradq == 2) {
+                      $html .= "<tr>
+                      <td class='codigo' >".$codigo."</td>
+                      <td class='producto' >".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='compra'>".$donacion."</td>
                       <td class= 'optimo' >".$stockop."</td>
                       <td class= 'critico' >".$stockcri."</td>
                       <td class='prioridad' >".$prioridad."</td>
                       <td class='cantidad' >".$cantidad."</td>
                       </tr>";
         }
+      }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
           ob_clean();
@@ -570,8 +708,26 @@ exit;
           //$tipos = utf8_decode("Tipo".$tipo.".pdf");
           $pdf->Output($categoria, 'I');
       }
-            if ($buscartipo == 2) {      
-      $TotalProductos = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat);
+      if ($buscartipo == 2) {      
+      $TotalProductos = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat, $buscaradq);
+              $html = '';
+        $html .= "<style type=text/css>";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
+        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "</style>";
+        $html .= "<h4>Criticos: ".count($TotalProductos)." Productos</h4>";
+        $html .= "<table width='100%'>";
+        $html .= "<tr>
+                  <th>Codigo</th>
+                  <th>Nombre Producto</th>
+                  <th>Tipo</th>
+                  <th>Categoria</th>                  
+                  <th>Tipo Ingreso</th>
+                  <th>Optimp</th>
+                  <th>Critico</th>
+                  <th>Prioridad</th>
+                  <th>Total</th>
+                  </tr>";
                foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
@@ -582,17 +738,32 @@ exit;
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['INV_PROD_CANTIDAD'];
+        if ($buscaradq == 1) {        
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='nomprod'>".$nomprod."</td>
                       <td class='tipo'>".$nomtipo."</td>
                       <td class='categoria'>".$nomcat."</td>
+                      <td class='compra'>".$compra."</td>
+                      <td class= 'optimo' >".$stockop."</td>
+                      <td class= 'critico' >".$stockcri."</td>
+                      <td class='prioridad'>".$prioridad."</td>
+                      <td class='cantidad'>".$cantidad."</td>
+                      </tr>";
+        }if ($buscaradq == 2) {
+            $html .= "<tr>
+                      <td class='codigo'>".$codigo."</td>
+                      <td class='nomprod'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>
+                      <td class='categoria'>".$nomcat."</td>
+                      <td class='donacion'>".$donacion."</td>
                       <td class= 'optimo' >".$stockop."</td>
                       <td class= 'critico' >".$stockcri."</td>
                       <td class='prioridad'>".$prioridad."</td>
                       <td class='cantidad'>".$cantidad."</td>
                       </tr>";
         }
+      }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
           ob_clean();
@@ -637,7 +808,7 @@ exit;
             ->setKeywords("reporte Motivos de baja") //Etiquetas
             ->setCategory("Reporte excel"); //Categorias
         $tituloReporte = "Reporte Motivos de baja de Productos";
-        $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de baja ',
+        $titulosColumnas = array('Codigo   ' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de baja ',
                                   'Motivo de baja');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)

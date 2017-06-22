@@ -39,13 +39,13 @@ function get($attr){
 		return $result;
 	}
 // METODO BUSCAR LOS PRODUCTOS CON FILTRO DE TIPO
-	public function findAllProductosActivos($tipo, $cat){
+	public function findAllProductosActivos($tipo, $cat, $adq){
 		$result = array();
 		//$this->db->like('TIPO_ID', $tipo);
-		$this->db->select ("TIPO_ID, CAT_ID, INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, PROD_POSICION,INV_PROD_CANTIDAD,
-							count(inventario.INV_PROD_CANTIDAD) as Total");
+		$this->db->select ("TIPO_ID,CAT_ID,INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE,ING_TIPO_INGRESO, INV_PROD_NOM, PROD_POSICION, INV_PROD_CANTIDAD,count(inventario.INV_PROD_CANTIDAD) as Total");
 		$this->db->from("inventario");
 		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = inventario.INV_TIPO_ID');
+		$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 		$this->db->join('categoria','categoria.CAT_ID = inventario.INV_CATEGORIA_ID');
 		$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 		$this->db->where('tipoprod.TIPO_ID = 1');
@@ -55,6 +55,9 @@ function get($attr){
 		if($tipo!='0'){
 			$this->db->where('TIPO_ID', $tipo);		
 		}
+		if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
+		}		
 		$this->db->group_by('inventario.INV_PROD_NOM');
 		$consulta = $this->db->get();
 		
@@ -70,21 +73,22 @@ function get($attr){
 "TIPO_ID"=>"0",
 "CAT_ID"=>"0",
 "INV_PROD_CODIGO"=>"0",
-"TIPO_NOMBRE"=>"SIN REGISTRO",
-"CAT_NOMBRE"=>"SIN REGISTRO", 
 "INV_PROD_NOM"=>"SIN REGISTRO", 
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"ING_TIPO_INGRESO"=>"0", 
 "PROD_POSICION"=>"0",
 "Total"=>"0"));
 		}
     return $result;
 }
-	public function findAllProductosFungibles($tipo, $cat){
+	public function findAllProductosFungibles($tipo, $cat, $adq){
 		$result = array();
 		//$this->db->like('TIPO_ID', $tipo);
-		$this->db->select ("TIPO_ID, CAT_ID, INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE, INV_PROD_NOM, 
-			INV_PROD_CANTIDAD, PROD_POSICION");
+		$this->db->select ("TIPO_ID, CAT_ID, INV_PROD_CODIGO,TIPO_NOMBRE ,CAT_NOMBRE,ING_TIPO_INGRESO, INV_PROD_NOM, INV_PROD_CANTIDAD, PROD_POSICION");
 		$this->db->from("inventario");
 		$this->db->join('tipoprod', 'tipoprod.TIPO_ID = inventario.INV_TIPO_ID');
+		$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 		$this->db->join('categoria','categoria.CAT_ID = inventario.INV_CATEGORIA_ID');
 		$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 		$this->db->where('tipoprod.TIPO_ID = 2');
@@ -93,6 +97,9 @@ function get($attr){
 		}
 		if($tipo!='0'){
 			$this->db->where('TIPO_ID', $tipo);		
+		}
+		if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
 		}
 		$this->db->group_by('inventario.INV_PROD_NOM');
 		$consulta = $this->db->get();
@@ -108,22 +115,24 @@ function get($attr){
 "TIPO_ID"=>"0",
 "CAT_ID"=>"0",
 "INV_PROD_CODIGO"=>"0",
-"TIPO_NOMBRE"=>"SIN REGISTRO",
-"CAT_NOMBRE"=>"SIN REGISTRO", 
 "INV_PROD_NOM"=>"SIN REGISTRO",
-"INV_PROD_CANTIDAD"=>"0",
-"PROD_POSICION"=>"0"));
+"TIPO_NOMBRE"=>"SIN REGISTRO",
+"CAT_NOMBRE"=>"SIN REGISTRO",
+"ING_TIPO_INGRESO"=>"0",
+"PROD_POSICION"=>"0",
+"INV_PROD_CANTIDAD"=>"0"));
 		}
     return $result;
 }
 //METODO BUSCAR LOS PODRUCTOS CRITICOS CON FILTRO DE TIPO
-public function findAllCriticosActivos($tipo, $cat){
+public function findAllCriticosActivos($tipo, $cat,$adq){
 	$result = array();
 	//$this->db->like('TIPO_ID', $tipo);
-	$this->db->select('inventario.INV_PROD_CODIGO,tipoprod.TIPO_ID,tipoprod.TIPO_NOMBRE,categoria.CAT_ID,categoria.CAT_NOMBRE,inventario.INV_PROD_NOM, productos.PROD_STOCK_CRITICO, productos.PROD_STOCK_OPTIMO
+	$this->db->select('inventario.INV_PROD_CODIGO,tipoprod.TIPO_ID,tipoprod.TIPO_NOMBRE,categoria.CAT_ID,categoria.CAT_NOMBRE,inventario.INV_PROD_NOM, productos.PROD_STOCK_CRITICO,ingreso.ING_TIPO_INGRESO, productos.PROD_STOCK_OPTIMO
 		,productos.PROD_PRIORIDAD,inventario.INV_PROD_ID , COUNT(*) AS CANTIDAD');
 	$this->db->from('inventario');
 	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
 	$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 	$this->db->where('inventario.INV_PROD_ESTADO = 1');
@@ -133,6 +142,9 @@ public function findAllCriticosActivos($tipo, $cat){
 	}	
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
+	}
+	if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->having('CANTIDAD <= productos.PROD_STOCK_CRITICO');
 	$this->db->group_by('inventario.INV_PROD_NOM');
@@ -153,19 +165,21 @@ public function findAllCriticosActivos($tipo, $cat){
 "PROD_STOCK_OPTIMO"=>"0",
 "PROD_STOCK_CRITICO"=>"0",
 "PROD_PRIORIDAD"=>"0",
+"ING_TIPO_INGRESO"=>"0",
 "CANTIDAD"=>"0"));
 		}
     return $result;
 }
 
-public function findAllCriticosFungibles($tipo, $cat){
+public function findAllCriticosFungibles($tipo, $cat, $adq){
 	$result = array();
 	//$this->db->like('TIPO_ID', $tipo);
 	$this->db->select('inventario.INV_PROD_CODIGO,categoria.CAT_ID,tipoprod.TIPO_ID,categoria.CAT_NOMBRE,tipoprod.TIPO_NOMBRE,inventario.INV_PROD_NOM,inventario.INV_PROD_CANTIDAD,
-productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDAD');
+productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDAD,ingreso.ING_TIPO_INGRESO');
 	$this->db->from('inventario');
 	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
 	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 	$this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
 	$this->db->where('inventario.INV_PROD_CANTIDAD <= productos.PROD_STOCK_CRITICO');
 	$this->db->where('tipoprod.TIPO_ID = 2');
@@ -174,6 +188,9 @@ productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDA
 	}	
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
+	}
+	if ($adq!='0') {
+		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->group_by('inventario.INV_PROD_NOM');
 	$consulta = $this->db->get();
@@ -194,6 +211,7 @@ productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDA
 "PROD_STOCK_OPTIMO"=>"0",
 "PROD_STOCK_CRITICO"=>"0",
 "PROD_PRIORIDAD"=>"0",
+"ING_TIPO_INGRESO"=>"0",
 "INV_PROD_CANTIDAD"=>"0"));
 		}
     return $result;

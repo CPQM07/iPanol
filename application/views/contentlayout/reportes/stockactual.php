@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h3>Stock Actual</h3>
+    <h3>Reportes Stock Actual</h3>
   </section>
 
   <!-- Main content -->
@@ -38,7 +38,17 @@
                 </select>
               </div>
         </div> 
-       <div class="col-md-4" class="pull-right">
+                        <div class="col-md-4">
+          <label>Adquisición</label>
+             <div class="form-group">
+                <select id="adq" name="adq" class="form-control select2" required="true">
+                <option value="">Todas las adquisiciones</option>  
+                       <option value="1">Compra</option>
+                       <option value="2">Donación</option>
+                </select>
+              </div>
+        </div>
+       <div class="col-md-3" class="pull-right">
                <label>Acción</label>
                <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
@@ -55,6 +65,8 @@
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
+                  <input id="recuperaradq" type="hidden" name="recuperaradq"
+                         value="<?= @$buscaradq  ?>">
                   
                   <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar PDF</button>
                                          
@@ -67,6 +79,8 @@
                          value="<?= @$buscartipo ?>">
                   <input id="recuperarcat" type="hidden" name="recuperarcat" 
                          value="<?= @$buscarcat?>">
+                  <input id="recuperaradq" type="hidden" name="recuperaradq"
+                         value="<?= @$buscaradq  ?>">
                   
                   <button name="verpdf" type="submit" class="pull-right btn btn-primary btn-block  "  data-skin="skin-blue"><i class="fa fa-pdf"></i> Exportar EXCEL</button>
                                          
@@ -82,6 +96,7 @@
                   <th>Nombre Producto</th>
                   <th>Tipo</th>
                   <th>Categoria</th>
+                  <th>Tipo Ingreso</th>
                   <th>Posicion</th>
                   <th>Total</th>
                 </tr>
@@ -93,13 +108,26 @@
                 <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['TIPO_NOMBRE']; ?></td>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
+                <?php if ($buscaradq == 1): ?>
+                <td>Compra</td>
+                <?php endif ?>
+                <?php if ($buscaradq == 2): ?>
+                <td>Donacion</td>
+                <?php endif ?>
                 <td><?= $value['PROD_POSICION']; ?></td>
+               <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
+                  <?php if ($value['TIPO_ID'] == 1): ?>
+                <td> <?= @$value['Total']; ?></td>
+                <?php endif ?>
                 <?php if ($value['TIPO_ID'] == 2): ?>
                   <td><?= $value['INV_PROD_CANTIDAD']; ?></td>
                   <?php endif ?>
-                  <?php if ($value['TIPO_ID']== 1): ?>
-                <td> <?= @$value['Total']; ?></td>
-                <?php endif ?>
+                  <?php endif ?>
+                  <?php if ($value['INV_PROD_CODIGO'] == 0): ?>
+
+                  <td>0</td>
+                  
+                  <?php endif ?>
               <?php endforeach ?>
               </tr>
               </tbody>
@@ -119,10 +147,12 @@ $(document).ready(function(){
   <?php if(isset($buscartipo) && isset($buscarcat)): ?>
     $("#cat").val('<?=$buscarcat?>').trigger('change');
     $("#tipo").val('<?=$buscartipo?>').trigger('change');
+    $("#adq").val('<?=$buscaradq?>').trigger('change');
   <?php endif; ?>
   $('#pdf').submit(function(){
      $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
      $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+     $(this).append("<input name='adq' type='hidden' value='"+$("#recuperaradq").val()+"'  >");
       console.log($("#tipo").val());
       console.log($("#cat").val());
         //return false;
@@ -130,6 +160,7 @@ $(document).ready(function(){
         $('#excel').submit(function(){
      $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
      $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
+     $(this).append("<input name='adq' type='hidden' value='"+$("#recuperaradq").val()+"'  >");
     console.log($("#tipo").val());
       console.log($("#cat").val());
      //return false;

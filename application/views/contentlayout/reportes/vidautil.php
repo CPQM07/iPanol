@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h3>Vida útil de productos</h3>
+    <h3>Reportes Vida útil de productos</h3>
   </section>
 
   <!-- Main content -->
@@ -48,7 +48,7 @@
                 </select>
               </div>
         </div> 
-       <div class="col-md-1" class="pull-right" align="pull-right">
+       <div class="col-md-3" class="pull-right" align="pull-right">
                <label>Acción</label>
                <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>

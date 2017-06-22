@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h3>Reporte para los Precio de los Productos</h3>
+    <h3>Reportes para los Precio de los Productos</h3>
   </section>
 
   <!-- Main content -->
