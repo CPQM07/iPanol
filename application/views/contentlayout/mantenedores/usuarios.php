@@ -85,10 +85,10 @@
                         <div class="col-md-9">
                         <div class="row">
                         <div class="col-md-6">
-                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
+                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
                           </div>
                           <div class="col-md-2">
-                          <input id="dv" name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12" maxlength="1" required>
+                          <input id="dv" name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12 form-control" maxlength="1" required>
                           </div>
                         </div>
                         </div>
@@ -97,14 +97,14 @@
                         <label class="col-sm-2 control-label" >Nombres</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_NOMBRES]" pattern=".{3,}" maxlength = "50" type="text" class="col-md-12" required>
+                          <input name="new_usu[USU_NOMBRES]" pattern=".{3,}" maxlength = "50" type="text" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Apellidos</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_APELLIDOS]" maxlength = "50" type="text" class="col-md-12">
+                          <input name="new_usu[USU_APELLIDOS]" maxlength = "50" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
                   
@@ -140,35 +140,35 @@
                         <label class="col-sm-2 control-label">Email</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_EMAIL]" type="email" class="col-md-12" required>
+                          <input name="new_usu[USU_EMAIL]" type="email" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Teléfono</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_TELEFONO1]" type="number" class="col-md-12" >
+                          <input name="new_usu[USU_TELEFONO1]" type="number" class="col-md-12 form-control" >
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Teléfono opcional</label>
 
                         <div class="col-md-9">
-                          <input name="new_usu[USU_TELEFONO2]" type="number" class="col-md-12" >
+                          <input name="new_usu[USU_TELEFONO2]" type="number" class="col-md-12 form-control" >
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Clave</label>
 
                         <div class="col-md-9">
-                          <input id="new_clave" name="new_usu[USU_CLAVE]" pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
+                          <input id="new_clave" name="new_usu[USU_CLAVE]" pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Vuelve a ingresar tu clave</label>
 
                         <div class="col-md-9">
-                          <input id="new_clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
+                          <input id="new_clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12 form-control" required>
                         </div>
                       </div>
 
@@ -211,10 +211,10 @@
                         <div class="col-md-9">
                         <div class="row">
                           <div class="col-md-6">
-                          <input id="rutEdit" type="number" class="col-md-12" placeholder="Rut sin punto, ni guion" disabled>
+                          <input id="rutEdit" type="number" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" disabled>
                           </div>
                           <div class="col-md-2">
-                          <input id="dvEdit" name="new_usu[USU_DV]" type="text" class="col-md-12" disabled>
+                          <input id="dvEdit" name="new_usu[USU_DV]" type="text" class="col-md-12 form-control" disabled>
                           </div>
                         </div>
                         </div>
@@ -223,14 +223,14 @@
                         <label class="col-sm-2 control-label" >Nombres</label>
 
                         <div class="col-md-9">
-                          <input id="nombre" name="new_usu[USU_NOMBRES]" type="text" class="col-md-12" required>
+                          <input id="nombre" name="new_usu[USU_NOMBRES]" type="text" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >Apellidos</label>
 
                         <div class="col-md-9">
-                          <input id="apellido" name="new_usu[USU_APELLIDOS]" type="text" class="col-md-12">
+                          <input id="apellido" name="new_usu[USU_APELLIDOS]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
                   
@@ -266,35 +266,35 @@
                         <label class="col-sm-2 control-label">Email</label>
 
                         <div class="col-md-9">
-                          <input id="email" name="new_usu[USU_EMAIL]" type="email" class="col-md-12" required>
+                          <input id="email" name="new_usu[USU_EMAIL]" type="email" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Teléfono</label>
 
                         <div class="col-md-9">
-                          <input id="telefono" name="new_usu[USU_TELEFONO1]" type="number" class="col-md-12" >
+                          <input id="telefono" name="new_usu[USU_TELEFONO1]" type="number" class="col-md-12 form-control" >
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Teléfono opcional</label>
 
                         <div class="col-md-9">
-                          <input id="telefonoOp" name="new_usu[USU_TELEFONO2]" type="number" class="col-md-12" >
+                          <input id="telefonoOp" name="new_usu[USU_TELEFONO2]" type="number" class="col-md-12 form-control" >
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Clave</label>
 
                         <div class="col-md-9">
-                          <input id="clave"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter"  name="new_usu[USU_CLAVE]" type="password" class="col-md-12" required>
+                          <input id="clave"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter"  name="new_usu[USU_CLAVE]" type="password" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Vuelve a ingresar tu clave</label>
 
                         <div class="col-md-9">
-                          <input id="clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12" required>
+                          <input id="clave2"  pattern=".{5,}" title="La contraseña debe constar con un minimo de 5 caracter" type="password" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">

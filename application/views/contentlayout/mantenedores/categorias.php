@@ -80,7 +80,7 @@
                         <label class="col-sm-2 control-label">Nombre</label>
 
                         <div class="col-md-9">
-                          <input name="cat[CAT_NOMBRE]" type="text" class="col-md-12">
+                          <input name="cat[CAT_NOMBRE]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
 
@@ -88,14 +88,14 @@
                         <label class="col-sm-2 control-label">Descripción</label>
 
                         <div class="col-md-9">
-                          <input name="cat[CAT_DESC]" type="text" class="col-md-12">
+                          <input name="cat[CAT_DESC]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
-                          <input name="cat[CAT_CODIGO]" type="number" class="col-md-12">
+                          <input name="cat[CAT_CODIGO]" type="number" class="col-md-12 form-control">
                         </div>
                       </div>
 
@@ -138,7 +138,7 @@
                         <label class="col-sm-2 control-label">Nombre</label>
 
                         <div class="col-md-9">
-                          <input id="nombre"  name="cat[CAT_NOMBRE]" type="text" class="col-md-12">
+                          <input id="nombre"  name="cat[CAT_NOMBRE]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
 
@@ -146,14 +146,14 @@
                         <label class="col-sm-2 control-label">Descripción</label>
 
                         <div class="col-md-9">
-                          <input id="desc" name="cat[CAT_DESC]"  type="text" class="col-md-12">
+                          <input id="desc" name="cat[CAT_DESC]"  type="text" class="col-md-12 form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
-                          <input id="cod" name="cat[CAT_CODIGO]"  type="number" class="col-md-12">
+                          <input id="cod" name="cat[CAT_CODIGO]"  type="number" class="col-md-12 form-control">
                         </div>
                       </div>
 
