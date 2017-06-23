@@ -14,7 +14,7 @@ class Gestion extends CI_Controller {
   }
 
   public function index()
-  {  
+  {
    /* $productos = $this->prod->findAll();
     foreach ($productos as $key => $value) {
       $todoslosinv = $this->inv->findByArray(array("INV_PROD_ID" => $value->get("PROD_ID")));
@@ -26,7 +26,7 @@ class Gestion extends CI_Controller {
   }
 
   public function indexcontentdos()
-  {   
+  {
     $this->layouthelper->LoadView("pruebas/contentdos" , null );
   }
 
@@ -98,7 +98,7 @@ class Gestion extends CI_Controller {
                                       "USU_APELLIDOS" => $value->get("USU_APELLIDOS"),
                       "BAJA_MOTIVO_RESULTADO" => $this->obs->findByArray(array("OBS_BAJA_ID" => $value->get("BAJA_ID")))
                                     );
-     }   
+     }
 
      $data["inventario"] = $this->inv->findByArray(array('INV_PROD_ESTADO'  => 1,"INV_TIPO_ID" => 1));
      $data["motivos"] = $this->mot->findByArray(array("MOT_ESTADO" => 1));//array('MOT_DIF' => 1)
@@ -158,7 +158,7 @@ class Gestion extends CI_Controller {
         $this->session->set_flashdata('Deshabilitar', 'Lo sentimos algunos de los campos no estan definidos, favor revisar');
         redirect('/Gestion/baja');
     }
-    
+
   }
 
   public function get_obs_by_baja_id(){
@@ -177,11 +177,11 @@ class Gestion extends CI_Controller {
                         'TEXTO' => $value['OBS_TEXTO'],
                         'BAJA_ID' => $value['OBS_BAJA_ID'],
                         'MOT_NOMBRE' => $value['OBS_MOT_NOMBRE'],
-                        'FECHA' => $value['OBS_FECHA']                        
+                        'FECHA' => $value['OBS_FECHA']
                         );
       }
     }
-    
+
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode(array('INV_ID' => $baja->get("BAJA_INV_ID"), 'allobs' => json_encode($allobs))));
   }
@@ -244,7 +244,7 @@ class Gestion extends CI_Controller {
             $this->output->set_content_type('application/json');
             $this->output->set_output(json_encode(array("estado" => false ,"mensaje" => "Ocurrio un error al insertar esta observación")));
           }
-      
+
     }else{
       $this->output->set_content_type('application/json');
             $this->output->set_output(json_encode(array("estado" => true ,"mensaje" => "Alguno de los formularios no esta definido, favor revisar")));
@@ -259,7 +259,7 @@ class Gestion extends CI_Controller {
      $data['ingresos'] = $this->ing->findAll();
      $data['categorias'] = $this->cat->findAllSelect();
 
-     
+
      $data['tipos'] = $this->tipoP->findAll();
      $this->layouthelper->LoadView("gestion/ingreso" , $data);
   }
@@ -288,7 +288,7 @@ class Gestion extends CI_Controller {
         $this->session->set_flashdata('Deshabilitar', 'Lo sentimos no ha seleccionado ningun modo de adquisición');
       redirect('Gestion/ingreso','refresh');
       }
-      
+
       $columns =array(
               'ING_PROD_ID' =>$_POST['producto'],
               'ING_CANTIDAD' =>$_POST['cantidad'],
@@ -303,7 +303,7 @@ class Gestion extends CI_Controller {
     $ultimoingreso = $this->ing->insert($columns);
 
     if ($producto->get("PROD_TIPOPROD_ID") == 1) {
-      for ($i=0; $i < $_POST['cantidad']; $i++) { 
+      for ($i=0; $i < $_POST['cantidad']; $i++) {
         $_columns  =  array(
                       'INV_ID' => 0,
                       'INV_PROD_ID' => $producto->get("PROD_ID"),
@@ -337,13 +337,13 @@ class Gestion extends CI_Controller {
                       );
         $ultimoidonventarioingresado = $this->inv->insertDirect($columnascrearinv);
         $this->inv->update($ultimoidonventarioingresado,array('INV_PROD_CODIGO' => $producto->get("PROD_CAT_ID") . $ultimoidonventarioingresado));
-      }      
+      }
     }
 
   $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el stock de este producto.');
   redirect('Gestion/ingreso','refresh');
 
-    
+
   }
 
   public function recepcion()
@@ -368,7 +368,7 @@ class Gestion extends CI_Controller {
               "<a target='_blank' href='".base_url()."resources/pdf/".$value->get('SOL_RUTA_PDF')."' class='fa fa-file-pdf-o'></a>",
               "<button idsol='".$value->get('SOL_ID')."' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>"
 
-              );    
+              );
      }
 
      $this->output->set_content_type('application/json');
@@ -425,7 +425,7 @@ class Gestion extends CI_Controller {
 
   }
 
-  public function update_asignaciones_recepcionadas(){ 
+  public function update_asignaciones_recepcionadas(){
     $cerrarono = $_POST['resultadocerrarono'];
     $solicitudid = $_POST['idsol'];
 
@@ -575,7 +575,7 @@ class Gestion extends CI_Controller {
     $rutusu = $_POST["rutusu"];$asignatura = $_POST["asignatura"];$grupotrabajo = $_POST["grupotrabajo"];
     $rangofechas = $_POST["rangofechas"]; $observaciones = $_POST["observaciones"];$dividirfechas = explode("-",$rangofechas);
     $dateinicio = DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[0]));
-    $fechainicio = $dateinicio->format('Y-m-d H:m:s');   
+    $fechainicio = $dateinicio->format('Y-m-d H:m:s');
     $datetermino= DateTime::createFromFormat("d/m/Y H:i:s",trim($dividirfechas[1]));
     $fechatermino = $datetermino->format("Y-m-d H:m:s");
      $columnassolicitud  =  array(
@@ -603,7 +603,7 @@ class Gestion extends CI_Controller {
                     'DETSOL_ESTADO' => 5,
                     'DETSOL_SOL_ID' => $ultimasolicitud,
                     'DETSOL_PROD_ID' => NULL,
-                    ); 
+                    );
      $nuevodetalle =  $this->detsol->create($columnadetsol);
      $ultimodetalle = $nuevodetalle->insert();
      //HASTA AQUI NOSE AUN SI VOY A DEJAR ESTAS LINEAS DE CODIGO
@@ -634,7 +634,7 @@ class Gestion extends CI_Controller {
                       'INV_PROD_CANTIDAD' => intval($inventario->get("INV_PROD_CANTIDAD"))-intval($value["cantidadinv"]),
                       'INV_ULTIMO_USUARIO' => $inventario->get("INV_ACTUAL_USUARIO"),
                       'INV_ACTUAL_USUARIO'=> $rutusu
-                      );         
+                      );
              $inventario->update($value["idinv"],$columnasaeditar);
           }
         }
@@ -648,7 +648,7 @@ class Gestion extends CI_Controller {
       $nombreapellidossolicitante = $usuario->get("USU_NOMBRES").' '.$usuario->get("USU_APELLIDOS");
       $usurutsolicitante = $usuario->get("USU_RUT")."-".$usuario->get("USU_DV");
 
-      
+
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Solicitud de prestamos N°'.$ultimasolicitud, "");
@@ -695,9 +695,9 @@ class Gestion extends CI_Controller {
       $grupotrabajo = $solicitud->get("SOL_NRO_GRUPOTRAB");
       $observaciones = $_POST["observaciones"];
       $dateinicio = DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_INICIO"));
-      $fechainicio = $dateinicio->format('d-m-Y H:i:s');   
+      $fechainicio = $dateinicio->format('d-m-Y H:i:s');
       $datetermino= DateTime::createFromFormat("Y-m-d H:i:s",$solicitud->get("SOL_FECHA_TERMINO"));
-      $fechatermino = $datetermino->format("d-m-Y H:m:s");      
+      $fechatermino = $datetermino->format("d-m-Y H:m:s");
 
       $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       foreach ($detallesol as $key => $value) {
@@ -705,7 +705,7 @@ class Gestion extends CI_Controller {
                 if ($value->get("DETSOL_PROD_ID") == $value2["idprod"]) {
                   $this->detsol->update($value->get("DETSOL_ID"),array('DETSOL_ESTADO' => 3));
                 }
-              }           
+              }
       }
       foreach ($asignaciones as $key => $value) {
         $columnasignacion  =  array(
@@ -741,7 +741,7 @@ class Gestion extends CI_Controller {
 
       }
 
-      $detallesolverificar = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));   
+      $detallesolverificar = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
       $b = 0; $i = 0;
       foreach ($detallesolverificar as $key => $value) {
         $i++;
@@ -843,7 +843,7 @@ class Gestion extends CI_Controller {
         $datos['productosActivos'] = $NuevoProductoActivo;
       }
       /*cod de barra activos*/
-      
+
       /*cod de barra Fungibles*/
       $NuevoProductoFungible = array();
       $productos = $this->prod->findByTipProdYEstado(2,1);
@@ -1007,7 +1007,7 @@ class Gestion extends CI_Controller {
           'stretchtext' => 4
       );
       $pdf->addPage();
-      
+
       /*va juntooooo*/
       $data = array();
       $data = $_POST['data'];
@@ -1015,7 +1015,7 @@ class Gestion extends CI_Controller {
       if (isset($data)) {
         $we=0;
         for ($i=0; $i < $cant; $i++) {
-          $this->db->where('INV_ID',$data[$i]); 
+          $this->db->where('INV_ID',$data[$i]);
           $variable = $this->db->get('inventario');
           foreach ($variable->result() as $row) {
             $nombre = $row->INV_PROD_NOM;
@@ -1122,8 +1122,7 @@ class Gestion extends CI_Controller {
       $this->output->set_output(json_encode($this->ing->findById($idingreso)->toArray()));
     }
 
-   public function Solicitudes (){
-    $datos['Usuarios'] = $this->usu->findAll();
+   public function Solicitudes(){
     $datos['Solicitudes'] = $this->soli->findEstados();
     $this->layouthelper->LoadView("gestion/solicitudes" , $datos);
   }

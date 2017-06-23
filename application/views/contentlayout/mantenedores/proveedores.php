@@ -40,7 +40,7 @@
                   <th>RAZON SOCIAL</th>
                   <th>TIPO</th>
                   <th>ESTADO</th>
-                  <th>ELIMINAR</th>
+                  <!--<th>ELIMINAR</th>-->
                   <th>EDITAR</th>
                 </tr>
                 </thead>
@@ -64,9 +64,9 @@
                     <?php else: ?>
                       <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROV/2/');?><?=$value->get('PROV_RUT');?>" class="btn btn-info btn-block">Habilitar</a></td>
                     <?php endif; ?>
-                    <td>
+                    <!--<td>
                       <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#ELIMINAR"><i class="fa fa-remove"></i></button>
-                    </td>
+                    </td>-->
                     <td><button id="<?= $value->get('PROV_RUT'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
                     </td>
                   </tr>
@@ -104,23 +104,23 @@
                         <label class="col-sm-2 control-label">RUT</label>
                         <div class="col-md-9">
                           <div class="col-md-10">
-                            <input type="text" name="PROV[PROV_RUT]" id="PROV[PROV_RUT]" placeholder="11111111" minlength="7" maxlength="8" value="<?= set_value('PROV[PROV_RUT]');  ?>" class="col-md-12">
+                            <input type="text" name="PROV[PROV_RUT]" id="PROV[PROV_RUT]" placeholder="11111111" minlength="7" maxlength="8" value="<?= set_value('PROV[PROV_RUT]');  ?>" class="col-md-12 form-control">
                           </div>
                           <div class="col-md-2">
-                            <input type="text" name="PROV[PROV_DV]" id="PROV[PROV_DV]" placeholder="1" maxlength="1" value="<?= set_value('PROV[PROV_DV]'); ?>" class="col-md-12">
+                            <input type="text" name="PROV[PROV_DV]" id="PROV[PROV_DV]" placeholder="1" maxlength="1" value="<?= set_value('PROV[PROV_DV]'); ?>" class="col-md-12 form-control">
                           </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">NOMBRE</label>
                         <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12">
+                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">RAZON SOCIAL</label>
                         <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>"class="col-md-12">
+                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>"class="col-md-12 form-control">
                         </div>
                       </div>
                       <div class="form-group">
@@ -266,6 +266,32 @@
       $("#id").val("");
       $("#nombre").val("");
       $("#rsocial").val("");
+    }
+
+    function valida_rut($rut)
+    {
+        $rut = preg_replace('/[^k0-9]/i', '', $rut);
+        $dv  = substr($rut, -1);
+        $numero = substr($rut, 0, strlen($rut)-1);
+        $i = 2;
+        $suma = 0;
+        foreach(array_reverse(str_split($numero)) as $v)
+        {
+            if($i==8)
+                $i = 2;
+            $suma += $v * $i;
+            ++$i;
+        }
+        $dvr = 11 - ($suma % 11);
+
+        if($dvr == 11)
+            $dvr = 0;
+        if($dvr == 10)
+            $dvr = 'K';
+        if($dvr == strtoupper($dv))
+            return true;
+        else
+            return false;
     }
 
   </script>

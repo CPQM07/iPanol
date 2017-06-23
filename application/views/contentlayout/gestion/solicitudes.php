@@ -22,6 +22,7 @@
                 <tr>
                   <th>ID</th>
                   <th>USUARIO</th>
+                  <th>RUT</th>
                   <th>FECHA INICIO</th>
                   <th>FECHA TERMINO</th>
                   <th>OBSERVACIONES</th>
@@ -33,7 +34,8 @@
                 <?php foreach ($Solicitudes as $key => $value): ?>
                   <tr>
                     <td><?= $value->get('SOL_ID'); ?></td>
-                    <td><?= $value->get('SOL_USU_RUT'); ?></td>
+                    <td><?= $value->get('USU_NOMBRES'); ?> <?= $value->get('USU_APELLIDOS'); ?></td>
+                    <td><?= $value->get('SOL_USU_RUT'); ?>-<?= $value->get('USU_DV'); ?></td>
                     <td><?= $value->get('SOL_FECHA_INICIO'); ?></td>
                     <td><?= $value->get('SOL_FECHA_TERMINO'); ?></td>
                     <td><?= $value->get('SOL_OBSERVACION'); ?></td>
