@@ -112,7 +112,7 @@
                         <label class="col-sm-2 control-label" >Cargo</label>
 
                         <div class="col-md-9">
-                          <select id="new_cargo" name="new_usu[USU_CARGO_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select id="new_cargo" name="new_usu[USU_CARGO_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($cargo as  $cargos): 
                             if ($cargos->get('CARGO_ESTADO')==1) {
@@ -126,7 +126,7 @@
                         <label class="col-sm-2 control-label">Carrera</label>
 
                         <div class="col-md-9">
-                          <select id="new_carrera" name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select id="new_carrera" name="new_usu[USU_CARRERA_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($carrera as  $carreras): ?>
                                <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?>
@@ -238,7 +238,7 @@
                         <label class="col-sm-2 control-label" >Cargo</label>
 
                         <div class="col-md-9">
-                          <select id="cargo" name="new_usu[USU_CARGO_ID]" class="form-control select2" style="width: 100%;">
+                          <select id="cargo" name="new_usu[USU_CARGO_ID]" class="select2" style="width: 100%;">
                             <option></option>
                             <?php foreach ($cargo as  $cargos): 
                             if ($cargos->get('CARGO_ESTADO')==1) {
@@ -252,7 +252,7 @@
                         <label class="col-sm-2 control-label">Carrera</label>
 
                         <div class="col-md-9">
-                          <select id="carrera" name="new_usu[USU_CARRERA_ID]" class="form-control select2" style="width: 100%;">
+                          <select id="carrera" name="new_usu[USU_CARRERA_ID]" class="select2" style="width: 100%;">
                             <option></option>
                             <?php foreach ($carrera as  $carreras): ?>
                                <option value="<?= $carreras->get('CARRERA_ID')?>" required><?=$carreras->get('CARRERA_NOMBRE')?>
@@ -301,7 +301,7 @@
                         <label class="col-sm-2 control-label">Estado</label>
 
                         <div class="col-md-9">
-                          <select id="estado" name="new_usu[USU_ESTADO]"  class="form-control select2" style="width: 100%;">
+                          <select id="estado" name="new_usu[USU_ESTADO]"  class="select2" style="width: 100%;">
                             <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>

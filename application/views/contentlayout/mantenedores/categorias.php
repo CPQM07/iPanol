@@ -161,7 +161,7 @@
                         <label class="col-sm-2 control-label">Estado</label>
 
                         <div class="col-md-9">
-                          <select id="estado" name="cat[CAT_ESTADO]" class="form-control select2" style="width: 100%;">
+                          <select id="estado" name="cat[CAT_ESTADO]" class="select2" style="width: 100%;">
                             <option selected="selected">Seleccione un tipo</option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>

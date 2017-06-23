@@ -110,7 +110,7 @@
                         <label class="col-sm-2 control-label">Categoria</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
@@ -122,7 +122,7 @@
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select name="producto[PROD_TIPOPROD_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
@@ -226,7 +226,7 @@
                         <label class="col-sm-2 control-label">Categoria</label>
 
                         <div class="col-md-9">
-                          <select id="categoria" name="producto[PROD_CAT_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select id="categoria" name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
@@ -238,7 +238,7 @@
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select id="tipo" name="producto[PROD_TIPOPROD_ID]" class="form-control select2" style="width: 100%;" required>
+                          <select id="tipo" name="producto[PROD_TIPOPROD_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
@@ -297,7 +297,7 @@
                         <label class="col-sm-2 control-label">Estado</label>
 
                         <div class="col-md-9">
-                          <select id="estado" name="producto[PROD_ESTADO]" class="form-control select2" style="width: 100%;">
+                          <select id="estado" name="producto[PROD_ESTADO]" class="select2" style="width: 100%;">
                             <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
