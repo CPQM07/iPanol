@@ -16,7 +16,7 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="form-control select2">
+              <select id="tipo" name="tipo" class="select2" style="width: 100%" >
               <option value="0">Tipos de productos</option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
@@ -27,8 +27,8 @@
                <div class="col-md-4">
           <label>Categorias</label>
              <div class="form-group">
-                <select id="cat" name="cat" class="form-control select2" >
-                <option value="0">Todas las categorias</option>x
+                <select id="cat" name="cat" class="select2" style="width: 100%" >
+                <option value="0"> Todas las categorias</option>
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -41,7 +41,7 @@
         <div class="col-md-4">
           <label>Adquisición</label>
              <div class="form-group">
-                <select id="adq" name="adq" class="form-control select2" required="true" >
+                <select id="adq" name="adq" class="select2" required="true" style="width: 100%">
                 <option value="">Todas las adquisiciones</option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
@@ -97,6 +97,7 @@
                   <th>Categoria</th>
                   <th>Nombre Producto</th>
                   <th>Fecha Ingreso</th>
+                  <th>Fecha Termino</th>
                 <?php if (@$buscaradq == 1): ?>  
                   <th>Nombre Proveedor</th>
                   <th>Rut Proveedor</th>
@@ -117,7 +118,17 @@
                 <td><?= $value['CAT_NOMBRE']; ?></td>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['ING_FECHA']; ?></td>
-                
+                <?php         
+                  $fechaing = $value['ING_FECHA'];
+                  $vida = $value['ING_VIDA_UTIL_PROVEEDOR'];
+                  $fecha = date('Y-m-d',strtotime('+'.$vida.'months', strtotime($fechaing)));
+                 ?>
+                 <?php if ($value['INV_PROD_CODIGO'] == 0): ?>
+                 <td>0-0-0</td>
+                 <?php endif ?>
+                <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
+                 <td> <?= @$fecha  ?></td>
+                 <?php endif ?>
                 <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
                 <?php if (@$buscaradq == 1): ?>
                 <td> <?=$value['PROV_NOMBRE']; ?></td>
@@ -139,7 +150,7 @@
                   <td> donacion </td>
                  <?php endif ?>
                <?php endif ?> 
-                <td> <?=$value['ING_VIDA_ULTIL_PROVEEDOR']; ?> Meses</td>
+                <td> <?=$value['ING_VIDA_UTIL_PROVEEDOR']; ?> Meses</td>
               <?php endforeach ?>
               </tr>
               </tbody>

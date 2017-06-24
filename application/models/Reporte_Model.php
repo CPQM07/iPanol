@@ -261,7 +261,7 @@ public function motivosdebaja($tipo, $cat, $mot){
 
 public function vidautilCompras($tipo, $cat, $adq){
 	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,
- INV_PROD_NOM,ING_FECHA,PROV_NOMBRE,PROV_RUT,ING_VIDA_ULTIL_PROVEEDOR,ING_TIPO_INGRESO');
+ INV_PROD_NOM,ING_FECHA,PROV_NOMBRE,PROV_RUT,ING_VIDA_UTIL_PROVEEDOR,ING_TIPO_INGRESO');
 	$this->db->from('inventario');
 	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 	$this->db->join('proveedor','ingreso.ING_PROV_RUT = proveedor.PROV_RUT');
@@ -295,14 +295,14 @@ public function vidautilCompras($tipo, $cat, $adq){
 "ING_FECHA"=>"0-0-0", 
 "PROV_NOMBRE"=>"SIN REGISTRO",
 "PROV_RUT"=>"0",
-"ING_VIDA_ULTIL_PROVEEDOR"=>"0",
+"ING_VIDA_UTIL_PROVEEDOR"=>"0",
 "ING_TIPO_INGRESO"=>"0"));
 		}
     return $result;
 }
 public function vidautilDonaciones($tipo, $cat, $adq){
 	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,CAT_NOMBRE,
- INV_PROD_NOM,ING_FECHA,ING_VIDA_ULTIL_PROVEEDOR,ING_TIPO_INGRESO');
+ INV_PROD_NOM,ING_FECHA,ING_VIDA_UTIL_PROVEEDOR,ING_TIPO_INGRESO');
 	$this->db->from('inventario');
 	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
@@ -333,7 +333,7 @@ public function vidautilDonaciones($tipo, $cat, $adq){
 "CAT_NOMBRE"=>"SIN REGISTRO",
 "INV_PROD_NOM"=>"SIN REGISTRO",
 "ING_FECHA"=>"0-0-0",
-"ING_VIDA_ULTIL_PROVEEDOR"=>"0",
+"ING_VIDA_UTIL_PROVEEDOR"=>"0",
 "ING_TIPO_INGRESO"=>"0"));
 		}
     return $result;

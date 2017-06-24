@@ -7,7 +7,7 @@ class Reportes extends CI_Controller {
  public function __construct()
   {
     parent::__construct();
-    $this->layouthelper->SetMaster('layout');
+  $this->layouthelper->SetMaster('layout');
   $this->load->model('Reporte_Model','reporte',true);
   $this->load->model('Categoria_Model','categorias',true);
   }
@@ -268,8 +268,8 @@ exit;
       $TotalProductos = $this->reporte->findAllProductosActivos($buscartipo, $buscarcat, $buscaradq); 
               $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
-        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -323,8 +323,8 @@ exit;
       $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat, $buscaradq);
               $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
-        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -649,8 +649,8 @@ exit;
       $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat, $buscaradq);
               $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
-        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Criticos: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -710,10 +710,10 @@ exit;
       }
       if ($buscartipo == 2) {      
       $TotalProductos = $this->reporte->findAllCriticosFungibles($buscartipo, $buscarcat, $buscaradq);
-              $html = '';
+        $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
-        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Criticos: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -972,8 +972,8 @@ exit;
       $TotalProductos = $this->reporte->motivosdebaja($buscartipo, $buscarcat, $buscarmot);
         $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
-        $html .= "td{background-color: #AAC7E3; color: #fff}";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Productos dados de baja: ".count($TotalProductos)."</h4>";
         $html .= "<table width='100%'>";
@@ -1054,10 +1054,10 @@ public function Vistavidautil(){
         $tituloReporte = "Reporte Vida util de Productos";
           if ($buscaradq == 1) {
         $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de ingreso',
-                                  'Nombre Proveedor','Rut Proveedor','Tipo ingreso','Vida util');
+          'Fecha Termino','Nombre Proveedor','Rut Proveedor','Tipo ingreso','Vida util');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:I1');
+            ->mergeCells('A1:J1');
         // Se agregan los titulos del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
@@ -1069,7 +1069,8 @@ public function Vistavidautil(){
             ->setCellValue('F3',  $titulosColumnas['5'])
             ->setCellValue('G3',  $titulosColumnas['6'])
             ->setCellValue('H3',  $titulosColumnas['7'])
-            ->setCellValue('I3',  $titulosColumnas['8']);
+            ->setCellValue('I3',  $titulosColumnas['8'])
+            ->setCellValue('J3',  $titulosColumnas['9']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
         $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);     
@@ -1083,18 +1084,22 @@ public function Vistavidautil(){
         $nomprov = $value['PROV_NOMBRE'];
         $rutprov = $value['PROV_RUT'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
-        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
-
+        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
+        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));
+        if ($codigo == 0) {
+          $fecha = "0-0-0";
+        }
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $prodnom)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
             ->setCellValue('E'.$i, $fechaing)
-            ->setCellValue('F'.$i, $nomprov)
-            ->setCellValue('G'.$i, $rutprov)
-            ->setCellValue('H'.$i, $ingtipo)
-            ->setCellValue('I'.$i, $vidautil);
+            ->setCellValue('F'.$i, $fecha)
+            ->setCellValue('G'.$i, $nomprov)
+            ->setCellValue('H'.$i, $rutprov)
+            ->setCellValue('I'.$i, $ingtipo)
+            ->setCellValue('J'.$i, $vidautil);
         $i++;
         }
       
@@ -1179,11 +1184,11 @@ $estiloInformacion->applyFromArray( array(
         )
     )
 ));
-$objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:I3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:I".($i-1));
+$objPHPExcel->getActiveSheet()->getStyle('A1:J1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:J3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:J".($i-1));
 // Tamaño automatico
-for($i = 'A'; $i <= 'I'; $i++){
+for($i = 'A'; $i <= 'J'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
@@ -1205,10 +1210,10 @@ $objWriter->save('php://output');
 exit;
 }  if ($buscaradq == 2) {
           $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria',
-                                    'Fecha de ingreso','Tipo ingreso','Vida util');
+                                    'Fecha de ingreso','Fecha Termino','Tipo ingreso','Vida util');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:I1');
+            ->mergeCells('A1:H1');
         // Se agregan los titulos del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
@@ -1218,7 +1223,8 @@ exit;
             ->setCellValue('D3',  $titulosColumnas['3'])
             ->setCellValue('E3',  $titulosColumnas['4'])
             ->setCellValue('F3',  $titulosColumnas['5'])
-            ->setCellValue('G3',  $titulosColumnas['6']);
+            ->setCellValue('G3',  $titulosColumnas['6'])
+            ->setCellValue('H3',  $titulosColumnas['7']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
         $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);     
@@ -1230,16 +1236,20 @@ exit;
         $nomcat = $value['CAT_NOMBRE'];
         $fechaing = $value['ING_FECHA'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
-        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
-
+        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
+        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));                 
+        if ($codigo == 0) {
+          $fecha = "0-0-0";
+        }
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $prodnom)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
             ->setCellValue('E'.$i, $fechaing)
-            ->setCellValue('F'.$i, $ingtipo)
-            ->setCellValue('G'.$i, $vidautil);
+            ->setCellValue('F'.$i, $fecha)
+            ->setCellValue('G'.$i, $ingtipo)
+            ->setCellValue('H'.$i, $vidautil);
         $i++;
         }
       
@@ -1324,11 +1334,11 @@ $estiloInformacion->applyFromArray( array(
         )
     )
 ));
-$objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:G".($i-1));
+$objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:H".($i-1));
 // Tamaño automatico
-for($i = 'A'; $i <= 'G'; $i++){
+for($i = 'A'; $i <= 'H'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
@@ -1374,8 +1384,8 @@ exit;
       $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);
         $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
-        $html .= "td{border:1px solid black; }";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -1384,6 +1394,7 @@ exit;
                   <th>Categoria</th>
                   <th>Nombre Producto</th>
                   <th>Fecha Ingreso</th>
+                  <th>Fecha Termino</th>
                   <th>Nombre Proveedor</th>
                   <th>Rut</th>
                   <th>Vida util</th>
@@ -1398,14 +1409,19 @@ exit;
         $fechaing = $value['ING_FECHA'];
         $nomprov = $value['PROV_NOMBRE'];
         $rutprov = $value['PROV_RUT'];
-        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
+        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
+        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));                 
+        if ($codigo == 0) {
+          $fecha = "0-0-0";
+        }
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='tipo'>".$nomtipo."</td>
                       <td class='categoria'>".$nomcat."</td>
                       <td class= 'producto' >".$prodnom."</td>
                       <td class= 'ingreso' >".$fechaing."</td>
+                      <td class= 'termino' >".$fecha."</td>
                       <td class= 'proveedor' >".$nomprov."</td>
                       <td class= 'rut' >".$rutprov."</td>
                       <td class= 'vidautil' >".$vidautil."</td>
@@ -1423,17 +1439,19 @@ exit;
         if ($buscaradq == 2) {
           $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);
         $html = '';
-        $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
-        $html .= "td{border:1px solid black; }";
-        $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
+        $html .= "<style type=text/css>";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
+        $html .= "</style>";
+        
         $html .= "<table width='100%'>";
         $html .= "<tr><th>Codigo</th>
                   <th>Tipo</th>
                   <th>Categoria</th>
-                  <th>Nombre Producto</th>
+                  <th>Nombre Producto  </th>
                   <th>Fecha Ingreso</th>
+                  <th>Fecha Termino</th>
                   <th>Vida util</th>
                   <th>Tipo Ingreso</th>
                   </tr>";
@@ -1444,16 +1462,23 @@ exit;
         $nomcat = $value['CAT_NOMBRE'];
         $prodnom = $value['INV_PROD_NOM'];
         $fechaing = $value['ING_FECHA'];
-        $vidautil = $value['ING_VIDA_ULTIL_PROVEEDOR'];
+        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
+        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));          
+        if ($codigo == 0) {
+          $fecha = "0-0-0";
+        }
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='tipo'>".$nomtipo."</td>
                       <td class='categoria'>".$nomcat."</td>
                       <td class= 'producto' >".$prodnom."</td>
                       <td class= 'ingreso' >".$fechaing."</td>
+                      <td class= 'termino' >".$fecha."</td>
                       <td class= 'vidautil' >".$vidautil."</td>
                       <td class= 'tipoingreso' >".$ingtipo."</td>
+
+
                       </tr>";
         }
         $html .= "</table>";
@@ -1500,8 +1525,8 @@ exit;
         $precio = $this->reporte->productospreciounitario($buscartipo, $buscarcat);
         $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
-        $html .= "td{border:1px solid black; }";
+        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
+        $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($precio)." Productos</h4>";
         $html .= "<table width='100%'>";

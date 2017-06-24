@@ -16,7 +16,7 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="form-control select2">
+              <select id="tipo" name="tipo" class="select2" style="width: 100%">
               <option value="0">Tipos de productos</option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
@@ -27,7 +27,7 @@
                <div class="col-md-4">
           <label>Categorias</label>
              <div class="form-group">
-                <select id="cat" name="cat" class="form-control select2" >
+                <select id="cat" name="cat" class="select2" style="width: 100%">
                 <option value="0">Todas las categorias</option>x
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
@@ -41,7 +41,7 @@
           <div class="col-md-4">
             <label>Tipos de baja</label>
              <div class="form-group">
-                <select id="mot" name="mot" class="form-control select2" >
+                <select id="mot" name="mot" class="select2" style="width: 100%">
                 <option value="0">Todos los tipos de baja</option>
                    <?php foreach ($motivos as $key => $value): ?>
                     <?php if ($value['MOT_ESTADO']==1):?>
