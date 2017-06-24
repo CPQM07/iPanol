@@ -1,3 +1,5 @@
+<?php $self = $_SERVER['PHP_SELF'];
+header("refresh:30; url=$self"); ?>
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
