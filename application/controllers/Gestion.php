@@ -919,7 +919,8 @@ class Gestion extends CI_Controller {
           $pdf->writeHTML($html, true, 0, true, 0);
         }
         $pdf->lastPage();
-        $texto = str_replace("/"," ",$nomProd);
+        $val = array('/', "-", ":", "¿", "?");
+        $texto = str_replace($val," ",$nomProd);
         $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
         $pdf->output($rutasavePDF, 'F');
         $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
@@ -986,7 +987,8 @@ class Gestion extends CI_Controller {
           $pdf2->Ln(-18);
           $pdf2->writeHTML($html, true, 0, true, 0);
       }
-      $texto = str_replace("/"," ",$nombreArchivo);
+      $val = array('/', "-", ":", "¿", "?");
+      $texto = str_replace($val," ",$nombreArchivo);
       $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
       $pdf2->lastPage();
       $pdf2->output($rutasavePDF, 'F');
