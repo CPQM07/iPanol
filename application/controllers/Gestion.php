@@ -886,10 +886,9 @@ class Gestion extends CI_Controller {
             'position' => '',
             'align' => 'C',
             'stretch' => false,
-            'fitwidth' => true,
-            'cellfitalign' => '',
+            'fitwidth' => false,
+            'cellfitalign' => 'C',
             'border' => true,
-            'hpadding' => 'auto',
             'vpadding' => 20,
             'fgcolor' => array(0,0,0),
             'bgcolor' => false, //array(255,255,255),
@@ -902,18 +901,28 @@ class Gestion extends CI_Controller {
 
         $this->db->where('INV_PROD_NOM',$nomProd);
         $query = $this->db->get('inventario');
-
+        $html="";
         foreach($query->result_array() AS $row){
           $barcode = $row['INV_PROD_CODIGO'];
           $nombre = $row['INV_PROD_NOM'];
-          $pdf->Cell(0, 0, $nombre, 0, 1);
-          $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
-          $pdf->Ln();
+          
+          $html = '<table style="width: 50%; display:table;" border="1" cellpadding="5">
+                    <tr>
+                      <td bgcolor="#E6E6E6" style="height:51px; text-align:center; top: 50%;">
+                        <br><br><b>'.$nombre.' </b>
+                      </td>
+                    </tr>
+                   </table>';
+          $pdf->write1DBarcode($barcode, 'C39', 105, '', 90, 18, 0.4, $style, 'N');
+
+          $pdf->Ln(-18);
+          $pdf->writeHTML($html, true, 0, true, 0);
         }
         $pdf->lastPage();
-        $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$nomProd.'.pdf';
+        $texto = str_replace("/"," ",$nomProd);
+        $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
         $pdf->output($rutasavePDF, 'F');
-        $rutaAJAX = base_url().'resources/pdf/barcode/'.$nomProd.'.pdf';
+        $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
@@ -943,10 +952,9 @@ class Gestion extends CI_Controller {
           'position' => '',
           'align' => 'C',
           'stretch' => false,
-          'fitwidth' => true,
-          'cellfitalign' => '',
+          'fitwidth' => false,
+          'cellfitalign' => 'C',
           'border' => true,
-          'hpadding' => 'auto',
           'vpadding' => 20,
           'fgcolor' => array(0,0,0),
           'bgcolor' => false, //array(255,255,255),
@@ -959,20 +967,30 @@ class Gestion extends CI_Controller {
 
       $this->db->where('INV_ID', $idInv);
       $query = $this->db->get('inventario');
+      $html="";
       foreach ($query->result_array() AS $row){
           $barcode = $row["INV_PROD_CODIGO"];
           $nombre = $row["INV_PROD_NOM"];
           $id = $row["INV_ID"];
           $nombreArchivo = str_replace(' ', '',$nombre)."-".$id;
-          $pdf2->Cell(0, 0, $nombre, 0, 1);
-          $pdf2->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
-      }
-      $pdf2->Ln();
 
-      $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
+          $html = '<table style="width: 50%; display:table;" border="1" cellpadding="5">
+                    <tr>
+                      <td bgcolor="#E6E6E6" style="height:51px; text-align:center; top: 50%;">
+                        <br><br><b>'.$nombre.' </b>
+                      </td>
+                    </tr>
+                   </table>';
+          $pdf2->write1DBarcode($barcode, 'C39', 105, '', 90, 18, 0.4, $style, 'N');
+
+          $pdf2->Ln(-18);
+          $pdf2->writeHTML($html, true, 0, true, 0);
+      }
+      $texto = str_replace("/"," ",$nombreArchivo);
+      $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
       $pdf2->lastPage();
       $pdf2->output($rutasavePDF, 'F');
-      $rutaAJAX = base_url().'resources/pdf/barcode/'.$nombreArchivo.'.pdf';
+      $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
     }
@@ -994,10 +1012,9 @@ class Gestion extends CI_Controller {
           'position' => '',
           'align' => 'C',
           'stretch' => false,
-          'fitwidth' => true,
-          'cellfitalign' => '',
+          'fitwidth' => false,
+          'cellfitalign' => 'C',
           'border' => true,
-          'hpadding' => 'auto',
           'vpadding' => 20,
           'fgcolor' => array(0,0,0),
           'bgcolor' => false, //array(255,255,255),
@@ -1012,6 +1029,7 @@ class Gestion extends CI_Controller {
       $data = array();
       $data = $_POST['data'];
       $cant= count($data);
+      $html="";
       if (isset($data)) {
         $we=0;
         for ($i=0; $i < $cant; $i++) {
@@ -1020,9 +1038,17 @@ class Gestion extends CI_Controller {
           foreach ($variable->result() as $row) {
             $nombre = $row->INV_PROD_NOM;
             $barcode = $row->INV_PROD_CODIGO;
-            $pdf->Cell(0, 0, $nombre, 0, 1);
-            $pdf->write1DBarcode($barcode, 'C39', '', '', '', 18, 0.4, $style, 'N');
-            $pdf->Ln();
+            $html = '<table style="width: 50%; display:table;" border="1" cellpadding="5">
+                    <tr>
+                      <td bgcolor="#E6E6E6" style="height:51px; text-align:center; top: 50%;">
+                        <br><br><b>'.$nombre.' </b>
+                      </td>
+                    </tr>
+                   </table>';
+            $pdf->write1DBarcode($barcode, 'C39', 105, '', 90, 18, 0.4, $style, 'N');
+
+            $pdf->Ln(-18);
+            $pdf->writeHTML($html, true, 0, true, 0);
           }
             ++$we;
         }
