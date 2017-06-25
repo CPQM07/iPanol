@@ -59,9 +59,6 @@ class Dashboard extends CI_Controller {
 
 	public function msjCriticoActiv(){
 		/*$id = $_POST['acti'];*/
-		$id=1;
-		$NuevoProducto = array();
-	  $productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
 /*	  $larg = count($productos);
 	  foreach ($productos as $key => $value) {
 		    $NuevoProducto[] = array(
@@ -99,28 +96,35 @@ class Dashboard extends CI_Controller {
 		    }
      	}
 */
+	  	$productos = $this->producto->productosCriticosDash();//tipo 1 activo | tipo 2 fingible
 
      	if ($productos != null) {
-			foreach ($productos as $key => $value) {
-        	$CANTIDAD = 0;
-        	if ($value["PROD_TIPOPROD_ID"] == 1) {
-        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
-        	}else if($value["PROD_TIPOPROD_ID"] == 2){
-        	$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
-        	if ($inventariotipofungible != null) {
-        		$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
-        		}	
-        	}
 
-        	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
-        }
+			foreach ($productos as $key => $value) {
+
+	        	$CANTIDAD = 0;
+	        	if ($value["PROD_TIPOPROD_ID"] == 1) {
+
+	        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO' => 1)));
+	        		$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
+
+	        	}/*else if($value["PROD_TIPOPROD_ID"] == 2){
+
+	        		$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
+		        	if ($inventariotipofungible != null) {
+
+		        			$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
+
+		        		}
+	        	}*/
+
+
+        	}
     	}
 
-
-		/*$this->output->set_content_type('application/json');
-     	$this->output->set_output(json_encode(
-     		array("msjActivo" =>$msjCriticoActiv,"cantida" => count($msjCriticoActiv))
-     		));*/
+    	/*print_r($productos);*/
+		$this->output->set_content_type('application/json');
+     	$this->output->set_output(json_encode(array("msj" =>$productos)));
 	}
 
 

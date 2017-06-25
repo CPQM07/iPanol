@@ -79,7 +79,7 @@ header("refresh:30; url=$self"); ?>
 
         <div class="col-md-3">
           <!-- Info Boxes Style 2 -->
-          <div id="acti" class="info-box bg-red">
+          <div id="acti" class="info-box bg-red" data-toggle="modal" data-target="#activo" >
             <span  class="info-box-icon">
               <i class="icon ion-hammer"></i>
             </span>
@@ -183,8 +183,36 @@ header("refresh:30; url=$self"); ?>
         <button id="funAyer4" value="<?= $fungiblesAyer4; ?>" class="hidden"></button>
         <button id="funAyer5" value="<?= $fungiblesAyer5; ?>" class="hidden"></button>
         <button id="funAyer6" value="<?= $fungiblesAyer6; ?>" class="hidden"></button>
-        
 
+
+      <div class="modal fade bs-example-modal-lg" id="activo" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-tittle text-center">Productos activos en stock crítico</h4>
+
+
+
+                  <table class="table table-bordered table-responsive">
+                    <thead>
+                      <tr>
+                        <td>Nombre</td>
+                        <td>Stock óptimo</td>
+                        <td>Stock crítico</td>
+                        <td>Stock actual</td>
+                      </tr>
+                    </thead>
+                    <tbody id="showdata">
+                      
+                    </tbody>
+                  </table>
+                  
+
+
+            </div>
+          </div>
+        </div>
+      </div>
 
       </div>
       <!-- /.row (main row) -->
@@ -271,16 +299,16 @@ header("refresh:30; url=$self"); ?>
 
     $( "#acti" ).click(function() {
       var acti=1;
-      $.ajax(
+      /*$.ajax(
       {
         method:"POST",
         url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
         datatype:'json',
-        data: {"acti": acti},
+        data: {"tipo": acti},
         success: function(response){
           tooltip0 = new PNotify({
             title: "Activos",
-            text: response.msjActivo,/*$('#form_notice').html()*/
+            text: response.msj,$('#form_notice').html()
             animate_speed: "fast",
             icon: "fa fa-wrench"
           });
@@ -291,8 +319,43 @@ header("refresh:30; url=$self"); ?>
       });
       $( "#acti" ).mouseout(function() {
         tooltip0.remove();
+      });*/
+
+      var html = '';          
+      $.ajax({
+        method:"POST",
+        url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
+        datatype:'json',
+        success: function(data){
+            var a = data.msj;
+              a.forEach(function(entry) {
+                if (entry.STOCKACTUAL!=undefined) {
+                  if (entry.PROD_STOCK_CRITICO > entry.STOCKACTUAL) {
+
+                    html +='<tr>'+
+                            '<td>'+entry.PROD_NOMBRE +'</td>'+/*nombre*/
+                            '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
+                            '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
+                            '<td>'+entry.STOCKACTUAL+'</td>'+/*actual*/
+                          '</tr>';
+                    }
+                  }
+              });
+          $('#showdata').html(html);
+        },
+        error: function(){
+          alert('Error al cargar los datos');
+        }
       });
     });
+
+
+
+
+
+
+
+
 
 
 

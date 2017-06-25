@@ -158,6 +158,18 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
       return $result;
 }
 
+public function productosCriticosDash(){
+  $this->db->where('PROD_ESTADO',1);
+  $query = $this->db->get("productos");
+    if ($query->num_rows() > 0) {
+        foreach ($query->result_array() as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+    return null;
+}
+
 public function findByTipProd($id){
     $result=array();
     $bit = null;
