@@ -20,7 +20,7 @@
 
         <div class="col-md-12">
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="table-responsive box-body">
               <table id="tablaajax" class=" table table-bordered table-hover">
                
               </table>

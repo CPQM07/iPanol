@@ -526,7 +526,6 @@
 
     function limpiarformmodal(argument) {
       $("#proveedor").val("").trigger('change');
-          $("#vidautil").val("");
           $("#ordencompra").val("");
           $("#preciounitario").val("");
     }
