@@ -159,15 +159,44 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
 }
 
 public function productosCriticosDash(){
-  $this->db->where('PROD_ESTADO',1);
-  $query = $this->db->get("productos");
-    if ($query->num_rows() > 0) {
-        foreach ($query->result_array() as $row) {
-            $data[] = $row;
-        }
-        return $data;
+    $result = array();
+    $this->db->select('inventario.INV_PROD_CODIGO,tipoprod.TIPO_ID,tipoprod.TIPO_NOMBRE,categoria.CAT_ID,categoria.CAT_NOMBRE,inventario.INV_PROD_NOM, productos.PROD_STOCK_CRITICO,ingreso.ING_TIPO_INGRESO, productos.PROD_STOCK_OPTIMO
+      ,productos.PROD_PRIORIDAD,inventario.INV_PROD_ID , COUNT(*) AS CANTIDAD');
+    $this->db->from('inventario');
+    $this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+    $this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
+    $this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
+    $this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
+    $this->db->where('inventario.INV_PROD_ESTADO = 1');
+    $this->db->where('tipoprod.TIPO_ID = 1');
+    $tipo=1;
+
+    if ($tipo!='0') {
+      $this->db->where('TIPO_ID',$tipo);
     }
-    return null;
+    $this->db->having('CANTIDAD <= productos.PROD_STOCK_CRITICO');
+    $this->db->group_by('inventario.INV_PROD_NOM');
+    $consulta = $this->db->get();
+      $result = null;
+      foreach ($consulta->result_array() as $row) {
+        $result[] = $row;
+      }
+      if(is_null($result))
+      {
+        $result =array(array( 
+        "TIPO_ID"=>"0",
+        "INV_PROD_CODIGO"=>"0",
+        "INV_PROD_NOM"=>"SIN REGISTRO",
+        "TIPO_NOMBRE"=>"SIN REGISTRO",
+        "CAT_ID"=>"0",
+        "CAT_NOMBRE"=>"SIN REGISTRO", 
+        "PROD_STOCK_OPTIMO"=>"0",
+        "PROD_STOCK_CRITICO"=>"0",
+        "PROD_PRIORIDAD"=>"0",
+        "ING_TIPO_INGRESO"=>"0",
+        "CANTIDAD"=>"0"));
+      }
+      return $result;
 }
 
 public function findByTipProd($id){

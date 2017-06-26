@@ -171,23 +171,51 @@ public function findAll(){
       return $result;
 }
 
-    public function contarInventarioCritico($idTipo = null,$idCatego = null){//1->activo | 2->fungible
-      /*$this->load->database();
-      $id=1;
-      $idCatego=5;
-      $this->db->where('INV_TIPO_ID', $idTipo);
-      $this->db->where('INV_CATEGORIA_ID', $idCatego);
-      $res = $this->db->get('inventario');
+  public function contarInventarioCritico(){
       $result = array();
-      foreach ($res->result() as $row) {
-        $result[] = $this->create($row);
+      $this->db->select('inventario.INV_PROD_CODIGO,categoria.CAT_ID,tipoprod.TIPO_ID,categoria.CAT_NOMBRE,tipoprod.TIPO_NOMBRE,inventario.INV_PROD_NOM,inventario.INV_PROD_CANTIDAD,
+    productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDAD,ingreso.ING_TIPO_INGRESO');
+
+      $this->db->from('inventario');
+      $this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
+      $this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
+      $this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
+      $this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
+      $this->db->where('inventario.INV_PROD_CANTIDAD <= productos.PROD_STOCK_CRITICO');
+      $this->db->where('tipoprod.TIPO_ID = 2');
+      $tipo=2;
+
+      if ($tipo!='0') {
+        $this->db->where('TIPO_ID',$tipo);
       }
-      $cantidad count($result);
-      $critico = $this->db->select('PROD_STOCK_CRITICO');
-      $this->db->where('Field / comparison', $cantidad);*/
+
+      $this->db->group_by('inventario.INV_PROD_NOM');
+      $consulta = $this->db->get();
+
+        $result = null;
+        foreach ($consulta->result_array() as $row) {
+          $result[] = $row;
+        }
+        if(is_null($result))
+        {
+          $result =array(array( 
+            "TIPO_ID"=>"0",
+            "INV_PROD_CODIGO"=>"0",
+            "INV_PROD_NOM"=>"SIN REGISTRO",
+            "TIPO_NOMBRE"=>"SIN REGISTRO",
+            "CAT_ID"=>"0",
+            "CAT_NOMBRE"=>"SIN REGISTRO", 
+            "PROD_STOCK_OPTIMO"=>"0",
+            "PROD_STOCK_CRITICO"=>"0",
+            "PROD_PRIORIDAD"=>"0",
+            "ING_TIPO_INGRESO"=>"0",
+            "INV_PROD_CANTIDAD"=>"0"));
+        }
+        return $result;
     }
 
-    public function selectCantidadStockById($id = null){
+
+    public function selectCantidadStockById($id = null){/************/
       $this->db->select('INV_PROD_CANTIDAD');
       $this->db->where('INV_ID', $id);
       $query = $this->db->get('inventario');
@@ -197,7 +225,7 @@ public function findAll(){
       return $cosa;
     }
 
-    public function returnAllIdInventario(){
+    public function returnAllIdInventario(){/************/
       $result = array();
       $querry = $this->db->query('SELECT inventario.INV_PROD_ID from inventario where inventario.INV_PROD_ESTADO =1');
       foreach ($querry->result_array() as $data) {

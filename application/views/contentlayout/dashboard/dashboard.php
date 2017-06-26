@@ -79,17 +79,17 @@ header("refresh:30; url=$self"); ?>
 
         <div class="col-md-3">
           <!-- Info Boxes Style 2 -->
-          <div id="acti" class="info-box bg-red" data-toggle="modal" data-target="#activo" >
+          <div id="acti" class="info-box bg-red" data-toggle="modal" data-target="#activo">
             <span  class="info-box-icon">
               <i class="icon ion-hammer"></i>
             </span>
 
             <div class="info-box-content">
               <span class="info-box-text">Stock crítico</span>
-              <span id="activCant" class="info-box-number">0</span><!-- esteeee -->
+              <span id="activCant" class="info-box-number"><?=$act?></span><!-- esteeee -->
 
               <div class="progress">
-                <div id="percentActiv" class="progress-bar"></div>
+                <div id="percentActiv" class="progress-bar" style="width: <?=$act?>%;"></div>
               </div>
                   <span class="progress-description">
                     Productos activos
@@ -98,15 +98,15 @@ header("refresh:30; url=$self"); ?>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
-          <div id="fungi" class="info-box bg-red">
+          <div id="fungi" class="info-box bg-red" data-toggle="modal" data-target="#fungigi">
             <span class="info-box-icon"><i class="ion ion-pin"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Stock crítico</span>
-              <span id="fungiCant" class="info-box-number">0</span>
+              <span id="fungiCant" class="info-box-number"><?=$fun?></span>
 
               <div class="progress">
-                <div id="percentFungi" class="progress-bar"></div>
+                <div id="percentFungi" class="progress-bar" style="width:<?=$fun?>%;"></div>
               </div>
                   <span class="progress-description">
                     Productos fungibles
@@ -190,29 +190,46 @@ header("refresh:30; url=$self"); ?>
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-tittle text-center">Productos activos en stock crítico</h4>
-
-
-
-                  <table class="table table-bordered table-responsive">
-                    <thead>
-                      <tr>
-                        <td>Nombre</td>
-                        <td>Stock óptimo</td>
-                        <td>Stock crítico</td>
-                        <td>Stock actual</td>
-                      </tr>
-                    </thead>
-                    <tbody id="showdata">
-                      
-                    </tbody>
-                  </table>
-                  
-
-
+              <table class="table table-bordered table-responsive">
+                <thead>
+                  <tr>
+                    <td>Nombre</td>
+                    <td>Stock óptimo</td>
+                    <td>Stock crítico</td>
+                    <td>Stock actual</td>
+                  </tr>
+                </thead>
+                <tbody id="showdata">
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="modal fade bs-example-modal-lg" id="fungigi" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-tittle text-center">Productos fungibles en stock crítico</h4>
+              <table class="table table-bordered table-responsive">
+                <thead>
+                  <tr>
+                    <td>Nombre</td>
+                    <td>Stock óptimo</td>
+                    <td>Stock crítico</td>
+                    <td>Stock actual</td>
+                  </tr>
+                </thead>
+                <tbody id="showdata1">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
       </div>
       <!-- /.row (main row) -->
@@ -298,49 +315,24 @@ header("refresh:30; url=$self"); ?>
 
 
     $( "#acti" ).click(function() {
-      var acti=1;
-      /*$.ajax(
-      {
-        method:"POST",
-        url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
-        datatype:'json',
-        data: {"tipo": acti},
-        success: function(response){
-          tooltip0 = new PNotify({
-            title: "Activos",
-            text: response.msj,$('#form_notice').html()
-            animate_speed: "fast",
-            icon: "fa fa-wrench"
-          });
-          $("#percentActiv").width( response.cantida ).addClass( "mod" );
-          $("#activCant").text(response.cantida);
-          tooltip0.open();
-        }
-      });
-      $( "#acti" ).mouseout(function() {
-        tooltip0.remove();
-      });*/
-
       var html = '';          
       $.ajax({
         method:"POST",
         url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
         datatype:'json',
         success: function(data){
-            var a = data.msj;
+            var wid = data.msjActi.length;
+            var a = data.msjActi;
               a.forEach(function(entry) {
-                if (entry.STOCKACTUAL!=undefined) {
-                  if (entry.PROD_STOCK_CRITICO > entry.STOCKACTUAL) {
-
-                    html +='<tr>'+
-                            '<td>'+entry.PROD_NOMBRE +'</td>'+/*nombre*/
-                            '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
-                            '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
-                            '<td>'+entry.STOCKACTUAL+'</td>'+/*actual*/
-                          '</tr>';
-                    }
-                  }
+                  html +='<tr>'+
+                          '<td>'+entry.INV_PROD_NOM +'</td>'+/*nombre*/
+                          '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
+                          '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
+                          '<td>'+entry.CANTIDAD+'</td>'+/*actual*/
+                        '</tr>';
               });
+          $("#activCant").text(wid);
+          $("#percentActiv").css("width", wid);
           $('#showdata').html(html);
         },
         error: function(){
@@ -349,43 +341,32 @@ header("refresh:30; url=$self"); ?>
       });
     });
 
-
-
-
-
-
-
-
-
-
-
     $( "#fungi" ).click(function() {
-      var fungi=2;
-      $.ajax(
-      {
+      var html = '';          
+      $.ajax({
         method:"POST",
-        url: "<?=site_url('/Dashboard/msjCriticoFungible')?>",
+        url: "<?=site_url('/Dashboard/msjFungi')?>",
         datatype:'json',
-        data: {"fungi": fungi},
-        success: function(response){
-          tooltip1 = new PNotify({
-            title: "Fungibles",
-            text: response.msjFungible,
-            animate_speed: "fast",
-            icon: "fa fa-thumb-tack"
-          });
-          $("#percentFungi").width( response.cantida ).addClass( "mod" );
-          $("#fungiCant").text(response.cantida);
-          tooltip1.open();
+        success: function(data){
+          var wid = data.msjFungi.length;
+            var a = data.msjFungi;
+              a.forEach(function(entry) {
+                html +='<tr>'+
+                        '<td>'+entry.INV_PROD_NOM +'</td>'+/*nombre*/
+                        '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
+                        '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
+                        '<td>'+entry.INV_PROD_CANTIDAD+'</td>'+/*actual*/
+                      '</tr>';
+              });
+          $("#fungiCant").text(wid);
+          $("#percentFungi").css("width", wid);
+          $('#showdata1').html(html);
+        },
+        error: function(){
+          alert('Error al cargar los datos');
         }
-      });          
-      $( "#fungi" ).mouseout(function() {
-        tooltip1.remove();
       });
     });
-
-
-
 
   </script>
   <?php } ?>
