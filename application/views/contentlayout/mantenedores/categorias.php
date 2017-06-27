@@ -22,35 +22,37 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="datatable table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>NOMBRE</th>
-                  <th>DESCRIPCION</th>
-                  <th>CODIGO</th>
-                  <th>ESTADO</th>
-                  <th>EDITAR</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categoria as $key => $value): ?>
-                      <tr>
-                        <td><?= $value->get('CAT_ID'); ?></td>
-                        <td><?= $value->get('CAT_NOMBRE'); ?></td>
-                        <td><?= $value->get('CAT_DESC'); ?></td>
-                        <td><?= $value->get('CAT_CODIGO'); ?></td>
-                        <?php if ($value->get('CAT_ESTADO') == 1): ?>
-                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/0/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
-                        <?php else: ?>
-                          <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/1/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
-                        <?php endif; ?>
-                        <td><button id="<?= $value->get('CAT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
-                        </td>
-                      </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
+              <div class="table-responsive box-body">
+                <table id="example1" class="datatable table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>DESCRIPCION</th>
+                    <th>CODIGO</th>
+                    <th>ESTADO</th>
+                    <th>EDITAR</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                      <?php foreach ($categoria as $key => $value): ?>
+                        <tr>
+                          <td><?= $value->get('CAT_ID'); ?></td>
+                          <td><?= $value->get('CAT_NOMBRE'); ?></td>
+                          <td><?= $value->get('CAT_DESC'); ?></td>
+                          <td><?= $value->get('CAT_CODIGO'); ?></td>
+                          <?php if ($value->get('CAT_ESTADO') == 1): ?>
+                            <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/0/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                          <?php else: ?>
+                            <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/1/');?><?=$value->get('CAT_ID');?>" class="btn btn-info btn-block">Habilitar</a></td>
+                          <?php endif; ?>
+                          <td><button id="<?= $value->get('CAT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button>
+                          </td>
+                        </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>
