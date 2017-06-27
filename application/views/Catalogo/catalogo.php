@@ -1,4 +1,4 @@
-<?php include_once('header.php') ?>	
+<?php include_once('header.php') ?>
 	<section>
 		<div class="container">
 			<div class="row">
@@ -17,7 +17,7 @@
                         <div class="brands_products"><!--por tipo de articulos-->
 							<h2>TIPO DE ARTÍCULO</h2>
 						<div class="brands-name">
-							<?php foreach ($tipoProd as $key => $value): ?>	
+							<?php foreach ($tipoProd as $key => $value): ?>
 								<ul class="nav nav-pills nav-stacked">
 									<li><a href="<?= site_url("/Catalogo/tipo/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
 								</ul>
@@ -33,25 +33,29 @@
 					    <?php echo $pagination;  ?>
 					</div>
 					<?php if ($consulta != null): ?>
-					<?php foreach ($consulta as $key => $value): ?>	
+					<?php foreach ($consulta as $key => $value): ?>
 					<?php $disabled = ""; ?>
 					<?php if(isset($_SESSION["productos"])): ?>
 						<?php foreach ($_SESSION["productos"] as $key => $pro): ?>
 							<?php if ($value['PROD_ID'] == $pro['productoid']): ?>
 								<?php $disabled = "disabled"; ?>
-							<?php endif ?>			
+							<?php endif ?>
 						<?php endforeach ?>
 					<?php endif ?>
-						<div class="col-sm-4" style="width: 280px">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
-										<h2 style="height: 90px" ><?= $value['PROD_NOMBRE']; ?></h2>
-										<p><u>Disponibles: <?= $value['STOCKACTUAL']; ?></u></p>
-										<input type="number" placeholder="Cantidad a solicitar" class="form-control inputcantidad" min="1" max="<?= $value['STOCKACTUAL']; ?>" id="CANT<?= $value['PROD_ID']?>">
-										<a <?php echo($disabled) ?> id="<?= $value['PROD_ID']?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar</a>
+						<div class="col-sm-4">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="single-products">
+										<div class="productinfo text-center">
+											<img style="height: 250px;width: 200px" src="<?= base_url("/resources/images/Imagenes_Server/".$value['PROD_IMAGEN'].""); ?>" alt="" />
+											<h2 style="height: 90px" ><?= $value['PROD_NOMBRE']; ?></h2>
+											<h4><span class="label label-default">Disponibles: <?= $value['STOCKACTUAL']; ?></span></h4>
+										</div>
 									</div>
+								</div>
+								<div class="panel-footer">
+									<input type="number" placeholder="Cantidad a solicitar" class="form-control inputcantidad" min="1" max="<?= $value['STOCKACTUAL']; ?>" id="CANT<?= $value['PROD_ID']?>"><br>
+									<a <?php echo($disabled) ?> id="<?= $value['PROD_ID']?>" class="btn btn-danger btn-block add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar</a>
 								</div>
 							</div>
 						</div>
@@ -66,11 +70,9 @@
 					</div><!--articulos para pedido-->
 					<div class="col-sm-12 text-center">
 					    <?php echo $pagination;  ?>
-					</div>			    
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 <?php include_once('footer.php') ?>
-
-
