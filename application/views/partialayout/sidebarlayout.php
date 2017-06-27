@@ -72,7 +72,7 @@ $lasturl = array_pop($spliturl);
           </ul>
         </li>
 
-
+      <?php if ($user['cargo'][0] == 5): ?>
       <li class="treeview <?php if (strpos(",Vistastockcritico,Vistastockactual,Vistamotivosbaja,Vistavidautil,Vistapreciounitario", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-files-o"></i>
@@ -92,6 +92,7 @@ $lasturl = array_pop($spliturl);
            de los productos</a></li>
           </ul>
         </li>
+        <?php endif; ?>
 
       </ul>
     </section><br><br><br>
