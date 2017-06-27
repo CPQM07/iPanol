@@ -13,11 +13,11 @@
       <div class="box-header with-border">
       <div class="row">
           <div class="col-md-4">
-          <form action="" method="post" class="form">
+          <form action="" method="post" >
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="select2" style="width: 100%" >
-              <option value="0">Tipos de productos</option>
+              <select id="tipo" name="tipo" class="select2" style="width: 100%" required="true">
+              <option ></option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
               <?php endforeach ?>
@@ -42,7 +42,7 @@
           <label>Adquisición</label>
              <div class="form-group">
                 <select id="adq" name="adq" class="select2" required="true" style="width: 100%">
-                <option value="">Todas las adquisiciones</option>  
+                <option ></option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -89,7 +89,8 @@
                 </form>
             </div>
             </div>
-            <table id="example2" class="datatable table table-bordered table-hover">    
+            <div class="table-responsive">
+            <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
                   <th>Codigo</th>
@@ -98,16 +99,10 @@
                   <th>Nombre Producto</th>
                   <th>Fecha Ingreso</th>
                   <th>Fecha Termino</th>
-                <?php if (@$buscaradq == 1): ?>  
                   <th>Nombre Proveedor</th>
                   <th>Rut Proveedor</th>
                   <th>Tipo Ingreso</th>
-                <th>Vida Util</th>
-                <?php endif ?>
-                <?php if (@$buscaradq == 2 ): ?>
-                <th>Tipo Ingreso</th>
-                <th>Vida Util</th>
-                <?php endif ?>
+                  <th>Vida Util</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,37 +120,44 @@
                  ?>
                  <?php if ($value['INV_PROD_CODIGO'] == 0): ?>
                  <td>0-0-0</td>
+                 <td>Sin registro</td>
+                 <td>Sin registro</td>
+                 <td>Sin registro</td>
                  <?php endif ?>
                 <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
                  <td> <?= @$fecha  ?></td>
                  <?php endif ?>
+ 
+
+
                 <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
-                <?php if (@$buscaradq == 1): ?>
+         <?php if ($value['ING_TIPO_INGRESO'] == 1): ?>
+               
                 <td> <?=$value['PROV_NOMBRE']; ?></td>
                 <td> <?=$value['PROV_RUT']; ?></td>
-                <td> Compra</td>
-              <?php endif ?>
-              
-              <?php if (@$buscaradq == 2): ?>
-                <td>donacion</td>
-              <?php endif ?>
+                <td>Compra</td>
+                  <?php elseif($value['ING_TIPO_INGRESO'] == 2): ?> 
+                  
+                  <td>Sin registro</td>
+                  <td>Sin registro</td>
+                  <td>Donación</td> 
+                  <?php else: ?>
+                   <td>No Definido</td>
+                   <td>sin registro</td>
+                   <td>sin registro</td>
+                <?php endif ?>
+
               <?php endif ?> 
-              <?php if (@$value['INV_PROD_CODIGO'] == 0): ?>
-                 <?php if (@$buscaradq == 1): ?>
-                    <td> <?=$value['PROV_NOMBRE']; ?></td>
-                <td> <?=$value['PROV_RUT']; ?></td>
-                <td> Compra</td>
-                 <?php endif ?>
-                 <?php if ($buscaradq == 2): ?>
-                  <td> donacion </td>
-                 <?php endif ?>
-               <?php endif ?> 
+
                 <td> <?=$value['ING_VIDA_UTIL_PROVEEDOR']; ?> Meses</td>
               <?php endforeach ?>
               </tr>
               </tbody>
+
             </table>
-          <?php endif ?>
+              <?php endif ?>
+            </div>
+        
           </div>
       </div>
        

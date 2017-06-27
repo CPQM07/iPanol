@@ -55,7 +55,7 @@ function get($attr){
 		if($tipo!='0'){
 			$this->db->where('TIPO_ID', $tipo);		
 		}
-		if ($adq!='0') {
+		if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 		}		
 		$this->db->group_by('inventario.INV_PROD_NOM');
@@ -98,7 +98,7 @@ function get($attr){
 		if($tipo!='0'){
 			$this->db->where('TIPO_ID', $tipo);		
 		}
-		if ($adq!='0') {
+		if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 		}
 		$this->db->group_by('inventario.INV_PROD_NOM');
@@ -143,7 +143,7 @@ public function findAllCriticosActivos($tipo, $cat,$adq){
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
 	}
-	if ($adq!='0') {
+	if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->having('CANTIDAD <= productos.PROD_STOCK_CRITICO');
@@ -189,7 +189,7 @@ productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDA
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
 	}
-	if ($adq!='0') {
+	if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->group_by('inventario.INV_PROD_NOM');
@@ -273,7 +273,7 @@ public function vidautilCompras($tipo, $cat, $adq){
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
 	}
-	if ($adq!='0') {
+	if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->group_by('inventario.INV_PROD_NOM');
@@ -313,7 +313,7 @@ public function vidautilDonaciones($tipo, $cat, $adq){
 	if ($tipo!='0') {
 		$this->db->where('TIPO_ID',$tipo);
 	}
-	if ($adq!='0') {
+	if ($adq!=0) {
 		$this->db->where('ING_TIPO_INGRESO',$adq);
 	}
 	$this->db->group_by('inventario.INV_PROD_NOM');
@@ -338,9 +338,9 @@ public function vidautilDonaciones($tipo, $cat, $adq){
 		}
     return $result;
 }
-    public function productospreciounitario($tipo, $cat){
+public function productospreciounitario($tipo, $cat){
 	$this->db->select('INV_PROD_CODIGO,TIPO_ID,TIPO_NOMBRE,CAT_ID,
-		CAT_NOMBRE, INV_PROD_NOM,ING_PRECIO_UNITARIO,ING_TIPO_INGRESO,sum(ingreso.ING_PRECIO_UNITARIO)as totalprecio');
+		CAT_NOMBRE, INV_PROD_NOM,INV_PROD_CANTIDAD,ING_PRECIO_UNITARIO,ING_TIPO_INGRESO,sum(ingreso.ING_PRECIO_UNITARIO)as totalprecio');
 	$this->db->from('inventario');
 	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
 	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
@@ -369,6 +369,7 @@ public function vidautilDonaciones($tipo, $cat, $adq){
 "CAT_ID"=>"0",
 "CAT_NOMBRE"=>"SIN REGISTRO",
 "INV_PROD_NOM"=>"SIN REGISTRO",
+"INV_PROD_CANTIDAD"=>"0",
 "ING_PRECIO_UNITARIO"=>"0",
 "ING_TIPO_INGRESO"=>"0",
 "totalprecio" =>"0"));

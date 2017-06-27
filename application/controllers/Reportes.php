@@ -79,9 +79,10 @@ class Reportes extends CI_Controller {
               $nomtipo = $value['TIPO_NOMBRE'];
               $nomcat = $value['CAT_NOMBRE'];
               $posicion = $value['PROD_POSICION'];
+              $tipoing = $value['ING_TIPO_INGRESO'];
               $total = $value['Total'];
-
-        if ($buscaradq == 1) {
+              $node = "No definido";
+        if ($tipoing == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
@@ -92,7 +93,7 @@ class Reportes extends CI_Controller {
             ->setCellValue('G'.$i, $total);
         $i++;
         }
-        if ($buscaradq == 2) {
+        elseif ($tipoing == 2) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
@@ -103,6 +104,17 @@ class Reportes extends CI_Controller {
             ->setCellValue('G'.$i, $total);
         $i++;
         }
+        else  
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $node)
+            ->setCellValue('F'.$i, $posicion)
+            ->setCellValue('G'.$i, $total);
+        $i++;
+        
         }
       }if ($buscartipo == 2) {
         $TotalProductos = $this->reporte->findAllProductosFungibles($buscartipo, $buscarcat,$buscaradq);
@@ -288,29 +300,31 @@ exit;
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $posicion = $value['PROD_POSICION'];
         $total = $value['Total'];
-        if ($buscaradq == 1) {
+        /*
+        if ($tipoing == 1) {
+        $tipoing == "Compra";          
+        }elseif ($tipoing == 2) {
+          $tipoing == "Donacion";
+        }else $tipoing == "No definido";
+*/
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='producto'>".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='compra'>".$compra."</td>
-                      <td class= 'posicion' >".$posicion."</td>
+                      <td class='tipo'>".$nomtipo."</td>                      
+                      <td class='categoria'>".$nomcat."</td>";
+                      if ($tipoing == 1) {
+                      $html .= "<td>Compra</td>";      
+                      }elseif ($tipoing ==2) {
+                      $html .= "<td>Donacion</td>";
+                      }else
+                      $html .= "<td>No definido</td>";
+            $html .= "<td class= 'posicion' >".$posicion."</td>
                       <td class= 'posicion' >".$total."</td>
                       </tr>";
-        }if ($buscaradq == 2) {
-            $html .= "<tr>
-                      <td class='codigo'>".$codigo."</td>
-                      <td class='producto'>".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='compra'>".$donacion."</td>
-                      <td class= 'posicion' >".$posicion."</td>
-                      <td class= 'posicion' >".$total."</td>
-                      </tr>";
-        }
+        
       }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -343,29 +357,24 @@ exit;
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $posicion = $value['PROD_POSICION'];
         $total = $value['INV_PROD_CANTIDAD'];
-        if ($buscaradq == 1) {
+
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
-                      <td class='nomprod'>".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='donacion'>".$compra."</td>
-                      <td class= 'posicion' >".$posicion."</td>
-                      <td class= 'total' >".$total."</td>
+                      <td class='producto'>".$nomprod."</td>
+                      <td class='tipo'>".$nomtipo."</td>                      
+                      <td class='categoria'>".$nomcat."</td>";
+                      if ($tipoing == 1) {
+                      $html .= "<td>Compra</td>";      
+                      }elseif ($tipoing ==2) {
+                      $html .= "<td>Donacion</td>";
+                      }else
+                      $html .= "<td>No definido</td>";
+            $html .= "<td class= 'posicion' >".$posicion."</td>
+                      <td class= 'posicion' >".$total."</td>
                       </tr>";
-        }if ($buscaradq == 2) {
-            $html .= "<tr>
-                      <td class='codigo'>".$codigo."</td>
-                      <td class='nomprod'>".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='donacion'>".$donacion."</td>
-                      <td class= 'posicion' >".$posicion."</td>
-                      <td class= 'total' >".$total."</td>
-                      </tr>";
-        }
       }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -1490,6 +1499,7 @@ exit;
             
           } 
 }
+  // PRECIO UNITARIO
   public function Vistapreciounitario(){
           $datos['categoria'] = $this->categorias->findAll();
       $datos['tipo'] = $this->reporte->tipo();
@@ -1499,8 +1509,12 @@ exit;
 
         $datos['buscartipo'] = $buscartipo;
         $datos['buscarcat'] = $buscarcat;
+        $datos['buscart']=$this->reporte->productospreciototal($buscartipo, $buscarcat);
         $datos['buscar'] = $this->reporte->productospreciounitario($buscartipo, $buscarcat);    
-      }        
+     
+        
+               
+      }
         $this->layouthelper->Loadview("reportes/precioproductos.php",$datos,false); 
   }
 
@@ -1521,12 +1535,13 @@ exit;
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage(); 
+      
         $preciototal = $this->reporte->productospreciototal($buscartipo, $buscarcat);
         $precio = $this->reporte->productospreciounitario($buscartipo, $buscarcat);
         $html = '';
         $html .= "<style type=text/css>";
-        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
-        $html .= "td{border:1px solid black;text-align:center }";
+        $html .= "th{color: #fff; font-weight: bold; background-color: #dd4b39}";
+        $html .= "td{border:1px solid black; }";
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($precio)." Productos</h4>";
         $html .= "<table width='100%'>";
@@ -1546,7 +1561,11 @@ exit;
         $prodnom = $value['INV_PROD_NOM'];
         $ingtipo= $value['ING_TIPO_INGRESO'];
         $ingpreciounitario = $value['ING_PRECIO_UNITARIO'];
+        $cantidad = $value['INV_PROD_CANTIDAD'];
         $precioprod = $value['totalprecio'];
+        $totalmax = intval($ingpreciounitario) * intval($cantidad); 
+        $total1 += $totalmax;
+        
         
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
@@ -1555,15 +1574,13 @@ exit;
                       <td class= 'producto' >".$prodnom."</td>
                       <td class= 'ingreso' >".$ingtipo."</td>
                       <td class= 'vidautil' >".$ingpreciounitario."</td>
-                      <td class= 'vidautil' >".$precioprod."</td>
-                      
+                      <td class= 'vidautil' >".$totalmax."</td>
+               
                       </tr>";
                       }
-                       foreach ($preciototal as $value) 
-        {
-        $total = $value['total'];
-        $html .= "</table><h4>".$total."</h4>";
-      }
+       
+        $html .= "</table><h1>".$total1."</h1>";
+      
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
           ob_clean();
           $categoria = utf8_decode("Categoria ".$nomcat.".pdf");

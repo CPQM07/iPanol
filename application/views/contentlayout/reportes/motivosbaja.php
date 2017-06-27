@@ -16,7 +16,7 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="select2" style="width: 100%">
+              <select id="tipo" name="tipo" class="select2" style="width: 100%" required="true">
               <option value="0">Tipos de productos</option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
@@ -93,7 +93,8 @@
                 </form>
             </div>
             </div>
-            <table id="example2" class="datatable table table-bordered table-hover">    
+            <div class="table-responsive">
+            <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
                   <th>Codigo</th>
@@ -117,6 +118,7 @@
               <?php endforeach ?>
               </tbody>
             </table>
+            </div>
           <?php endif ?>
           </div>
       </div>

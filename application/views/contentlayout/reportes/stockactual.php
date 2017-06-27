@@ -16,8 +16,8 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="select2" style="width: 100%">
-              <option value="0">Tipos de productos</option>
+              <select id="tipo" name="tipo" class="select2" style="width: 100%" >
+              <option ></option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
               <?php endforeach ?>
@@ -28,7 +28,7 @@
           <label>Categorias</label>
              <div class="form-group">
                 <select id="cat" name="cat" class="select2" style="width: 100%">
-                <option value="0">Todas las categorias</option>x
+                <option value="0">Todas las categorias</option>
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -41,8 +41,8 @@
                         <div class="col-md-4">
           <label>Adquisición</label>
              <div class="form-group">
-                <select id="adq" name="adq" class="select2" required="true" style="width: 100%">
-                <option value="">Todas las adquisiciones</option>  
+                <select id="adq" name="adq" class="select2" style="width: 100%">
+                <option ></option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -108,16 +108,23 @@
                 <td><?= $value['INV_PROD_NOM']; ?></td>
                 <td><?= $value['TIPO_NOMBRE']; ?></td>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
-                <?php if ($buscaradq == 1): ?>
-                <td>Compra</td>
+
+
+                <?php if ($value['ING_TIPO_INGRESO'] == 1): ?>
+                  <td>Compra</td>
+                  <?php elseif($value['ING_TIPO_INGRESO'] == 2): ?> 
+                  <td>Donación</td> 
+                  <?php else: ?>
+                   <td>No Definido</td>
                 <?php endif ?>
-                <?php if ($buscaradq == 2): ?>
-                <td>Donacion</td>
-                <?php endif ?>
+
+
+
                 <td><?= $value['PROD_POSICION']; ?></td>
+
                <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
                   <?php if ($value['TIPO_ID'] == 1): ?>
-                <td> <?= @$value['Total']; ?></td>
+                <td> <?= $value['Total']; ?></td>
                 <?php endif ?>
                 <?php if ($value['TIPO_ID'] == 2): ?>
                   <td><?= $value['INV_PROD_CANTIDAD']; ?></td>
