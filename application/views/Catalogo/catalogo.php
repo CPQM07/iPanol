@@ -4,6 +4,17 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
+					<div class="brands_products"><!--por tipo de articulos-->
+							<h2>TIPO DE ARTÍCULO</h2>
+						<div class="brands-name">
+							<?php foreach ($tipoProd as $key => $value): ?>
+								<ul class="nav nav-pills nav-stacked">
+									<li><a href="<?= site_url("/Catalogo/tipo/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
+								</ul>
+							<?php endforeach ?>
+						</div>
+						</div><!--por tipo de articulos-->
+						<br>
 						<h2>Categorías</h2>
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
 						<?php foreach ($categorias as $key => $value): ?>
@@ -14,16 +25,7 @@
 							</div>
 			    		<?php endforeach ?>
 							</div><!--/categorias de productos-->
-                        <div class="brands_products"><!--por tipo de articulos-->
-							<h2>TIPO DE ARTÍCULO</h2>
-						<div class="brands-name">
-							<?php foreach ($tipoProd as $key => $value): ?>
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href="<?= site_url("/Catalogo/tipo/".$value->get('TIPO_ID').""); ?>"> <span class="pull-right"><!--(??)--></span><?= $value->get('TIPO_NOMBRE'); ?></a></li>
-								</ul>
-							<?php endforeach ?>
-						</div>
-						</div><!--por tipo de articulos-->
+                        
 					</div>
 				</div>
 				<div class="col-sm-9 padding-right">
