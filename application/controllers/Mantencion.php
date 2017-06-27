@@ -507,7 +507,6 @@ class Mantencion extends CI_Controller {
     $this->form_validation->set_rules('PROV[PROV_DV]', 'DIGITO VERIFICADOR', 'exact_length[1]|alpha_numeric|required');
     $this->form_validation->set_rules('PROV[PROV_NOMBRE]', 'NOMBRE', 'required');
     $this->form_validation->set_rules('PROV[PROV_RSOCIAL]', 'RAZON SOCIAL', 'required');
-    $this->form_validation->set_rules('PROV[PROV_ESTADO]', 'ESTADO', 'required');
     $this->form_validation->set_rules('PROV[PROV_TIPO]', 'TIPO', 'required');
 
     if ($this->form_validation->run() == FALSE) {
@@ -549,6 +548,7 @@ class Mantencion extends CI_Controller {
     'PROV_NOMBRE' => $value->get("PROV_NOMBRE"),
     'PROV_RSOCIAL' => $value->get("PROV_RSOCIAL"),
     'PROV_ESTADO' => $value->get("PROV_ESTADO"),
+    'PROV_TIPO' => $value->get("PROV_TIPO")
     );
     $this->output->set_content_type('application/json');
     $this->output->set_output(json_encode($newarray));

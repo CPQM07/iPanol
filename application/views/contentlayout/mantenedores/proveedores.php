@@ -101,33 +101,36 @@
                   <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor'); ?>">
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">RUT</label>
+                        <label class="col-sm-2 control-label" >RUT</label>
                         <div class="col-md-9">
-                          <div class="col-md-10">
-                            <input type="text" name="PROV[PROV_RUT]" id="PROV[PROV_RUT]" placeholder="11111111" minlength="7" maxlength="8" value="<?= set_value('PROV[PROV_RUT]');  ?>" class="col-md-12 form-control">
+                        <div class="row">
+                        <div class="col-md-6">
+                          <input id="rut" type="text" name="PROV[PROV_RUT]" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
                           </div>
                           <div class="col-md-2">
-                            <input type="text" name="PROV[PROV_DV]" id="PROV[PROV_DV]" placeholder="1" maxlength="1" value="<?= set_value('PROV[PROV_DV]'); ?>" class="col-md-12 form-control">
+                          <input id="dv" name="PROV[PROV_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12 form-control" maxlength="1" required>
                           </div>
+                        </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">NOMBRE</label>
                         <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control">
+                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">RAZÓN SOCIAL</label>
                         <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>"class="col-md-12 form-control">
+                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>" class="col-md-12 form-control" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Tipo</label>
+
                         <div class="col-md-9">
-                          <select class="form-control" name="PROV[PROV_TIPO]">
-                            <option selected disabled>Seleccione Tipo</option>
+                          <select name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                            <option></option>
                             <option value="1">Persona Natural</option>
                             <option value="2">Persona Jurídica</option>
                           </select>
@@ -159,6 +162,30 @@
 
 <!-- /.content-wrapper -->
 
+  <!--ModalELIMINAR-->
+  <?php if ($proveedor): ?>
+  <!--ModalELIMINAR-->
+    <div class="modal fade" id="ELIMINAR" role="dialog">
+      <div class="modal-danger" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Eliminar un Proveedor</h4>
+          </div>
+          <div class="modal-body">
+            <p>Está seguro de eliminar el Proveedor <strong><?= $value->get('PROV_NOMBRE'); ?></strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <a href='<?= site_url("Mantencion/eliminarProveedor/".$value->get('PROV_RUT').""); ?>' class="btn btn-danger">Eliminar</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  <!--ModalELIMINAR-->
+  <?php endif; ?>
+
+  <!--ModalELIMINAR-->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
   <div class="modal fade bs-example-modal-lg" id="EDITAR" role="dialog">
@@ -182,6 +209,18 @@
                       <label class="col-sm-2 control-label">Razón Social</label>
                       <div class="col-md-9">
                         <input id="rsocial" name="PROV[PROV_RSOCIAL]" type="text" class="col-md-12">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Tipo</label>
+
+                        <div class="col-md-9">
+                          <select id="tipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                            <option></option>
+                            <option value="1">Persona Natural</option>
+                            <option value="2">Persona Jurídica</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -209,7 +248,37 @@
   <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
   <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
-
+  var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+        rutCompleto = rutCompleto.replace("‐","-");
+        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+            return false;
+        var tmp     = rutCompleto.split('-');
+        var digv    = tmp[1]; 
+        var rut     = tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        
+        return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+            S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+    }
+  }
+  $("#agregar").click(function(){
+    var rut=$('#rut').val();
+    var dv=$('#dv').val();
+    var rutOficial = rut+"-"+dv;
+    if (Fn.validaRut( rutOficial )){
+      return true;
+   } else {
+      $.notify("RUT no valido", "error");
+      return false;
+    }
+  });
     $('.editar').click(function(){
         limpiar();
         var id=$(this).attr("id");
@@ -222,6 +291,7 @@
             $("#id").val(data.PROV_RUT);
             $("#nombre").val(data.PROV_NOMBRE);
             $("#rsocial").val(data.PROV_RSOCIAL);
+            $("#tipo").val(data.PROV_TIPO).trigger('change');
             console.log(data);
           }
         });
@@ -232,9 +302,10 @@
       $("#id").val("");
       $("#nombre").val("");
       $("#rsocial").val("");
+      $("#tipo").val("").trigger("change");
     }
 
-    function valida_rut($rut)
+    /*function valida_rut($rut)
     {
         $rut = preg_replace('/[^k0-9]/i', '', $rut);
         $dv  = substr($rut, -1);
@@ -259,6 +330,6 @@
         else
             return false;
     }
-
-  </script>
-  <?php } ?>
+*/
+</script>
+<?php } ?>
