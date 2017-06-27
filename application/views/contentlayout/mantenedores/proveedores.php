@@ -159,30 +159,6 @@
 
 <!-- /.content-wrapper -->
 
-  <!--ModalELIMINAR-->
-  <?php if ($proveedor): ?>
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="ELIMINAR" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar un Proveedor</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar el Proveedor <strong><?= $value->get('PROV_NOMBRE'); ?></strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <a href='<?= site_url("Mantencion/eliminarProveedor/".$value->get('PROV_RUT').""); ?>' class="btn btn-danger">Eliminar</a>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--ModalELIMINAR-->
-  <?php endif; ?>
-
-  <!--ModalELIMINAR-->
   <!--modalPRODUCTONUEVO-->
   <!--modalPRODUCTONUEVO-->
   <div class="modal fade bs-example-modal-lg" id="EDITAR" role="dialog">
