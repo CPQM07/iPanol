@@ -25,10 +25,10 @@
           </div>
         </div>
                <div class="col-md-4">
-          <label>Categorias</label>
+          <label>Categorías</label>
              <div class="form-group">
                 <select id="cat" name="cat" class="form-control select2" >
-                <option value="0">Todas las categorias</option>x
+                <option value="0">Todas las categorías</option>x
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -40,7 +40,7 @@
         </div> 
        <div class="col-md-4" class="pull-right">
                <label>Acción</label>
-               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="filtro">
+               <input type="submit"  class="btn btn-block btn-danger" name="filtro" value="Filtro">
             </div>
        </div>
        </form>
@@ -65,10 +65,10 @@
             <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
-                  <th>Codigo</th>
+                  <th>Código</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Nombre Producto</th>
+                  <th>Categoría</th>
+                  <th>Nombre producto</th>
                   <th>Tipo ingreso</th>
                   <th>Precio Unitario</th>
                   
