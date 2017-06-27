@@ -199,7 +199,7 @@
     });
 
     $(".notify2").hover(function() {
-      $(".notify2").notify("Esta asignacion permite asignar productos e insumos que estime conveniente, los que no existan en stock o no quiera asignar seran omitidos.",{ position:"top" ,className: 'info'});
+      $(".notify2").notify("Esta asignacion permite asignar productos que estime conveniente, los que no existan en stock o no quiera asignar serán omitidos.",{ position:"top" ,className: 'info'});
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
@@ -321,7 +321,7 @@
                   total= parseInt(total)+parseInt(cant);
                   $.notify("Se han añadido "+cant+" "+nom+"(#"+id+") ", "success");
                }else{
-                alert("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant);
+                $.notify("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant, "warn");
                }
             }
             $("#total").text(total);

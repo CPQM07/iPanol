@@ -278,7 +278,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Categoria</label>
+                        <label class="col-sm-2 control-label">Categoría</label>
 
                         <div class="col-md-9">
                           <select name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
@@ -398,7 +398,7 @@
                 </div>
 
                 <div class="form-group col-md-6"><br>
-                  <label for="exampleInputPassword1">Vida Util (Meses)</label>
+                  <label for="exampleInputPassword1">Vida Útil (Meses)</label>
                   <input type="number" name="vidautiledit" id="vuedit" class="form-control pull-right" >
                 </div>
 

@@ -43,7 +43,7 @@
           <label>Adquisición</label>
              <div class="form-group">
                 <select id="adq" name="adq" class="select2" style="width: 100%">
-                <option ></option>  
+                <option value="0">Todas las adquisiciones</option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -134,10 +134,10 @@
                   <?php if ($value['INV_PROD_CODIGO'] == 0): ?>
 
                   <td>0</td>
-                  
+                  </tr>
                   <?php endif ?>
               <?php endforeach ?>
-              </tr>
+              
               </tbody>
             </table>
             </div>
@@ -163,9 +163,9 @@ $(document).ready(function(){
      $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
      $(this).append("<input name='adq' type='hidden' value='"+$("#recuperaradq").val()+"'  >");
       console.log($("#tipo").val());
-      console.log($("#cat").val());
-
-     return;
+      console.log($("#cat").val()); 
+      console.log($("#adq").val());
+     return ;
     });
      $('#excel').submit(function(){
      $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");

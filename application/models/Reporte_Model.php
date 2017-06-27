@@ -266,7 +266,7 @@ public function vidautilCompras($tipo, $cat, $adq){
 	$this->db->join('ingreso','inventario.INV_INGRESO_ID = ingreso.ING_ID');
 	$this->db->join('proveedor','ingreso.ING_PROV_RUT = proveedor.PROV_RUT');
 	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
-	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
+	$this->db->join('categoria'	,'inventario.INV_CATEGORIA_ID = categoria.CAT_ID ');
 	if ($cat!='0') {
 		$this->db->where('CAT_ID',$cat);
 	}
