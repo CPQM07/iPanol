@@ -30,7 +30,7 @@
 								  <button class="btn btn-link dropdown-toggle" style="color: grey; font-size: 14px;" type="button" data-toggle="dropdown">BIENVENIDO - <?= $user['nombres']." ".$user['apellidos'] ?>
 								  <span class="caret"></span></button>
 								  <ul class="dropdown-menu">
-								    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-flat">Cerrar sesión</a>
+								    <a href="<?= site_url('/Login/logout'); ?>" class="btn btn-danger btn-block pull-right">Cerrar sesión</a>
 								  </ul>
 								</div>
 							</ul>
