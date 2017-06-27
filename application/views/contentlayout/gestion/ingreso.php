@@ -274,7 +274,7 @@
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
                         <div class="col-md-9">
-                          <input name="producto[PROD_NOMBRE]" type="text" class="col-md-12"  maxlength="50" required>
+                          <input name="producto[PROD_NOMBRE]" type="text" class="form-control col-md-12"  maxlength="50" required>
                         </div>
                       </div>
                       <div class="form-group">
@@ -305,21 +305,21 @@
                         <label class="col-sm-2 control-label">Stock crítico</label>
 
                         <div class="col-md-9">
-                          <input name="producto[PROD_STOCK_CRITICO]" min="0" max="100000" type="number" class="col-md-12" required>
+                          <input name="producto[PROD_STOCK_CRITICO]" min="0" max="100000" type="number" class="form-control col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Stock margen</label>
+                        <label class="col-sm-2 control-label">Stock optimo</label>
 
                         <div class="col-md-9">
-                          <input name="producto[PROD_STOCK_OPTIMO]" min="0" max="100000" type="number" class="col-md-12" required>
+                          <input name="producto[PROD_STOCK_OPTIMO]" min="0" max="100000" type="number" class="form-control col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Posición</label>
 
                         <div class="col-md-9">
-                          <input name="producto[PROD_POSICION]" type="text" class="col-md-12" required>
+                          <input name="producto[PROD_POSICION]" type="text" class="form-control col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">
@@ -334,7 +334,7 @@
                         <label class="col-sm-2 control-label">Días necesarios de anticipación</label>
 
                         <div class="col-md-9">
-                          <input name="producto[PROD_DIAS_ANTIC]" min="0" max="100000" type="number" class="col-md-12" required>
+                          <input name="producto[PROD_DIAS_ANTIC]" min="0" max="100000" type="number" class="form-control col-md-12" required>
                         </div>
                       </div>
                       <div class="form-group">
