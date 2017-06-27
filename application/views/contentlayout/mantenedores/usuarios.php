@@ -27,7 +27,7 @@
                 <table id="example1" class="datatable table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Rut</th>
+                    <th>RUT</th>
                     <th>Nombres<br>Apellidos</th>
                     <th>Carrera</th>
                     <th>Correo</th>
@@ -83,7 +83,7 @@
                   <form name="form1" id="new_form" class="form-horizontal" action="<?=site_url('Mantencion/new_usuario')?>" method="post" accept-charset="utf-8" >
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label" >Rut</label>
+                        <label class="col-sm-2 control-label" >RUT</label>
                         <div class="col-md-9">
                         <div class="row">
                         <div class="col-md-6">
@@ -139,7 +139,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Email</label>
+                        <label class="col-sm-2 control-label">E-mail</label>
 
                         <div class="col-md-9">
                           <input name="new_usu[USU_EMAIL]" type="email" class="col-md-12 form-control" required>
@@ -209,7 +209,7 @@
                   <input id="rutE" name="rut" style="width: 14px; visibility: hidden;">
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label" >Rut</label>
+                        <label class="col-sm-2 control-label" >RUT</label>
                         <div class="col-md-9">
                         <div class="row">
                           <div class="col-md-6">
@@ -265,7 +265,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Email</label>
+                        <label class="col-sm-2 control-label">E-mail</label>
 
                         <div class="col-md-9">
                           <input id="email" name="new_usu[USU_EMAIL]" type="email" class="col-md-12 form-control" required>
@@ -447,9 +447,9 @@ function limpiar(){
 
 $("#btnvalida").click(function(){
     if (Fn.validaRut( $("#txt_rut").val() )){
-        $("#msgerror").html("El rut ingresado es válido :D");
+        $("#msgerror").html("El RUT ingresado es válido.");
     } else {
-        $("#msgerror").html("El Rut no es válido :'( ");
+        $("#msgerror").html("El RUT ingresado no es válido.");
     }
 });
 

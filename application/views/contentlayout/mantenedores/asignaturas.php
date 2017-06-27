@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-6"><br>
 
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#NuevaAsignatura" >Agregar nueva Asignatura</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#NuevaAsignatura" >Agregar nueva asignatura</button>
         </div>
       </div>
     </section>
@@ -71,7 +71,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Nueva Asignatura</h4>
+            <h4 class="modal-tittle">Nueva asignatura</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">
@@ -113,7 +113,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar una Asignatura</h4>
+            <h4 class="modal-title">Eliminar una asignatura</h4>
           </div>
           <div class="modal-body">
             <p>Está seguro de eliminar el producto <strong>Networking</strong></p>

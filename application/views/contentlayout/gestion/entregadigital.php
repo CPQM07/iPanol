@@ -21,7 +21,7 @@
                     <th>#</th>
                     <th class="col-md-2">Estado</th>
                     <th>Solicitante</th>
-                    <th>Rut</th>
+                    <th>RUT</th>
                     <th>Fecha pedido</th>
                     <th>Fecha entrega</th>
                     <th>Detalle</th>
@@ -35,7 +35,7 @@
                     <td>
                     <?php if ($value->get("SOL_ESTADO") == 1): ?>
                       <div class="alert alert-success">
-                        Solicitado Catalogo
+                        Solicitado Catálogo
                       </div>
                     <?php endif ?>
                     <?php if ($value->get("SOL_ESTADO") == 7): ?>
@@ -131,10 +131,10 @@
                        <table style="font-size: 9px" id="resulasignacion"  class="table table-responsive table-condensed">
                     <thead>
                     <tr>
-                      <th>Id</th>
+                      <th>ID</th>
                       <th>Producto/Insumo</th>
                       <th>Cantidad</th>
-                      <th>Id Prod.</th>
+                      <th>ID Prod.</th>
                     </tr>
                     </thead>
                      <tfoot>
@@ -193,13 +193,13 @@
     });
  
     $(".notify1").hover(function() {
-      $(".notify1").notify("Esta asignacion es restrictiva y parcial,debe asignar por lo menos un producto que este el detalle de la solicitud",{ position:"top" ,className: 'info'});
+      $(".notify1").notify("Esta asignación es restrictiva y parcial, debe asignar por lo menos un producto que este en el detalle de la solicitud",{ position:"top" ,className: 'info'});
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
 
     $(".notify2").hover(function() {
-      $(".notify2").notify("Esta asignacion permite asignar productos que estime conveniente, los que no existan en stock o no quiera asignar serán omitidos.",{ position:"top" ,className: 'info'});
+      $(".notify2").notify("Esta asignación permite asignar productos que se estime conveniente, los que no existan en stock o no quiera asignar serán omitidos.",{ position:"top" ,className: 'info'});
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
@@ -242,9 +242,9 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
                 "columns": [
-                    { title: "Id",
+                    { title: "ID",
                         className: "text-sm hidden" },
-                    { title: "Codigo",
+                    { title: "Código",
                         className: "text-center"},
                     { title: "Stock",
                         className: "text-red text-center"},
@@ -252,7 +252,7 @@
                         className: "text-green text-center"},
                     { title: "Cantidad",
                         className: "text-center"},
-                    { title: "Accion"}]
+                    { title: "Acción"}]
             });
 
      $(document).on('click','.obtdetalle',function(argument) {

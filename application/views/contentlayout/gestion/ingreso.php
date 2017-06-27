@@ -495,7 +495,7 @@
                             },
                          {
                             extend: 'pdfHtml5',
-                            text: 'Exportar a pdf',
+                            text: 'Exportar a PDF',
                             exportOptions: {
                                             columns: [ 0, 1, 2, 3]
                                         }

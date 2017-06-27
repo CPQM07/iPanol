@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-6"><br>
 
-          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newCategoria" >Agregar nueva Motivo</button>
+          <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#newCategoria" >Agregar nuevo motivo</button>
         </div>
       </div>
     </section>
@@ -27,7 +27,7 @@
                 <tr>
                   <th>ID</th>
                   <th>NOMBRE</th>
-                  <th>ACIONES</th>
+                  <th>ACCIONES</th>
                   <th>ORIGEN</th>
                   <th>EDITAR</th>
                 </tr>
@@ -74,14 +74,14 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Nueva Motivo</h4>
+            <h4 class="modal-tittle">Nuevo Motivo</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">
                   <form class="form-horizontal" action="<?= site_url('Mantencion/NuevoMotivo') ?>" method="post">
                     <div class="box-body">
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre</label>
+                        <label class="col-sm-2 control-label">NOMBRE</label>
 
                         <div class="col-md-9">
                           <input name="motivo[MOT_NOMBRE]" type="text" class="col-md-12">
@@ -105,7 +105,7 @@
                           <select class="form-control select2" name="motivo[MOT_DIF]" style="width: 100%;">
                             <option selected="selected">ORIGEN</option>
                             <option value="1">BAJA</option>
-                            <option value="2">OBSERVACION</option>
+                            <option value="2">OBSERVACIÓN</option>
                           </select>
                         </div>
                       </div>
@@ -140,7 +140,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar un Motivo</h4>
+            <h4 class="modal-title">Eliminar un motivo</h4>
           </div>
           <div class="modal-body">
             <p>Está seguro de eliminar el producto <strong>Networking</strong></p>
@@ -161,7 +161,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-tittle">Editar Motivo</h4>
+            <h4 class="modal-tittle">Editar motivo</h4>
             <div class="modal-body">
               <div class="box">
                 <div class="row">

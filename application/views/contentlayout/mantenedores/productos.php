@@ -46,7 +46,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Categoria</th>
+                    <th>Categoría</th>
                     <th>Tipo de Producto</th>
                     <th>Total Ingresados</th>
                     <th>Stock Crítico</th>
@@ -109,7 +109,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Categoria</label>
+                        <label class="col-sm-2 control-label">Categoría</label>
 
                         <div class="col-md-9">
                           <select name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
@@ -225,7 +225,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Categoria</label>
+                        <label class="col-sm-2 control-label">Categoría</label>
 
                         <div class="col-md-9">
                           <select id="categoria" name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
@@ -416,7 +416,7 @@
                             },
                          {
                             extend: 'pdfHtml5',
-                            text: 'Exportar a pdf',
+                            text: 'Exportar a PDF',
                             exportOptions: {
                                             columns: [ 0, 1, 2, 3,4, 5,6 ]
                                         }

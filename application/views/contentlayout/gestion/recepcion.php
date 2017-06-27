@@ -67,7 +67,7 @@
                               <table id="example2" class="table table-responsive table-bordered table-hover">
                                 <thead>
                                   <tr>
-                                    <th>Id</th>
+                                    <th>ID</th>
                                     <th>Producto</th>
                                     <th class="text-center">Asignados</th>
                                     <th class="text-center">Recepcionados</th>
@@ -133,19 +133,19 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
                 "columns": [
-                    { title: "Id",
+                    { title: "ID",
                         className: "text-center" },
-                    { title: "Rut",
+                    { title: "RUT",
                         className: "text-red text-center"},
-                    { title: "Fecha Inicio",
+                    { title: "Fecha de Inicio",
                         className: "text-green text-center"},
-                    { title: "Fecha Termino",
+                    { title: "Fecha de Término",
                         className: "text-sm text-center"},
                     { title: "Cargo",
                         className: "text-sm text-center"},
-                    { title: "Pdf",
+                    { title: "PDF",
                         className: "text-center"},
-                    { title: "Accion"}]
+                    { title: "Acción"}]
             });
 
 $(document).on("click",".getasignaciones",function (argument) {

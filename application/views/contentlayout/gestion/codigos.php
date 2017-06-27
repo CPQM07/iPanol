@@ -22,7 +22,7 @@
 	                <thead>
 	                <tr>
 	                  <th>Nombre</th>
-	                  <th>Categoria</th>
+	                  <th>Categoría</th>
 	                  <th>Descargar todos los código de barra</th>
 	                </tr>
 	                </thead>

@@ -37,7 +37,7 @@
                   <th>RUT</th>
                   <th>DV</th>
                   <th>NOMBRE</th>
-                  <th>RAZON SOCIAL</th>
+                  <th>RAZÓN SOCIAL</th>
                   <th>TIPO</th>
                   <th>ESTADO</th>
                   <!--<th>ELIMINAR</th>-->
@@ -56,7 +56,7 @@
                     <?php if ($value->get('PROV_TIPO') == 1): ?>
                       <td>PERSONA NATURAL</td>
                     <?php else: ?>
-                      <td>PERSONA JURIDICA</td>
+                      <td>PERSONA JURÍDICA</td>
                     <?php endif; ?>
 
                     <?php if ($value->get('PROV_ESTADO') == 1): ?>
@@ -118,7 +118,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">RAZON SOCIAL</label>
+                        <label class="col-sm-2 control-label">RAZÓN SOCIAL</label>
                         <div class="col-md-9">
                           <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>"class="col-md-12 form-control">
                         </div>
@@ -139,7 +139,7 @@
                           <select class="form-control" name="PROV[PROV_TIPO]">
                             <option selected disabled>Seleccione Tipo</option>
                             <option value="1">Persona Natural</option>
-                            <option value="2">Persona Juridica</option>
+                            <option value="2">Persona Jurídica</option>
                           </select>
                         </div>
                       </div>
@@ -213,7 +213,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-2 control-label">Razon Social</label>
+                      <label class="col-sm-2 control-label">Razón Social</label>
                       <div class="col-md-9">
                         <input id="rsocial" name="PROV[PROV_RSOCIAL]" type="text" class="col-md-12">
                       </div>

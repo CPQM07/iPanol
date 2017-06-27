@@ -117,7 +117,7 @@
                   <table id="resulasignacion"  class="table table-condensed">
                     <thead>
                     <tr>
-                      <th>Id</th>
+                      <th>ID</th>
                       <th>Producto/Insumo</th>
                       <th>Cantidad</th>
                     </tr>
@@ -144,7 +144,7 @@
               <div class="col-md-6">
               </div>
               <div class="col-md-6">
-                <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Generar prestamo</button>
+                <button type="button" id="generarprestamo" class="btn btn-block btn-success btn-flat">Generar préstamo</button>
               </div>
             </div>
 
@@ -210,9 +210,9 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
                 "columns": [
-                    { title: "Id",
+                    { title: "ID",
                         className: "text-sm hidden" },
-                    { title: "Cod",
+                    { title: "Código",
                         className: "text-sm"},
                     { title: "Stock",
                         className: "text-red text-center"},
@@ -220,7 +220,7 @@
                         className: "text-green text-center"},
                     { title: "Cantidad",
                         className: "text-sm"},
-                    { title: "Accion"}]
+                    { title: "Acción"}]
             });
 
                             
@@ -276,7 +276,7 @@
             }
             $("#total").text(total);
       }else{
-          $.notify("El producto o insumo que desea agregar, ya está agregado", "warn");
+          $.notify("El producto o insumo que desea agregar ya está agregado", "warn");
         return false;
       }
    })
@@ -311,19 +311,19 @@
     if ($.trim(observaciones) != "") {
 
       if (asignatura == "") {
-        $.notify("No ha seleccionado una asignatura", "warn");
+        $.notify("No ha seleccionado una asignatura.", "warn");
         return; //break out of the function early
       }
       if (grupotrabajo == "") {
-        $.notify("No ha escrito ningún número en el grupo de trabajo", "warn");
+        $.notify("No ha escrito ningún número en el grupo de trabajo.", "warn");
         return; //break out of the function early
       }
       if (rutusu == "") {
-        $.notify("No ha seleccionado un usuario", "warn");
+        $.notify("No se ha seleccionado usuario.", "warn");
         return; //break out of the function early
       }
       if (reservationtime == "") {
-        $.notify("No ha seleccionado un rango de fechas", "warn");
+        $.notify("No se ha seleccionado un rango de fechas", "warn");
         return; //break out of the function early
       }
 

@@ -24,7 +24,7 @@
                   <th>USUARIO</th>
                   <th>RUT</th>
                   <th>FECHA INICIO</th>
-                  <th>FECHA TERMINO</th>
+                  <th>FECHA TÉRMINO</th>
                   <th>OBSERVACIONES</th>
                   <th>ESTADO ACTUAL</th>
                   <th>CAMBIAR A</th>
