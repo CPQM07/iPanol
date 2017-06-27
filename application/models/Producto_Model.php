@@ -169,18 +169,20 @@ public function productosCriticosDash(){
     $this->db->join('productos','inventario.INV_PROD_ID = productos.PROD_ID');
     $this->db->where('inventario.INV_PROD_ESTADO = 1');
     $this->db->where('tipoprod.TIPO_ID = 1');
-    $tipo=1;
 
-    if ($tipo!='0') {
-      $this->db->where('TIPO_ID',$tipo);
-    }
+
+    $this->db->where('TIPO_ID',1);
+
     $this->db->having('CANTIDAD <= productos.PROD_STOCK_CRITICO');
     $this->db->group_by('inventario.INV_PROD_NOM');
     $consulta = $this->db->get();
-      $result = null;
+
+    if ($consulta!=null) {
+
       foreach ($consulta->result_array() as $row) {
         $result[] = $row;
       }
+
       if(is_null($result))
       {
         $result =array(array( 
@@ -196,7 +198,9 @@ public function productosCriticosDash(){
         "ING_TIPO_INGRESO"=>"0",
         "CANTIDAD"=>"0"));
       }
-      return $result;
+      
+    }
+    return $result;
 }
 
 public function findByTipProd($id){

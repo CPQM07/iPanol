@@ -17,28 +17,30 @@
                 <h3 class="box-title">Códigos de barra de productos activos por nombre</h3>
             </div>
             <div class="box-body">
-              <table id="example1" class="table table-bordered hover">
-                <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Categoria</th>
-                  <th>Descargar todos los código de barra</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($productosActivos as $key => $value): ?>
-                  <tr>
-                    <td class="success"><?= $value['PROD_NOMBRE']; ?></td>
-                    <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
-                    <td>
-                      <button id="" name="<?= $value['PROD_ID']; ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
-                        <i class="fa fa-barcode"></i>
-                      </button>
-                    </td>
-                  </tr>
-                <?php endforeach ?>
-                </tbody>
-              </table>
+	            <div class="table-responsive">
+	              <table id="example1" class="table table-bordered hover">
+	                <thead>
+	                <tr>
+	                  <th>Nombre</th>
+	                  <th>Categoria</th>
+	                  <th>Descargar todos los código de barra</th>
+	                </tr>
+	                </thead>
+	                <tbody>
+	                <?php foreach ($productosActivos as $key => $value): ?>
+	                  <tr>
+	                    <td class="success"><?= $value['PROD_NOMBRE']; ?></td>
+	                    <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
+	                    <td>
+	                      <button id="" name="<?= $value['PROD_ID']; ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+	                        <i class="fa fa-barcode"></i>
+	                      </button>
+	                    </td>
+	                  </tr>
+	                <?php endforeach ?>
+	                </tbody>
+	              </table>
+	            </div>
             </div>
           </div>
       <!-- /.box -->
@@ -53,8 +55,10 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                    <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
-                    </table>
+	                <div class="table-responsive">
+	                    <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
+	                    </table>
+	                </div>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
                     Descargar códigos de barra de productos Fungibles seleccionados</button>
@@ -74,8 +78,10 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                    <table id="dinamicajax1" class="table table-responsive table-bordered table-hover">
-                    </table>
+                	<div class="table-responsive">
+	                    <table id="dinamicajax1" class="table table-responsive table-bordered table-hover">
+	                    </table>
+	                </div>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
                     Descargar códigos de barra de productos Activos seleccionados</button>

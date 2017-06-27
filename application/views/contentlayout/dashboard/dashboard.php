@@ -1,5 +1,4 @@
-<?php $self = $_SERVER['PHP_SELF'];
-header("refresh:30; url=$self"); ?>
+<META id="metaTime" HTTP-EQUIV="REFRESH" CONTENT="120;">
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -190,7 +189,9 @@ header("refresh:30; url=$self"); ?>
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-tittle text-center">Productos activos en stock crítico</h4>
-              <table class="table table-bordered table-responsive">
+
+
+              <table class="table table-bordered table-responsive datatable2">
                 <thead>
                   <tr>
                     <td>Nombre</td>
@@ -202,6 +203,8 @@ header("refresh:30; url=$self"); ?>
                 <tbody id="showdata">
                 </tbody>
               </table>
+
+
             </div>
           </div>
         </div>
@@ -312,34 +315,33 @@ header("refresh:30; url=$self"); ?>
     /*------------------------------------------------------------------------*/ 
     });
 
+   $(document).on('click', '#acti', function(event) {
+          var html = '';          
+          $.ajax({
+            method:"POST",
+            url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
+            datatype:'json',
+            success: function(data){
+                var wid = data.msjActi.length;
+                var a = data.msjActi;
+                  a.forEach(function(entry) {
+                      html +='<tr>'+
+                              '<td>'+entry.INV_PROD_NOM +'</td>'+/*nombre*/
+                              '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
+                              '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
+                              '<td>'+entry.CANTIDAD+'</td>'+/*actual*/
+                            '</tr>';
+                  });
+              $("#activCant").text(wid);
+              $("#percentActiv").css("width", wid);
+              $('#showdata').html(html);
+            },
+            error: function(){
+              alert('Error al cargar los datos');
+            }
+        });
+   });
 
-
-    $( "#acti" ).click(function() {
-      var html = '';          
-      $.ajax({
-        method:"POST",
-        url: "<?=site_url('/Dashboard/msjCriticoActiv')?>",
-        datatype:'json',
-        success: function(data){
-            var wid = data.msjActi.length;
-            var a = data.msjActi;
-              a.forEach(function(entry) {
-                  html +='<tr>'+
-                          '<td>'+entry.INV_PROD_NOM +'</td>'+/*nombre*/
-                          '<td>'+entry.PROD_STOCK_OPTIMO +'</td>'+/*optimo*/
-                          '<td>'+entry.PROD_STOCK_CRITICO +'</td>'+/*critico*/
-                          '<td>'+entry.CANTIDAD+'</td>'+/*actual*/
-                        '</tr>';
-              });
-          $("#activCant").text(wid);
-          $("#percentActiv").css("width", wid);
-          $('#showdata').html(html);
-        },
-        error: function(){
-          alert('Error al cargar los datos');
-        }
-      });
-    });
 
     $( "#fungi" ).click(function() {
       var html = '';          
