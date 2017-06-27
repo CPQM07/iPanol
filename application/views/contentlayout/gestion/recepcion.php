@@ -58,7 +58,7 @@
                                 <h3 class="box-title">Confirmación de recepción Productos N°<strong id="numsol"></strong></h3>
                               </div>
                               <div class="col-md-6">
-                                <input type="text" class="form-control" id="buscador" placeholder="Aquí ingrese el Lector de codigos de barra ||||||||||">
+                                <input type="text" class="form-control" id="buscador" placeholder="Aquí ingrese el Lector de códigos de barra ||||||||||">
                               </div>
                               
                             </div>

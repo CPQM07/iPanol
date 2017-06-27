@@ -152,10 +152,10 @@ class Gestion extends CI_Controller {
         }
 
 
-        $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el activo a dar de baja');
+        $this->session->set_flashdata('Habilitar', 'Se ingresó correctamente el activo a dar de baja');
        redirect('/Gestion/baja');
     }else{
-        $this->session->set_flashdata('Deshabilitar', 'Lo sentimos algunos de los campos no estan definidos, favor revisar');
+        $this->session->set_flashdata('Deshabilitar', 'Lo sentimos algunos de los campos no están definidos, favor revisar');
         redirect('/Gestion/baja');
     }
 
@@ -237,7 +237,7 @@ class Gestion extends CI_Controller {
                 $this->inv->update($inventarioabajar,array('INV_PROD_ESTADO'  => 0));
                 break;
             }
-            $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el motivo resultado');
+            $this->session->set_flashdata('Habilitar', 'Se ingresó correctamente el motivo resultado');
             $this->output->set_content_type('application/json');
             $this->output->set_output(json_encode(array("estado" => true ,"mensaje" => "Se ha insertado correctamente")));
           }else{
@@ -340,7 +340,7 @@ class Gestion extends CI_Controller {
       }
     }
 
-  $this->session->set_flashdata('Habilitar', 'Se ingreso correctamente el stock de este producto.');
+  $this->session->set_flashdata('Habilitar', 'Se ingresó correctamente el stock de este producto.');
   redirect('Gestion/ingreso','refresh');
 
 
@@ -482,7 +482,7 @@ class Gestion extends CI_Controller {
     }
 
      $this->output->set_content_type('application/json');
-     $this->output->set_output(json_encode(array("estado" => true ,"mensaje" =>"Se a guardado correctamente la recepcion de productos para esta solicitud")));
+     $this->output->set_output(json_encode(array("estado" => true ,"mensaje" =>"Se ha guardado correctamente la recepcion de productos para esta solicitud")));
   }
 
     public function get_user_by_cargo_ajax(){
@@ -674,7 +674,7 @@ class Gestion extends CI_Controller {
       $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$ultimasolicitud.'-'.$rutusu.".pdf";
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
-       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
+       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignación para esta solicitud","path" =>$rutaAJAX )));
       }else{
         $this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));
@@ -796,7 +796,7 @@ class Gestion extends CI_Controller {
       $rutaAJAX = '/iPanol/resources/pdf/SOLICITUD'.$idsolicitud.'-'.$rutusu.".pdf";
       $pdf->Output($rutasavePDF, 'F');
        $this->output->set_content_type('application/json');
-       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignacion para esta solicitud","path" =>$rutaAJAX )));
+       $this->output->set_output(json_encode(array("resultado" => true ,"mensaje" => "Se ha creado correctamente la asignación para esta solicitud","path" =>$rutaAJAX )));
      // }else{
        // $this->output->set_content_type('application/json');
        // $this->output->set_output(json_encode(array("resultado" => false ,"mensaje" => "La solicitud ingresada no tiene asignaciones de inventario")));

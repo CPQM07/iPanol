@@ -87,7 +87,7 @@
             </div>
           <!-- /.box -->
             <div class="col-md-6">
-            <label>Categorias</label>
+            <label>Categorías</label>
               <div class="form-group">
                 <select id="categoria" class="select2" style="width: 100%;">
                   <option value="0"></option>
@@ -271,7 +271,7 @@
                   total= parseInt(total)+parseInt(cant);
                   $.notify("Se han añadido "+cant+" "+nom+"(#"+id+") ", "success");
                }else{
-                alert("La cantidad no debe exceder el stock actual, Usted esta ingresando actualmente: "+cant);
+                $.notify("La cantidad no debe exceder el stock actual, Usted está ingresando actualmente: "+cant, "warn");
                }
             }
             $("#total").text(total);
@@ -296,7 +296,7 @@
         });
 
    $("#generarprestamo").click(function (argument) {
-    var observaciones = prompt('Ingrese una obeservación para poder asignar productos a esta solicitud:','');
+    var observaciones = prompt('Ingrese una observación para poder asignar productos a esta solicitud:','');
     if (observaciones === null) {
       $.notify("Ha cancelado la opción de ingresar una observación", "warn");
         return; //break out of the function early
@@ -315,7 +315,7 @@
         return; //break out of the function early
       }
       if (grupotrabajo == "") {
-        $.notify("No ha escrito ningun numero en el grupo de trabajo", "warn");
+        $.notify("No ha escrito ningún número en el grupo de trabajo", "warn");
         return; //break out of the function early
       }
       if (rutusu == "") {
