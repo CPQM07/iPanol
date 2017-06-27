@@ -357,13 +357,13 @@
                           <input name="cat[CAT_DESC]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
                           <input name="cat[CAT_CODIGO]" type="number" class="col-md-12 form-control">
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="row">
                         <div class="col-sm-6">

@@ -28,8 +28,8 @@
                   <tr>
                     <th>ID</th>
                     <th>NOMBRE</th>
-                    <th>DESCRIPCION</th>
-                    <th>CODIGO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <!-- <th>CODIGO</th> -->
                     <th>ESTADO</th>
                     <th>EDITAR</th>
                   </tr>
@@ -40,7 +40,7 @@
                           <td><?= $value->get('CAT_ID'); ?></td>
                           <td><?= $value->get('CAT_NOMBRE'); ?></td>
                           <td><?= $value->get('CAT_DESC'); ?></td>
-                          <td><?= $value->get('CAT_CODIGO'); ?></td>
+                          <!-- <td><?= $value->get('CAT_CODIGO'); ?></td> -->
                           <?php if ($value->get('CAT_ESTADO') == 1): ?>
                             <td><a href="<?= site_url('/Mantencion/CambiarEstadoCAT/0/');?><?=$value->get('CAT_ID');?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
                           <?php else: ?>
@@ -93,13 +93,13 @@
                           <input name="cat[CAT_DESC]" type="text" class="col-md-12 form-control">
                         </div>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
                           <input name="cat[CAT_CODIGO]" type="number" class="col-md-12 form-control">
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="row">
                         <div class="col-sm-6">
@@ -151,13 +151,13 @@
                           <input id="desc" name="cat[CAT_DESC]"  type="text" class="col-md-12 form-control">
                         </div>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label class="col-sm-2 control-label">Codigo</label>
 
                         <div class="col-md-9">
                           <input id="cod" name="cat[CAT_CODIGO]"  type="number" class="col-md-12 form-control">
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Estado</label>
@@ -206,7 +206,7 @@ $(document).ready(function() {
           $("#id").val(data.CAT_ID);
           $("#nombre").val(data.CAT_NOMBRE);
           $("#desc").val(data.CAT_DESC);
-          $("#cod").val(data.CAT_CODIGO);
+          /*$("#cod").val(data.CAT_CODIGO);*/
           $("#estado").val(data.CAT_ESTADO).trigger('change');
           console.log(data);
         }
@@ -218,7 +218,7 @@ function limpiar(){
     $("#id").val("");
     $("#nombre").val("");
     $("#desc").val("");
-    $("#cod").val("");
+    /*$("#cod").val("");*/
     $("#estado").val("");
 
   }
