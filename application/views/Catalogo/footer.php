@@ -16,9 +16,14 @@
     <script type="text/javascript" src="<?= base_url()?>resources/plugins/jQuery-Timepicker-Addon-master/dist/jquery-ui-timepicker-addon.min.js"></script>
     <script type="text/javascript" src="<?= base_url('resources/plugins/moment/min/moment-with-locales.min.js')  ?>"></script>
     <script type="text/javascript" src="<?= base_url('resources/js/notify.min.js')  ?>"></script>
+    <script src="<?= base_url('resources/plugins/select2-3.5.4/select2.js')  ?>"></script>
 
      <script type="text/javascript" charset="utf-8">
      $(function () {
+    $(".select2").select2({
+        placeholder:"seleccionar",
+        locale: 'es'
+    });
      	moment.locale("es"); 
      	console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
      	 $('#fechaEntrega').datetimepicker({ 

@@ -54,7 +54,8 @@
 			<tbody>
 				<tr style="font-size: 15px">
 					<td> 
-					  <select class="form-control" name="asignaturas">
+					  <select class="select2" style="width: 100%;" name="asignaturas">
+					  <option></option>
 					  		<?php if ($asignaturas != null): ?>
 					  			<?php foreach ($asignaturas as $key => $value): ?>
 						  		 <option value="<?= $value->get("ASIGNATURA_ID") ?>"><?= $value->get("ASIGNATURA_NOMBRE") ?></option>
