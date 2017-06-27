@@ -13,7 +13,7 @@
       <div class="box-header with-border">
       <div class="row">
           <div class="col-md-4">
-          <form action="" method="post" >
+          <form action="" method="post" id="sub">
           <div class="form-group">
             <label>Tipo</label>
               <select id="tipo" name="tipo" class="select2" style="width: 100%" required="true">
@@ -41,8 +41,8 @@
         <div class="col-md-4">
           <label>Adquisición</label>
              <div class="form-group">
-                <select id="adq" name="adq" class="select2" required="true" style="width: 100%">
-                <option ></option>  
+                <select id="adq" name="adq" class="select2" style="width: 100%">
+                <option value="0">Todas las adquisiciones</option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -124,40 +124,38 @@
                  <td>Sin registro</td>
                  <td>Sin registro</td>
                  <?php endif ?>
+
                 <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
                  <td> <?= @$fecha  ?></td>
-                 <?php endif ?>
- 
+                <?php if ($value['ING_TIPO_INGRESO'] == 1): ?>
+                  <?php if (@$value['PROV_NOMBRE'] > 0): ?>
+                <td> <?= @$value['PROV_NOMBRE']; ?></td>
+                <td> <?= @$value['PROV_RUT']; ?></td>
+              <?php elseif (@$value['PROV_NOMBRE'] == 0 ): ?>
+                <td>Sin registro</td>
+                <td>Sin registro</td>
+                <?php endif ?>
 
-
-                <?php if (@$value['INV_PROD_CODIGO'] !=0): ?>
-         <?php if ($value['ING_TIPO_INGRESO'] == 1): ?>
-               
-                <td> <?=$value['PROV_NOMBRE']; ?></td>
-                <td> <?=$value['PROV_RUT']; ?></td>
                 <td>Compra</td>
                   <?php elseif($value['ING_TIPO_INGRESO'] == 2): ?> 
-                  
                   <td>Sin registro</td>
                   <td>Sin registro</td>
                   <td>Donación</td> 
                   <?php else: ?>
+                   <td>Sin registro</td>
+                   <td>Sin registro</td>
                    <td>No Definido</td>
-                   <td>sin registro</td>
-                   <td>sin registro</td>
                 <?php endif ?>
 
               <?php endif ?> 
 
                 <td> <?=$value['ING_VIDA_UTIL_PROVEEDOR']; ?> Meses</td>
-              <?php endforeach ?>
               </tr>
+              <?php endforeach ?>
               </tbody>
-
             </table>
-              <?php endif ?>
             </div>
-        
+        <?php endif ?>
           </div>
       </div>
        
@@ -174,14 +172,15 @@ $(document).ready(function(){
     $("#tipo").val('<?=$buscartipo?>').trigger('change');
     $("#adq").val('<?=$buscaradq?>').trigger('change');
   <?php endif; ?>
+
   $('#pdf').submit(function(){
      $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");
      $(this).append("<input name='cat' type='hidden' value='"+$("#recuperarcat").val()+"'  >");
      $(this).append("<input name='adq' type='hidden' value='"+$("#recuperaradq").val()+"'  >");
       console.log($("#tipo").val());
       console.log($("#cat").val());
-
-     //return false;
+      console.log($("#adq").val());
+     return;
     });
   $('#excel').submit(function(){
      $(this).append("<input name='tipo' type='hidden' value='"+$("#recuperartipo").val()+"'  >");

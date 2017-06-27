@@ -454,11 +454,13 @@ exit;
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $stockop = $value['PROD_STOCK_OPTIMO'];
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['CANTIDAD'];
-        if ($buscaradq == 1) {
+        $node = "No definido";
+        if ($tipoing == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
@@ -471,13 +473,26 @@ exit;
             ->setCellValue('I'.$i, $cantidad);
         $i++;
         }
-        if ($buscaradq == 2) {
+        elseif ($tipoing == 2) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
             ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
+        $i++;
+        }
+                else  {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $node)
             ->setCellValue('F'.$i, $stockop)
             ->setCellValue('G'.$i, $stockcri)
             ->setCellValue('H'.$i, $prioridad)
@@ -498,8 +513,9 @@ exit;
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['INV_PROD_CANTIDAD'];
+        $node = "No definido";
 
-        if ($buscaradq == 1) {
+        if ($tipoing == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
@@ -512,13 +528,26 @@ exit;
             ->setCellValue('I'.$i, $cantidad);
         $i++;
         }
-        if ($buscaradq == 2) {
+        elseif ($tipoing == 2) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $nomprod)
             ->setCellValue('C'.$i, $nomtipo)
             ->setCellValue('D'.$i, $nomcat)
             ->setCellValue('E'.$i, $donacion)
+            ->setCellValue('F'.$i, $stockop)
+            ->setCellValue('G'.$i, $stockcri)
+            ->setCellValue('H'.$i, $prioridad)
+            ->setCellValue('I'.$i, $cantidad);
+        $i++;
+        }
+                else  {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $nomprod)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $node)
             ->setCellValue('F'.$i, $stockop)
             ->setCellValue('G'.$i, $stockcri)
             ->setCellValue('H'.$i, $prioridad)
@@ -680,35 +709,28 @@ exit;
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $stockop = $value['PROD_STOCK_OPTIMO'];
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
         $cantidad = $value['CANTIDAD'];
-        if ($buscaradq == 1) {
             $html .= "<tr>
                       <td class='codigo' >".$codigo."</td>
                       <td class='producto' >".$nomprod."</td>
                       <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='compra'>".$compra."</td>
-                      <td class= 'optimo' >".$stockop."</td>
+                      <td class='categoria'>".$nomcat."</td>";
+                      if ($tipoing == 1) {
+                      $html .= "<td>Compra</td>";      
+                      }elseif ($tipoing ==2) {
+                      $html .= "<td>Donacion</td>";
+                      }else
+                      $html .= "<td>No definido</td>";        
+            $html .= "<td class= 'optimo' >".$stockop."</td>
                       <td class= 'critico' >".$stockcri."</td>
                       <td class='prioridad' >".$prioridad."</td>
                       <td class='cantidad' >".$cantidad."</td>
                       </tr>";
-        }if ($buscaradq == 2) {
-                      $html .= "<tr>
-                      <td class='codigo' >".$codigo."</td>
-                      <td class='producto' >".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='compra'>".$donacion."</td>
-                      <td class= 'optimo' >".$stockop."</td>
-                      <td class= 'critico' >".$stockcri."</td>
-                      <td class='prioridad' >".$prioridad."</td>
-                      <td class='cantidad' >".$cantidad."</td>
-                      </tr>";
-        }
+        
       }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -743,35 +765,29 @@ exit;
         $nomprod = $value['INV_PROD_NOM'];
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
+        $tipoing = $value['ING_TIPO_INGRESO'];
         $stockop = $value['PROD_STOCK_OPTIMO'];
         $stockcri = $value['PROD_STOCK_CRITICO'];
         $prioridad = $value['PROD_PRIORIDAD'];
-        $cantidad = $value['INV_PROD_CANTIDAD'];
-        if ($buscaradq == 1) {        
+        $cantidad = $value['INV_PROD_CANTIDAD'];     
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='nomprod'>".$nomprod."</td>
                       <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='compra'>".$compra."</td>
+                      <td class='categoria'>".$nomcat."</td>";
+                      if ($tipoing == 1) {
+                      $html .= "<td>Compra</td>";      
+                      }elseif ($tipoing ==2) {
+                      $html .= "<td>Donacion</td>";
+                      }else
+                      $html .= "<td>No definido</td>";
+            $html .= "<td class='compra'>".$compra."</td>
                       <td class= 'optimo' >".$stockop."</td>
                       <td class= 'critico' >".$stockcri."</td>
                       <td class='prioridad'>".$prioridad."</td>
                       <td class='cantidad'>".$cantidad."</td>
                       </tr>";
-        }if ($buscaradq == 2) {
-            $html .= "<tr>
-                      <td class='codigo'>".$codigo."</td>
-                      <td class='nomprod'>".$nomprod."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class='donacion'>".$donacion."</td>
-                      <td class= 'optimo' >".$stockop."</td>
-                      <td class= 'critico' >".$stockcri."</td>
-                      <td class='prioridad'>".$prioridad."</td>
-                      <td class='cantidad'>".$cantidad."</td>
-                      </tr>";
-        }
+        
       }
         $html .= "</table>";
           $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -1029,6 +1045,13 @@ public function Vistavidautil(){
         $buscartipo = $this->input->post('tipo');
         $buscarcat = $this->input->post('cat');
         $buscaradq = $this->input->post('adq');
+      if ($buscaradq == 0) {
+        $datos['buscartipo'] = $buscartipo;
+        $datos['buscarcat'] = $buscarcat;
+        $datos['buscaradq'] = $buscaradq;
+        $datos['buscar'] = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);    
+        $datos['buscar'] = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq); 
+      }
       if ($buscaradq == 1) {
         $datos['buscartipo'] = $buscartipo;
         $datos['buscarcat'] = $buscarcat;
@@ -1061,7 +1084,6 @@ public function Vistavidautil(){
             ->setKeywords("reporte Vida util") //Etiquetas
             ->setCategory("Reporte excel"); //Categorias
         $tituloReporte = "Reporte Vida util de Productos";
-          if ($buscaradq == 1) {
         $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de ingreso',
           'Fecha Termino','Nombre Proveedor','Rut Proveedor','Tipo ingreso','Vida util');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
@@ -1082,7 +1104,8 @@ public function Vistavidautil(){
             ->setCellValue('J3',  $titulosColumnas['9']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
-        $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);     
+        $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);
+        $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);          
                foreach ($vida as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
@@ -1090,14 +1113,22 @@ public function Vistavidautil(){
         $nomtipo = $value['TIPO_NOMBRE'];
         $nomcat = $value['CAT_NOMBRE'];
         $fechaing = $value['ING_FECHA'];
-        $nomprov = $value['PROV_NOMBRE'];
-        $rutprov = $value['PROV_RUT'];
+        @$nomprov = $value['PROV_NOMBRE'];
+        @$rutprov = $value['PROV_RUT'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
         $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
+        $compra = "Compra";
+        $donacion = "Donación";
+        $node = "No definido";
         $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));
         if ($codigo == 0) {
           $fecha = "0-0-0";
         }
+        if ($nomprov == 0) {
+        $nomprov = "Sin registro";
+        $rutprov = "Sin registro";
+        }
+        if ($ingtipo == 1) {
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $codigo)
             ->setCellValue('B'.$i, $prodnom)
@@ -1107,10 +1138,37 @@ public function Vistavidautil(){
             ->setCellValue('F'.$i, $fecha)
             ->setCellValue('G'.$i, $nomprov)
             ->setCellValue('H'.$i, $rutprov)
-            ->setCellValue('I'.$i, $ingtipo)
+            ->setCellValue('I'.$i, $compra)
+            ->setCellValue('J'.$i, $vidautil);
+        $i++;
+        }elseif ($ingtipo == 2) {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $prodnom)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $fechaing)
+            ->setCellValue('F'.$i, $fecha)
+            ->setCellValue('G'.$i, $nomprov)
+            ->setCellValue('H'.$i, $rutprov)
+            ->setCellValue('I'.$i, $donacion)
+            ->setCellValue('J'.$i, $vidautil);
+        $i++;
+        }else {
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A'.$i, $codigo)
+            ->setCellValue('B'.$i, $prodnom)
+            ->setCellValue('C'.$i, $nomtipo)
+            ->setCellValue('D'.$i, $nomcat)
+            ->setCellValue('E'.$i, $fechaing)
+            ->setCellValue('F'.$i, $fecha)
+            ->setCellValue('G'.$i, $nomprov)
+            ->setCellValue('H'.$i, $rutprov)
+            ->setCellValue('I'.$i, $node)
             ->setCellValue('J'.$i, $vidautil);
         $i++;
         }
+      }
       
 $estiloTituloReporte = array(
     'font' => array(
@@ -1217,158 +1275,7 @@ header('Cache-Control: max-age=0');
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');
 exit;
-}  if ($buscaradq == 2) {
-          $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria',
-                                    'Fecha de ingreso','Fecha Termino','Tipo ingreso','Vida util');
-        // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
-        $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:H1');
-        // Se agregan los titulos del reporte
-        $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
-            ->setCellValue('A3',  $titulosColumnas['0'])  //Titulo de las columnas
-            ->setCellValue('B3',  $titulosColumnas['1'])
-            ->setCellValue('C3',  $titulosColumnas['2'])
-            ->setCellValue('D3',  $titulosColumnas['3'])
-            ->setCellValue('E3',  $titulosColumnas['4'])
-            ->setCellValue('F3',  $titulosColumnas['5'])
-            ->setCellValue('G3',  $titulosColumnas['6'])
-            ->setCellValue('H3',  $titulosColumnas['7']);
-            //Se agregan los datos de los productos
-        $i = 4; //Numero de fila donde se va a comenzar a rellenar
-        $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);     
-               foreach ($vida as $value) 
-        {
-        $codigo = $value['INV_PROD_CODIGO'];
-        $prodnom = $value['INV_PROD_NOM'];
-        $nomtipo = $value['TIPO_NOMBRE'];
-        $nomcat = $value['CAT_NOMBRE'];
-        $fechaing = $value['ING_FECHA'];
-        $ingtipo = $value['ING_TIPO_INGRESO'];
-        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
-        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));                 
-        if ($codigo == 0) {
-          $fecha = "0-0-0";
-        }
-        $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A'.$i, $codigo)
-            ->setCellValue('B'.$i, $prodnom)
-            ->setCellValue('C'.$i, $nomtipo)
-            ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $fechaing)
-            ->setCellValue('F'.$i, $fecha)
-            ->setCellValue('G'.$i, $ingtipo)
-            ->setCellValue('H'.$i, $vidautil);
-        $i++;
-        }
-      
-$estiloTituloReporte = array(
-    'font' => array(
-        'name'      => 'Verdana',
-        'bold'      => true,
-        'italic'    => false,
-        'strike'    => false,
-        'size' =>16,
-        'color'     => array(
-            'rgb' => 'FFFFFF'
-        )
-    ),
-    'fill' => array(
-      'type'  => PHPExcel_Style_Fill::FILL_SOLID,
-      'color' => array(
-            'argb' => 'FF220835')
-  ),
-    'borders' => array(
-        'allborders' => array(
-            'style' => PHPExcel_Style_Border::BORDER_NONE
-        )
-    ),
-    'alignment' => array(
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        'rotation' => 0,
-        'wrap' => TRUE
-    )
-);
- 
-$estiloTituloColumnas = array(
-    'font' => array(
-        'name'      => 'Verdana',
-        'bold'      => true,
-        'italic'    => false,
-        'strike'    => false,
-        'size' => 8,
-        'color'     => array(
-            'rgb' => 'FFFFFF'
-        )
-    ),
-    'fill' => array(
-      'type'  => PHPExcel_Style_Fill::FILL_SOLID,
-      'color' => array(
-            'argb' => 'FF220835')
-  ),
-    'borders' => array(
-        'allborders' => array(
-            'style' => PHPExcel_Style_Border::BORDER_NONE
-        )
-    ),
-    'alignment' => array(
-        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-        'rotation' => 0,
-        'wrap' => TRUE
-    )
-);
- 
-$estiloInformacion = new PHPExcel_Style();
-$estiloInformacion->applyFromArray( array(
-    'font' => array(
-        'name'  => 'Arial',
-        'size' =>12,
-        'color' => array(
-            'rgb' => '000000'
-        )
-    ),
-    'fill' => array(
-  'type'  => PHPExcel_Style_Fill::FILL_SOLID,
-  'color' => array(
-            'argb' => 'FFd9b7f4')
-  ),
-    'borders' => array(
-        'left' => array(
-            'style' => PHPExcel_Style_Border::BORDER_THIN ,
-      'color' => array(
-              'rgb' => '3a2a47'
-            )
-        )
-    )
-));
-$objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:H".($i-1));
-// Tamaño automatico
-for($i = 'A'; $i <= 'H'; $i++){
-    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
-// Se asigna el nombre a la hoja
-$objPHPExcel->getActiveSheet()->setTitle('Vida util');
- 
-// Se activa la hoja para que sea la que se muestre cuando el archivo se abre
-$objPHPExcel->setActiveSheetIndex(0);
- 
-// Inmovilizar paneles
-//$objPHPExcel->getActiveSheet(0)->freezePane('A4');
-$objPHPExcel->getActiveSheet(0)->freezePaneByColumnAndRow(0,4);
-// Se manda el archivo al navegador web, con el nombre que se indica, en formato Excel5
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Reportesvidautildonacion.xls"');
-header('Cache-Control: max-age=0');
- 
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-$objWriter->save('php://output');
-exit;
-
-}}
 
   public function Pdfvida(){
       $this->load->library('Pdf');
@@ -1387,10 +1294,9 @@ exit;
       $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-      $pdf->AddPage(); 
-      if ($buscaradq == 1) {
-          
-      $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);
+      $pdf->AddPage();
+      $vida = $this->reporte->vidautilCompras($buscartipo, $buscarcat, $buscaradq);    
+      $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);
         $html = '';
         $html .= "<style type=text/css>";
         $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
@@ -1406,8 +1312,8 @@ exit;
                   <th>Fecha Termino</th>
                   <th>Nombre Proveedor</th>
                   <th>Rut</th>
-                  <th>Vida util</th>
                   <th>Tipo Ingreso</th>
+                  <th>Vida util</th>
                   </tr>";
                foreach ($vida as $value) 
         {
@@ -1416,25 +1322,39 @@ exit;
         $nomcat = $value['CAT_NOMBRE'];
         $prodnom = $value['INV_PROD_NOM'];
         $fechaing = $value['ING_FECHA'];
-        $nomprov = $value['PROV_NOMBRE'];
-        $rutprov = $value['PROV_RUT'];
+        @$nomprov = $value['PROV_NOMBRE'];
+        @$rutprov = $value['PROV_RUT'];
         $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
         $ingtipo = $value['ING_TIPO_INGRESO'];
         $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));                 
         if ($codigo == 0) {
           $fecha = "0-0-0";
         }
+        if ($nomprov == 0) {
+          $nomprov = "Sin registro";
+          $rutprov = "Sin registro";
+        }
             $html .= "<tr>
                       <td class='codigo'>".$codigo."</td>
                       <td class='tipo'>".$nomtipo."</td>
                       <td class='categoria'>".$nomcat."</td>
                       <td class= 'producto' >".$prodnom."</td>
                       <td class= 'ingreso' >".$fechaing."</td>
-                      <td class= 'termino' >".$fecha."</td>
-                      <td class= 'proveedor' >".$nomprov."</td>
+                      <td class= 'termino' >".$fecha."</td>";
+                      if ($value['ING_TIPO_INGRESO'] == 1) {
+            $html .= "<td class= 'proveedor' >".$nomprov."</td>
                       <td class= 'rut' >".$rutprov."</td>
-                      <td class= 'vidautil' >".$vidautil."</td>
-                      <td class= 'tipoingreso' >".$ingtipo."</td>
+                      <td>Compra</td>";
+                      }elseif ($value['ING_TIPO_INGRESO'] == 2) {
+            $html .= "<td>Sin registro</td>
+                        <td>Sin registro</td>
+                        <td>Donación</td>";
+                      }else
+            $html .= "<td>Sin registro</td>
+                      <td>Sin registro</td>
+                      <td>No definido</td>";
+
+            $html .= "<td class= 'vidautil' >".$vidautil." Meses</td>
                       </tr>";
         }
         $html .= "</table>";
@@ -1443,61 +1363,7 @@ exit;
           $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
           //$tipos = utf8_decode("Tipo".$tipo.".pdf");
           $pdf->Output($categoria, 'I');
-        }
-        //ÇAQUI EMPIESA LA CONDICION 2
-        if ($buscaradq == 2) {
-          $vida = $this->reporte->vidautilDonaciones($buscartipo, $buscarcat, $buscaradq);
-        $html = '';
-        $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
-        $html .= "<style type=text/css>";
-        $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
-        $html .= "td{border:1px solid black;text-align:center }";
-        $html .= "</style>";
         
-        $html .= "<table width='100%'>";
-        $html .= "<tr><th>Codigo</th>
-                  <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Nombre Producto  </th>
-                  <th>Fecha Ingreso</th>
-                  <th>Fecha Termino</th>
-                  <th>Vida util</th>
-                  <th>Tipo Ingreso</th>
-                  </tr>";
-               foreach ($vida as $value) 
-        {
-        $codigo = $value['INV_PROD_CODIGO'];
-        $nomtipo = $value['TIPO_NOMBRE'];
-        $nomcat = $value['CAT_NOMBRE'];
-        $prodnom = $value['INV_PROD_NOM'];
-        $fechaing = $value['ING_FECHA'];
-        $vidautil = $value['ING_VIDA_UTIL_PROVEEDOR'];
-        $ingtipo = $value['ING_TIPO_INGRESO'];
-        $fecha = date('Y-m-d',strtotime('+'.$vidautil.'months', strtotime($fechaing)));          
-        if ($codigo == 0) {
-          $fecha = "0-0-0";
-        }
-            $html .= "<tr>
-                      <td class='codigo'>".$codigo."</td>
-                      <td class='tipo'>".$nomtipo."</td>
-                      <td class='categoria'>".$nomcat."</td>
-                      <td class= 'producto' >".$prodnom."</td>
-                      <td class= 'ingreso' >".$fechaing."</td>
-                      <td class= 'termino' >".$fecha."</td>
-                      <td class= 'vidautil' >".$vidautil."</td>
-                      <td class= 'tipoingreso' >".$ingtipo."</td>
-
-
-                      </tr>";
-        }
-        $html .= "</table>";
-          $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 1, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-          ob_clean();
-          $categoria = utf8_decode("Categoria ".$nomcat.".pdf");
-          //$tipos = utf8_decode("Tipo".$tipo.".pdf");
-          $pdf->Output($categoria, 'I');
-            
-          } 
 }
   // PRECIO UNITARIO
   public function Vistapreciounitario(){

@@ -42,7 +42,7 @@
           <label>Adquisición</label>
              <div class="form-group">
                 <select id="adq" name="adq" class="select2" style="width: 100%">
-                <option></option>  
+                <option value="0">Todas las adquisiciones</option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -89,7 +89,8 @@
                 </form>
             </div>
             </div>
-            <table id="example2" class="datatable table table-bordered table-hover">    
+            <div class="table-responsive " >
+            <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
                   <th>Codigo</th>
@@ -139,6 +140,7 @@
               </tr>
               </tbody>
             </table>
+            </div>
           <?php endif ?>
           </div>
       </div>

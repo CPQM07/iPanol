@@ -106,6 +106,7 @@
                 </tr>
               </thead>
               <tbody>
+               
               <?php foreach ($buscar as $key => $value): ?>
                 <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
@@ -115,7 +116,8 @@
                 <td><?= $value['BAJA_FECHA']; ?></td>
                 <td><?= $value['MOT_NOMBRE']; ?></td>
                 </tr>
-              <?php endforeach ?>
+                 <?php endforeach ?>
+                
               </tbody>
             </table>
             </div>
