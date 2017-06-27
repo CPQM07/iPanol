@@ -42,8 +42,8 @@ $lasturl = array_pop($spliturl);
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=site_url('gestion/entregadigital')?>"><i class="fa fa-bolt"></i>Gestion Digital</a></li>
-            <li><a href="<?=site_url('gestion/entregamanual')?>"><i class="fa fa-handshake-o"></i>Gestion Manual</a></li>
+            <li><a href="<?=site_url('gestion/entregadigital')?>"><i class="fa fa-bolt"></i>Gestión Digital</a></li>
+            <li><a href="<?=site_url('gestion/entregamanual')?>"><i class="fa fa-handshake-o"></i>Gestión Manual</a></li>
             <li><a href="<?=site_url('gestion/ingreso')?>"><i class="fa fa-arrow-up"></i>Ingreso Stock</a></li>
             <li><a href="<?=site_url('gestion/baja')?>"><i class="fa fa-arrow-down"></i>Dar baja</a></li>
             <li><a href="<?=site_url('gestion/recepcion')?>"><i class="fa fa-sign-in"></i>Recepcionar</a></li>
@@ -82,12 +82,12 @@ $lasturl = array_pop($spliturl);
             </span>
           </a>
           <ul class="treeview-menu">
-           <li><a href="<?=site_url('Reportes/Vistastockcritico')?>"><i class="fa fa-archive"></i> Stock critico</a></li>
+           <li><a href="<?=site_url('Reportes/Vistastockcritico')?>"><i class="fa fa-archive"></i> Stock crítico</a></li>
            <li><a href="<?=site_url('Reportes/Vistastockactual')?>"><i class="fa fa-archive"></i>
           Stock actual</a></li>
            <li><a href="<?=site_url('Reportes/Vistamotivosbaja')?>"><i class="fa fa-archive"></i> Motivos de baja a los productos</a>
            </li>
-           <li><a href="<?=site_url('Reportes/Vistavidautil')?>"><i class="fa fa-archive"></i> Vida util de los productos</a></li>
+           <li><a href="<?=site_url('Reportes/Vistavidautil')?>"><i class="fa fa-archive"></i> Vida útil de los productos</a></li>
            <li><a href="<?=site_url('Reportes/Vistapreciounitario')?>"><i class="fa fa-archive"></i> Precio
            de los productos</a></li>
           </ul>

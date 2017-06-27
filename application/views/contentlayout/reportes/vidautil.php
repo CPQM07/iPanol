@@ -25,10 +25,10 @@
           </div>
         </div>
                <div class="col-md-4">
-          <label>Categorias</label>
+          <label>Categorías</label>
              <div class="form-group">
                 <select id="cat" name="cat" class="select2" style="width: 100%" >
-                <option value="0"> Todas las categorias</option>
+                <option value="0"> Todas las categorías</option>
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -93,16 +93,16 @@
             <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
-                  <th>Codigo</th>
+                  <th>Código</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Nombre Producto</th>
-                  <th>Fecha Ingreso</th>
-                  <th>Fecha Termino</th>
-                  <th>Nombre Proveedor</th>
-                  <th>Rut Proveedor</th>
-                  <th>Tipo Ingreso</th>
-                  <th>Vida Util</th>
+                  <th>Categoría</th>
+                  <th>Nombre producto</th>
+                  <th>Fecha ingreso</th>
+                  <th>Fecha término</th>
+                  <th>Nombre proveedor</th>
+                  <th>RUT Proveedor</th>
+                  <th>Tipo ingreso</th>
+                  <th>Vida útil</th>
                 </tr>
               </thead>
               <tbody>
