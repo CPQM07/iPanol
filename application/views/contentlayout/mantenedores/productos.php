@@ -47,10 +47,10 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Categoria</th>
-                    <th>Tipo de producto</th>
-                    <th>Total ingresados</th>
-                    <th>Stock crítico</th>
-                    <th>Stock Optimo</th>
+                    <th>Tipo de Producto</th>
+                    <th>Total Ingresados</th>
+                    <th>Stock Crítico</th>
+                    <th>Stock Óptimo</th>
                     <th>Estado</th>
                     <th>Editar</th>
                   </tr>
@@ -140,7 +140,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Stock optimo</label>
+                        <label class="col-sm-2 control-label">Stock óptimo</label>
 
                         <div class="col-md-9">
                           <input name="producto[PROD_STOCK_OPTIMO]" min="0" max="100000" type="number" class="col-md-12 form-control" required>

@@ -309,7 +309,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Stock optimo</label>
+                        <label class="col-sm-2 control-label">Stock óptimo</label>
 
                         <div class="col-md-9">
                           <input name="producto[PROD_STOCK_OPTIMO]" min="0" max="100000" type="number" class="form-control col-md-12" required>
