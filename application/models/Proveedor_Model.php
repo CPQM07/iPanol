@@ -13,7 +13,7 @@ private  $_columns  =  array(
 'PROV_DV' => 0,
 'PROV_NOMBRE' => '',
 'PROV_RSOCIAL' => '',
-'PROV_ESTADO' => 0,
+'PROV_ESTADO' => 1,
 'PROV_TIPO' => 0
 );
 
