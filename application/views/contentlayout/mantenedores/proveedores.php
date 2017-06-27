@@ -124,16 +124,6 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">Estado</label>
-                        <div class="col-md-9">
-                          <select class="form-control" name="PROV[PROV_ESTADO]">
-                            <option selected disabled>Seleccione Estado</option>
-                            <option value="1">Habilitado</option>
-                            <option value="2">Deshabilitado</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label class="col-sm-2 control-label">Tipo</label>
                         <div class="col-md-9">
                           <select class="form-control" name="PROV[PROV_TIPO]">
