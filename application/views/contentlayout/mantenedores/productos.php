@@ -40,41 +40,43 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="datatableprod table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Categoria</th>
-                  <th>Tipo de producto</th>
-                  <th>Total ingresados</th>
-                  <th>Stock crítico</th>
-                  <th>Stock Optimo</th>
-                  <th>Estado</th>
-                  <th>Editar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($productos as $key => $value): ?>
-                    <tr>
-                      <td><?= $value['PROD_ID']; ?></td>
-                      <td><?= $value['PROD_NOMBRE']; ?></td>
-                      <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
-                      <td><?= $value['PROD_TIPOPROD_ID']->get('TIPO_NOMBRE'); ?></td>
-                      <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
-                      <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
-                      <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
-                      <?php if ($value['PROD_ESTADO'] == 1): ?>
-                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/0/');?><?=$value['PROD_ID'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
-                      <?php else: ?>
-                      <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/1/');?><?=$value['PROD_ID'];?>" class="btn btn-info btn-block">Habilitar</a></td>
-                      <?php endif; ?>
-                      <td><button type="button" id="<?= $value['PROD_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#editPro"><i class="fa fa-edit"></i></button></td>
-                    </tr>
+              <div class="table-responsive box-body">
+                <table id="example1" class="datatableprod table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Tipo de producto</th>
+                    <th>Total ingresados</th>
+                    <th>Stock crítico</th>
+                    <th>Stock Optimo</th>
+                    <th>Estado</th>
+                    <th>Editar</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php foreach ($productos as $key => $value): ?>
+                      <tr>
+                        <td><?= $value['PROD_ID']; ?></td>
+                        <td><?= $value['PROD_NOMBRE']; ?></td>
+                        <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
+                        <td><?= $value['PROD_TIPOPROD_ID']->get('TIPO_NOMBRE'); ?></td>
+                        <td><?= $value['PROD_STOCK_TOTAL']; ?></td>
+                        <td><?= $value['PROD_STOCK_CRITICO']; ?></td>
+                        <td><?= $value['PROD_STOCK_OPTIMO']; ?></td>
+                        <?php if ($value['PROD_ESTADO'] == 1): ?>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/0/');?><?=$value['PROD_ID'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                        <?php else: ?>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstadoPROD/1/');?><?=$value['PROD_ID'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                        <?php endif; ?>
+                        <td><button type="button" id="<?= $value['PROD_ID']; ?>" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#editPro"><i class="fa fa-edit"></i></button></td>
+                      </tr>
 
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>

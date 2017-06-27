@@ -101,8 +101,8 @@
             </div>
               </div>
                
-                <div class="box-body">
-                  <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
+                <div class="table-responsive box-body">
+                  <table id="dinamicajax" class="table table-bordered table-hover">
                 </table>
               </div>
             </div>
@@ -113,8 +113,8 @@
                   <h3 class="box-title">Asignados</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="resulasignacion"  class="table table-responsive table-condensed">
+                <div class="table-responsive box-body">
+                  <table id="resulasignacion"  class="table table-condensed">
                     <thead>
                     <tr>
                       <th>Id</th>
@@ -212,7 +212,7 @@
                 "columns": [
                     { title: "Id",
                         className: "text-sm hidden" },
-                    { title: "Codigo",
+                    { title: "Cod",
                         className: "text-sm"},
                     { title: "Stock",
                         className: "text-red text-center"},

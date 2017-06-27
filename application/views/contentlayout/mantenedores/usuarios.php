@@ -23,38 +23,40 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="datatable table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Rut</th>
-                  <th>Nombres<br>Apellidos</th>
-                  <th>Carrera</th>
-                  <th>Correo</th>
-                  <th>Teléfonos</th>
-                  <th>Cargo</th>
-                  <th>Estado</th>
-                  <th>Editar</th>
-                </tr>
-                </thead>
-                <tbody>
-               <?php foreach ($usuario as $key => $value): ?>
-                <tr>
-                  <td><?= $value['USU_RUT']; ?>-<?= $value['USU_DV']; ?></td>
-                  <td><?= $value['USU_NOMBRES']?><br><?= $value['USU_APELLIDOS']; ?></td>
-                  <td><?= $value['USU_CARRERA_ID']->get('CARRERA_NOMBRE') ;  ?> </td>
-                  <td><?= $value['USU_EMAIL']; ?> </td>
-                  <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
-                  <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
-                  <?php if ($value['USU_ESTADO'] == 1): ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/0/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
-                  <?php else: ?>
-                  <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
-                  <?php endif; ?>
-                  <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button></td>
+              <div class="table-responsive box-body">
+                <table id="example1" class="datatable table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Rut</th>
+                    <th>Nombres<br>Apellidos</th>
+                    <th>Carrera</th>
+                    <th>Correo</th>
+                    <th>Teléfonos</th>
+                    <th>Cargo</th>
+                    <th>Estado</th>
+                    <th>Editar</th>
                   </tr>
-                <?php endforeach; ?>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                 <?php foreach ($usuario as $key => $value): ?>
+                  <tr>
+                    <td><?= $value['USU_RUT']; ?>-<?= $value['USU_DV']; ?></td>
+                    <td><?= $value['USU_NOMBRES']?><br><?= $value['USU_APELLIDOS']; ?></td>
+                    <td><?= $value['USU_CARRERA_ID']->get('CARRERA_NOMBRE') ;  ?> </td>
+                    <td><?= $value['USU_EMAIL']; ?> </td>
+                    <td><?= $value['USU_TELEFONO1']; ?>/<br><?= $value['USU_TELEFONO2']; ?></td>
+                    <td><?= $value['USU_CARGO_ID']->get('CARGO_NOMBRE') ;  ?> </td>
+                    <?php if ($value['USU_ESTADO'] == 1): ?>
+                    <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/0/');?><?=$value['USU_RUT'];?>" class="btn btn-danger btn-block">Deshabilitar</a></td>
+                    <?php else: ?>
+                    <td><a href="<?= site_url('/Mantencion/CambiarEstadoUSU/1/');?><?=$value['USU_RUT'];?>" class="btn btn-info btn-block">Habilitar</a></td>
+                    <?php endif; ?>
+                    <td><button id="<?= $value['USU_RUT']; ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#EDITAR"><i class="fa fa-edit"></i></button></td>
+                    </tr>
+                  <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>

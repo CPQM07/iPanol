@@ -51,6 +51,9 @@ class Dashboard extends CI_Controller {
 
       	/*---------------------------------------------------------------------*/
 
+      	$coun['act'] = count($this->producto->productosCriticosDash());
+		$coun['fun'] = count($this->inv->contarInventarioCritico());
+
 
       	
 		$this->layouthelper->LoadView("dashboard/dashboard" ,$coun,false);
@@ -58,140 +61,18 @@ class Dashboard extends CI_Controller {
 
 
 	public function msjCriticoActiv(){
-		/*$id = $_POST['acti'];*/
-		$id=1;
-		$NuevoProducto = array();
-	  $productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
-/*	  $larg = count($productos);
-	  foreach ($productos as $key => $value) {
-		    $NuevoProducto[] = array(
-		      'PROD_ID' => $value->get('PROD_ID'),
-		      'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
-		      'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
-		      'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
-		      'PROD_CAT_ID' => $value->get('PROD_CAT_ID'),
-		      'PROD_TIPOPROD_ID' => $value->get('PROD_TIPOPROD_ID'),
-		      'PROD_POSICION' => $value->get('PROD_POSICION'),
-		      'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
-		      'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
-		      'PROD_DIAS_ANTIC' => $value->get('PROD_DIAS_ANTIC'),
-		      'PROD_IMAGEN' => $value->get('PROD_IMAGEN'),
-		      'PROD_ESTADO' => $value->get('PROD_ESTADO')
-		    );
-
-		}
-
-		$msjCriticoActiv = array();
-		$stockCritico = array();
-		$nombreProducto = array();
-		for ($i=0; $i < $larg; $i++) {
-			$cantid = count($this->inventario->findAllByInvProdId($i));
-			$nuevoP[] = $NuevoProducto[$i];
-
-			foreach ($nuevoP as $data) {
-		      $stockCritico = array($data['PROD_STOCK_CRITICO']);
-		      $nombreProducto = array($data['PROD_NOMBRE']);
-			}
-
-		    if ($stockCritico>$cantid) {
-		    	$msj = "Producto: ".$nombreProducto[0]."<br/>Cantidad: ".$cantid." | Limite crítico: ".$stockCritico[0]."<br/><br/>";
-			    $msjCriticoActiv[$i] = array($msj);
-		    }
-     	}
-*/
-
-     	if ($productos != null) {
-			foreach ($productos as $key => $value) {
-        	$CANTIDAD = 0;
-        	if ($value["PROD_TIPOPROD_ID"] == 1) {
-        		$CANTIDAD = count($this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1)));
-        	}else if($value["PROD_TIPOPROD_ID"] == 2){
-        	$inventariotipofungible = $this->inv->findByArray(array('INV_PROD_ID' => $value["PROD_ID"] ,'INV_PROD_ESTADO'	=> 1));
-        	if ($inventariotipofungible != null) {
-        		$CANTIDAD = $inventariotipofungible[0]->get("INV_PROD_CANTIDAD");
-        		}	
-        	}
-
-        	$productos[$key]["STOCKACTUAL"] = $CANTIDAD; 
-        }
-    	}
-
-
-		/*$this->output->set_content_type('application/json');
-     	$this->output->set_output(json_encode(
-     		array("msjActivo" =>$msjCriticoActiv,"cantida" => count($msjCriticoActiv))
-     		));*/
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public function msjCriticoFungible(){
-		/*$id = $_POST['fungi'];*/
-		$id=2;
-		$NuevoProducto = array();
-		$productos = $this->producto->findByTipProd($id);//tipo 1 activo | tipo 2 fingible
-		$larg = count($productos);
-		foreach ($productos as $key => $value) {
-		    $NuevoProducto[] = array(
-		      'PROD_ID' => $value->get('PROD_ID'),
-		      'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
-		      'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO')
-		    );
-		}
-
-		$NuevoInventario = array();
-		$inven = $this->inventario->findByTipProdYEstado(2,1);
-		foreach ($inven as $key => $value) {
-	        $NuevoInventario[] = array(
-	          'INV_ID' => $value->get('INV_ID'),
-	          'INV_PROD_ID' => $value->get('INV_PROD_ID'),
-	          'INV_PROD_NOM' => $value->get('INV_PROD_NOM'),
-	          'INV_PROD_CANTIDAD' => $value->get('INV_PROD_CANTIDAD')
-	        );
-	      }
-
-		$msjCriticoFungi = array();
-		$msj = "";
-		$cantStockProduct= array();
-		$cantStockInven= array();
-		$nombreProducto="";
-		//print_r($this->inventario->returnAllIdInventario());
-		for ($i=0; $i < $larg; $i++) {
-
-			//$cantid = count($this->inventario->findAllByInvProdId($i));
-			foreach ($NuevoProducto as $data) {
-			    $cantStockProduct = array($data['PROD_STOCK_CRITICO']);
-			    $nombreProducto = $data['PROD_NOMBRE'];
-
-				foreach ($NuevoInventario as $data) {
-				    $cantStockInven = array($data['INV_PROD_CANTIDAD']);
-				/*echo $cantStockProduct." - ".$nombreProducto." | "."Stock actual: ".$cantStockInven." | <br>";*/
-
-				    if ($cantStockProduct>$cantStockInven) {
-				    	$msj = "Producto: ".$nombreProducto."<br/>Cantidad: ".$cantStockInven[0]." | Stock crítico: ".$cantStockProduct[0]."<br/><br/>";
-				    	}
-				    $msjCriticoFungi[$i] = array($msj);
-				}
-
-			}
-		}
-		$fungCant = count($msjCriticoFungi);
+	  	$proAc = $this->producto->productosCriticosDash();
 		$this->output->set_content_type('application/json');
- 		$this->output->set_output(json_encode(array("msjFungible"=>$msjCriticoFungi,"cantida" => count($msjCriticoFungi) )));
+     	$this->output->set_output(json_encode(array("msjActi" =>$proAc)));
 	}
+
+	public function msjFungi(){
+		$vall = $this->inv->contarInventarioCritico();
+		$this->output->set_content_type('application/json');
+     	$this->output->set_output(json_encode(array("msjFungi" =>$vall)));
+	}
+
+
 
 }
 

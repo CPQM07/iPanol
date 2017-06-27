@@ -42,7 +42,7 @@
           <label>Adquisición</label>
              <div class="form-group">
                 <select id="adq" name="adq" class="select2" style="width: 100%">
-                <option ></option>  
+                <option></option>  
                        <option value="1">Compra</option>
                        <option value="2">Donación</option>
                 </select>
@@ -57,7 +57,7 @@
        
       <div class="box-body">
         <div class="box-body">
-          <?php if (isset($buscar) > 0): ?>
+          <?php if (isset($buscar)): ?>
             <div class="col-sm-offset-9 col-md-3">    
                <form id="pdf" action="pdfactual" method="post" target="_blank">
                <meta charset="utf-8">

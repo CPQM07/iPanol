@@ -16,7 +16,7 @@
         <div class="col-xs-12">
           <div class="box">
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="table-responsive box-body">
               <table id="example1" class="datatable table table-bordered table-striped">
                 <thead>
                 <tr>

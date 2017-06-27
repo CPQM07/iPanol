@@ -62,7 +62,7 @@
         </div>
         <div class="box-body">
           <h3>Historial de productos / insumos dados de baja</h3>
-          <div class="box-body">
+          <div class="table-responsive box-body">
               <table name="example2" class="datatablebaja table table-bordered table-hover">
                 <thead>
                   <tr>
@@ -167,8 +167,8 @@
                     </select>
                   </div>
 
-                  <div class="form-group">
-                   <table name="example2" class="table table-responsive table-bordered table-hover">
+                  <div class="table-responsive form-group">
+                   <table name="example2" class="table table-bordered table-hover">
                       <thead>
                         <tr>
                           <th>Fecha</th>

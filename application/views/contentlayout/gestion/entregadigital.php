@@ -14,7 +14,7 @@
         <div class="row panel-body">
         <div class="col-md-12">
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="table-responsive box-body">
               <table class="datatabledigital table table-bordered table-hover">
                 <thead>
                   <tr bgcolor="orange">
