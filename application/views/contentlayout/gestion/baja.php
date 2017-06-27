@@ -16,10 +16,10 @@
         <div class="panel panel-default">
           <div class="row panel-body">
 
-            <div class="col-md-6">
+             <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select name="forminventario" class="select2" style="width: 100%;">
+                <select name="forminventario" required class="select2" style="width: 100%;">
                 <option></option>
                 <?php if ($inventario != null): ?>
                   <?php foreach ($inventario as $key => $value): ?>
@@ -36,8 +36,8 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Motivo Origen</label>
-              <select name="formmotivoorigen" class="select2" style="width: 100%;">
-                <option></option>
+              <select name="formmotivoorigen" required class="select2" style="width: 100%;">
+                <option value="0"></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <?php if ($value['MOT_DIF'] == 1): ?>
                      <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
@@ -49,7 +49,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Descripción</label>
-              <input name="formdescripcion" type="text" class="form-control">
+              <input name="formdescripcion" type="text" required class="form-control">
             </div>
           </div>
           <div class="col-md-4">
@@ -62,7 +62,7 @@
         </div>
         <div class="box-body">
           <h3>Historial de productos / insumos dados de baja</h3>
-          <div class="table-responsive box-body">
+          <div class="box-body">
               <table name="example2" class="datatablebaja table table-bordered table-hover">
                 <thead>
                   <tr>
@@ -113,29 +113,6 @@
     </section>
     <!-- /.content -->
   </div>
-  <!--ModalELIMINAR-->
-  <!--ModalELIMINAR-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-      <div class="modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Eliminar producto</h4>
-          </div>
-          <div class="modal-body">
-            <p>Está seguro de eliminar al producto <strong>Martillo</strong></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-  <!--Modal-->
-  <!--Modal-->
-
-
 
 <!--Observaciones-->
     <div class="modal fade myObs" aria-labelledby="myModalLabel">
@@ -151,14 +128,14 @@
               <input type="hidden" id="bajaidhidden" />
               <input type="hidden" id="inventarioabajar" />
                 <div class="form-group ">
-                  <label >Texto</label>
+                  <label>Texto</label>
                   <input id="obstexto" type="text" class="form-control pull-right col-md-6"  placeholder="Ingrese el texto">
                 </div>
                 <br>
                   <div class="form-group">
                     <label>Motivo Origen</label>
-                    <select id="obsmotivoresultado" class="form-control select2" style="width: 100%;">
-                      <option value="0"></option>
+                    <select id="obsmotivoresultado" class="select2" style="width: 100%;">
+                      <option></option>
                       <?php foreach ($motivos as $key => $value): ?>
                         <?php if ($value['MOT_DIF'] == 2): ?>
                            <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
@@ -167,8 +144,8 @@
                     </select>
                   </div>
 
-                  <div class="table-responsive form-group">
-                   <table name="example2" class="table table-bordered table-hover">
+                  <div class="form-group">
+                   <table name="example2" class="table table-responsive table-bordered table-hover">
                       <thead>
                         <tr>
                           <th>Fecha</th>
@@ -235,35 +212,8 @@
                     ]
                 });
 
-     /* $('.selectinv').select2({
-            minimumInputLength: 1,
-            maximumInputLength: 20,
-            ajax: {
-                    url: "<?//=site_url('/gestion/get_iventario_by_cat_ajax')?>",
-                    dataType: 'json',
-                    method: "POST",
-                    data: function (params) {
-                            var query = {
-                              search: params.term,
-                            }
-                            return query;
-                          },    
-                    processResults: function (data, params) {
-                      return {
-                        results: $.map(data, function (item) {
-                              return {
-                                  text: item.text,
-                                  id: item.id
-                              }
-                          }),
-                      };
-                    },
-            },
-
-    });
-
     })
-*/
+
     $(".obsbaja").click(function (argument) {
       clear();
        var id = $(this).attr("idbaja");
@@ -279,7 +229,6 @@
                       });
                        $("#bajaidhidden").val(id);
                        $("#inventarioabajar").val(response.INV_ID);
-                       console.log(response);
                        $.notify("Detalle observaciones cargado exitosamente", "success");      
                     }
            })   
@@ -291,6 +240,16 @@
        var texto = $("#obstexto").val();
        var bajaidhidden = $("#bajaidhidden").val();
        var inventarioabajar = $("#inventarioabajar").val();
+       if (motivores.trim() == "") {
+        $.notify("Favor debe seleccionar un motivo de resultado", "warn");
+        return false;
+       }
+       if (texto.trim() == "") {
+        $.notify("Favor debe seleccionar escribir un texto de resultado", "warn");
+        return false;
+       }
+
+
        $.ajax({
                     method: "POST",
                     url: "<?=site_url('/gestion/insert_obs_to_baja')?>",
