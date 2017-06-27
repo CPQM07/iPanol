@@ -921,11 +921,27 @@ class Gestion extends CI_Controller {
         $pdf->lastPage();
         $val = array('/', "-", ":", "¿", "?");
         $texto = str_replace($val," ",$nomProd);
-        $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
-        $pdf->output($rutasavePDF, 'F');
-        $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
-        $this->output->set_content_type('application/json');
-        $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+
+
+        $carp = FCPATH.'resources/pdf/barcode/';
+        if (file_exists($carp)) {
+
+          $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
+          $pdf->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+
+        } else {
+
+          mkdir(FCPATH.'resources/pdf/barcode/', 0700);
+          $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
+          $pdf->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+          
+        }
     }
 
     public function eliminarPDF(){
@@ -989,12 +1005,28 @@ class Gestion extends CI_Controller {
       }
       $val = array('/', "-", ":", "¿", "?");
       $texto = str_replace($val," ",$nombreArchivo);
-      $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
-      $pdf2->lastPage();
-      $pdf2->output($rutasavePDF, 'F');
-      $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
-      $this->output->set_content_type('application/json');
-      $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+
+      $carp = FCPATH.'resources/pdf/barcode/';
+        if (file_exists($carp)) {
+
+          $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
+          $pdf2->lastPage();
+          $pdf2->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+
+        } else {
+
+          mkdir(FCPATH.'resources/pdf/barcode/', 0700);
+          $rutasavePDF = FCPATH.'resources/pdf/barcode/'.$texto.'.pdf';
+          $pdf2->lastPage();
+          $pdf2->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$texto.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+          
+        }
     }
 
 
@@ -1060,12 +1092,28 @@ class Gestion extends CI_Controller {
       date_default_timezone_set("Chile/Continental");
       $fecha = date("d-m-Y-h-i-s",time());
 
-      $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
-      $pdf->lastPage();
-      $pdf->output($rutasavePDF, 'F');
-      $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
-      $this->output->set_content_type('application/json');
-      $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+      $carp = FCPATH.'resources/pdf/barcode/';
+        if (file_exists($carp)) {
+
+          $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
+          $pdf->lastPage();
+          $pdf->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+
+        } else {
+
+          mkdir(FCPATH.'resources/pdf/barcode/', 0700);
+          $rutasavePDF =FCPATH.'resources/pdf/barcode/'.$fecha.'.pdf';
+          $pdf->lastPage();
+          $pdf->output($rutasavePDF, 'F');
+          $rutaAJAX = base_url().'resources/pdf/barcode/'.$fecha.'.pdf';
+          $this->output->set_content_type('application/json');
+          $this->output->set_output(json_encode(array("path" =>$rutaAJAX )));
+          
+        }
+        
     }
 
 

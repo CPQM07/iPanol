@@ -121,7 +121,7 @@
         <div class="col-md-9">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Cantidad productos fuera del pañol por dia</h3>
+              <h3 class="box-title">Cantidad productos fuera del pañol por día</h3>
 
             </div>
             <!-- /.box-header -->
