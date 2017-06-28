@@ -77,6 +77,8 @@ class Gestion extends CI_Controller {
                                       "BAJA_INV_ID" => $value->get("BAJA_INV_ID"),
                                       "BAJA_FECHA" => $value->get("BAJA_FECHA"),
                                       "BAJA_USU_RUT" => $value->get("BAJA_USU_RUT"),
+                                      "BAJA_CANTIDAD" => $value->get("BAJA_CANTIDAD"),
+                                      "BAJA_TIPO" => $value->get("BAJA_TIPO"),
                                       "MOT_ID" => $value->get("MOT_ID"),
                                       "MOT_NOMBRE" => $value->get("MOT_NOMBRE"),
                                       "INV_ID" => $value->get("INV_ID"),
@@ -100,7 +102,7 @@ class Gestion extends CI_Controller {
                                     );
      }
 
-     $data["inventario"] = $this->inv->findByArray(array('INV_PROD_ESTADO'  => 1,"INV_TIPO_ID" => 1));
+     $data["inventario"] = $this->inv->findByArray(array('INV_PROD_ESTADO'  => 1));
      $data["motivos"] = $this->mot->findByArray(array("MOT_ESTADO" => 1));//array('MOT_DIF' => 1)
      $data["bajas"] = $arraytodasbajas;
      $data['categorias'] = $this->cat->findByArray(array('CAT_ESTADO' => 1));
@@ -127,7 +129,16 @@ class Gestion extends CI_Controller {
   public function dar_de_baja(){
     $usersesion = $this->session->userdata('logged_in');
     $ultimoid = 0;
-    if (isset($_POST['forminventario']) and $_POST['forminventario'] != "0" and $_POST['formmotivoorigen'] != "0" and isset($_POST['formmotivoorigen']) and $_POST['formdescripcion']) {
+    if (isset($_POST['forminventario']) and $_POST['forminventario'] != "0" and $_POST['formmotivoorigen'] != "0" and isset($_POST['formmotivoorigen']) and trim($_POST['formdescripcion']) != "" and trim($_POST['cantidadbaja']) != "") {
+      $inventario = $this->inv->findById($_POST['forminventario']);
+      if ($inventario->get("INV_PROD_CANTIDAD") < $_POST['cantidadbaja']) {
+        $this->session->set_flashdata('Deshabilitar', 'Lo sentimos la cantidad a dar de baja no puede ser mayor al stock actual, esta ingresando '.$_POST['cantidadbaja'].' '.$inventario->get("INV_PROD_NOM").' y existen en stock '.$inventario->get("INV_PROD_CANTIDAD"));
+        redirect('/Gestion/baja');
+      }
+      if (intval($_POST['formmotivoorigen']) == 15 and intval($_POST['tipobaja']) == 2) {
+       $this->session->set_flashdata('Deshabilitar', 'Lo sentimos no puede enviar a reparación un producto de tipo fungible');
+        redirect('/Gestion/baja');
+      }
 
        $_columns  =  array(
                 'BAJA_ID' => 0,
@@ -135,7 +146,9 @@ class Gestion extends CI_Controller {
                 'BAJA_DESC' => $_POST['formdescripcion'],
                 'BAJA_INV_ID' => $_POST['forminventario'],
                 'BAJA_FECHA' => date("Y-m-d H:i:s"),
-                'BAJA_USU_RUT' => $usersesion['rut']
+                'BAJA_USU_RUT' => $usersesion['rut'],
+                'BAJA_CANTIDAD' => $_POST['cantidadbaja'],
+                'BAJA_TIPO' => $inventario->get("INV_TIPO_ID")
                 );
 
         $this->baja->setColumns($_columns);
@@ -143,11 +156,19 @@ class Gestion extends CI_Controller {
         if ($ultimoid > 0) {
           switch (intval($_POST['formmotivoorigen'])) {
             case 15:
-                  $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 2));
+                  if (intval($_POST['tipobaja']) == 1) {
+                    $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 2));
+                  }
               break;
             default:
-                  $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 0));
+                  if (intval($_POST['tipobaja']) == 1) {
+                    $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 0));
+                  }
               break;
+          }
+          if (intval($_POST['tipobaja']) == 2) {
+            $total = intval($inventario->get("INV_PROD_CANTIDAD"))-intval($_POST['cantidadbaja']);
+            $this->inv->update($_POST['forminventario'],array('INV_PROD_CANTIDAD' => $total));
           }
         }
 

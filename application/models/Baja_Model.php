@@ -14,7 +14,9 @@ private  $_columns  =  array(
 'BAJA_DESC' => '',
 'BAJA_INV_ID'	=> 0,
 'BAJA_FECHA' => '',
-'BAJA_USU_RUT' => 0
+'BAJA_USU_RUT' => 0,
+'BAJA_CANTIDAD' => 0,
+'BAJA_TIPO' => 0
 );
 
 public function get($attr){

@@ -19,15 +19,24 @@
              <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select name="forminventario" required class="select2" style="width: 100%;">
+                <select name="forminventario" id="forminventario" required class="select2" style="width: 100%;">
                 <option></option>
                 <?php if ($inventario != null): ?>
                   <?php foreach ($inventario as $key => $value): ?>
-                    <option value=" <?= $value->get("INV_ID") ?>"> <?= "(#".$value->get("INV_ID").")".$value->get("INV_PROD_NOM")  ?></option>
+                    <option stock="<?= $value->get("INV_PROD_CANTIDAD") ?>" tipo="<?= $value->get("INV_TIPO_ID") ?>" value=" <?= $value->get("INV_ID") ?>"> <?= "(#".$value->get("INV_ID").")".$value->get("INV_PROD_NOM")."   /    stock actual(".$value->get("INV_PROD_CANTIDAD").")"  ?></option>
                   <?php endforeach ?>
                 <?php endif ?>
                 </select>
               </div>
+            </div>
+            <div class="col-md-6">
+             <div class="form-group">
+              <label><small>Cantidad a dar de baja(Si es activo siempre será 1,si es fungible puede elegir la cantidad)</small></label>
+              <div id="siesactivoofung">
+                <input type="number" min="1" max="5000" placeholder="Cantidad a dar de baja" name="cantidadbaja" id="cantidadbaja" value="1" readonly class="form-control">
+                <input type="hidden" name="tipobaja" id="tipobaja"> 
+              </div>
+             </div>
             </div>
           </div>
         </div>
@@ -37,7 +46,7 @@
             <div class="form-group">
               <label>Motivo Origen</label>
               <select name="formmotivoorigen" required class="select2" style="width: 100%;">
-                <option value="0"></option>
+                <option></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <?php if ($value['MOT_DIF'] == 1): ?>
                      <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
@@ -68,6 +77,8 @@
                   <tr>
                     <th>Fecha</th>
                     <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
                     <th>Nombre</th>
                     <th>Motivo</th>
                     <th>Motivo resultado</th>
@@ -79,7 +90,15 @@
                 <?php foreach ($bajas as $key => $value): ?>
                  <tr>
                   <td><?= $value['BAJA_FECHA']  ?></td>
-                  <th><?= $value['INV_ID']."-".$value['INV_PROD_NOM']  ?></th>
+                  <td><?= $value['INV_ID']."-".$value['INV_PROD_NOM']  ?></td>
+                  <td><?= $value['BAJA_CANTIDAD']  ?></td>
+                  <td>
+                    <?php if (intval($value['BAJA_TIPO']) == 1): ?>
+                      Activo
+                    <?php elseif(intval($value['BAJA_TIPO']) == 2): ?>
+                      Fungible
+                    <?php endif ?>
+                  </td>
                   <td><?= $value['USU_NOMBRES']  ?></td>
                   <td><?= $value['MOT_NOMBRE'] ?></td>
                   <td><?php if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
@@ -234,6 +253,30 @@
            })   
 
     })
+
+    $(document).on('change','#forminventario', function(event) {
+      var tipo = $('option:selected', this).attr('tipo');
+      $("#cantidadbaja").attr("max",$('option:selected', this).attr('stock'));
+      $("#tipobaja").val(tipo);
+      if (parseInt(tipo) == 1) {
+        $("#cantidadbaja").val("1");
+        $("#cantidadbaja").removeAttr('required');
+        $("#cantidadbaja").prop('readonly', true);
+      }else if(parseInt(tipo) == 2){
+        $("#cantidadbaja").val("");
+        $("#cantidadbaja").removeAttr('readonly');
+        $("#cantidadbaja").prop('required', true);
+      }
+    });
+
+     $(document).on('keyup', '#cantidadbaja', function(event) {
+      var objcant = $(this);
+      if (parseInt(objcant.val()) <= parseInt(objcant.attr("max")) && parseInt(objcant.val()) > 0) {
+
+      } else {
+        objcant.val("");
+      }
+    });
 
     $("#agregarmotivoresultado").click(function (argument) {
        var motivores = $("#obsmotivoresultado").val();

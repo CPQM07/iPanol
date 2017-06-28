@@ -135,7 +135,7 @@ public function fetch_productos($limit, $start,$like = null,$categoria = null,$t
         $this->db->where('PROD_ESTADO',1);
         if ($categoria!= null) $this->db->where('PROD_CAT_ID',$categoria);
         if ($tipo!= null) $this->db->where('PROD_TIPOPROD_ID',$tipo);
-        if ($like!= null) $this->db->like('PROD_NOMBRE', $like);
+        if ($like!= null) $this->db->like('PROD_NOMBRE',trim($like));
         $this->db->limit($limit, $start);
         $query = $this->db->get("productos");
         if ($query->num_rows() > 0) {
