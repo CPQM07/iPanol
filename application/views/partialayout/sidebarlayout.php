@@ -23,7 +23,7 @@ $lasturl = array_pop($spliturl);
       <ul class="sidebar-menu">
         <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-
+        <?php if ($this->session->userdata('logged_in')["cargo"][0] != 5): ?>
         <li class="treeview">
           <a href="<?=site_url('dashboard/dashboard')?>">
             <i class="fa fa-dashboard"></i> <span>Panel de control</span>
@@ -72,7 +72,7 @@ $lasturl = array_pop($spliturl);
           </ul>
         </li>
 
-      <!--<?php if ($user['cargo'][0] == 5): ?>-->
+      <?php else: ?>
       <li class="treeview <?php if (strpos(",Vistastockcritico,Vistastockactual,Vistamotivosbaja,Vistavidautil,Vistapreciounitario", $lasturl)): ?> active <?php endif ?>">
           <a href="#">
             <i class="fa fa-files-o"></i>
@@ -92,7 +92,8 @@ $lasturl = array_pop($spliturl);
            de los productos</a></li>
           </ul>
         </li>
-      <!--<?php endif; ?>-->
+        <?php endif; ?>
+
 
       </ul>
     </section><br><br><br>
