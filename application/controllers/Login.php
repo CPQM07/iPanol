@@ -32,6 +32,8 @@ class Login extends CI_Controller {
 	   					redirect('dashboard/dashboard','refresh');
 	   				}elseif (in_array(4, $user['cargo'])) {
 	   					redirect('dashboard/dashboard','refresh');
+	   				}elseif (in_array(5, $user['cargo'])) {
+	   					redirect('dashboard/dashboard','refresh');
 	   				}
 	   			}else{
    					session_destroy();
