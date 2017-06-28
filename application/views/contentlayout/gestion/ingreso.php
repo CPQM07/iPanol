@@ -19,13 +19,6 @@
 </style>
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-          <h3>
-            Ingreso de productos
-          </h3>
-          
-    </section>
-
     <!-- Main content -->
     <section class="content">
 

@@ -7,10 +7,30 @@ $(function () {
 });
 
 $(function(){
-	$(".select2").select2({
-		placeholder:"seleccionar",
-        locale: 'es'
-	});
+                <?php if (isset($_SESSION['Deshabilitar'])): ?> 
+                    $.notify("Mensaje: <?php echo($_SESSION['Deshabilitar']); ?> ¡¡", "error");   
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['Habilitar'])): ?>
+                    $.notify("Mensaje: <?php echo($_SESSION['Habilitar']); ?> ¡¡", "success");
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['Observacion'])): ?>
+                    $.notify("Mensaje: <?php echo($_SESSION['Observacion']); ?> ¡¡", "info");
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['Baja'])): ?>
+                    $.notify("Mensaje: <?php echo($_SESSION['Baja']); ?> ¡¡", "success");
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['Update'])): ?> 
+                    $.notify("Mensaje: <?php echo($_SESSION['Update']); ?> ¡¡", "success");
+                <?php endif; ?>
+
+            	$(".select2").select2({
+            		placeholder:"seleccionar",
+                    locale: 'es'
+            	});
 	  			$(".datatable").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
                     cache: false,

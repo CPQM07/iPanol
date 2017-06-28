@@ -174,10 +174,10 @@ class Gestion extends CI_Controller {
 
 
         $this->session->set_flashdata('Habilitar', 'Se ingresó correctamente el activo a dar de baja');
-       redirect('/Gestion/baja');
+       redirect('/Gestion/baja','refresh');
     }else{
         $this->session->set_flashdata('Deshabilitar', 'Lo sentimos algunos de los campos no están definidos, favor revisar');
-        redirect('/Gestion/baja');
+        redirect('/Gestion/baja','refresh');
     }
 
   }
