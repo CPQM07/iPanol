@@ -36,8 +36,8 @@
                 <tr>
                   <th>RUT</th>
                   <th>DV</th>
-                  <th>NOMBRE</th>
-                  <th>RAZÓN SOCIAL</th>
+                  <th>NOMBRE o
+                  RAZÓN SOCIAL</th>
                   <th>TIPO</th>
                   <th>ESTADO</th>
                   <!--<th>ELIMINAR</th>-->
@@ -50,8 +50,7 @@
                   <tr>
                     <td><?= $value->get('PROV_RUT'); ?></td>
                     <td><?= $value->get('PROV_DV'); ?></td>
-                    <td><?= $value->get('PROV_NOMBRE'); ?></td>
-                    <td><?= $value->get('PROV_RSOCIAL'); ?></td>
+                    <td><?= $value->get('PROV_NOMBRE'); ?> <?= $value->get('PROV_RSOCIAL'); ?></td>
 
                     <?php if ($value->get('PROV_TIPO') == 1): ?>
                       <td>PERSONA NATURAL</td>
@@ -114,26 +113,26 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-2 control-label">NOMBRE</label>
-                        <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control" required>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label">RAZÓN SOCIAL</label>
-                        <div class="col-md-9">
-                          <input type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>" class="col-md-12 form-control" required>
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                          <select id="newtipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <option value="1">Persona Natural</option>
                             <option value="2">Persona Jurídica</option>
                           </select>
+                        </div>
+                      </div>
+                      <div id="new1" class="form-group" style='display:none;'>
+                        <label class="col-sm-2 control-label">NOMBRE</label>
+                        <div class="col-md-9">
+                          <input id="newnombre" type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control">
+                        </div>
+                      </div>
+                      <div id="new2" class="form-group" style='display:none;'>
+                        <label class="col-sm-2 control-label" >RAZÓN SOCIAL</label>
+                        <div class="col-md-9">
+                          <input id="newrsocial" type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>" class="col-md-12 form-control">
                         </div>
                       </div>
                     </div>
@@ -200,28 +199,28 @@
                   <input id="id" name="id" type="number" style="visibility: hidden;">
                   <div class="box-body">
                     <div class="form-group">
+                      <label class="col-sm-2 control-label">Tipo</label>
+
+                      <div class="col-md-9">
+                        <select id="tipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                          <option></option>
+                          <option value="1">Persona Natural</option>
+                          <option value="2">Persona Jurídica</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div id="1" class="form-group" style='display:none;'>
                       <label class="col-sm-2 control-label">Nombre</label>
                       <div class="col-md-9">
                         <input id="nombre" name="PROV[PROV_NOMBRE]" type="text" class="col-md-12">
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div id="2" class="form-group" style='display:none;'>
                       <label class="col-sm-2 control-label">Razón Social</label>
                       <div class="col-md-9">
                         <input id="rsocial" name="PROV[PROV_RSOCIAL]" type="text" class="col-md-12">
                       </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Tipo</label>
-
-                        <div class="col-md-9">
-                          <select id="tipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
-                            <option></option>
-                            <option value="1">Persona Natural</option>
-                            <option value="2">Persona Jurídica</option>
-                          </select>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <!-- /.box-body -->
@@ -292,10 +291,53 @@
             $("#nombre").val(data.PROV_NOMBRE);
             $("#rsocial").val(data.PROV_RSOCIAL);
             $("#tipo").val(data.PROV_TIPO).trigger('change');
+            if(data.PROV_TIPO==1){
+              $("#2").css('display','none');
+              $("#1").css('display','inline');
+            }
+            if(data.PROV_TIPO==2){
+              $("#2").css('display','inline');
+              $("#1").css('display','none');
+            }
             console.log(data);
           }
         });
       });
+
+    $('#tipo').click(function(){
+      var value=$(this).val();
+      if(value==1){
+        $("#2").css('display','none');
+        $("#1").css('display','inline');
+        $("#nombre").attr("required", true);
+        $("#rsocial").attr("required", false);
+        $("#rsocial").val("");
+      }else{
+        $("#2").css('display','inline');
+        $("#1").css('display','none');
+        $("#nombre").attr("required", false);
+        $("#nombre").val("");
+        $("#rsocial").attr("required", true);
+      }
+
+    });
+    $('#newtipo').click(function(){
+      var value=$(this).val();
+      if(value==1){
+        $("#new2").css('display','none');
+        $("#new1").css('display','inline');
+        $("#newnombre").attr("required", true);
+        $("#newrsocial").attr("required", false);
+        $("#newrsocial").val("");
+      }else{
+        $("#new2").css('display','inline');
+        $("#new1").css('display','none');
+        $("#newrsocial").attr("required", true);
+        $("#newnombre").attr("required", false);
+        $("#newnombre").val("");
+      }
+
+    });
   });
 
   function limpiar(){
@@ -304,7 +346,7 @@
       $("#rsocial").val("");
       $("#tipo").val("").trigger("change");
     }
-
+    
     /*function valida_rut($rut)
     {
         $rut = preg_replace('/[^k0-9]/i', '', $rut);

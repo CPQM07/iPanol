@@ -505,8 +505,6 @@ class Mantencion extends CI_Controller {
 
     $this->form_validation->set_rules('PROV[PROV_RUT]', 'RUT', 'min_length[7]|max_length[8]|required');
     $this->form_validation->set_rules('PROV[PROV_DV]', 'DIGITO VERIFICADOR', 'exact_length[1]|alpha_numeric|required');
-    $this->form_validation->set_rules('PROV[PROV_NOMBRE]', 'NOMBRE', 'required');
-    $this->form_validation->set_rules('PROV[PROV_RSOCIAL]', 'RAZON SOCIAL', 'required');
     $this->form_validation->set_rules('PROV[PROV_TIPO]', 'TIPO', 'required');
 
     if ($this->form_validation->run() == FALSE) {
@@ -518,17 +516,24 @@ class Mantencion extends CI_Controller {
 
       if ($Consulta == NULL) {
         if(isset($_POST['PROV'])){
-          $NuevoProveedor=$this->proveedores->create($_POST['PROV']);
-          $NuevoProveedor->insert();
+        	$usu=$_POST['new_usu'];
+			$value=$this->proveedores->findById($Proveedor['PROV_RUT']);
+			if($value==null){
+			
+	          $NuevoProveedor=$this->proveedores->create($_POST['PROV']);
+	          $NuevoProveedor->insert();
 
-          $LOGS['Preveedor'] = $_POST['PROV'];
-          $LOGS['Texto'] = implode(",", $_POST['PROV']);
-          $LOGS['Sesion'] = $this->session->userdata('logged_in');
+	          $LOGS['Preveedor'] = $_POST['PROV'];
+	          $LOGS['Texto'] = implode(",", $_POST['PROV']);
+	          $LOGS['Sesion'] = $this->session->userdata('logged_in');
 
-          $this->logs->setLog('Proveedores', 1, $LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']);
-          //var_dump($LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']); die();
+	          $this->logs->setLog('Proveedores', 1, $LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']);
+	          //var_dump($LOGS['Sesion']['rut'], $LOGS['Preveedor']['PROV_RUT'], $LOGS['Texto']); die();
 
-          $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
+	          $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
+          	}else{
+			$this->session->set_flashdata('Deshabilitar', 'El Proveedor ya se encuentra registrado');
+			}
           redirect('/Mantencion/proveedores');
         }else{
           echo "Proveedor no fue agregado";
@@ -557,6 +562,7 @@ class Mantencion extends CI_Controller {
   public function updateProveedor(){
     if(isset($_POST['PROV'])){
       $id=$_POST['id'];
+      
       $this->proveedores->update($id,$_POST['PROV']);
 
       $LOGS['Preveedor'] = $_POST['PROV'];
