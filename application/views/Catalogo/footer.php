@@ -111,6 +111,10 @@
     	window.location.href = "<?=site_url('/Catalogo/buscar/')?>"+texto;
     });
 
+    $(document).on('change',"#categorias", function(event) {
+        window.location.href = $("option:selected", this).attr("url");
+    });
+
     $("#limpiarcarrito").click(function(event) {
     	$.post("<?=site_url('/catalogo/limpiarCarrito')?>");	
     });

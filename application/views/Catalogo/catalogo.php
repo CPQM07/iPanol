@@ -17,14 +17,17 @@
 						<br>
 						<h2>Categorías</h2>
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
-						<?php foreach ($categorias as $key => $value): ?>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title" ><a href="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></h4>
-								</div>
-							</div>
-			    		<?php endforeach ?>
-							</div><!--/categorias de productos-->
+						<select id="categorias" class="select2" style="width: 100%">
+						<option></option>
+							<?php foreach ($categorias as $key => $value): ?>
+								<option 
+								<?php if ($this->uri->segment(3) == $value->get('CAT_ID') and $this->uri->segment(2) == "categoria"): ?>
+									selected
+								<?php endif ?> 
+								url="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>" value="<?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE'); ?></option>
+			    			<?php endforeach ?>
+						</select>
+						</div><!--/categorias de productos-->
                         
 					</div>
 				</div>
