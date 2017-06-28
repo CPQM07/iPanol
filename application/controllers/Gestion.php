@@ -135,7 +135,7 @@ class Gestion extends CI_Controller {
         $this->session->set_flashdata('Deshabilitar', 'Lo sentimos la cantidad a dar de baja no puede ser mayor al stock actual, esta ingresando '.$_POST['cantidadbaja'].' '.$inventario->get("INV_PROD_NOM").' y existen en stock '.$inventario->get("INV_PROD_CANTIDAD"));
         redirect('/Gestion/baja');
       }
-      if (intval($_POST['formmotivoorigen']) == 15 and intval($_POST['tipobaja']) == 2) {
+      if (intval($_POST['formmotivoorigen']) == 15 and intval($inventario->get("INV_TIPO_ID")) == 2) {
        $this->session->set_flashdata('Deshabilitar', 'Lo sentimos no puede enviar a reparación un producto de tipo fungible');
         redirect('/Gestion/baja');
       }
@@ -156,17 +156,17 @@ class Gestion extends CI_Controller {
         if ($ultimoid > 0) {
           switch (intval($_POST['formmotivoorigen'])) {
             case 15:
-                  if (intval($_POST['tipobaja']) == 1) {
+                  if (intval($inventario->get("INV_TIPO_ID")) == 1) {
                     $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 2));
                   }
               break;
             default:
-                  if (intval($_POST['tipobaja']) == 1) {
+                  if (intval($inventario->get("INV_TIPO_ID")) == 1) {
                     $this->inv->update($_POST['forminventario'], array('INV_PROD_ESTADO' => 0));
                   }
               break;
           }
-          if (intval($_POST['tipobaja']) == 2) {
+          if (intval($inventario->get("INV_TIPO_ID")) == 2) {
             $total = intval($inventario->get("INV_PROD_CANTIDAD"))-intval($_POST['cantidadbaja']);
             $this->inv->update($_POST['forminventario'],array('INV_PROD_CANTIDAD' => $total));
           }

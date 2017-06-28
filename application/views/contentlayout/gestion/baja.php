@@ -23,7 +23,7 @@
                 <option></option>
                 <?php if ($inventario != null): ?>
                   <?php foreach ($inventario as $key => $value): ?>
-                    <option stock="<?= $value->get("INV_PROD_CANTIDAD") ?>" tipo="<?= $value->get("INV_TIPO_ID") ?>" value=" <?= $value->get("INV_ID") ?>"> <?= "(#".$value->get("INV_ID").")".$value->get("INV_PROD_NOM")."   /    stock actual(".$value->get("INV_PROD_CANTIDAD").")"  ?></option>
+                    <option stock="<?= $value->get("INV_PROD_CANTIDAD") ?>" tipo="<?= $value->get("INV_TIPO_ID") ?>" value=" <?= $value->get("INV_ID") ?>"> <?= "(cod:".$value->get("INV_PROD_CODIGO").")".$value->get("INV_PROD_NOM")."   /    stock actual(".$value->get("INV_PROD_CANTIDAD").")"  ?></option>
                   <?php endforeach ?>
                 <?php endif ?>
                 </select>
@@ -90,7 +90,7 @@
                 <?php foreach ($bajas as $key => $value): ?>
                  <tr>
                   <td><?= $value['BAJA_FECHA']  ?></td>
-                  <td><?= $value['INV_ID']."-".$value['INV_PROD_NOM']  ?></td>
+                  <td><?= "(cod:".$value['INV_PROD_CODIGO'].") -".$value['INV_PROD_NOM']  ?></td>
                   <td><?= $value['BAJA_CANTIDAD']  ?></td>
                   <td>
                     <?php if (intval($value['BAJA_TIPO']) == 1): ?>
