@@ -87,7 +87,7 @@
                         <div class="col-md-9">
                         <div class="row">
                         <div class="col-md-6">
-                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" title="Solo puede ingresar numeros" required>
+                          <input id="rut" type="text" name="new_usu[USU_RUT]" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" required>
                           </div>
                           <div class="col-md-2">
                           <input id="dv" name="new_usu[USU_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12 form-control" maxlength="1" required>
