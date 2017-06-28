@@ -1,10 +1,6 @@
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h3>Dar de baja</h3>
-    </section>
-
     <!-- Main content -->
     <section class="content">
     </br>
