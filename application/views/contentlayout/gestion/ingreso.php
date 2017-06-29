@@ -424,45 +424,74 @@
 
   <!--Proveedores-->
     <div class="modal fade" id="myProvee" aria-labelledby="myModalLabel">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-            <h4 class="modal-title" id="myModalLabel">Ingresar Proveeedor</h4>
-          </div>
-          <div class="modal-body">
-              <div class="box-body">
+            <h4 class="modal-tittle">Nuevo Proveedor</h4>
 
-                <div class="form-group col-md-12">
-                    <label class="control-label col-md-3">Rut</label>
-                    <div class="col-md-5">
-                    <input type="text" id="provnew_rut" name="provnew_rut" required="required" class="form-control col-md-7 col-xs-12">
+            <div class="modal-body">
+              <div class="box">
+                <div class="row">
+                  <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor/2'); ?>">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" >RUT</label>
+                        <div class="col-md-9">
+                        <div class="row">
+                        <div class="col-md-6">
+                          <input id="rut" type="text" name="PROV[PROV_RUT]" class="col-md-12 form-control" placeholder="Rut sin punto, ni guion" pattern="[0-9]{7,8}" maxlength = "8" required>
+                          </div>
+                          <div class="col-md-2">
+                          <input id="dv" name="PROV[PROV_DV]" pattern="^[9|8|7|6|5|4|3|2|1|k|K]\d{0}$" type="text" class="col-md-12 form-control" maxlength="1" required>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Tipo</label>
+
+                        <div class="col-md-9">
+                          <select id="newtipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                            <option></option>
+                            <option value="1">Persona Natural</option>
+                            <option value="2">Persona Jurídica</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div id="new1" class="form-group" style='display:none;'>
+                        <label class="col-sm-2 control-label">NOMBRE</label>
+                        <div class="col-md-9">
+                          <input id="newnombre" type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control">
+                        </div>
+                      </div>
+                      <div id="new2" class="form-group" style='display:none;'>
+                        <label class="col-sm-2 control-label" >RAZÓN SOCIAL</label>
+                        <div class="col-md-9">
+                          <input id="newrsocial" type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>" class="col-md-12 form-control">
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-2">
-                      <input type="text" id="provnew_dv" name="provnew_dv" required="required" class="form-control col-md-7 col-xs-12">
+                    <!-- /.box-body -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <button type="submit" class="btn btn-default col-md-12" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-sm-6">
+                          <button id="agregar" type="submit" class="btn btn-danger col-md-12">Agregar</button>
+                        </div>
+                      </div>
+                    <!-- /.box-footer -->
+                  </form>
                     </div>
+                  </div>
                 </div>
-
-                <div class="form-group ">
-                  <label for="exampleInputEmail1">Nombre</label>
-                  <input type="text" class="form-control pull-right col-md-6" name="odecompra" placeholder="Ingrese el nombre">
-                </div>
-                <br>
-                <div class="form-group ">
-                  <label for="exampleInputEmail1">Razón social</label>
-                  <input type="text" class="form-control pull-right col-md-6" name="odecompra" placeholder="Ingrese razón social">
-                </div>
-
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success">Guardar datos</button> 
           </div>
         </div>
       </div>
     </div>
   <!--Proveedores-->
+
   <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
   <script type="text/javascript">
   $(document).ready(function() {
@@ -534,13 +563,59 @@
         }
 
     });
-
-
-
+    var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+        rutCompleto = rutCompleto.replace("‐","-");
+        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+            return false;
+        var tmp     = rutCompleto.split('-');
+        var digv    = tmp[1]; 
+        var rut     = tmp[0];
+        if ( digv == 'K' ) digv = 'k' ;
+        
+        return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+        var M=0,S=1;
+        for(;T;T=Math.floor(T/10))
+            S=(S+T%10*(9-M++%6))%11;
+        return S?S-1:'k';
+    }
+  }
+  $("#agregar").click(function(){
+    var rut=$('#rut').val();
+    var dv=$('#dv').val();
+    var rutOficial = rut+"-"+dv;
+    if (Fn.validaRut( rutOficial )){
+      return true;
+   } else {
+      $.notify("RUT no valido", "error");
+      return false;
+    }
 
     $('#slider1').change(function() {
       var id=$('#slider1').val();
       $('#recibe').text(id);
+    });
+
+
+    $('#newtipo').click(function(){
+      var value=$(this).val();
+      if(value==1){
+        $("#new2").css('display','none');
+        $("#new1").css('display','inline');
+        $("#newnombre").attr("required", true);
+        $("#newrsocial").attr("required", false);
+        $("#newrsocial").val("");
+      }else{
+        $("#new2").css('display','inline');
+        $("#new1").css('display','none');
+        $("#newrsocial").attr("required", true);
+        $("#newnombre").attr("required", false);
+        $("#newnombre").val("");
+      }
+
     });
   });
 

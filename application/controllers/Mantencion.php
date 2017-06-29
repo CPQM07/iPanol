@@ -501,7 +501,7 @@ class Mantencion extends CI_Controller {
 	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
 	}
 
-  public function NuevoProveedor(){
+  public function NuevoProveedor($num=null){
 
     $this->form_validation->set_rules('PROV[PROV_RUT]', 'RUT', 'min_length[7]|max_length[8]|required');
     $this->form_validation->set_rules('PROV[PROV_DV]', 'DIGITO VERIFICADOR', 'exact_length[1]|alpha_numeric|required');
@@ -534,7 +534,8 @@ class Mantencion extends CI_Controller {
           	}else{
 			$this->session->set_flashdata('Deshabilitar', 'El Proveedor ya se encuentra registrado');
 			}
-          redirect('/Mantencion/proveedores');
+			if($num==1){redirect('/Mantencion/proveedores');}
+			else{redirect('/Gestion/ingreso');}
         }else{
           echo "Proveedor no fue agregado";
         }

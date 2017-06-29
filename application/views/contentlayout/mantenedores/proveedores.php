@@ -97,7 +97,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor'); ?>">
+                  <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor/1'); ?>">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >RUT</label>
