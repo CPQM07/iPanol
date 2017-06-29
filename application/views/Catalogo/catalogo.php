@@ -17,7 +17,7 @@
 						<br>
 						<h2>Categorías</h2>
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
-						<select id="categorias" class="select2" style="width: 100%">
+						<select id="categorias" placeholder="Seleccionar categoría..." class="select2" style="width: 100%">
 						<option></option>
 							<?php foreach ($categorias as $key => $value): ?>
 								<option 

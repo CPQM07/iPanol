@@ -54,7 +54,7 @@
 			<tbody>
 				<tr style="font-size: 15px">
 					<td> 
-					  <select class="select2" style="width: 100%;" name="asignaturas">
+					  <select class="select2" placeholder="Seleccionar asignatura..." style="width: 100%;" name="asignaturas">
 					  <option></option>
 					  		<?php if ($asignaturas != null): ?>
 					  			<?php foreach ($asignaturas as $key => $value): ?>

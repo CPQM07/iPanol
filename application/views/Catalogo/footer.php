@@ -21,7 +21,7 @@
      <script type="text/javascript" charset="utf-8">
      $(function () {
     $(".select2").select2({
-        placeholder:"seleccionar",
+        placeholder:"",
         locale: 'es'
     });
      	moment.locale("es"); 
@@ -68,7 +68,7 @@
     		console.log("complete");
     	});
     	} else {
-    		$.notify("Lo sentimos no puede solicitar más de la cantidad actual en stock ó no ha ingresado la cantidad a solicitar¡¡", "warn");
+    		$.notify("Lo sentimos. No puedes solicitar más de la cantidad actual en stock o no has ingresado la cantidad que quieres solicitar.", "warn");
     	}
 
     });
@@ -92,7 +92,7 @@
     	})
     	.done(function(response) {
     			if (response.estado) {
-    			$.notify("Se ha quitado correctamente un producto de su carrito de pedidos", "success");
+    			$.notify("Se ha quitado correctamente un producto de su carrito de pedidos.", "success");
     			$("#totalcarrito").text(" "+response.total);
     			objthis.parent("td").parent("tr").remove();
     		}
