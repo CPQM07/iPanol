@@ -85,7 +85,7 @@ class Mantencion extends CI_Controller {
 	    		$usersesion = $this->session->userdata('logged_in');
 	    		$texto = implode(",", $_POST['new_usu']);
 				$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],$texto);
-				$this->session->set_flashdata('Habilitar', 'El Usuario se a agregado con exito');
+				$this->session->set_flashdata('Habilitar', 'El Usuario se ha agregado con exito');
 			}else{
 				$this->session->set_flashdata('Deshabilitar', 'El Usuario ya se encuentra registrado');
 			}
@@ -101,7 +101,7 @@ class Mantencion extends CI_Controller {
 			$usersesion = $this->session->userdata('logged_in');
 			$texto = implode(",", $_POST['new_usu']);
 			$this->usuario->insertLogs(2,$usersesion['rut'],$id,$texto);
-			$this->session->set_flashdata('Habilitar', 'El Usuario se a editado con exito');
+			$this->session->set_flashdata('Habilitar', 'El Usuario se ha editado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
 			echo "usuario no fue agregado";
