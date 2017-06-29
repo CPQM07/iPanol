@@ -494,7 +494,7 @@
 
   <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
   <script type="text/javascript">
-  $(document).ready(function() {
+$(document).ready(function() {
         $(".datatableingre").dataTable({
                     lengthMenu: [5,10, 20, 50, 100],
                     cache: false,
@@ -593,6 +593,7 @@
       $.notify("RUT no valido", "error");
       return false;
     }
+    });
 
     $('#slider1').change(function() {
       var id=$('#slider1').val();
@@ -617,7 +618,42 @@
       }
 
     });
-  });
+
+    $(".editar").click(function (argument) {
+    cleanformedit();
+          $.ajax({
+            url: "<?=site_url('/gestion/cargar_detalle_ingreso_ajax')?>",
+            type: 'POST',
+            dataType: 'json',
+            data: {idingreso: $(this).attr("id")},
+          })
+          .done(function(response) {
+            $("#ocedit").val(response._columns.ING_ORDEN_COMPRA);
+            $("#descedit").val(response._columns.ING_DESC);
+            $("#vuedit").val(response._columns.ING_VIDA_UTIL_PROVEEDOR);
+            $("#provedit").val(response._columns.ING_PROV_RUT).trigger('change');
+            $("#idingreso").val(response._columns.ING_ID);
+            $("#precioedit").val(response._columns.ING_PRECIO_UNITARIO);
+          })
+          .fail(function() {
+            console.log("error");
+          })
+          .always(function() {
+            console.log("complete");
+          });
+    
+    });
+
+    function cleanformedit() {
+     $("#ocedit").val("");
+     $("#descedit").val("");
+     $("#vuedit").val("");
+     $("#provedit").val("").trigger('change');
+     $("#idingreso").val("");
+     $("#precioedit").val("");
+  }
+
+});
 
   function archivo(evt) {
     var files = evt.target.files; // FileList object
@@ -642,40 +678,6 @@
      }
   }
   document.getElementById('files-new').addEventListener('change', archivo, false);
-
-  $(".editar").click(function (argument) {
-    cleanformedit();
-          $.ajax({
-            url: "<?=site_url('/gestion/cargar_detalle_ingreso_ajax')?>",
-            type: 'POST',
-            dataType: 'json',
-            data: {idingreso: $(this).attr("id")},
-          })
-          .done(function(response) {
-            $("#ocedit").val(response._columns.ING_ORDEN_COMPRA);
-            $("#descedit").val(response._columns.ING_DESC);
-            $("#vuedit").val(response._columns.ING_VIDA_UTIL_PROVEEDOR);
-            $("#provedit").val(response._columns.ING_PROV_RUT).trigger('change');
-            $("#idingreso").val(response._columns.ING_ID);
-            $("#precioedit").val(response._columns.ING_PRECIO_UNITARIO);
-          })
-          .fail(function() {
-            console.log("error");
-          })
-          .always(function() {
-            console.log("complete");
-          });
-    
-  })
-
-  function cleanformedit() {
-     $("#ocedit").val("");
-     $("#descedit").val("");
-     $("#vuedit").val("");
-     $("#provedit").val("").trigger('change');
-     $("#idingreso").val("");
-     $("#precioedit").val("");
-  }
 
   /*function validate() {
   var file_size = $('#files-new')[0].files[0].size;
