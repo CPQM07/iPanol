@@ -17,18 +17,28 @@
 						<br>
 						<h2>Categorías</h2>
 						<div class="panel-group category-products" id="accordian"><!--categorias de productos-->
-						<select id="categorias" placeholder="Seleccionar categoría..." class="select2" style="width: 100%">
-						<option></option>
-							<?php foreach ($categorias as $key => $value): ?>
-								<option 
-								<?php if ($this->uri->segment(3) == $value->get('CAT_ID') and $this->uri->segment(2) == "categoria"): ?>
-									selected
-								<?php endif ?> 
-								url="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>" value="<?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE'); ?></option>
-			    			<?php endforeach ?>
-						</select>
+							<div class="hidden-md hidden-lg">
+								<select id="categorias" placeholder="Seleccionar categoría..." class="select2" style="width: 100%">
+									<option></option>
+									<?php foreach ($categorias as $key => $value): ?>
+										<option
+										<?php if ($this->uri->segment(3) == $value->get('CAT_ID') and $this->uri->segment(2) == "categoria"): ?>
+											selected
+										<?php endif ?>
+										url="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>" value="<?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE'); ?></option>
+									<?php endforeach ?>
+								</select>
+							</div>
+
+								<div class="hidden-xs hidden-sm brands-name">
+									<?php foreach ($categorias as $key => $value): ?>
+									<ul class="nav nav-pills nav-stacked">
+										<li><a href="<?= site_url("/Catalogo/categoria/".$value->get('CAT_ID').""); ?>"><?= $value->get('CAT_NOMBRE'); ?></a></li>
+									</ul>
+									<?php endforeach ?>
+								</div>
 						</div><!--/categorias de productos-->
-                        
+
 					</div>
 				</div>
 				<div class="col-sm-9 padding-right">
