@@ -190,11 +190,11 @@ class Catalogo extends CI_Controller {
 
 	public function buscar($like = null)
 	{
+		$like = str_replace("%20", " ", $like);
 		$this->load->library('pagination');
-
-			$config['uri_segment'] = 4;
-			$config['base_url'] = base_url("index.php/Catalogo/buscar/".$like);
-			$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		$config['uri_segment'] = 4;
+		$config['base_url'] = base_url("index.php/Catalogo/buscar/".$like);
+		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 		$dato['categorias'] = $this->cat->findAll();
 		$dato['tipoProd'] = $this->tipprod->findAll();
         

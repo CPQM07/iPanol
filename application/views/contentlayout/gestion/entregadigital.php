@@ -287,7 +287,9 @@
 
     $(document).on('click', '.rechazarsolicitud', function(event) {
       idsol = $(this).attr("idsolicitud");
-       $.ajax({
+      var r = confirm("¿ Esta seguro/a de rechazar esta solicitud ?");
+        if (r == true) {
+             $.ajax({
                     method: "POST",
                     url: "<?=site_url('/gestion/rechazar_solicitud')?>",
                     datatype: "json",
@@ -299,6 +301,7 @@
                       location.reload();
                     }
            })
+        }
     });
 
     $(document).on('click', '.ADDinv', function(){
