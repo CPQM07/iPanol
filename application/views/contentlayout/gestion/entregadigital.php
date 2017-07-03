@@ -64,13 +64,14 @@
       </div>
 
                 <div class="row">
-                  <div class="col-md-4">
+                <div class="col-md-4">           
+                  <div class="panel panel-danger"> 
+                    <div class="panel-heading"> 
+                        <h3 class="panel-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3> 
+                    </div> 
+                    <div class="panel-body">
                     <div class="col-md-12">
-                      <div class="box-header">
-                      <h3 class="box-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3><br><br><br>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
+                    <div class="box-body table-responsive">
                       <table style="font-size: 10px" class="table table-bordered table-hover">
                         <thead>
                           <tr bgcolor="CCCCCC">
@@ -85,8 +86,6 @@
                       </table>
                     </div>
                     </div>
-                    <!-- /.box-body -->
-
                     <div class="col-md-12">
                       <div class="box-body">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -103,32 +102,38 @@
                         </div>
                       </div>
                     </div>
-
+                    </div> 
                   </div>
 
+                  </div>
               
+
                   <div class="col-md-5">
-                    <div class="box-header">
-                      <h3 class="box-title">Asignación de insumos</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
+
+                    <div class="panel panel-success">
+                      <div class="panel-heading"> 
+                          <h3 class="panel-title">Asignación de insumos</h3>
+                      </div> 
+                      <div class="panel-body">
+                        <div class="box-body table-responsive">
                       <table style="font-size: 10px" id="dinamicajax" class="table table-bordered table-hover">
                         
                       </table>
                     </div>
-                    <!-- /.box-body -->
+                      </div> 
+                    </div>
+
                   </div>
 
 
+                  <div class="col-md-3">
 
-                <div class="col-md-3">
-                    <div class="box-header">
-                      <h3 class="box-title">Asignación final</h3><br><br><br>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                       <table style="font-size: 9px" id="resulasignacion"  class="table table-responsive table-condensed">
+                  <div class="panel panel-info"> 
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Asignación final</h3> 
+                     </div> 
+                     <div class="panel-body">
+                        <table style="font-size: 9px" id="resulasignacion"  class="table table-responsive table-condensed">
                     <thead>
                     <tr>
                       <th>ID</th>
@@ -148,9 +153,10 @@
                     <tbody id="asignacion">
                     
                     </tbody>
-                </table>
-                  </div>
-                  <!-- /.box-body -->
+                      </table>
+                     </div> 
+                   </div>
+
                 </div>
               </div>
               <br>
@@ -373,7 +379,11 @@
                     url: "<?=site_url('/gestion/insert_entrega_digital')?>",
                     datatype: "json",
                     data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol ,"parcialocerrar" : parcialocerrar},
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
                     success: function(response){
+                      $('#carga_modal').modal('hide');
                         if (response.resultado) {
                           $.notify(response.mensaje, "success");
                           var win = window.open('', '_blank');
@@ -426,14 +436,18 @@
                     url: "<?=site_url('/gestion/insert_entrega_digital')?>",
                     datatype: "json",
                     data:  {"asignaciones": arrayasig,"observaciones": observaciones,"idsolicitud": idsol ,"parcialocerrar" : parcialocerrar},
+                    beforeSend: function () {
+                            $('#carga_modal').modal('show');
+                        },
                     success: function(response){
+                      $('#carga_modal').modal('hide');
                         if (response.resultado) {
                           alert(response.mensaje);
                           var win = window.open('', '_blank');
                           win.location.href = response.path;
                           location.reload();
                         } else{
-                          alert(response.mensaje);
+                          $.notify(response.mensaje, "warn");
                         }      
                     }
            })
@@ -467,6 +481,7 @@
 
    function limpiar(){
     idsol = 0;
+    total = 0;
     $("#asignacion").text("");
     asignaciones = new Array();
     productosid = new Array();
