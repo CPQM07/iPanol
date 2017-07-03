@@ -239,6 +239,7 @@ $(document).on("click",".getasignaciones",function (argument) {
                     datatype: "json",
                     data:  {"idcheckeados": arrayidcheckeados , "resultadocerrarono": flagcerrarsolono,"nocheckeados": arrayidnocheckeados,"idsol" : numsolicitud ,"checkeadostipo2": arraycheckeadosmascantidad,"flagrecepcionarocerrar" : recepcionarsiono},
                     beforeSend: function () {
+                      $('#recproins').modal('hide');
                             $('#carga_modal').modal('show');
                         },
                     success: function(response){
