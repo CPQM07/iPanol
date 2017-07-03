@@ -15,8 +15,8 @@
 					</tr>
 				</thead>
 				<tbody>
-				<?php if (isset($_SESSION["productos"])): ?>
-					<?php foreach ($_SESSION["productos"] as $key => $value): ?>
+				<?php if (isset($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]])): ?>
+					<?php foreach ($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]] as $key => $value): ?>
 					<tr class="text-center" style="font-size: 12px">
 						<td><?= $value["productoid"]  ?> <a style="cursor: pointer;" class="cart_quantity_delete fa fa-times pull-right" id="<?= $key ?>">
 							</a></td>

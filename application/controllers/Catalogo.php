@@ -272,8 +272,8 @@ class Catalogo extends CI_Controller {
 	}
 
 	public function crearsolicitud(){
-	  if (isset($_SESSION['productos']) and $_SESSION['productos'] != null and $this->input->post('fechaEntrega') != "" and $this->input->post('cantidadGruTrab') != "") {
-	  	$usersession = $this->session->userdata('logged_in');
+		$usersession = $this->session->userdata('logged_in');
+	  if (isset($_SESSION['productos'][$usersession["rut"]]) and $_SESSION['productos'][$usersession["rut"]] != null and $this->input->post('fechaEntrega') != "" and $this->input->post('cantidadGruTrab') != "") {
 	  	$fecha_actual = date("Y-m-d H:i:s");
 
 	  	if ($this->input->post('fechaEntrega') > $fecha_actual) {
@@ -293,7 +293,7 @@ class Catalogo extends CI_Controller {
 						);
 	        $nuevasolicitud =  $this->soli->create($_columns);
 	        $ultimoIngresado = $nuevasolicitud->insert();
-	        foreach ($_SESSION['productos'] as $key => $value) {
+	        foreach ($_SESSION['productos'][$usersession["rut"]] as $key => $value) {
 		      	$_columns  =  array(
 					'DETSOL_ID' => 0,
 					'DETSOL_TIPOPROD' => $value['tipoid'],
@@ -305,14 +305,14 @@ class Catalogo extends CI_Controller {
 		      $detallesol =$this->detsol->create($_columns);
 		      $detallesol->insert();
 		    }
-		    $data["detalle"] = $_SESSION['productos'];
+		    $data["detalle"] = $_SESSION['productos'][$usersession["rut"]];
 		    $data["ultimoID"] = $ultimoIngresado;
 		    $data["fechaentrega"] = $fechaEntrega;
 		    $data["nombreuser"] = $usersession['nombres']." ".$usersession['apellidos'];
 		    $data["grupo"] = $cantidadGruTrab;
 
 		    if (intval($ultimoIngresado) > 0) {
-		    	$_SESSION["productos"] = null;
+		    	$_SESSION["productos"][$usersession["rut"]] = null;
 		    	$this->load->view('Catalogo/confirmacion', $data, FALSE);
 		    }else{
 		    	$this->session->set_flashdata('camposvacios', 'Lo sentimos ocurrio un error inesperado revise que este correctamente logeado');
@@ -330,29 +330,32 @@ class Catalogo extends CI_Controller {
     }
 
     public function agregarCarrito(){
+      $usersession = $this->session->userdata('logged_in');
       $tipo ="";
       $myarray = array();
-      if (isset($_SESSION["productos"])) {
-      	$myarray = $_SESSION["productos"];
+      if (isset($_SESSION["productos"][$usersession["rut"]])) {
+      	$myarray = $_SESSION["productos"][$usersession["rut"]];
       }
       $producto = $this->prod->findById($_POST["idprod"]);
       if ($producto->get("PROD_TIPOPROD_ID") == 1)$tipo = "Activo";
       if ($producto->get("PROD_TIPOPROD_ID") == 2)$tipo = "Fungible";
       $myarray[] = array("productoid" => $_POST["idprod"],"nombre" => $producto->get("PROD_NOMBRE"),"tipo" => $tipo,"cantidad" => $_POST["cantidad"],"tipoid" => $producto->get("PROD_TIPOPROD_ID"));
-      $_SESSION["productos"] = $myarray;
+      $_SESSION["productos"][$usersession["rut"]] = $myarray;
       $this->output->set_content_type('application/json');
       $this->output->set_output(json_encode(array("estado" => true ,"prodnombre" => $producto->get("PROD_NOMBRE"),"total" => count($myarray))));
     }
 
     public function limpiarCarrito(){
-    	$_SESSION["productos"] = null;
+    	$usersession = $this->session->userdata('logged_in');
+    	$_SESSION["productos"][$usersession["rut"]] = null;
     }
 
     public function eliminarindexcarrito(){
+    	$usersession = $this->session->userdata('logged_in');
     	$indiceaeliminar = $_POST["indice"];
-    	$myarray = $_SESSION["productos"];
+    	$myarray = $_SESSION["productos"][$usersession["rut"]];
     	unset($myarray[$indiceaeliminar]);
-    	$_SESSION["productos"] = $myarray;
+    	$_SESSION["productos"][$usersession["rut"]] = $myarray;
     	$this->output->set_content_type('application/json');
         $this->output->set_output(json_encode(array("estado" => true,"total" => count($myarray))));
     }

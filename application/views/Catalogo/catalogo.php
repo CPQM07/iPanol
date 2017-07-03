@@ -50,8 +50,8 @@
 					<?php if ($consulta != null): ?>
 					<?php foreach ($consulta as $key => $value): ?>
 					<?php $disabled = ""; ?>
-					<?php if(isset($_SESSION["productos"])): ?>
-						<?php foreach ($_SESSION["productos"] as $key => $pro): ?>
+					<?php if(isset($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]])): ?>
+						<?php foreach ($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]] as $key => $pro): ?>
 							<?php if ($value['PROD_ID'] == $pro['productoid']): ?>
 								<?php $disabled = "disabled"; ?>
 							<?php endif ?>
