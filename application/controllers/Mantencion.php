@@ -9,17 +9,6 @@ class Mantencion extends CI_Controller {
     if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
 		$this->layouthelper->SetMaster('layout');
 		$this->load->library('CopiarImg','copiarimg',false);
-		$this->load->model('Cargo_Model','cargo', true);
-		$this->load->model('Usuario_Model','usuario', true);
-		$this->load->model('Carrera_Model','carrera', true);
-		$this->load->model('Categoria_Model', 'categorias', true);
-		$this->load->model('Proveedor_Model', 'proveedores', true);
-		$this->load->model('Producto_Model', 'productos', true);
-		$this->load->model('TipoProd_Model', 'tipoProducto', true);
-  	$this->load->model('Motivo_Model', 'motivo', true);
-  	$this->load->model('Asignatura_Model', 'asignatura', true);
-  	$this->load->model('Inventario_Model','inventario',true);
-    $this->load->model('Logs_Model','logs',true);
   } else {
     redirect('/Login');
   }
@@ -30,7 +19,7 @@ class Mantencion extends CI_Controller {
 	//Usuarios***************************************************************************
 	public function usuarios(){
 		$newarray= array();
-		$usuarios = $this->usuario->findAll();
+		$usuarios = $this->usu->findAll();
 		foreach ($usuarios as $key => $value) {
 			$newarray[] = array(
 					'USU_RUT' => $value->get("USU_RUT"),
@@ -57,7 +46,7 @@ class Mantencion extends CI_Controller {
 	public function findById_usuario(){
 	  $id= $_POST['id'];
 	  $newarray = null;
-	  $value = $this->usuario->findById($id);
+	  $value = $this->usu->findById($id);
 	  	$newarray = array(
 					'USU_RUT' => $value->get("USU_RUT"),
 					'USU_DV' => $value->get("USU_DV"),
@@ -78,13 +67,13 @@ class Mantencion extends CI_Controller {
 	public function new_usuario(){
 		if(isset($_POST['new_usu'])){
 			$usu=$_POST['new_usu'];
-			$value=$this->usuario->findById($usu['USU_RUT']);
+			$value=$this->usu->findById($usu['USU_RUT']);
 			if($value==null){
-				$nuevousuario=$this->usuario->create($_POST['new_usu']);
+				$nuevousuario=$this->usu->create($_POST['new_usu']);
 				$nuevousuario->insert();
 	    		$usersesion = $this->session->userdata('logged_in');
 	    		$texto = implode(",", $_POST['new_usu']);
-				$this->usuario->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],$texto);
+				$this->usu->insertLogs(1,$usersesion['rut'],$usu['USU_RUT'],$texto);
 				$this->session->set_flashdata('Habilitar', 'El Usuario se ha agregado con exito');
 			}else{
 				$this->session->set_flashdata('Deshabilitar', 'El Usuario ya se encuentra registrado');
@@ -97,10 +86,10 @@ class Mantencion extends CI_Controller {
 	public function edit_usuario(){
 		if(isset($_POST['new_usu'])){
 			$id=$_POST['rut'];
-			$this->usuario->update($id,$_POST['new_usu']);
+			$this->usu->update($id,$_POST['new_usu']);
 			$usersesion = $this->session->userdata('logged_in');
 			$texto = implode(",", $_POST['new_usu']);
-			$this->usuario->insertLogs(2,$usersesion['rut'],$id,$texto);
+			$this->usu->insertLogs(2,$usersesion['rut'],$id,$texto);
 			$this->session->set_flashdata('Habilitar', 'El Usuario se ha editado con exito');
 			redirect('/Mantencion/usuarios');
 		}else{
@@ -109,7 +98,7 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function eliminarusuario($id=null){
-		$this->usuario->delete($id);
+		$this->usu->delete($id);
 		$this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente el Usuario');
 		redirect('/Mantencion/usuarios');
 	}
@@ -117,15 +106,15 @@ class Mantencion extends CI_Controller {
 	public function CambiarEstadoUSU($tipo, $id){
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->usuario->update($id, array('USU_ESTADO' => 0));
+      $this->usu->update($id, array('USU_ESTADO' => 0));
       $usersesion = $this->session->userdata('logged_in');
-	  $this->usuario->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
+	  $this->usu->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
       redirect('/Mantencion/usuarios');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->usuario->update($id, array('USU_ESTADO' => 1));
+      $this->usu->update($id, array('USU_ESTADO' => 1));
       $usersesion = $this->session->userdata('logged_in');
-	  $this->usuario->insertLogs(3,$usersesion['rut'],$id,'Cambio de Estado-Habilitar');
+	  $this->usu->insertLogs(3,$usersesion['rut'],$id,'Cambio de Estado-Habilitar');
       redirect('/Mantencion/usuarios');
     }
   	}
@@ -133,14 +122,14 @@ class Mantencion extends CI_Controller {
 
 	//Categoria***************************************************************************
 	public function categorias(){
-	  $datos['categoria'] = $this->categorias->findAll();
+	  $datos['categoria'] = $this->cat->findAll();
 	  $this->layouthelper->LoadView("mantenedores/categorias", $datos, null);
 	}
 
 	public function findById_categorias(){
 	  $id= $_POST['id'];
 	  $newarray = null;
-	  $value = $this->categorias->findById($id);
+	  $value = $this->cat->findById($id);
 	  	$newarray = array(
 					'CAT_ID' => $value->get("CAT_ID"),
 					'CAT_NOMBRE' => $value->get("CAT_NOMBRE"),
@@ -154,11 +143,11 @@ class Mantencion extends CI_Controller {
 
 	public function new_cat(){
 		if(isset($_POST['cat'])){
-			$nuevo=$this->categorias->create($_POST['cat']);
+			$nuevo=$this->cat->create($_POST['cat']);
 			$nuevo->insert();
 			$usersesion = $this->session->userdata('logged_in');
 			$texto = implode(",", $_POST['cat']);
-			$this->categorias->insertLogs(1,$usersesion['rut'],0,$texto);
+			$this->cat->insertLogs(1,$usersesion['rut'],0,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			redirect('/Mantencion/categorias');
 		}else{
@@ -170,30 +159,30 @@ class Mantencion extends CI_Controller {
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
       $usersesion = $this->session->userdata('logged_in');
-	  $this->categorias->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
-      $this->categorias->update($id, array('CAT_ESTADO' => 0));
+	  $this->cat->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
+      $this->cat->update($id, array('CAT_ESTADO' => 0));
       redirect('/Mantencion/categorias');
     } elseif ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
       $usersesion = $this->session->userdata('logged_in');
-	  $this->categorias->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
-      $this->categorias->update($id, array('CAT_ESTADO' => 1));
+	  $this->cat->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
+      $this->cat->update($id, array('CAT_ESTADO' => 1));
       redirect('/Mantencion/categorias');
     }
   }
 
 	public function eliminarCategoria($ID){
-	  $this->categorias->delete($ID);
+	  $this->cat->delete($ID);
 	  redirect('/Mantencion/categorias');
 	}
 
   public function edit_categoria(){
     if(isset($_POST['cat'])){
       $id=$_POST['id'];
-      $this->categorias->update($id,$_POST['cat']);
+      $this->cat->update($id,$_POST['cat']);
       $usersesion = $this->session->userdata('logged_in');
       $texto = implode(",", $_POST['cat']);
-	  $this->categorias->insertLogs(2,$usersesion['rut'],$id,$texto);
+	  $this->cat->insertLogs(2,$usersesion['rut'],$id,$texto);
       $this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
       redirect('/Mantencion/categorias');
     }else{
@@ -205,15 +194,15 @@ class Mantencion extends CI_Controller {
 	//Productos***************************************************************************
 	public function productos(){
 	  $NuevoProducto = array();
-	  $productos = $this->productos->findAll();
+	  $productos = $this->prod->findAll();
 	  foreach ($productos as $key => $value) {
 	    $NuevoProducto[] = array(
 	      'PROD_ID' => $value->get('PROD_ID'),
 	      'PROD_NOMBRE' => $value->get('PROD_NOMBRE'),
 	      'PROD_STOCK_TOTAL' => $value->get('PROD_STOCK_TOTAL'),
 	      'PROD_STOCK_CRITICO' => $value->get('PROD_STOCK_CRITICO'),
-	      'PROD_CAT_ID' => $this->categorias->findById($value->get('PROD_CAT_ID')),
-	      'PROD_TIPOPROD_ID' => $this->tipoProducto->findById($value->get('PROD_TIPOPROD_ID')),
+	      'PROD_CAT_ID' => $this->cat->findById($value->get('PROD_CAT_ID')),
+	      'PROD_TIPOPROD_ID' => $this->tipoP->findById($value->get('PROD_TIPOPROD_ID')),
 	      'PROD_POSICION' => $value->get('PROD_POSICION'),
 	      'PROD_PRIORIDAD' => $value->get('PROD_PRIORIDAD'),
 	      'PROD_STOCK_OPTIMO' => $value->get('PROD_STOCK_OPTIMO'),
@@ -223,15 +212,15 @@ class Mantencion extends CI_Controller {
 	    );
 	    $datos['productos'] = $NuevoProducto;
 	  }
-	  $datos['categorias'] = $this->categorias->findAllSelect();
-	  $datos['tipos'] = $this->tipoProducto->findAll();
+	  $datos['categorias'] = $this->cat->findAllSelect();
+	  $datos['tipos'] = $this->tipoP->findAll();
 	  $this->layouthelper->LoadView("mantenedores/productos", $datos, null);
 	}
 
 	public function findById_productos(){
 	  $id= $_POST['id'];
 	  $newarray = null;
-	  $producto = $this->productos->findById($id);
+	  $producto = $this->prod->findById($id);
 	  	$newarray = array(
 	      'PROD_ID' => $producto->get('PROD_ID'),
 	      'PROD_NOMBRE' => $producto->get('PROD_NOMBRE'),
@@ -271,11 +260,11 @@ class Mantencion extends CI_Controller {
 			}
 			$prod=$_POST['producto'];
 			$prod['PROD_IMAGEN']=$nameimg;
-			$nuevopro=$this->productos->create($prod);
+			$nuevopro=$this->prod->create($prod);
 			$nuevopro->insert();
 			$usersesion = $this->session->userdata('logged_in');
 			$texto = implode(",",$prod);
-			$this->productos->insertLogs(1,$usersesion['rut'],0,$texto);
+			$this->prod->insertLogs(1,$usersesion['rut'],0,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
 			if($num==1){redirect('/Mantencion/productos');}
 			else{redirect('/Gestion/ingreso');}
@@ -308,13 +297,13 @@ class Mantencion extends CI_Controller {
 				}
 			}
 			if($producto['PROD_IMAGEN']==null){
-				$product = $this->productos->findById($id);
+				$product = $this->prod->findById($id);
 				$producto['PROD_IMAGEN'] = $product->get('PROD_IMAGEN');
 			}
-			$nuevopro=$this->productos->update($id,$producto);
+			$nuevopro=$this->prod->update($id,$producto);
 			$usersesion = $this->session->userdata('logged_in');
 			$texto = implode(",",$producto);
-			$this->productos->insertLogs(2,$usersesion['rut'],$id,$texto);
+			$this->prod->insertLogs(2,$usersesion['rut'],$id,$texto);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/productos');
 		}else{
@@ -323,26 +312,26 @@ class Mantencion extends CI_Controller {
 	}
 
 	public function eliminarproducto($ID){
-	  $this->productos->delete($ID);
+	  $this->prod->delete($ID);
 	  $this->session->set_flashdata('Alert', 'Se Deshabilitó Correctamente');
 	  redirect('/Mantencion/productos');
 	}
 
 	public function CambiarEstadoPROD($tipo, $id){
-	$producto = $this->productos->findById($id);
+	$producto = $this->prod->findById($id);
 	$nameimg= $producto->get('PROD_IMAGEN');
     if ($tipo == 0) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 0),$nameimg);
+      $this->prod->update($id, array('PROD_ESTADO' => 0),$nameimg);
       $usersesion = $this->session->userdata('logged_in');
-	  $this->productos->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
+	  $this->prod->insertLogs(4,$usersesion['rut'],$id,'Cambio Estado-Habilitar');
       redirect('/Mantencion/productos');
     }
     if ($tipo == 1) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->productos->update($id, array('PROD_ESTADO' => 1),$nameimg);
+      $this->prod->update($id, array('PROD_ESTADO' => 1),$nameimg);
       $usersesion = $this->session->userdata('logged_in');
-	  $this->productos->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
+	  $this->prod->insertLogs(3,$usersesion['rut'],$id,'Cambio Estado-Deshabilitar');
       redirect('/Mantencion/productos');
     }
   	}
@@ -350,16 +339,16 @@ class Mantencion extends CI_Controller {
 
 	//Asignatura***************************************************************************
 	public function asignaturas(){
-    $datos['asignatura'] = $this->asignatura->findAll();
+    $datos['asignatura'] = $this->asig->findAll();
 		$this->layouthelper->LoadView("mantenedores/asignaturas", $datos, null);
 	}
 
   public function NuevaAsignatura(){
     if (isset($_POST['asignatura'])) {
-      $NuevaAsignatura = $this->asignatura->create($_POST['asignatura']);
+      $NuevaAsignatura = $this->asig->create($_POST['asignatura']);
       $NuevaAsignatura->insert();
 
-      $LOGS['ASIGID'] = $this->asignatura->lastInsert();
+      $LOGS['ASIGID'] = $this->asig->lastInsert();
       $LOGS['Texto'] = implode(",", $_POST['asignatura']);
       $LOGS['Sesion'] = $this->session->userdata('logged_in');
 
@@ -375,7 +364,7 @@ class Mantencion extends CI_Controller {
   public function findByIdAsig(){
     $id= $_POST['id'];
     $newarray = null;
-    $value = $this->asignatura->findById($id);
+    $value = $this->asig->findById($id);
     $newarray = array(
     'ASIGNATURA_ID' => $value->get("ASIGNATURA_ID"),
     'ASIGNATURA_NOMBRE' => $value->get("ASIGNATURA_NOMBRE"),
@@ -388,7 +377,7 @@ class Mantencion extends CI_Controller {
   public function EditAsig(){
     if(isset($_POST['asig'])){
       $AsigID = $_POST['id'];
-      $this->asignatura->update($AsigID, $_POST['asig']);
+      $this->asig->update($AsigID, $_POST['asig']);
 
       $LOGS['Asignatura'] = $_POST['asig'];
       $LOGS['AsigID'] = $AsigID;
@@ -407,11 +396,11 @@ class Mantencion extends CI_Controller {
   public function CambiarEstadoAsig($tipo, $id){
     if ($tipo == 1) {
       $this->session->set_flashdata('Alert', 'Se Deshabilitó Correctamente');
-      $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 2));
+      $this->asig->update($id, array('ASIGNATURA_ESTADO' => 2));
       redirect('/Mantencion/asignaturas');
     } elseif ($tipo == 2) {
       $this->session->set_flashdata('Info', 'Se Habilitó Correctamente');
-      $this->asignatura->update($id, array('ASIGNATURA_ESTADO' => 1));
+      $this->asig->update($id, array('ASIGNATURA_ESTADO' => 1));
       redirect('/Mantencion/asignaturas');
     }
   }
@@ -419,16 +408,16 @@ class Mantencion extends CI_Controller {
 
 	//Motivos***************************************************************************
 	public function motivos(){
-    $datos['motivos'] = $this->motivo->findAll();
+    $datos['motivos'] = $this->mot->findAll();
 		$this->layouthelper->LoadView("mantenedores/motivos", $datos, null);
 	}
 
   public function NuevoMotivo(){
     if (isset($_POST['motivo'])) {
-      $NuevoMotivo = $this->motivo->create($_POST['motivo']);
+      $NuevoMotivo = $this->mot->create($_POST['motivo']);
       $NuevoMotivo->insert();
 
-      $LOGS['MOTIVOID'] = $this->motivo->lastInsert();
+      $LOGS['MOTIVOID'] = $this->mot->lastInsert();
       $LOGS['Texto'] = implode(",", $_POST['motivo']);
       $LOGS['Sesion'] = $this->session->userdata('logged_in');
 
@@ -444,19 +433,19 @@ class Mantencion extends CI_Controller {
   public function CambiarEstado($tipo, $id){
     if ($tipo == 1) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->motivo->update($id, array('MOT_ESTADO' => 2));
+      $this->mot->update($id, array('MOT_ESTADO' => 2));
       redirect('/Mantencion/motivos');
     } elseif ($tipo == 2) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->motivo->update($id, array('MOT_ESTADO' => 1));
+      $this->mot->update($id, array('MOT_ESTADO' => 1));
       redirect('/Mantencion/motivos');
     } elseif ($tipo == 3) {
       $this->session->set_flashdata('Observacion', 'Cambió a Motivo de Observacion');
-      $this->motivo->update($id, array('MOT_DIF' => 2));
+      $this->mot->update($id, array('MOT_DIF' => 2));
       redirect('/Mantencion/motivos');
     } elseif ($tipo == 4) {
       $this->session->set_flashdata('Baja', 'Cambió a Motivo de Baja');
-      $this->motivo->update($id, array('MOT_DIF' => 1));
+      $this->mot->update($id, array('MOT_DIF' => 1));
       redirect('/Mantencion/motivos');
     }
   }
@@ -464,7 +453,7 @@ class Mantencion extends CI_Controller {
   public function findByIdMotivo(){
     $id= $_POST['id'];
     $newarray = null;
-    $value = $this->motivo->findById($id);
+    $value = $this->mot->findById($id);
     $newarray = array(
     'MOT_ID' => $value->get("MOT_ID"),
     'MOT_NOMBRE' => $value->get("MOT_NOMBRE"),
@@ -478,7 +467,7 @@ class Mantencion extends CI_Controller {
   public function updateMotivo(){
     if(isset($_POST['MOT'])){
       $MotivoID = $_POST['id'];
-      $this->motivo->update($MotivoID, $_POST['MOT']);
+      $this->mot->update($MotivoID, $_POST['MOT']);
 
       $LOGS['Motivo'] = $_POST['MOT'];
       $LOGS['MotivoID'] = $MotivoID = $_POST['id'];
@@ -497,7 +486,7 @@ class Mantencion extends CI_Controller {
 
 	//Proveedores***************************************************************************
 	public function proveedores(){
-	  $datos['proveedor'] = $this->proveedores->findAll();
+	  $datos['proveedor'] = $this->prov->findAll();
 	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
 	}
 
@@ -508,19 +497,19 @@ class Mantencion extends CI_Controller {
     $this->form_validation->set_rules('PROV[PROV_TIPO]', 'TIPO', 'required');
 
     if ($this->form_validation->run() == FALSE) {
-      $datos['proveedor'] = $this->proveedores->findAll();
+      $datos['proveedor'] = $this->prov->findAll();
   	  $this->layouthelper->LoadView("mantenedores/proveedores", $datos);
     } else {
       $Proveedor = $_POST['PROV'];
-      $Consulta = $this->asignatura->findById($Proveedor['PROV_RUT']);
+      $Consulta = $this->asig->findById($Proveedor['PROV_RUT']);
 
       if ($Consulta == NULL) {
         if(isset($_POST['PROV'])){
         	$usu=$_POST['new_usu'];
-			$value=$this->proveedores->findById($Proveedor['PROV_RUT']);
+			$value=$this->prov->findById($Proveedor['PROV_RUT']);
 			if($value==null){
 			
-	          $NuevoProveedor=$this->proveedores->create($_POST['PROV']);
+	          $NuevoProveedor=$this->prov->create($_POST['PROV']);
 	          $NuevoProveedor->insert();
 
 	          $LOGS['Preveedor'] = $_POST['PROV'];
@@ -547,7 +536,7 @@ class Mantencion extends CI_Controller {
   public function findByIdProveedor(){
     $id= $_POST['id'];
     $newarray = null;
-    $value = $this->proveedores->findById($id);
+    $value = $this->prov->findById($id);
     $newarray = array(
     'PROV_RUT' => $value->get("PROV_RUT"),
     'PROV_DV' => $value->get("PROV_DV"),
@@ -564,7 +553,7 @@ class Mantencion extends CI_Controller {
     if(isset($_POST['PROV'])){
       $id=$_POST['id'];
       
-      $this->proveedores->update($id,$_POST['PROV']);
+      $this->prov->update($id,$_POST['PROV']);
 
       $LOGS['Preveedor'] = $_POST['PROV'];
       $LOGS['PreveedorRUT'] = $_POST['id'];
@@ -583,17 +572,17 @@ class Mantencion extends CI_Controller {
   public function CambiarEstadoPROV($tipo, $id){
     if ($tipo == 1) {
       $this->session->set_flashdata('Deshabilitar', 'Se Deshabilitó Correctamente');
-      $this->proveedores->update($id, array('PROV_ESTADO' => 2));
+      $this->prov->update($id, array('PROV_ESTADO' => 2));
       redirect('/Mantencion/proveedores');
     } elseif ($tipo == 2) {
       $this->session->set_flashdata('Habilitar', 'Se Habilitó Correctamente');
-      $this->proveedores->update($id, array('PROV_ESTADO' => 1));
+      $this->prov->update($id, array('PROV_ESTADO' => 1));
       redirect('/Mantencion/proveedores');
     }
   }
 
 	public function eliminarProveedor($RUT){
-	  $this->proveedores->delete($RUT);
+	  $this->prov->delete($RUT);
 	  $this->session->set_flashdata('Habilitar', 'Se eliminó Correctamente');
 	  redirect('/Mantencion/proveedores');
 	}
@@ -610,7 +599,7 @@ class Mantencion extends CI_Controller {
 
 	public function inventario(){
 		$NuevoInventario = array();
-		$inventario = $this->inventario->findAll();
+		$inventario = $this->inv->findAll();
 	    foreach ($inventario as $key => $value) {
 	        $NuevoInventario[] = array(
 	        'INV_ID' => $value->get('INV_ID'),
@@ -620,8 +609,8 @@ class Mantencion extends CI_Controller {
 			'INV_PROD_ESTADO'	=> $value->get('INV_PROD_ESTADO'),
 			'INV_PROD_CODIGO' => $value->get('INV_PROD_CODIGO'),
 			'INV_INGRESO_ID' => $value->get('INV_INGRESO_ID'),
-			'INV_CATEGORIA_ID' => $this->categorias->findById($value->get('INV_CATEGORIA_ID')),
-			'INV_TIPO_ID' => $this->tipoProducto->findById($value->get('INV_TIPO_ID')),
+			'INV_CATEGORIA_ID' => $this->cat->findById($value->get('INV_CATEGORIA_ID')),
+			'INV_TIPO_ID' => $this->tipoP->findById($value->get('INV_TIPO_ID')),
 			'INV_FECHA' => $value->get('INV_FECHA'),
 			'INV_IMAGEN' => $value->get('INV_IMAGEN'),
 			'INV_ULTIMO_USUARIO' => $value->get('INV_ULTIMO_USUARIO'),
@@ -629,15 +618,15 @@ class Mantencion extends CI_Controller {
 	        );
 	        $datos['inventario'] = $NuevoInventario;
 	      }
-	    $datos['tipos'] = $this->tipoProducto->findAll();
-	    $datos['categorias'] = $this->categorias->findAllSelect();
+	    $datos['tipos'] = $this->tipoP->findAll();
+	    $datos['categorias'] = $this->cat->findAllSelect();
 		$this->layouthelper->LoadView("mantenedores/inventario", $datos, null);
 	}
 
 	public function inventarioById(){
 		$id= $_POST['id'];
 	 	$newarray = null;
-	  	$inventario = $this->inventario->findById($id);
+	  	$inventario = $this->inv->findById($id);
 	  	$newarray = array(
 	        'INV_ID' => $inventario->get('INV_ID'),
 	    	'INV_PROD_ID' => $inventario->get('INV_PROD_ID'),
@@ -676,10 +665,10 @@ class Mantencion extends CI_Controller {
 				}
 			}
 			if($nameimg==null){
-				$producto = $this->inventario->findById($id);
+				$producto = $this->inv->findById($id);
 				$nameimg= $producto->get('INV_IMAGEN');
 			}
-			$nuevopro=$this->inventario->update($id,$_POST['inventario'],$nameimg);
+			$nuevopro=$this->inv->update($id,$_POST['inventario'],$nameimg);
 			$this->session->set_flashdata('Habilitar', 'Se editó Correctamente');
 			redirect('/Mantencion/inventario');
 		}else{

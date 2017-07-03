@@ -6,8 +6,8 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Usuario_Model', 'usuario');
 	}
+	
 	public function index()
 	{
 	    $this->session->unset_userdata('logged_in');//matamos la session apenas entre al login
@@ -60,7 +60,7 @@ class Login extends CI_Controller {
 	   $user = $this->input->post('user');
 	   if($this->valida_rut($user)){
 		   	$rut = explode("-",$user);
-		   	$user = $this->usuario->login($rut[0], $pass);
+		   	$user = $this->usu->login($rut[0], $pass);
 	   }else{
 	   		$user = null;
 	   }

@@ -7,14 +7,6 @@ class Catalogo extends CI_Controller {
 	{
 		parent::__construct();
 		if ($this->session->userdata('logged_in')["cargo"][0] == 1 or $this->session->userdata('logged_in')["cargo"][0] == 2) {
-			$this->load->model('Producto_Model', 'prod');
-			$this->load->model('Categoria_Model', 'cat');
-			$this->load->model('TipoProd_Model', 'tipprod');
-			$this->load->model('Inventario_Model', 'inv');
-			$this->load->model('Usuario_Model', 'usu');
-			$this->load->model('Solicitud_Model','soli');
-	        $this->load->model('DetSolicitud_Model','detsol');
-	        $this->load->model('Asignatura_Model','asig');
 	    }else{
 	      redirect('/Login');
 	    }
@@ -28,7 +20,7 @@ class Catalogo extends CI_Controller {
 		$config['base_url'] = base_url("index.php/Catalogo/index/");
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$dato['categorias'] = $this->cat->findAll();
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
         $config['total_rows'] = $this->prod->contar(null,null,null);
         $config['per_page'] = 6;
         $config['num_links'] = 5;
@@ -83,7 +75,7 @@ class Catalogo extends CI_Controller {
 			$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
 		$dato['categorias'] = $this->cat->findAll();
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
         
         $config['total_rows'] = $this->prod->contar(null,$categoria,null);
         $config['per_page'] = 6;
@@ -140,7 +132,7 @@ class Catalogo extends CI_Controller {
 			$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 
 		$dato['categorias'] = $this->cat->findAll();
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
         
         $config['total_rows'] = $this->prod->contar(null,null,$tipo);
         $config['per_page'] = 6;
@@ -196,7 +188,7 @@ class Catalogo extends CI_Controller {
 		$config['base_url'] = base_url("index.php/Catalogo/buscar/".$like);
 		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 		$dato['categorias'] = $this->cat->findAll();
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
         
         $config['total_rows'] = $this->prod->contar($like,null,null);
         $config['per_page'] = 6;
@@ -257,16 +249,14 @@ class Catalogo extends CI_Controller {
 
 	public function porCategoria($id){
 		$dato['productos'] = $this->prod->findByCat($id);
-		//$dato['productos'] = $this->prod->findByTipProd($id);
 		$dato['categorias'] = $this->cat->findAll();
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}
 
 	public function porTipoProducto($id){
 		$dato['productos'] = $this->prod->findByCat($id);
-		//$dato['productos'] = $this->prod->findByTipProd($id);
-		$dato['tipoProd'] = $this->tipprod->findAll();
+		$dato['tipoProd'] = $this->tipoP->findAll();
 		$dato['categorias'] = $this->cat->findAll();
 		$this->load->view('Catalogo/catalogo', $dato, FALSE);
 	}

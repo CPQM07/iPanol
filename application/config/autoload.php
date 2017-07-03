@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Usuario_Model' => 'usu','Asignatura_Model' =>'asig','Producto_Model' => 'prod','Proveedor_Model' => 'prov','Categoria_Model' => 'cat','Ingreso_Model' => 'ing','Inventario_Model' => 'inv','Solicitud_Model' => 'soli','DetSolicitud_Model' => 'detsol','Asignacion_Model' => 'asignacion','Baja_Model' => 'baja','Motivo_Model' => 'mot','Observaciones_Model' => 'obs','Baja_Model' => 'baja','Cargo_Model' => 'cargo','TipoProd_Model' => 'tipoP');
+$autoload['model'] = array('Usuario_Model' => 'usu','Asignatura_Model' =>'asig','Producto_Model' => 'prod','Proveedor_Model' => 'prov','Categoria_Model' => 'cat','Ingreso_Model' => 'ing','Inventario_Model' => 'inv','Solicitud_Model' => 'soli','DetSolicitud_Model' => 'detsol','Asignacion_Model' => 'asignacion','Baja_Model' => 'baja','Motivo_Model' => 'mot','Observaciones_Model' => 'obs','Baja_Model' => 'baja','Cargo_Model' => 'cargo','TipoProd_Model' => 'tipoP','Carrera_Model' => 'carrera','Logs_Model' => 'logs');

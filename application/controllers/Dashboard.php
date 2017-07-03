@@ -9,10 +9,6 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		if ($this->session->userdata('logged_in')["cargo"][0] == 3 or $this->session->userdata('logged_in')["cargo"][0] == 4) {
 			$this->layouthelper->SetMaster('layout');
-			$this->load->model('Solicitud_Model','solicitud',true);
-			$this->load->model('Inventario_Model','inventario',true);
-			$this->load->model('Producto_Model','producto',true);
-			$this->load->model('Asignacion_Model','asignacion',true);
 	    }else{
 	      redirect('/Login');
 	    }
@@ -20,10 +16,10 @@ class Dashboard extends CI_Controller {
 
 	public function dashboard()
 	{
-		$coun['solpen']=$this->solicitud->count0();/*contador solicitudPendiendeRecepcionar*/
-		$coun['solsinasig']=$this->solicitud->count1();/*contador solicitudPendiendeRecepcionar*/
-		$coun['baja']=$this->inventario->count2();/*contador productosBaja*/
-		$coun['parciales']=$this->solicitud->parciales();/*contador productosBaja*/
+		$coun['solpen']=$this->soli->count0();/*contador solicitudPendiendeRecepcionar*/
+		$coun['solsinasig']=$this->soli->count1();/*contador solicitudPendiendeRecepcionar*/
+		$coun['baja']=$this->inv->count2();/*contador productosBaja*/
+		$coun['parciales']=$this->soli->parciales();/*contador productosBaja*/
 
 		$coun['activosHoy']=$this->asignacion->productoActivoHoy();
 		$coun['activosAyer']=$this->asignacion->productoActivoAyer();
@@ -43,15 +39,15 @@ class Dashboard extends CI_Controller {
 		$coun['numberProduct0'] = 2;
       	$coun['numberProduct1'] = 3;
 
-      	$total = count($this->producto->findAll());
-      	$parte = count($this->producto->findByTipProd(1));
+      	$total = count($this->prod->findAll());
+      	$parte = count($this->prod->findByTipProd(1));
 	    $porcentaje = round($parte / $total * 100);
       	$coun['percentProduct0'] = $porcentaje;
-      	$coun['percentProduct1'] = count($this->producto->findByTipProd(2));
+      	$coun['percentProduct1'] = count($this->prod->findByTipProd(2));
 
       	/*---------------------------------------------------------------------*/
 
-      	$coun['act'] = count($this->producto->productosCriticosDash());
+      	$coun['act'] = count($this->prod->productosCriticosDash());
 		$coun['fun'] = count($this->inv->contarInventarioCritico());
 
 
@@ -61,7 +57,7 @@ class Dashboard extends CI_Controller {
 
 
 	public function msjCriticoActiv(){
-	  	$proAc = $this->producto->productosCriticosDash();
+	  	$proAc = $this->prod->productosCriticosDash();
 		$this->output->set_content_type('application/json');
      	$this->output->set_output(json_encode(array("msjActi" =>$proAc)));
 	}

@@ -34,6 +34,6 @@
 <script src="<?= base_url('resources/js/notify.min.js')  ?>"></script><!-- charjs -->
 <script src="<?= base_url('resources/plugins/slimScroll/jquery.slimscroll.min.js')  ?>"></script><!-- charjs -->
 <!-- Bootstrap Toggle -->
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="<?= base_url('/resources/plugins/bootstrap-toggle-master/js/bootstrap-toggle.min.js') ?>"></script>
 <!-- pNotify -->
 <script src="<?= base_url('resources/js/pnotify.custom.min.js')  ?>"></script><!-- charjs -->
