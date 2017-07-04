@@ -31,29 +31,29 @@
               <!--  SOL_ID,SOL_USU_RUT,SOL_ASIG_ID,SOL_FECHA_INICIO,SOL_FECHA_TERMINO,SOL_NRO_GRUPOTRAB,SOL_OBSERVACION-->
                 <?php foreach ($solicitudes as $key => $value): ?>
                   <tr>
-                    <td><?= $value->get("SOL_ID")  ?></td>
+                    <td><?=$value->get("SOL_ID")?></td>
                     <td>
                     <?php if ($value->get("SOL_ESTADO") == 1): ?>
                       <div class="alert alert-success">
                         Solicitado Catálogo
                       </div>
-                    <?php endif ?>
+                    <?php endif?>
                     <?php if ($value->get("SOL_ESTADO") == 7): ?>
                       <div class="alert alert-info">
                         Parcialmente Entregado
                       </div>
-                    <?php endif ?>
+                    <?php endif?>
                     </td>
-                    <td><?= $value->get("USU_NOMBRES")." ".$value->get("USU_APELLIDOS")." (".$value->get("CARGO_NOMBRE").")" ?></td>
-                    <td><?= $value->get("USU_RUT")."-".$value->get("USU_DV")  ?></td>
-                    <td><?= $value->get("SOL_FECHA_INICIO")  ?></td>
-                    <td class="bg-danger "><?= $value->get("SOL_FECHA_TERMINO")  ?></td>
+                    <td><?=$value->get("USU_NOMBRES") . " " . $value->get("USU_APELLIDOS") . " (" . $value->get("CARGO_NOMBRE") . ")"?></td>
+                    <td><?=$value->get("USU_RUT") . "-" . $value->get("USU_DV")?></td>
+                    <td><?=$value->get("SOL_FECHA_INICIO")?></td>
+                    <td class="bg-danger "><?=$value->get("SOL_FECHA_TERMINO")?></td>
                     <td class="text-center">
-                      <a iddetalle="<?= $value->get("SOL_ID")  ?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
-                      <a idsolicitud="<?= $value->get("SOL_ID")  ?>"  class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
+                      <a iddetalle="<?=$value->get("SOL_ID")?>" class="obtdetalle btn btn-xs btn-success fa fa-eye"></a>
+                      <a idsolicitud="<?=$value->get("SOL_ID")?>"  class="rechazarsolicitud btn btn-xs btn-danger fa fa-power-off"></a>
                     </td>
                   </tr>
-                <?php endforeach ?>
+                <?php endforeach?>
                 </tbody>
               </table>
             </div>
@@ -64,11 +64,11 @@
       </div>
 
                 <div class="row">
-                <div class="col-md-4">           
-                  <div class="panel panel-danger"> 
-                    <div class="panel-heading"> 
-                        <h3 class="panel-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3> 
-                    </div> 
+                <div class="col-md-4">
+                  <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Detalle de la solicitud N° <strong id="setidsol"></strong></h3>
+                    </div>
                     <div class="panel-body">
                     <div class="col-md-12">
                     <div class="box-body table-responsive">
@@ -89,7 +89,7 @@
                     <div class="col-md-12">
                       <div class="box-body">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                          <ol class="carousel-indicators" id="carousel-indicators">      
+                          <ol class="carousel-indicators" id="carousel-indicators">
                           </ol>
                           <div class="carousel-inner" id="carousel-inner">
                           </div>
@@ -102,25 +102,25 @@
                         </div>
                       </div>
                     </div>
-                    </div> 
+                    </div>
                   </div>
 
                   </div>
-              
+
 
                   <div class="col-md-5">
 
                     <div class="panel panel-success">
-                      <div class="panel-heading"> 
+                      <div class="panel-heading">
                           <h3 class="panel-title">Asignación de insumos</h3>
-                      </div> 
+                      </div>
                       <div class="panel-body">
                         <div class="box-body table-responsive">
                       <table style="font-size: 10px" id="dinamicajax" class="table table-bordered table-hover">
-                        
+
                       </table>
                     </div>
-                      </div> 
+                      </div>
                     </div>
 
                   </div>
@@ -128,10 +128,10 @@
 
                   <div class="col-md-3">
 
-                  <div class="panel panel-info"> 
+                  <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Asignación final</h3> 
-                     </div> 
+                        <h3 class="panel-title">Asignación final</h3>
+                     </div>
                      <div class="panel-body">
                         <table style="font-size: 9px" id="resulasignacion"  class="table table-responsive table-condensed">
                     <thead>
@@ -151,10 +151,10 @@
                         </tr>
                       </tfoot>
                     <tbody id="asignacion">
-                    
+
                     </tbody>
                       </table>
-                     </div> 
+                     </div>
                    </div>
 
                 </div>
@@ -178,7 +178,8 @@
     </div>
     </div>
 
-    <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+    <?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
     <script type="text/javascript" charset="utf-8">
     $(function() {
       $(".datatabledigital").dataTable({
@@ -197,7 +198,7 @@
                 });
 
     });
- 
+
     $(".notify1").hover(function() {
       $(".notify1").notify("Esta asignación es restrictiva y parcial, debe asignar por lo menos un producto que este en el detalle de la solicitud",{ position:"top" ,className: 'info'});
     }, function() {
@@ -209,7 +210,7 @@
     }, function() {
       /* Stuff to do when the mouse leaves the element */
     });
-  
+
 
     var tabla;
     var total = 0;
@@ -285,8 +286,8 @@
                         }
                         $("#detallesol").append('<tr><td>'+obj.ID+'</td><td>'+obj.PROD_NOMBRE+'</td><td>'+obj.CANTIDAD+'</td><td>'+obj.POSICION+'</td></tr>')
                         productosid.push(obj.PROD_ID);
-                    }); 
-                    $('#dinamicajax').DataTable().ajax.reload();             
+                    });
+                    $('#dinamicajax').DataTable().ajax.reload();
                     }
            })
     })
@@ -302,7 +303,7 @@
                     data:  {"idsolicitud": idsol},
                     success: function(response){
                       if (response.estado) {
-                        $.notify(response.mensaje, "success"); 
+                        $.notify(response.mensaje, "success");
                       }
                       location.reload();
                     }
@@ -316,7 +317,7 @@
     var nom = $(this).attr("nom");
     var tipo = $(this).attr("tipo");
     var prodid = $(this).attr("prodid");
-    if(asignaciones.indexOf(id) == -1){  
+    if(asignaciones.indexOf(id) == -1){
             if (tipo == 1) {
               $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td>'+prodid+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
               asignaciones.push(id);
@@ -349,16 +350,16 @@
     }
     var arrayasig = new Array();
     var parcialocerrar = $(this).attr("id");
-    
+
     if ($("#asignacion").text() != "") {
         if (observaciones != "") {
 
-        $("#resulasignacion tbody tr").each(function (index) 
+        $("#resulasignacion tbody tr").each(function (index)
         {
             var idinv, nombreinv, cantidadinv, idprod;
-            $(this).children("td").each(function (index2) 
+            $(this).children("td").each(function (index2)
             {
-                switch (index2) 
+                switch (index2)
                 {
                     case 0: idinv = $(this).text();
                             break;
@@ -391,7 +392,7 @@
                           location.reload();
                         } else{
                           $.notify(response.mensaje, "warn");
-                        }      
+                        }
                     }
            })
 
@@ -399,7 +400,7 @@
           $.notify("Debe ingresar una observación", "warn");
           return false;
        }
-      
+
     }else{
       if(parcialocerrar == "asignarparcial"){
         $.notify("Debe agregar asignación de inventario para esta solicitud", "warn");//never inside
@@ -410,12 +411,12 @@
     }
       if (observaciones != "") {
 
-       $("#resulasignacion tbody tr").each(function (index) 
+       $("#resulasignacion tbody tr").each(function (index)
         {
             var idinv, nombreinv, cantidadinv, idprod;
-            $(this).children("td").each(function (index2) 
+            $(this).children("td").each(function (index2)
             {
-                switch (index2) 
+                switch (index2)
                 {
                     case 0: idinv = $(this).text();
                             break;
@@ -448,7 +449,7 @@
                           location.reload();
                         } else{
                           $.notify(response.mensaje, "warn");
-                        }      
+                        }
                     }
            })
 
@@ -493,4 +494,4 @@
    }
 
     </script>
-    <?php } ?>
+    <?php }?>

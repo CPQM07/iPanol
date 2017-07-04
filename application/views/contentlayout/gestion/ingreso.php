@@ -10,9 +10,9 @@
     width: 100%;
     height: 100%;
   }
- 
+
   #upload {
-    background: url("<?= base_url();?>/resources/images/Upload-128.png") center center no-repeat;
+    background: url("<?=base_url();?>/resources/images/Upload-128.png") center center no-repeat;
     width: 100px;
     height: 50px;
   }
@@ -30,7 +30,7 @@
             <div class="box-body">
               <div class="row">
                 <form action="<?=site_url('Gestion/ingresar_producto_stock')?>" method="post" accept-charset="utf-8">
-                  
+
                   <div class="col-md-5">
                     <div class="form-group">
                       <label>Producto (*)</label>
@@ -39,9 +39,9 @@
                             <option></option>
                             <?php foreach ($productos as $key => $value): ?>
                               <?php if ($value->get("PROD_ESTADO") != 0): ?>
-                                <option value="<?= $value->get("PROD_ID")  ?>"><?= "(#".$value->get("PROD_ID").") ".$value->get("PROD_NOMBRE")." [".$value->get("CAT_NOMBRE")."]" ?></option>
-                              <?php endif ?>
-                            <?php endforeach ?>
+                                <option value="<?=$value->get("PROD_ID")?>"><?="(#" . $value->get("PROD_ID") . ") " . $value->get("PROD_NOMBRE") . " [" . $value->get("CAT_NOMBRE") . "]"?></option>
+                              <?php endif?>
+                            <?php endforeach?>
                           </select>
                           <div class="input-group-addon">
                             <a href="" data-toggle="modal" data-target="#newPro">
@@ -89,9 +89,9 @@
                         <h4 class="modal-title" id="myModalLabel">Modo de adquisición (Compra)</h4>
                       </div>
                       <div class="modal-body">
-                                  
+
                           <div class="box-body">
-                           
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                   <label>Proveedor (*)</label>
@@ -100,8 +100,8 @@
                                     <select name="proveedor" id="proveedor" class="select2" style="width: 100%">
                                       <option></option>
                                       <?php foreach ($proveedores as $key => $value): ?>
-                                        <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
-                                      <?php endforeach ?>
+                                        <option value="<?=$value->get("PROV_RUT")?>"><?=$value->get("PROV_NOMBRE")?></option>
+                                      <?php endforeach?>
                                     </select>
                                     <div class="input-group-addon">
                                       <a href="" data-toggle="modal" data-target="#myProvee">
@@ -123,7 +123,7 @@
                               </div>
 
                           </div>
-                        
+
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
@@ -146,7 +146,7 @@
                   <div class="box-body">
                     <table id="example2" class="datatableingre table table-bordered table-hover">
                       <thead>
-                      <tr>                        
+                      <tr>
                         <th>Fecha de ingreso</th>
                         <th>Ingresado por</th>
                         <th>Insumo</th>
@@ -156,18 +156,18 @@
                       </thead>
                       <tbody>
                       <?php foreach ($ingresos as $key => $value): ?>
-                        <tr>                           
-                            <td><?= $value->get('ING_FECHA') ?></td>
-                            <td><?= $value->get('USU_NOMBRES') ?></td>
-                            <td><?= $value->get('PROD_NOMBRE') ?></td>
-                            <td><?= $value->get('ING_CANTIDAD') ?></td>
+                        <tr>
+                            <td><?=$value->get('ING_FECHA')?></td>
+                            <td><?=$value->get('USU_NOMBRES')?></td>
+                            <td><?=$value->get('PROD_NOMBRE')?></td>
+                            <td><?=$value->get('ING_CANTIDAD')?></td>
                             <td>
-                              <button type="button" id="<?= $value->get('ING_ID') ?>" class="editar btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myPro">
+                              <button type="button" id="<?=$value->get('ING_ID')?>" class="editar btn btn-danger btn-xs btn-block" data-toggle="modal" data-target="#myPro">
                                 <i class="fa fa-edit"></i>
                               </button>
                             </td>
                         </tr>
-                      <?php endforeach ?>
+                      <?php endforeach?>
                   </tbody>
                   </table>
                 </div>
@@ -221,7 +221,7 @@
                                       </div>
                                     </td>
                                     <td> <h5>
-                                      
+
                                       <input type="Number" class="col-xs-12"></input>
                                     </h5>
                                     </td>
@@ -233,7 +233,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                          <button type="button" class="btn btn-success">Guardar datos</button> 
+                          <button type="button" class="btn btn-success">Guardar datos</button>
                         </div>
                       </div>
                     </div>
@@ -247,7 +247,7 @@
             <!-- ./box-body -->
 
           </div>
-          
+
         </section>
         <!-- /.col -->
       </div>
@@ -278,7 +278,7 @@
                             <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
-                            <?php endforeach ?>
+                            <?php endforeach?>
                           </select>
                         </div>
                       </div>
@@ -290,7 +290,7 @@
                             <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
-                            <?php endforeach ?>
+                            <?php endforeach?>
                           </select>
                         </div>
                       </div>
@@ -338,7 +338,7 @@
                           <input name="files" type="file" id="files-new" class="input-file" size="2120" accept="image/png,image/jpeg,image/jpg" required>
                           </div>
                           <output id="lista"></output>
-                        
+
                         </div>
                       </div>
                     </div>
@@ -372,8 +372,8 @@
             <h4 class="modal-title" id="myModalLabel">Editar ingreso</h4>
           </div>
           <div class="modal-body">
-                      
-          <form role="form" action="<?= site_url('Gestion/editar_ingreso') ?>" method="post">
+
+          <form role="form" action="<?=site_url('Gestion/editar_ingreso')?>" method="post">
               <input type="hidden" name="idingreso" id="idingreso">
               <div class="box-body">
                 <div class="form-group col-md-3">
@@ -400,17 +400,17 @@
                       <select name="proveedor" id="provedit" class="form-control select2 pull-right" style="width: 100%">
                           <option></option>
                           <?php foreach ($proveedores as $key => $value): ?>
-                            <option value="<?= $value->get("PROV_RUT")  ?>"><?= $value->get("PROV_NOMBRE")  ?></option>
-                          <?php endforeach ?>
+                            <option value="<?=$value->get("PROV_RUT")?>"><?=$value->get("PROV_NOMBRE")?></option>
+                          <?php endforeach?>
                       </select>
                 </div>
               </div>
-            
+
 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success">Guardar datos</button> 
+              <button type="submit" class="btn btn-success">Guardar datos</button>
             </div>
           </div>
           </form>
@@ -419,7 +419,7 @@
     </div>
   <!--Producto-->
 
- 
+
 
 
   <!--Proveedores-->
@@ -432,7 +432,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" method="POST" action="<?= site_url('/Mantencion/NuevoProveedor/2'); ?>">
+                  <form class="form-horizontal" method="POST" action="<?=site_url('/Mantencion/NuevoProveedor/2');?>">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label" >RUT</label>
@@ -461,13 +461,13 @@
                       <div id="new1" class="form-group" style='display:none;'>
                         <label class="col-sm-2 control-label">NOMBRE</label>
                         <div class="col-md-9">
-                          <input id="newnombre" type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?= set_value('PROV[PROV_NOMBRE]'); ?>" class="col-md-12 form-control">
+                          <input id="newnombre" type="text" name="PROV[PROV_NOMBRE]" id="PROV[PROV_NOMBRE]" value="<?=set_value('PROV[PROV_NOMBRE]');?>" class="col-md-12 form-control">
                         </div>
                       </div>
                       <div id="new2" class="form-group" style='display:none;'>
                         <label class="col-sm-2 control-label" >RAZÓN SOCIAL</label>
                         <div class="col-md-9">
-                          <input id="newrsocial" type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?= set_value('PROV[PROV_RSOCIAL]');  ?>" class="col-md-12 form-control">
+                          <input id="newrsocial" type="text" name="PROV[PROV_RSOCIAL]" id="PROV[PROV_RSOCIAL]" value="<?=set_value('PROV[PROV_RSOCIAL]');?>" class="col-md-12 form-control">
                         </div>
                       </div>
                     </div>
@@ -492,7 +492,8 @@
     </div>
   <!--Proveedores-->
 
-  <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+  <?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
   <script type="text/javascript">
 $(document).ready(function() {
         $(".datatableingre").dataTable({
@@ -552,7 +553,7 @@ $(document).ready(function() {
           $("#preciounitario").val("");
     }
 
-    $("#compraodonacion").on("hidden.bs.modal", function () {       
+    $("#compraodonacion").on("hidden.bs.modal", function () {
         var selector =$("#modo").val();
         if (selector == 1) {
 
@@ -570,10 +571,10 @@ $(document).ready(function() {
         if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
             return false;
         var tmp     = rutCompleto.split('-');
-        var digv    = tmp[1]; 
+        var digv    = tmp[1];
         var rut     = tmp[0];
         if ( digv == 'K' ) digv = 'k' ;
-        
+
         return (Fn.dv(rut) == digv );
     },
     dv : function(T){
@@ -641,7 +642,7 @@ $(document).ready(function() {
           .always(function() {
             console.log("complete");
           });
-    
+
     });
 
     function cleanformedit() {
@@ -684,8 +685,8 @@ $(document).ready(function() {
   if(file_size>2097152) {
     $.notify('El tamaño de la imagen supera el limite permitido, por favor eliga otra imagen');
     return false;
-  } 
+  }
   return true;
 }*/
   </script>
-  <?php } ?>
+  <?php }?>

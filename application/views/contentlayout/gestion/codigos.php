@@ -13,34 +13,34 @@
                 <h3 class="box-title">Códigos de barra de productos activos por nombre</h3>
             </div>
             <div class="box-body">
-	            <div class="table-responsive">
-	              <table id="example1" class="table table-bordered hover">
-	                <thead>
-	                <tr>
-	                  <th>Nombre</th>
-	                  <th>Categoría</th>
-	                  <th>Descargar todos los código de barra</th>
-	                </tr>
-	                </thead>
-	                <tbody>
-	                <?php foreach ($productosActivos as $key => $value): ?>
-	                  <tr>
-	                    <td class="success"><?= $value['PROD_NOMBRE']; ?></td>
-	                    <td><?= $value['PROD_CAT_ID']->get('CAT_NOMBRE'); ?></td>
-	                    <td>
-	                      <button id="" name="<?= $value['PROD_ID']; ?>" value="<?= $value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
-	                        <i class="fa fa-barcode"></i>
-	                      </button>
-	                    </td>
-	                  </tr>
-	                <?php endforeach ?>
-	                </tbody>
-	              </table>
-	            </div>
+              <div class="table-responsive">
+                <table id="example1" class="table table-bordered hover">
+                  <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Descargar todos los código de barra</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php foreach ($productosActivos as $key => $value): ?>
+                    <tr>
+                      <td class="success"><?=$value['PROD_NOMBRE'];?></td>
+                      <td><?=$value['PROD_CAT_ID']->get('CAT_NOMBRE');?></td>
+                      <td>
+                        <button id="" name="<?=$value['PROD_ID'];?>" value="<?=$value['PROD_NOMBRE']?>" type="button" class="barcode btn btn-danger btn-block">
+                          <i class="fa fa-barcode"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <?php endforeach?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
       <!-- /.box -->
-          
+
 
           <!-- /.box -->
           <div class="box">
@@ -51,10 +51,10 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-	                <div class="table-responsive">
-	                    <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
-	                    </table>
-	                </div>
+                  <div class="table-responsive">
+                      <table id="dinamicajax" class="table table-responsive table-bordered table-hover">
+                      </table>
+                  </div>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
                     Descargar códigos de barra de productos Fungibles seleccionados</button>
@@ -74,10 +74,10 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                	<div class="table-responsive">
-	                    <table id="dinamicajax1" class="table table-responsive table-bordered table-hover">
-	                    </table>
-	                </div>
+                  <div class="table-responsive">
+                      <table id="dinamicajax1" class="table table-responsive table-bordered table-hover">
+                      </table>
+                  </div>
                   <div class="col-md-12">
                     <button id="enviar" value="ola" class="enviar btn btn-danger btn-block">
                     Descargar códigos de barra de productos Activos seleccionados</button>
@@ -96,10 +96,11 @@
   </div>
   <!--  /.content-wrapper -->
 
-  <?php function MISJAVASCRIPTPERSONALIZADO(){?>
+  <?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
    <script type="text/javascript" charset="utf-8">
 
-    
+
 
     $(function () {
 
@@ -126,7 +127,7 @@
             data: {"nombreProducto": nombreProd},
             success: function(response){
                 if (response.val == 0)
-                { 
+                {
                   $.notify("No existen "+nombreProd+" en el invetario.", "error");
                 }else{
                   $('#carga_modal').modal('show');
@@ -165,7 +166,7 @@
 
       /*CARGAR SELECT2 DEPENDIENDO DE TIPO DE PROODUCTOS POR AJAX*/
 /*    var data = $('.productos').select2('data')[0]['id'];
-*/    
+*/
     var tabla0 = $('#dinamicajax').DataTable({
           lengthMenu: [5,10, 20, 50, 100],
           "pagingType": "simple",
@@ -266,7 +267,7 @@
                     };
                   },
             cache: true
-            }, 
+            },
           });*/
 
 
@@ -290,7 +291,7 @@
 
 
 
-      var selected = [];  
+      var selected = [];
       $(document).on("click",".items",function function_name(argument){
         if (this.checked) {
             selected.push($(this).val());
@@ -329,9 +330,9 @@
           }
 
         });
-          
 
-    
+
+
 
   </script>
-  <?php } ?>
+  <?php }?>

@@ -17,7 +17,7 @@
             <!-- /.box-header -->
             <div class="table-responsive box-body">
               <table id="tablaajax" class=" table table-bordered table-hover">
-               
+
               </table>
             </div>
           <!-- /.box-body -->
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-            
+
             </div>
           </div>
 
@@ -45,7 +45,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                    <div class="box-body">     
+                    <div class="box-body">
                         <div class="row">
                           <div class="col-md-12">
                             <div class="box-header col-md-12">
@@ -55,7 +55,7 @@
                               <div class="col-md-6">
                                 <input type="text" class="form-control" id="buscador" placeholder="Aquí ingrese el Lector de códigos de barra ||||||||||">
                               </div>
-                              
+
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -97,9 +97,10 @@
       </div>
     </div>
 
-  <?php function MISJAVASCRIPTPERSONALIZADO(){ ?>
+  <?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
    <script type="text/javascript" charset="utf-8">
-    var tabla;    
+    var tabla;
        $(function () {
           tabla = $('#tablaajax').DataTable({
                 lengthMenu: [5,10, 20, 50, 100],
@@ -165,8 +166,8 @@ $(document).on("click",".getasignaciones",function (argument) {
                               checked = "checked";
                             }
                           if (parseInt(rr.INV_TIPO_ID) == 1) {
-                             
-                            
+
+
                            $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center">'+rr.INV_PROD_CANTIDAD+'</td><td class="text-center"><input type="checkbox" data-toggle="toggle" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" id="ASI'+rr.INV_PROD_CODIGO+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
                             }else{
                               $("#tableasignacionesresultado").append('<tr><td>'+rr.ASIG_ID+'</td><td>'+rr.INV_PROD_NOM+'(#'+rr.INV_ID+')'+'</td><td class="text-center">'+rr.ASIG_CANT+'</td><td class="text-center"><input type="number" min="1" max="'+rr.ASIG_CANT+'" id="UFC'+rr.ASIG_ID+'" class="form-control validar" placeholder="Cantidad recibida" value="'+rr.ASIG_CANT_DEVUELTA+'"/></td><td class="text-center"><input type="checkbox" data-toggle="toggle" id="ASI'+rr.INV_PROD_CODIGO+'" data-onstyle="success" data-on="Si" data-off="No" tipo="'+rr.INV_TIPO_ID+'" value="'+rr.ASIG_ID+'"  '+checked+'  name="todo" class="items" /></td></tr>');
@@ -175,8 +176,8 @@ $(document).on("click",".getasignaciones",function (argument) {
                         })
                          $.notify(response.mensaje, "success");
                       }else{
-                        $.notify(response.mensaje, "warn"); 
-                      }            
+                        $.notify(response.mensaje, "warn");
+                      }
                     },
                     complete:function (argument) {
                       $('#carga_modal').modal('hide');
@@ -192,7 +193,7 @@ $(document).on("click",".getasignaciones",function (argument) {
         }
         else{
          $('.items').bootstrapToggle('off');
-      }  
+      }
     })
 
     $(document).on("keyup","#buscador",function (argument) {
@@ -201,7 +202,7 @@ $(document).on("click",".getasignaciones",function (argument) {
         if (asieti.is(":checked")) etiqueta.val("").focus();
 
     })
-          
+
 
    $(".recepcionar").click(function(event) {
    var countallbox = 0;
@@ -247,8 +248,8 @@ $(document).on("click",".getasignaciones",function (argument) {
                          $.notify(response.mensaje, "success");
                          $('#recproins').modal('hide');
                       }else{
-                        $.notify(response.mensaje, "warn"); 
-                      }            
+                        $.notify(response.mensaje, "warn");
+                      }
                     },
                     complete:function (argument) {
                       $('#tablaajax').DataTable().ajax.reload();
@@ -264,11 +265,11 @@ $(document).on("click",".getasignaciones",function (argument) {
      var cantidadmaxima  =  $(this).attr("max");
      if (parseInt(cantidadmaxima) < parseInt(cantidadingresada)) {
         $.notify("Error la cantidad ingresada para recepcionar no puede superar lo solicitado", "warn");
-        $(this).val(0); 
+        $(this).val(0);
      }
      if (parseInt(cantidadingresada) < 0) {
         $.notify("Error la cantidad ingresada para recepcionar debe ser mayor o igual a 0", "warn");
-        $(this).val(0); 
+        $(this).val(0);
      }
 
    })
@@ -279,4 +280,4 @@ $(document).on("click",".getasignaciones",function (argument) {
    }
 
   </script>
-  <?php } ?>
+  <?php }?>

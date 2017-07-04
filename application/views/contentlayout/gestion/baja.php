@@ -8,7 +8,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-        <form action="<?= site_url('/Gestion/dar_de_baja') ?>" method="post" accept-charset="utf-8">
+        <form action="<?=site_url('/Gestion/dar_de_baja')?>" method="post" accept-charset="utf-8">
         <div class="panel panel-default">
           <div class="row panel-body">
 
@@ -19,9 +19,9 @@
                 <option></option>
                 <?php if ($inventario != null): ?>
                   <?php foreach ($inventario as $key => $value): ?>
-                    <option stock="<?= $value->get("INV_PROD_CANTIDAD") ?>" tipo="<?= $value->get("INV_TIPO_ID") ?>" value=" <?= $value->get("INV_ID") ?>"> <?= "(cod:".$value->get("INV_PROD_CODIGO").")".$value->get("INV_PROD_NOM")."   /    stock actual(".$value->get("INV_PROD_CANTIDAD").")"  ?></option>
-                  <?php endforeach ?>
-                <?php endif ?>
+                    <option stock="<?=$value->get("INV_PROD_CANTIDAD")?>" tipo="<?=$value->get("INV_TIPO_ID")?>" value=" <?=$value->get("INV_ID")?>"> <?="(cod:" . $value->get("INV_PROD_CODIGO") . ")" . $value->get("INV_PROD_NOM") . "   /    stock actual(" . $value->get("INV_PROD_CANTIDAD") . ")"?></option>
+                  <?php endforeach?>
+                <?php endif?>
                 </select>
               </div>
             </div>
@@ -30,7 +30,7 @@
               <label><small>Cantidad a dar de baja(Si es activo siempre será 1,si es fungible puede elegir la cantidad)</small></label>
               <div id="siesactivoofung">
                 <input type="number" min="1" max="5000" placeholder="Cantidad a dar de baja" name="cantidadbaja" id="cantidadbaja" value="1" readonly class="form-control">
-                <input type="hidden" name="tipobaja" id="tipobaja"> 
+                <input type="hidden" name="tipobaja" id="tipobaja">
               </div>
              </div>
             </div>
@@ -45,9 +45,9 @@
                 <option></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <?php if ($value['MOT_DIF'] == 1): ?>
-                     <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
-                  <?php endif ?>
-                <?php endforeach ?>
+                     <option value=" <?=$value['MOT_ID']?> "><?=$value['MOT_NOMBRE']?> </option>
+                  <?php endif?>
+                <?php endforeach?>
               </select>
             </div>
           </div>
@@ -85,35 +85,35 @@
                 <?php //print_r($bajas) ?>
                 <?php foreach ($bajas as $key => $value): ?>
                  <tr>
-                  <td><?= $value['BAJA_FECHA']  ?></td>
-                  <td><?= "(cod:".$value['INV_PROD_CODIGO'].") -".$value['INV_PROD_NOM']  ?></td>
-                  <td><?= $value['BAJA_CANTIDAD']  ?></td>
+                  <td><?=$value['BAJA_FECHA']?></td>
+                  <td><?="(cod:" . $value['INV_PROD_CODIGO'] . ") -" . $value['INV_PROD_NOM']?></td>
+                  <td><?=$value['BAJA_CANTIDAD']?></td>
                   <td>
                     <?php if (intval($value['BAJA_TIPO']) == 1): ?>
                       Activo
-                    <?php elseif(intval($value['BAJA_TIPO']) == 2): ?>
+                    <?php elseif (intval($value['BAJA_TIPO']) == 2): ?>
                       Fungible
-                    <?php endif ?>
+                    <?php endif?>
                   </td>
-                  <td><?= $value['USU_NOMBRES']  ?></td>
-                  <td><?= $value['MOT_NOMBRE'] ?></td>
+                  <td><?=$value['USU_NOMBRES']?></td>
+                  <td><?=$value['MOT_NOMBRE']?></td>
                   <td><?php if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
                     <?php
-                     $ultimoregistro = array_pop($value['BAJA_MOTIVO_RESULTADO']);  
-                     echo($ultimoregistro["OBS_MOT_NOMBRE"]);
-                     ?>
+$ultimoregistro = array_pop($value['BAJA_MOTIVO_RESULTADO']);
+echo ($ultimoregistro["OBS_MOT_NOMBRE"]);
+?>
                   <?php else: ?>
                      SIN RESULTADO
-                  <?php endif ?>
-                    
+                  <?php endif?>
+
                   </td>
                   <td>
                     <?php if ($value['MOT_ID'] == 15): ?>
-                      <button idbaja="<?= $value['BAJA_ID'] ?>" class="obsbaja btn btn-block btn-success fa fa-eye" data-toggle="modal" data-target=".myObs"></button>
-                    <?php endif ?>
+                      <button idbaja="<?=$value['BAJA_ID']?>" class="obsbaja btn btn-block btn-success fa fa-eye" data-toggle="modal" data-target=".myObs"></button>
+                    <?php endif?>
                   </td>
-                 </tr> 
-                <?php endforeach ?>
+                 </tr>
+                <?php endforeach?>
                 </tbody>
               </table>
             </div>
@@ -153,9 +153,9 @@
                       <option></option>
                       <?php foreach ($motivos as $key => $value): ?>
                         <?php if ($value['MOT_DIF'] == 2): ?>
-                           <option value=" <?= $value['MOT_ID']  ?> "><?= $value['MOT_NOMBRE']  ?> </option>
-                        <?php endif ?>
-                      <?php endforeach ?>
+                           <option value=" <?=$value['MOT_ID']?> "><?=$value['MOT_NOMBRE']?> </option>
+                        <?php endif?>
+                      <?php endforeach?>
                     </select>
                   </div>
 
@@ -169,10 +169,10 @@
                         </tr>
                       </thead>
                       <tbody id="historialobs">
-                     
+
                       </tbody>
                     </table>
-                    
+
                   </div>
 
 
@@ -180,13 +180,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="button" id="agregarmotivoresultado" class="btn btn-success">Guardar datos</button> 
+            <button type="button" id="agregarmotivoresultado" class="btn btn-success">Guardar datos</button>
           </div>
         </div>
       </div>
     </div>
   <!--Observaciones-->
-    <?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+    <?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
     <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
 
@@ -244,9 +245,9 @@
                       });
                        $("#bajaidhidden").val(id);
                        $("#inventarioabajar").val(response.INV_ID);
-                       $.notify("Detalle observaciones cargado exitosamente", "success");      
+                       $.notify("Detalle observaciones cargado exitosamente", "success");
                     }
-           })   
+           })
 
     })
 
@@ -300,11 +301,11 @@
                     success: function(response){
                       if (response.estado) {
                          $.notify(response.mensaje, "success");
-                         location.reload(); 
+                         location.reload();
                       }else{
-                        $.notify(response.mensaje, "warn"); 
+                        $.notify(response.mensaje, "warn");
                       }
-                           
+
                     }
            })
 
@@ -319,4 +320,4 @@
     }
 
     </script>
-    <?php } ?>
+    <?php }?>
