@@ -102,6 +102,8 @@
                   <th>Tipo</th>
                   <th>Categoria</th>
                   <th>Fecha dado de baja</th>
+                  <th>Cantidad de baja</th>
+                  <th>Usuario que realizo la baja</th>
                   <th>Motivo de baja</th>
                 </tr>
               </thead>
@@ -111,9 +113,17 @@
                 <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
-                <td><?= $value['TIPO_NOMBRE']; ?></td>
+                <?php if ($value['BAJA_TIPO'] == 1): ?>
+                  <td>  Activo</td>
+                  <?php elseif ($value['BAJA_TIPO'] == 2): ?>
+                    <td>  Fungible</td>
+                  <?php else: ?>
+                    <td>SIN REGISTRO</td>
+                    <?php endif ?>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
                 <td><?= $value['BAJA_FECHA']; ?></td>
+                <td><?= $value['BAJA_CANTIDAD']; ?></td>
+                <td><?= $value['USU_NOMBRES']; ?></td>
                 <td><?= $value['MOT_NOMBRE']; ?></td>
                 </tr>
                  <?php endforeach ?>

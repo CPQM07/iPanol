@@ -220,20 +220,17 @@ productos.PROD_STOCK_CRITICO,productos.PROD_STOCK_OPTIMO,productos.PROD_PRIORIDA
 public function motivosdebaja($tipo, $cat, $mot){
 	$result = array();
 	//$this->db->like('TIPO_ID', $tipo);
-	$this->db->select('inventario.INV_PROD_CODIGO, categoria.CAT_ID, categoria.CAT_NOMBRE,
-						tipoprod.TIPO_ID, tipoprod.TIPO_NOMBRE, inventario.INV_PROD_ESTADO,
-						inventario.INV_PROD_NOM, baja.BAJA_FECHA, motivo.MOT_ID, motivo.MOT_NOMBRE');
+	$this->db->select('CAT_ID,MOT_ID,INV_PROD_CODIGO ,INV_PROD_NOM,CAT_NOMBRE,BAJA_FECHA ,BAJA_CANTIDAD ,BAJA_TIPO,USU_NOMBRES, MOT_NOMBRE, BAJA_TIPO');
 	$this->db->from('inventario');
-	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
-	$this->db->join('tipoprod','inventario.INV_TIPO_ID = tipoprod.TIPO_ID');
 	$this->db->join('baja','inventario.INV_ID = baja.BAJA_INV_ID');
 	$this->db->join('motivo','baja.BAJA_MOTIVO_ID = motivo.MOT_ID');
-	$this->db->where('inventario.INV_PROD_ESTADO != 1');
+	$this->db->join('usuario','baja.BAJA_USU_RUT = usuario.USU_RUT');
+	$this->db->join('categoria','inventario.INV_CATEGORIA_ID = categoria.CAT_ID');
 	if ($cat!='0') {
 		$this->db->where('CAT_ID',$cat);
 	}	
 	if ($tipo!='0') {
-		$this->db->where('TIPO_ID',$tipo);
+		$this->db->where('BAJA_TIPO',$tipo);
 	}
 	if ($mot!='0') {
 		$this->db->where('MOT_ID',$mot);
@@ -246,14 +243,14 @@ public function motivosdebaja($tipo, $cat, $mot){
     }
 		if(is_null($result))
 		{
-			$result =array(array( 
-"TIPO_ID"=>"0",
+			$result =array(array(
 "INV_PROD_CODIGO"=>"0",
 "INV_PROD_NOM"=>"SIN REGISTRO",
-"TIPO_NOMBRE"=>"SIN REGISTRO",
-"CAT_ID"=>"0",
+"BAJA_CANTIDAD"=>"0",
+"BAJA_TIPO"=>"SIN REGISTRO",
 "CAT_NOMBRE"=>"SIN REGISTRO", 
 "BAJA_FECHA"=>"SIN REGISTRO",
+"USU_NOMBRES"=>"SIN REGISTRO",
 "MOT_NOMBRE"=>"SIN REGISTRO"));
 		}
     return $result;

@@ -833,11 +833,11 @@ exit;
             ->setKeywords("reporte Motivos de baja") //Etiquetas
             ->setCategory("Reporte excel"); //Categorias
         $tituloReporte = "Reporte Motivos de baja de Productos";
-        $titulosColumnas = array('Codigo   ' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de baja ',
+        $titulosColumnas = array('Codigo   ' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de baja ','Cantidad de baja','Usuario que realizo la baja',
                                   'Motivo de baja');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
-            ->mergeCells('A1:F1');
+            ->mergeCells('A1:H1');
         // Se agregan los titulos del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1',  $tituloReporte) // Titulo del reporte
@@ -846,7 +846,9 @@ exit;
             ->setCellValue('C3',  $titulosColumnas['2'])
             ->setCellValue('D3',  $titulosColumnas['3'])
             ->setCellValue('E3',  $titulosColumnas['4'])
-            ->setCellValue('F3',  $titulosColumnas['5']);
+            ->setCellValue('F3',  $titulosColumnas['5'])
+            ->setCellValue('G3',  $titulosColumnas['6'])
+            ->setCellValue('H3',  $titulosColumnas['7']);
             //Se agregan los datos de los productos
         $i = 4; //Numero de fila donde se va a comenzar a rellenar
       $TotalProductos = $this->reporte->motivosdebaja($buscartipo, $buscarcat, $buscarmot);     
@@ -854,19 +856,52 @@ exit;
         {
               $codigo = $value['INV_PROD_CODIGO'];
               $nomprod = $value['INV_PROD_NOM'];
-              $nomtipo = $value['TIPO_NOMBRE'];
+              $nomtipo = $value['BAJA_TIPO'];
               $nomcat = $value['CAT_NOMBRE'];
+              $Activo = "Activo";
+              $Fungible = "Fungible";
               $fecha = $value['BAJA_FECHA'];
+              $sr = "SIN REGISTRO";
+              $cantidad = $value['BAJA_CANTIDAD'];
+              $usuario = $value['USU_NOMBRES'];
               $motivo = $value['MOT_NOMBRE'];
+              if ($nomtipo == 1) {
+             $objPHPExcel->setActiveSheetIndex(0)
+              ->setCellValue('A'.$i, $codigo)
+              ->setCellValue('B'.$i, $nomprod)
+              ->setCellValue('C'.$i, $Activo)
+              ->setCellValue('D'.$i, $nomcat)
+              ->setCellValue('E'.$i, $fecha)
+              ->setCellValue('F'.$i, $cantidad)
+              ->setCellValue('G'.$i, $usuario)
+              ->setCellValue('H'.$i, $motivo);
+          $i++;
+              }elseif ($nomtipo == 2) {
+             $objPHPExcel->setActiveSheetIndex(0)
+              ->setCellValue('A'.$i, $codigo)
+              ->setCellValue('B'.$i, $nomprod)
+              ->setCellValue('C'.$i, $Fungible)
+              ->setCellValue('D'.$i, $nomcat)
+              ->setCellValue('E'.$i, $fecha)
+              ->setCellValue('F'.$i, $cantidad)
+              ->setCellValue('G'.$i, $usuario)
+              ->setCellValue('H'.$i, $motivo);
+          $i++;
+              }else
+              {
+             $objPHPExcel->setActiveSheetIndex(0)
+              ->setCellValue('A'.$i, $codigo)
+              ->setCellValue('B'.$i, $nomprod)
+              ->setCellValue('C'.$i, $sr)
+              ->setCellValue('D'.$i, $nomcat)
+              ->setCellValue('E'.$i, $fecha)
+              ->setCellValue('F'.$i, $cantidad)
+              ->setCellValue('G'.$i, $usuario)
+              ->setCellValue('H'.$i, $motivo);
+          $i++;
 
-        $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A'.$i, $codigo)
-            ->setCellValue('B'.$i, $nomprod)
-            ->setCellValue('C'.$i, $nomtipo)
-            ->setCellValue('D'.$i, $nomcat)
-            ->setCellValue('E'.$i, $fecha)
-            ->setCellValue('F'.$i, $motivo);
-        $i++;
+              }
+
         }
       
 $estiloTituloReporte = array(
@@ -950,11 +985,11 @@ $estiloInformacion->applyFromArray( array(
         )
     )
 ));
-$objPHPExcel->getActiveSheet()->getStyle('A1:F1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:F3')->applyFromArray($estiloTituloColumnas);
-$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:F".($i-1));
+$objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:H".($i-1));
 // Tamaño automatico
-for($i = 'A'; $i <= 'F'; $i++){
+for($i = 'A'; $i <= 'H'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
@@ -1006,25 +1041,38 @@ exit;
                   <th>Codigo</th>
                   <th>Nombre Producto</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>                  
-                  <th>Fecha de baja</th>
+                  <th>Categoria</th>
+                  <th>Fecha dado de baja</th>
+                  <th>Cantidad de baja</th>
+                  <th>Usuario que realizo la baja</th>
                   <th>Motivo de baja</th>
                   </tr>";
                foreach ($TotalProductos as $value) 
         {
         $codigo = $value['INV_PROD_CODIGO'];
         $nomprod = $value['INV_PROD_NOM'];
-        $nomtipo = $value['TIPO_NOMBRE'];
+        $nomtipo = $value['BAJA_TIPO'];
         $nomcat = $value['CAT_NOMBRE'];
         $fecha = $value['BAJA_FECHA'];
+        $cantidad = $value['BAJA_CANTIDAD'];
+        $usuario = $value['USU_NOMBRES'];
         $motivo = $value['MOT_NOMBRE'];
             $html .= "<tr>
                       <td class='codigo' >".$codigo."</td>
-                      <td class='tipo' >".$nomprod."</td>
-                      <td class='categoria'>".$nomtipo."</td>
-                      <td class='nombre'>".$nomcat."</td>
-                      <td class= 'optimo' >".$fecha."</td>
-                      <td class= 'critico' >".$motivo."</td>
+                      <td class='tipo' >".$nomprod."</td>";
+                      if ($value['BAJA_TIPO'] == 1) {
+            $html .= "<td class='Tipo' >Activo</td>";
+                      }elseif ($value['BAJA_TIPO'] == 2) {
+            $html .= "<td class='Tipo'>Fungible</td>";
+                      }else{
+            $html .= "<td class='Tipo'>SIN REGISTRO</td>";
+                      }
+                      
+            $html .= "<td class='Categoria'>".$nomcat."</td>
+                      <td class= 'Fecha' >".$fecha."</td>
+                      <td class= 'cantidad' >".$cantidad."</td>
+                      <td class= 'usuario' >".$usuario."</td>
+                      <td class= 'motivo' >".$motivo."</td>
                       </tr>";
         }
         $html .= "</table>";
