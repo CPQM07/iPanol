@@ -71,16 +71,13 @@ class Catalogo extends CI_Controller
     {
         $this->load->library('pagination');
 
-        $config['uri_segment'] = 4;
-        $config['base_url']    = base_url("index.php/Catalogo/categoria/" . $categoria);
-        $page                  = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-
-        $dato['categorias'] = $this->cat->findAll();
-        $dato['tipoProd']   = $this->tipoP->findAll();
-
-        $config['total_rows'] = $this->prod->contar(null, $categoria, null);
-        $config['per_page']   = 6;
-
+        $config['uri_segment']     = 4;
+        $config['base_url']        = base_url("index.php/Catalogo/categoria/" . $categoria);
+        $page                      = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $dato['categorias']        = $this->cat->findAll();
+        $dato['tipoProd']          = $this->tipoP->findAll();
+        $config['total_rows']      = $this->prod->contar(null, $categoria, null);
+        $config['per_page']        = 6;
         $config['num_links']       = 5;
         $config['full_tag_open']   = '<ul class="pagination">';
         $config['full_tag_close']  = '</ul>';
@@ -128,16 +125,13 @@ class Catalogo extends CI_Controller
     {
         $this->load->library('pagination');
 
-        $config['uri_segment'] = 4;
-        $config['base_url']    = base_url("index.php/Catalogo/tipo/" . $tipo);
-        $page                  = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-
-        $dato['categorias'] = $this->cat->findAll();
-        $dato['tipoProd']   = $this->tipoP->findAll();
-
-        $config['total_rows'] = $this->prod->contar(null, null, $tipo);
-        $config['per_page']   = 6;
-
+        $config['uri_segment']     = 4;
+        $config['base_url']        = base_url("index.php/Catalogo/tipo/" . $tipo);
+        $page                      = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $dato['categorias']        = $this->cat->findAll();
+        $dato['tipoProd']          = $this->tipoP->findAll();
+        $config['total_rows']      = $this->prod->contar(null, null, $tipo);
+        $config['per_page']        = 6;
         $config['num_links']       = 5;
         $config['full_tag_open']   = '<ul class="pagination">';
         $config['full_tag_close']  = '</ul>';
@@ -185,15 +179,13 @@ class Catalogo extends CI_Controller
     {
         $like = str_replace("%20", " ", $like);
         $this->load->library('pagination');
-        $config['uri_segment'] = 4;
-        $config['base_url']    = base_url("index.php/Catalogo/buscar/" . $like);
-        $page                  = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $dato['categorias']    = $this->cat->findAll();
-        $dato['tipoProd']      = $this->tipoP->findAll();
-
-        $config['total_rows'] = $this->prod->contar($like, null, null);
-        $config['per_page']   = 6;
-
+        $config['uri_segment']     = 4;
+        $config['base_url']        = base_url("index.php/Catalogo/buscar/" . $like);
+        $page                      = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $dato['categorias']        = $this->cat->findAll();
+        $dato['tipoProd']          = $this->tipoP->findAll();
+        $config['total_rows']      = $this->prod->contar($like, null, null);
+        $config['per_page']        = 6;
         $config['num_links']       = 5;
         $config['full_tag_open']   = '<ul class="pagination">';
         $config['full_tag_close']  = '</ul>';
