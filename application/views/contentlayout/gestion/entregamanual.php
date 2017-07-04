@@ -1,6 +1,6 @@
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) --> 
+    <!-- Content Header (Page header) -->
       <!-- /.box-header -->
       <div class="box-body">
   <div class="content">
@@ -32,9 +32,9 @@
                  <option></option>
                  <?php foreach ($asignaturas as $key => $value): ?>
                   <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>
-                  <option value=" <?= $value->get('ASIGNATURA_ID') ?>" ><?= $value->get('ASIGNATURA_NOMBRE') ?></option>
-                  <?php endif ?>
-                 <?php endforeach ?>
+                  <option value=" <?=$value->get('ASIGNATURA_ID')?>" ><?=$value->get('ASIGNATURA_NOMBRE')?></option>
+                  <?php endif?>
+                 <?php endforeach?>
                 </select>
               </div>
               <!-- /.form-group -->
@@ -72,7 +72,7 @@
           <div class="row panel-body">
             <!-- /EMPIEZA PRIMERA TABLA -->
             <div class="col-md-6">
-                
+
               <div class="panel panel-body panel-info">
                 <div class="col-md-6">
               <label>Tipo de insumo</label>
@@ -93,14 +93,14 @@
                   <option value="0"></option>
                   <?php foreach ($categorias as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
-                       <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?></option>
-                    <?php endif ?>
-                  <?php endforeach ?>
+                       <option value=" <?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
+                    <?php endif?>
+                  <?php endforeach?>
                 </select>
               </div>
             </div>
               </div>
-               
+
                 <div class="table-responsive box-body">
                   <table id="dinamicajax" class="table table-bordered table-hover">
                 </table>
@@ -153,7 +153,8 @@
       </div><!-- BOX BODY -->
     </div> <!-- /CONTENT-WRAPPER -->
 
-<?php function MISJAVASCRIPTPERSONALIZADO(){  ?>
+<?php function MISJAVASCRIPTPERSONALIZADO()
+{?>
 <script type="text/javascript" charset="utf-8">
  var tipo = 0;
   var cat =0;
@@ -223,7 +224,7 @@
                     { title: "Acción"}]
             });
 
-                            
+
 
    $("#Cargo").on("change",function(event){
     var id = $(this).val();
@@ -237,8 +238,8 @@
                     success: function(response){
                         response.forEach(function(entry) {
                          var obj = JSON.parse(entry);
-                         $("#usuariossel").append(new Option(obj.RUT+obj.DV+" | "+obj.NOMBRES, obj.RUT, true, true));  
-                    });               
+                         $("#usuariossel").append(new Option(obj.RUT+obj.DV+" | "+obj.NOMBRES, obj.RUT, true, true));
+                    });
                     }
            })
       }
@@ -257,7 +258,7 @@
     var stockactual = $(this).attr("cant");
     var nom = $(this).attr("nom");
     var tipo = $(this).attr("tipo");
-    if(asignaciones.indexOf(id) == -1){  
+    if(asignaciones.indexOf(id) == -1){
             if (tipo == 1) {
               $("#asignacion").append('<tr><td>'+id+'</td><td>'+nom+'</td><td>'+stockactual+'</td><td><a style="cursor:pointer;" id="DEL'+id+'" cant="'+stockactual+'" class="conlabel fa fa-trash"></a></td></tr>');
               asignaciones.push(id);
@@ -330,12 +331,12 @@
 
 
       var arrayasig = new Array();
-        $("#resulasignacion tbody tr").each(function (index) 
+        $("#resulasignacion tbody tr").each(function (index)
         {
             var idinv, nombreinv, cantidadinv;
-            $(this).children("td").each(function (index2) 
+            $(this).children("td").each(function (index2)
             {
-                switch (index2) 
+                switch (index2)
                 {
                     case 0: idinv = $(this).text();
                             break;
@@ -366,7 +367,7 @@
                         } else{
                           $.notify(response.mensaje, "warn");
                           $('#carga_modal').modal('hide');
-                        }    
+                        }
                     }
            })
     }else{
@@ -376,9 +377,9 @@
     }else{
       $.notify("Debe a lo menos asignar un producto, actualmente la asignación se encuentra vacía", "warn");
     }
-     
+
    });
 
 
 </script>
-<?php } ?>
+<?php }?>

@@ -1,4 +1,4 @@
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="<?= base_url('resources/plugins/bootstrap-toggle-master/css/bootstrap-toggle.min.css') ?> " >
   <!-- font-awesome -->
   <link rel="stylesheet" href="<?= base_url('resources/css/font-awesome.css') ?>">
   <!-- DataTables -->
@@ -8,7 +8,7 @@
   <!-- AdminLTE -->
   <link rel="stylesheet" href="<?= base_url('resources/css/AdminLTE.css') ?>">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?= base_url('resources/plugins/ionicons-2.0.1/css/ionicons.min.css') ?>">
   <!-- AdminLTE Skins -->
   <link rel="stylesheet" href="<?= base_url('resources/css/skin.css') ?>">
   <!-- daterange picker -->

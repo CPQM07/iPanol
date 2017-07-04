@@ -52,7 +52,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart pull-right" id="totalcarrito"> <?php if(isset($_SESSION["productos"])) echo("".count($_SESSION["productos"]).""); ?> </i> Carrito</a></li>
+								<li><a href="<?= site_url('/Catalogo/carrito') ?>"><i class="fa fa-shopping-cart pull-right" id="totalcarrito"> <?php if(isset($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]])) echo("".count($_SESSION["productos"][$this->session->userdata('logged_in')["rut"]]).""); ?> </i> Carrito</a></li>
 							</ul>
 						</div>
 					</div>
