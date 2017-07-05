@@ -92,7 +92,7 @@
                         <label class="col-sm-2 control-label">ESTADO</label>
                         <div class="col-md-9">
                           <select class="form-control select2"  name="motivo[MOT_ESTADO]" style="width: 100%;">
-                            <option selected="selected">ESTADO</option>
+                            <option selected="selected">Seleccionar estado...</option>
                               <option value="1">ACTIVO</option>
                               <option value="2">ELIMINADO</option>
                           </select>
@@ -103,7 +103,7 @@
                         <label class="col-sm-2 control-label">ORIGEN</label>
                         <div class="col-md-9">
                           <select class="form-control select2" name="motivo[MOT_DIF]" style="width: 100%;">
-                            <option selected="selected">ORIGEN</option>
+                            <option selected="selected">Seleccionar origen...</option>
                             <option value="1">BAJA</option>
                             <option value="2">OBSERVACIÓN</option>
                           </select>

@@ -17,7 +17,7 @@
           <div class="form-group">
             <label>Tipo</label>
               <select id="tipo" name="tipo" class="select2" style="width: 100%" required="true">
-              <option value="0">Tipos de productos</option>
+              <option ></option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
               <?php endforeach ?>
@@ -102,6 +102,8 @@
                   <th>Tipo</th>
                   <th>Categoria</th>
                   <th>Fecha dado de baja</th>
+                  <th>Cantidad de baja</th>
+                  <th>Usuario que realizo la baja</th>
                   <th>Motivo de baja</th>
                 </tr>
               </thead>
@@ -111,9 +113,17 @@
                 <tr>
                 <td><?= $value['INV_PROD_CODIGO']; ?></td>
                 <td><?= $value['INV_PROD_NOM']; ?></td>
-                <td><?= $value['TIPO_NOMBRE']; ?></td>
+                <?php if ($value['BAJA_TIPO'] == 1): ?>
+                  <td>  Activo</td>
+                  <?php elseif ($value['BAJA_TIPO'] == 2): ?>
+                    <td>  Fungible</td>
+                  <?php else: ?>
+                    <td>SIN REGISTRO</td>
+                    <?php endif ?>
                 <td><?= $value['CAT_NOMBRE']; ?></td>
                 <td><?= $value['BAJA_FECHA']; ?></td>
+                <td><?= $value['BAJA_CANTIDAD']; ?></td>
+                <td><?= $value['USU_NOMBRES']; ?></td>
                 <td><?= $value['MOT_NOMBRE']; ?></td>
                 </tr>
                  <?php endforeach ?>

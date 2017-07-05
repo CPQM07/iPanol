@@ -19,7 +19,8 @@ class Dashboard extends CI_Controller
     {
         $coun['solpen']     = $this->soli->count0(); /*contador solicitudPendiendeRecepcionar*/
         $coun['solsinasig'] = $this->soli->count1(); /*contador solicitudPendiendeRecepcionar*/
-        $coun['baja']       = $this->inv->count2(); /*contador productosBaja*/
+        $coun['baja']       = $this->baja->count2(array('BAJA_MOTIVO_ID !=' => 15,'MOT_DIF' => 1,"BAJA_TIPO" => 1)); /*contador productosBaja activos*/
+        $coun['baja2']       = $this->baja->count2(array('BAJA_MOTIVO_ID' => 15,'MOT_DIF'=>1,"BAJA_TIPO" => 1)); /*contador productosBaja reparados activos*/
         $coun['parciales']  = $this->soli->parciales(); /*contador productosBaja*/
 
         $coun['activosHoy']   = $this->asignacion->productoActivoHoy();

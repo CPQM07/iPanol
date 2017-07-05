@@ -377,7 +377,7 @@ class Gestion extends CI_Controller
                 $value->get('SOL_FECHA_TERMINO'),
                 $cargo->get("CARGO_NOMBRE"),
                 "<a target='_blank' href='" . base_url() . "resources/pdf/" . $value->get('SOL_RUTA_PDF') . "' class='fa fa-file-pdf-o'></a>",
-                "<button idsol='" . $value->get('SOL_ID') . "' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepcion P/I</button>",
+                "<button idsol='" . $value->get('SOL_ID') . "' class='getasignaciones btn btn-block btn-success' data-toggle='modal' data-target='#recproins' >Gestionar recepción P/I</button>",
 
             );
         }
