@@ -15,7 +15,7 @@
              <div class="col-md-6">
               <div class="form-group">
                 <label>Inventario</label>
-                <select name="forminventario" id="forminventario" required class="select2" style="width: 100%;">
+                <select placeholder="Seleccionar artículo..." name="forminventario" id="forminventario" required class="select2" style="width: 100%;">
                 <option></option>
                 <?php if ($inventario != null): ?>
                   <?php foreach ($inventario as $key => $value): ?>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-6">
              <div class="form-group">
-              <label><small>Cantidad a dar de baja(Si es activo siempre será 1,si es fungible puede elegir la cantidad)</small></label>
+              <label><small>Cantidad a dar de baja. (Si es activo siempre, será 1. Si es fungible puede elegir la cantidad)</small></label>
               <div id="siesactivoofung">
                 <input type="number" min="1" max="5000" placeholder="Cantidad a dar de baja" name="cantidadbaja" id="cantidadbaja" value="1" readonly class="form-control">
                 <input type="hidden" name="tipobaja" id="tipobaja">
@@ -41,7 +41,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Motivo Origen</label>
-              <select name="formmotivoorigen" required class="select2" style="width: 100%;">
+              <select placeholder="Seleccionar motivo de baja..." name="formmotivoorigen" required class="select2" style="width: 100%;">
                 <option></option>
                 <?php foreach ($motivos as $key => $value): ?>
                   <?php if ($value['MOT_DIF'] == 1): ?>
@@ -213,7 +213,7 @@ echo ($ultimoregistro["OBS_MOT_NOMBRE"]);
                             },
                          {
                             extend: 'pdfHtml5',
-                            text: 'Exportar a pdf',
+                            text: 'Exportar a PDF',
                             exportOptions: {
                                             columns: [ 0, 1, 2, 3,4 ]
                                         }

@@ -35,7 +35,7 @@
                     <div class="form-group">
                       <label>Producto (*)</label>
                         <div class="input-group">
-                          <select style="width: 100%" id="prodselect" required name="producto" class="select2">
+                          <select placeholder="Seleccionar producto..." style="width: 100%" id="prodselect" required name="producto" class="select2">
                             <option></option>
                             <?php foreach ($productos as $key => $value): ?>
                               <?php if ($value->get("PROD_ESTADO") != 0): ?>
@@ -63,7 +63,7 @@
                   </div>
                   <div class="col-md-3">
                       <label>Modo (*)</label>
-                        <select required id="modo" name="modo" style="width: 100%" class="select2">
+                        <select placeholder="Seleccionar modo de ingreso..." required id="modo" name="modo" style="width: 100%" class="select2">
                           <option ></option>
                           <option value="1">Compra</option>
                           <option value="2">Donación</option>

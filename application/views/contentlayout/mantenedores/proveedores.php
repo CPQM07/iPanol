@@ -116,7 +116,7 @@
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select id="newtipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
+                          <select placeholder="Seleccionar tipo de persona..." id="newtipo" name="PROV[PROV_TIPO]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <option value="1">Persona Natural</option>
                             <option value="2">Persona Jurídica</option>

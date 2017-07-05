@@ -10,7 +10,7 @@
         <div class="row panel-body">
           <div class="col-md-4">
             <div class="form-group">
-              <select id="Cargo" class="select2" style="width: 100%;">
+              <select placeholder="Seleccionar cargo..." id="Cargo" class="select2" style="width: 100%;">
                 <option></option>
                 <option value="2">Profesor</option>
                 <option value="1">Alumno</option>
@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <select id="usuariossel" class="select2" style="width: 100%;">
+              <select placeholder="Seleccionar..." id="usuariossel" class="select2" style="width: 100%;">
                 <option></option>
               </select>
             </div>
@@ -28,7 +28,7 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-                <select id="asignatura" class="select2" style="width: 100%;">
+                <select placeholder="Seleccionar asignatura..." id="asignatura" class="select2" style="width: 100%;">
                  <option></option>
                  <?php foreach ($asignaturas as $key => $value): ?>
                   <?php if ($value->get('ASIGNATURA_ESTADO') == 1): ?>

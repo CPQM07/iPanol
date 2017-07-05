@@ -112,7 +112,7 @@
                         <label class="col-sm-2 control-label">Categoría</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
+                          <select placeholder="Seleccionar categoría..." name="producto[PROD_CAT_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($categorias as $key => $value): ?>
                               <option value="<?=$value->get('CAT_ID')?>"><?=$value->get('CAT_NOMBRE')?></option>
@@ -124,7 +124,7 @@
                         <label class="col-sm-2 control-label">Tipo</label>
 
                         <div class="col-md-9">
-                          <select name="producto[PROD_TIPOPROD_ID]" class="select2" style="width: 100%;" required>
+                          <select placeholder="Seleccionar tipo de artículo..." name="producto[PROD_TIPOPROD_ID]" class="select2" style="width: 100%;" required>
                             <option></option>
                             <?php foreach ($tipos as $key => $value): ?>
                               <option value="<?=$value->get('TIPO_ID')?>"><?=$value->get('TIPO_NOMBRE')?></option>
