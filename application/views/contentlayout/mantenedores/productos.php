@@ -340,7 +340,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_cat')?>" method="post" accept-charset="utf-8">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_cat/2')?>" method="post" accept-charset="utf-8">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>

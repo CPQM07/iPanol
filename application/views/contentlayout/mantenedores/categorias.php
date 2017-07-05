@@ -76,7 +76,7 @@
             <div class="modal-body">
               <div class="box">
                 <div class="row">
-                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_cat')?>" method="post" accept-charset="utf-8">
+                  <form class="form-horizontal" action="<?=site_url('Mantencion/new_cat/1')?>" method="post" accept-charset="utf-8">
                     <div class="box-body">
                       <div class="form-group">
                         <label class="col-sm-2 control-label">Nombre</label>
@@ -164,7 +164,7 @@
 
                         <div class="col-md-9">
                           <select id="estado" name="cat[CAT_ESTADO]" class="select2" style="width: 100%;">
-                            <option selected="selected">Seleccione un tipo</option>
+                            <option></option>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                           </select>

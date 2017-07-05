@@ -149,7 +149,7 @@ class Mantencion extends CI_Controller
         $this->output->set_output(json_encode($newarray));
     }
 
-    public function new_cat()
+    public function new_cat($num=null)
     {
         if (isset($_POST['cat'])) {
             $nuevo = $this->cat->create($_POST['cat']);
@@ -158,7 +158,7 @@ class Mantencion extends CI_Controller
             $texto      = implode(",", $_POST['cat']);
             $this->cat->insertLogs(1, $usersesion['rut'], 0, $texto);
             $this->session->set_flashdata('Habilitar', 'Se agregó Correctamente');
-            redirect('/Mantencion/categorias');
+            if ($num == 1) {redirect('/Mantencion/categorias');} else {redirect('/Mantencion/productos');}
         } else {
             echo "categorias no fue agregado";
         }
