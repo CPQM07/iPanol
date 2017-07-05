@@ -16,7 +16,7 @@
           <form action="" method="post" class="form">
           <div class="form-group">
             <label>Tipo</label>
-              <select id="tipo" name="tipo" class="select2" style="width: 100%">
+              <select placeholder="Seleccionar tipo de artículo..." id="tipo" name="tipo" class="select2" style="width: 100%">
                 <option ></option>
               <?php foreach ($tipo as $key => $value): ?>
               <option value="<?= $value['TIPO_ID']; ?>"><?= $value['TIPO_NOMBRE'];  ?></option>
@@ -26,10 +26,10 @@
         </div>
 
                <div class="col-md-4">
-          <label>Categorias</label>
+          <label>Categorías</label>
              <div class="form-group">
                 <select id="cat" name="cat" class="select2" style="width: 100%">
-                <option value="0">Todas las categorias</option>
+                <option value="0">Todas las categorías</option>
                    <?php foreach ($categoria as $key => $value): ?>
                     <?php if ($value->get("CAT_ESTADO") == 1): ?>
                        <option value=" <?= $value->get('CAT_ID')  ?>"><?= $value->get('CAT_NOMBRE')  ?>
@@ -92,13 +92,13 @@
             <table id="example2" class="datatable table-bordered table-hover">    
               <thead>
                 <tr>
-                  <th>Codigo</th>
-                  <th>Nombre Producto</th>
+                  <th>Código</th>
+                  <th>Nombre producto</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Tipo Ingreso</th>
-                  <th>Stock Optimo</th>
-                  <th>Stock Critico</th>
+                  <th>Categoría</th>
+                  <th>Tipo ingreso</th>
+                  <th>Stock óptimo</th>
+                  <th>Stock crítico</th>
                   <th>Prioridad</th>
                   <th>Total</th>
                 </tr>

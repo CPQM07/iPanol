@@ -44,18 +44,18 @@ class Reportes extends CI_Controller {
         $buscarcat = $_POST["cat"];
         $buscaradq = $_POST["adq"];
         $compra = "Compra";
-        $donacion = "Donacion";
+        $donacion = "Donación";
         // Se asignan las propiedades del libro
         $objPHPExcel->getProperties()->setCreator("Bryan Cordova and Elliott Urrutia") // Nombre del autor
             ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
             ->setTitle("Reporte") // Titulo
             ->setSubject("Reporte Excel con PHP") //Asunto
             ->setDescription("Reporte de stock actual") //Descripción
-            ->setKeywords("reporte stock actual") //Etiquetas
+            ->setKeywords("Reporte stock actual") //Etiquetas
             ->setCategory("Reporte excel"); //Categorias
         $tituloReporte = "Reporte stock actual de Productos";
-        $titulosColumnas = array('Codigo  ' , 'Nombre Producto', 'Tipo', 'Categoria','Tipo Ingreso'
-                                ,'Posicion','Total');
+        $titulosColumnas = array('Código  ' , 'Nombre Producto', 'Tipo', 'Categoría','Tipo Ingreso'
+                                ,'Posición','Total');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->mergeCells('A1:G1');
@@ -263,7 +263,7 @@ exit;
       $buscarcat = $_POST["cat"];
       $buscaradq = $_POST["adq"];
       $compra = "Compra";
-      $donacion = "Donacion";
+      $donacion = "Donación";
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
       $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Actuales', "");
@@ -286,11 +286,11 @@ exit;
         $html .= "<h4>Actualmente: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
         $html .= "<tr>
-                  <th>Codigo</th>
-                  <th>Nombre Producto</th>
+                  <th>Código</th>
+                  <th>Nombre producto</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Tipo Ingreso</th>
+                  <th>Categoría</th>
+                  <th>Tipo ingreso</th>
                   <th>Posición</th>
                   <th>Total</th>
                   </tr>";
@@ -417,17 +417,17 @@ exit;
         $buscarcat = $_POST["cat"];
         $buscaradq = $_POST["adq"];
         $compra = "Compra";
-        $donacion = "Donacion";
+        $donacion = "Donación";
         // Se asignan las propiedades del libro
         $objPHPExcel->getProperties()->setCreator("Bryan Cordova and Elliott Urrutia") // Nombre del autor
             ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
             ->setTitle("Reporte") // Titulo
             ->setSubject("Reporte Excel con PHP") //Asunto
-            ->setDescription("Reporte de stock critico") //Descripción
-            ->setKeywords("reporte stock critico") //Etiquetas
+            ->setDescription("Reporte de stock crítico") //Descripción
+            ->setKeywords("Reporte stock crítico") //Etiquetas
             ->setCategory("Reporte excel");     //Categorias
-        $tituloReporte = "Reporte stock critico de Productos";
-        $titulosColumnas = array('Codigo  ' , 'Nombre Producto', 'Tipo','Categoria', 'Tipo Ingreso','Stock Optimo    ', 'Stock Critico','Prioridad  ','Total');
+        $tituloReporte = "Reporte stock crítico de Productos";
+        $titulosColumnas = array('Código  ' , 'Nombre Producto', 'Tipo','Categoría', 'Tipo Ingreso','Stock Óptimo', 'Stock Crítico','Prioridad  ','Total');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->mergeCells('A1:I1');
@@ -671,7 +671,7 @@ exit;
       $buscaradq = $_POST["adq"];
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
-      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Criticos', "");
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte de Productos Críticos', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
       $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -682,7 +682,7 @@ exit;
       $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
       $pdf->AddPage();
         $compra = "Compra";
-        $donacion = "Donacion";                  
+        $donacion = "Donación";                  
       if ($buscartipo == 1) {      
       $TotalProductos = $this->reporte->findAllCriticosActivos($buscartipo, $buscarcat, $buscaradq);
               $html = '';
@@ -690,16 +690,16 @@ exit;
         $html .= "th{border:1px solid black;text-align:center;font-weight:bold; }";
         $html .= "td{border:1px solid black;text-align:center }";
         $html .= "</style>";
-        $html .= "<h4>Criticos: ".count($TotalProductos)." Productos</h4>";
+        $html .= "<h4>Críticos: ".count($TotalProductos)." Productos</h4>";
         $html .= "<table width='100%'>";
         $html .= "<tr>
-                  <th>Codigo</th>
+                  <th>Código</th>
                   <th>Nombre Producto</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>                  
-                  <th>Tipo Ingreso</th>
-                  <th>Optimp</th>
-                  <th>Critico</th>
+                  <th>Categoría</th>                  
+                  <th>Tipo ingreso</th>
+                  <th>Óptimo</th>
+                  <th>Crítico</th>
                   <th>Prioridad</th>
                   <th>Total</th>
                   </tr>";
@@ -830,10 +830,10 @@ exit;
             ->setTitle("Reporte") // Titulo
             ->setSubject("Reporte Excel con PHP") //Asunto
             ->setDescription("Reporte de Motivos de baja") //Descripción
-            ->setKeywords("reporte Motivos de baja") //Etiquetas
-            ->setCategory("Reporte excel"); //Categorias
+            ->setKeywords("Reporte Motivos de baja") //Etiquetas
+            ->setCategory("Reporte Excel"); //Categorias
         $tituloReporte = "Reporte Motivos de baja de Productos";
-        $titulosColumnas = array('Codigo   ' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de baja ','Cantidad de baja','Usuario que realizo la baja',
+        $titulosColumnas = array('Código' , 'Nombre Producto', 'Tipo', 'Categoría','Fecha de baja ','Cantidad de baja','Usuario que realizó la baja',
                                   'Motivo de baja');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
@@ -1038,13 +1038,13 @@ exit;
         $html .= "<h4>Productos dados de baja: ".count($TotalProductos)."</h4>";
         $html .= "<table width='100%'>";
         $html .= "<tr>
-                  <th>Codigo</th>
-                  <th>Nombre Producto</th>
+                  <th>Código</th>
+                  <th>Nombre producto</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
+                  <th>Categoría</th>
                   <th>Fecha dado de baja</th>
                   <th>Cantidad de baja</th>
-                  <th>Usuario que realizo la baja</th>
+                  <th>Usuario que realizó la baja</th>
                   <th>Motivo de baja</th>
                   </tr>";
                foreach ($TotalProductos as $value) 
@@ -1128,12 +1128,12 @@ public function Vistavidautil(){
             ->setLastModifiedBy("Bryan") //Ultimo usuario que lo modificó
             ->setTitle("Reporte") // Titulo
             ->setSubject("Reporte Excel con PHP") //Asunto
-            ->setDescription("Reporte de Vida util") //Descripción
-            ->setKeywords("reporte Vida util") //Etiquetas
-            ->setCategory("Reporte excel"); //Categorias
-        $tituloReporte = "Reporte Vida util de Productos";
-        $titulosColumnas = array('Codigo' , 'Nombre Producto', 'Tipo', 'Categoria','Fecha de ingreso',
-          'Fecha Termino','Nombre Proveedor','Rut Proveedor','Tipo ingreso','Vida util');
+            ->setDescription("Reporte de Vida útil") //Descripción
+            ->setKeywords("Reporte Vida útil") //Etiquetas
+            ->setCategory("Reporte Excel"); //Categorias
+        $tituloReporte = "Reporte Vida útil de Productos";
+        $titulosColumnas = array('Código' , 'Nombre Producto', 'Tipo', 'Categoría','Fecha de ingreso',
+          'Fecha Término','Nombre Proveedor','RUT Proveedor','Tipo ingreso','Vida útil');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
             ->mergeCells('A1:J1');
@@ -1307,7 +1307,7 @@ for($i = 'A'; $i <= 'J'; $i++){
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($i)->setAutoSize(TRUE);
 }
 // Se asigna el nombre a la hoja
-$objPHPExcel->getActiveSheet()->setTitle('Vida util');
+$objPHPExcel->getActiveSheet()->setTitle('Vida útil');
  
 // Se activa la hoja para que sea la que se muestre cuando el archivo se abre
 $objPHPExcel->setActiveSheetIndex(0);
@@ -1352,16 +1352,16 @@ exit;
         $html .= "</style>";
         $html .= "<h4>Actualmente: ".count($vida)." Productos</h4>";
         $html .= "<table width='100%'>";
-        $html .= "<tr><th>Codigo</th>
+        $html .= "<tr><th>Código</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Nombre Producto</th>
-                  <th>Fecha Ingreso</th>
-                  <th>Fecha Termino</th>
-                  <th>Nombre Proveedor</th>
-                  <th>Rut</th>
+                  <th>Categoría</th>
+                  <th>Nombre producto</th>
+                  <th>Fecha ingreso</th>
+                  <th>Fecha término</th>
+                  <th>Nombre proveedor</th>
+                  <th>RUT</th>
                   <th>Tipo Ingreso</th>
-                  <th>Vida util</th>
+                  <th>Vida útil</th>
                   </tr>";
                foreach ($vida as $value) 
         {
@@ -1447,10 +1447,10 @@ exit;
             ->setTitle("Reporte") // Titulo
             ->setSubject("Reporte Excel con PHP") //Asunto
             ->setDescription("Reporte de Precios") //Descripción
-            ->setKeywords("reporte Precios") //Etiquetas
-            ->setCategory("Reporte excel"); //Categorias
+            ->setKeywords("Reporte Precios") //Etiquetas
+            ->setCategory("Reporte Excel"); //Categorias
         $tituloReporte = "Reporte Precio de Productos";
-        $titulosColumnas = array('Codigo   ' ,'Tipo' ,  'Categoria' ,'Nombre Producto',
+        $titulosColumnas = array('Código   ' ,'Tipo' ,  'Categoría' ,'Nombre Producto',
                                   'Precio unitario','Cantidad','Precio productos');
         // Se combinan las celdas A1 hasta F1, para colocar ahí el titulo del reporte
         $objPHPExcel->setActiveSheetIndex(0)
@@ -1686,7 +1686,7 @@ exit;
       $buscarcat = $_POST["cat"];
       $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
       $pdf->SetFont('dejavusans', '', 7, '', true);
-      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte Precio de productos', "");
+      $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '                   Reporte Precio de Productos', "");
       $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
       $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -1706,12 +1706,12 @@ exit;
         $html .= "<h4>Actualmente: ".count($precio)." Productos</h4>";
         $html .= "<h4>Fecha: ". date('d-m-Y')."</h4>";
         $html .= "<table width='100%'>";
-        $html .= "<tr><th>Codigo</th>
+        $html .= "<tr><th>Código</th>
                   <th>Tipo</th>
-                  <th>Categoria</th>
-                  <th>Nombre Producto</th>
+                  <th>Categoría</th>
+                  <th>Nombre producto</th>
                   <th>Precio unitario</th>
-                  <th> Cantidad </th>
+                  <th>Cantidad</th>
                   <th>Monto total</th>
                   </tr>";
                   $totalmax = 0;
