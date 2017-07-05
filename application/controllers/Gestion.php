@@ -723,7 +723,7 @@ class Gestion extends CI_Controller
         $dateinicio     = DateTime::createFromFormat("Y-m-d H:i:s", $solicitud->get("SOL_FECHA_INICIO"));
         $fechainicio    = $dateinicio->format('d-m-Y H:i:s');
         $datetermino    = DateTime::createFromFormat("Y-m-d H:i:s", $solicitud->get("SOL_FECHA_TERMINO"));
-        $fechatermino   = $datetermino->format("d-m-Y H:m:s");
+        $fechatermino   = $datetermino->format("d-m-Y H:i:s");
 
         $detallesol = $this->detsol->findByArray(array('DETSOL_SOL_ID' => $idsolicitud));
         foreach ($detallesol as $key => $value) {
