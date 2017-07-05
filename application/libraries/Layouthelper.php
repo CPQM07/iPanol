@@ -2,7 +2,7 @@
 
 class Layouthelper
 {
-	public $data		= array("CONTENT" => "UPS olvidaste cargar el contenido de la vista ¡¡");
+	public $data		= array("CONTENT" => "UPS!. Olvidaste cargar el contenido de la vista.");
 	public $master;
 	private $CI;
 
