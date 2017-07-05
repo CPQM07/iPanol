@@ -53,16 +53,16 @@ class Pdf extends TCPDF
 						        <td colspan="4" border="1" style="text-align: center;">'.$asignaturanombre.'</td>
 						      </tr>
 						      <tr>
-						        <td colspan="6"><strong>FECHA Y HORA EN QUE SE SOLICITO Y PARA CUANDO</strong></td>
+						        <td colspan="6"><strong>FECHA Y HORA EN QUE SE SOLICITÓ Y PARA CUANDO:</strong></td>
 						      </tr>
 						      <tr>
 						        <td colspan="2"><strong>INICIO:</strong></td>
 						        <td colspan="1">'.$fechainicio.'</td>
-						        <td colspan="2"><strong>TERMINO:</strong></td>
+						        <td colspan="2"><strong>TÉRMINO:</strong></td>
 						        <td colspan="1">'.$fechatermino.'</td>
 						      </tr>
 						      <tr>
-						        <td colspan="6"><strong>DESCRIPCION DE LA TAREA A REALIZAR:</strong></td>
+						        <td colspan="6"><strong>DESCRIPCIÓN DE LA TAREA A REALIZAR:</strong></td>
 						      </tr>
 						      <tr>
 						        <td colspan="6" border="1" style="height: : 100px">'.$observaciones.'</td>
@@ -140,10 +140,10 @@ class Pdf extends TCPDF
 						<body>
 						  <table style="border-collapse: separate; border-spacing:  20px;">
 						      <tr>
-						        <td colspan="4" style="text-align: left;"><strong>Productos Actualmente en Stock</strong></td>
+						        <td colspan="4" style="text-align: left;"><strong>Productos actualmente en Stock</strong></td>
 						       </tr>
 						      <tr>
-						        <td colspan="1"><strong>FECHA EMISION:</strong></td>
+						        <td colspan="1"><strong>FECHA EMISIÓN:</strong></td>
 						        <td colspan="1">'.date("d-m-Y").'</td>
 						      
 						      </tr>
@@ -152,12 +152,12 @@ class Pdf extends TCPDF
 						        <table border="1" style="text-align: center;">
 						          <tr bgcolor="lightgray">
 						            <td colspan="1"><strong>Tipo de Producto</strong></td>
-						            <td colspan="1"><strong>Categoria</strong></td>
+						            <td colspan="1"><strong>Categoría</strong></td>
 						            <td colspan="1"><strong>Producto</strong></td>
 						            <td colspan="1"><strong>Fecha</strong></td>
 						            <td colspan="1"><strong>Stock</strong></td>
 						            <td colspan="1"><strong>Proveedor</strong></td>
-						            <td colspan="1"><strong>Posicion</strong></td>
+						            <td colspan="1"><strong>Posición</strong></td>
 						          </tr>
 						           '.$forasig.'
 						        </table>
@@ -196,10 +196,10 @@ class Pdf extends TCPDF
 						<body>
 						  <table style="border-collapse: separate; border-spacing:  20px;">
 						      <tr>
-						        <td colspan="4" style="text-align: left;"><strong>Productos Actualmente en Stock Critico</strong></td>
+						        <td colspan="4" style="text-align: left;"><strong>Productos actualmente en Stock crítico</strong></td>
 						       </tr>
 						      <tr>
-						        <td colspan="1"><strong>FECHA EMISION:</strong></td>
+						        <td colspan="1"><strong>FECHA EMISIÓN:</strong></td>
 						        <td colspan="1">'.date("d-m-Y").'</td>
 						      
 						      </tr>
@@ -208,10 +208,10 @@ class Pdf extends TCPDF
 						        <table border="1" style="text-align: center;">
 						          <tr bgcolor="lightgray">
 						            <td colspan="1"><strong>Tipo</strong></td>
-						            <td colspan="1"><strong>Categoria</strong></td>
+						            <td colspan="1"><strong>Categoría</strong></td>
 						            <td colspan="1"><strong>Producto</strong></td>
 						            <td colspan="1"><strong>Stock</strong></td>
-						            <td colspan="1"><strong>Stock optimo</strong></td>
+						            <td colspan="1"><strong>Stock óptimo</strong></td>
 						            <td colspan="1"><strong>Prioridad</strong></td>
 						          </tr>
 						           '.$forasig.'
@@ -245,27 +245,27 @@ class Pdf extends TCPDF
 						<body>
 						  <table style="border-collapse: separate; border-spacing:  20px;">
 						      <tr>
-						        <td colspan="4" style="text-align: left;"><strong>Productos Actualmente dados de baja</strong></td>
+						        <td colspan="4" style="text-align: left;"><strong>Productos actualmente dados de baja</strong></td>
 						       </tr>
 						      <tr>
-						        <td colspan="1"><strong>FECHA EMISION:</strong></td>
-						        <td colspan="1">CODIGO AQUIIIII</td>
+						        <td colspan="1"><strong>FECHA EMISIÓN:</strong></td>
+						        <td colspan="1">CODIGO AQUÍ</td>
 						      
 						      </tr>
 						      <tr>
 						        <td colspan="3"><strong>N° DE GRUPOS DE TRABAJO</strong></td>
-						        <td colspan="3" border="1" >CODIGO AQUIIIII</td>
+						        <td colspan="3" border="1" >CODIGO AQUÍ</td>
 						      </tr>
 						      <tr>
 						        <td colspan="6">
 						        <table border="1" style="text-align: center;">
 						          <tr bgcolor="lightgray">
 						            <td colspan="1"><strong>Tipo</strong></td>
-						            <td colspan="1"><strong>Categoria </strong></td>
+						            <td colspan="1"><strong>CategorÍa </strong></td>
 						            <td colspan="1"><strong>Nombre</strong></td>
 						            <td colspan="1"><strong>Inventario</strong></td>
 						            <td colspan="1"><strong>Fecha de baja</strong></td>
-						            <td colspan="1"><strong>Fecha Ingreso</strong></td>
+						            <td colspan="1"><strong>Fecha ingreso</strong></td>
 						            <td colspan="1"><strong>Usuario responsable</strong></td>
 						            <td colspan="1"><strong>Motivo</strong></td>
 						          </tr>
@@ -298,16 +298,16 @@ class Pdf extends TCPDF
 						<body>
 						  <table style="border-collapse: separate; border-spacing:  20px;">
 						      <tr>
-						        <td colspan="4" style="text-align: left;"><strong>Reporte de vida util de los productos</strong></td>
+						        <td colspan="4" style="text-align: left;"><strong>Reporte de vida útil de los productos</strong></td>
 						       </tr>
 						      <tr>
-						        <td colspan="1"><strong>FECHA EMISION:</strong></td>
-						        <td colspan="1">CODIGO AQUIIIII</td>
+						        <td colspan="1"><strong>FECHA EMISIÓN:</strong></td>
+						        <td colspan="1">CODIGO AQUÍ</td>
 						      
 						      </tr>
 						      <tr>
 						        <td colspan="3"><strong>N° DE GRUPOS DE TRABAJO</strong></td>
-						        <td colspan="3" border="1" >CODIGO AQUIIIII</td>
+						        <td colspan="3" border="1" >CODIGO AQUÍ</td>
 						      </tr>
 						      <tr>
 						        <td colspan="6">
@@ -317,7 +317,7 @@ class Pdf extends TCPDF
 						            <td colspan="1"><strong>Producto</strong></td>
 						            <td colspan="1"><strong>Proveedor</strong></td>
 						            <td colspan="1"><strong>Ingreso</strong></td>
-						            <td colspan="1"><strong>Vida util</strong></td>
+						            <td colspan="1"><strong>Vida útil</strong></td>
 						            <td colspan="1"><strong>Recepcionistas</strong></td>
 
 						          </tr>
