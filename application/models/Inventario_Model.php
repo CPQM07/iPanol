@@ -251,13 +251,6 @@ return $this->db->insert('inventario',$data);
         return $result;
     }
 
-    public function count2()
-    {
-        /*contador productosBaja*/
-        $cont1 = $this->db->from('inventario');
-        $this->db->where('INV_PROD_ESTADO', 0);
-        $obj1 = $cont1->count_all_results();
-        return $obj1;
-    }
+    
 
 }

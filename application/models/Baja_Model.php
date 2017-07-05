@@ -108,4 +108,14 @@ class Baja_Model extends CI_Model
             $this->_columns[$key] = $value;
         }
     }
+
+    public function count2($condiciones = null)
+    {
+        /*contador productosBaja*/
+        $cont1 = $this->db->from('baja');
+        $this->db->join('motivo', 'motivo.MOT_ID = baja.BAJA_MOTIVO_ID');
+        $this->db->where($condiciones);
+        $obj1 = $cont1->count_all_results();
+        return $obj1;
+    }
 }
