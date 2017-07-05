@@ -100,7 +100,7 @@
                                     <select name="proveedor" id="proveedor" class="select2" style="width: 100%">
                                       <option></option>
                                       <?php foreach ($proveedores as $key => $value): ?>
-                                        <option value="<?=$value->get("PROV_RUT")?>"><?=$value->get("PROV_NOMBRE")?></option>
+                                        <option value="<?=$value->get("PROV_RUT")?>"><?=$value->get("PROV_NOMBRE")?><?=$value->get("PROV_RSOCIAL")?></option>
                                       <?php endforeach?>
                                     </select>
                                     <div class="input-group-addon">
