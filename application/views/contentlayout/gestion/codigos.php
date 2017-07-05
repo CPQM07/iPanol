@@ -197,7 +197,7 @@
           },
           "columns": [
               { title: "Seleccionar",className: "text-center" },
-              { title: "ID",className: "text-center" },
+              { title: "Código",className: "text-center" },
               { title: "Nombre",className: " text-center"},
               { title: "Descargar código de barra unitario",className: "text-center"}]
             });

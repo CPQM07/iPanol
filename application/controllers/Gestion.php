@@ -1200,7 +1200,7 @@ class Gestion extends CI_Controller
               <input value=" . $value['INV_ID'] . " class='items' type='checkbox'>
           </form>
               ",
-                $value['INV_ID'],
+                $value['INV_PROD_CODIGO'],
                 $value['INV_PROD_NOM'],
                 '<button id="" name="" value=' . $value['INV_ID'] . ' type="button" class="barcode xd btn btn-danger btn-block">
               <i class="fa fa-barcode"></i></button>',
