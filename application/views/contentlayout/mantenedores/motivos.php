@@ -45,7 +45,7 @@
                       <?php if ($value->get('MOT_DIF') == 1): ?>
                         <td><a href="<?= site_url('/Mantencion/CambiarEstado/3/');?><?=$value->get('MOT_ID');?>" class="btn btn-warning btn-block">Baja</a></td>
                       <?php else: ?>
-                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/4/');?><?=$value->get('MOT_ID');?>" class="btn btn-success btn-block">Observacion</a></td>
+                        <td><a href="<?= site_url('/Mantencion/CambiarEstado/4/');?><?=$value->get('MOT_ID');?>" class="btn btn-success btn-block">Observación</a></td>
                       <?php endif; ?>
                       <td><button id="<?= $value->get('MOT_ID'); ?>" type="button" class="editar btn btn-success btn-block" data-toggle="modal" data-target="#myEdit"><i class="fa fa-edit"></i></button>
                       </td>
@@ -91,8 +91,8 @@
                       <div class="form-group">
                         <label class="col-sm-2 control-label">ESTADO</label>
                         <div class="col-md-9">
-                          <select class="form-control select2"  name="motivo[MOT_ESTADO]" style="width: 100%;">
-                            <option selected="selected">Seleccionar estado...</option>
+                          <select placeholder="Seleccionar estado..." class="form-control select2"  name="motivo[MOT_ESTADO]" style="width: 100%;">
+                            <option></option>
                               <option value="1">ACTIVO</option>
                               <option value="2">ELIMINADO</option>
                           </select>
@@ -102,8 +102,8 @@
                       <div class="form-group">
                         <label class="col-sm-2 control-label">ORIGEN</label>
                         <div class="col-md-9">
-                          <select class="form-control select2" name="motivo[MOT_DIF]" style="width: 100%;">
-                            <option selected="selected">Seleccionar origen...</option>
+                          <select placeholder="Seleccionar origen..." class="form-control select2" name="motivo[MOT_DIF]" style="width: 100%;">
+                            <option></option>
                             <option value="1">BAJA</option>
                             <option value="2">OBSERVACIÓN</option>
                           </select>
