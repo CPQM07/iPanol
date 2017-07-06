@@ -97,7 +97,7 @@
                   </td>
                   <td><?=$value['USU_NOMBRES']?></td>
                   <td><?=$value['MOT_NOMBRE']?></td>
-                  <td><?php if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
+                  <td><?php $ultimoregistro = null;if ($value['BAJA_MOTIVO_RESULTADO'] != null): ?>
                     <?php
 $ultimoregistro = array_pop($value['BAJA_MOTIVO_RESULTADO']);
 echo ($ultimoregistro["OBS_MOT_NOMBRE"]);
@@ -108,7 +108,7 @@ echo ($ultimoregistro["OBS_MOT_NOMBRE"]);
 
                   </td>
                   <td>
-                    <?php if ($value['MOT_ID'] == 15): ?>
+                    <?php if ($value['MOT_ID'] == 15 and $ultimoregistro["OBS_MOT_NOMBRE"] != "REPARADO"): ?>
                       <button idbaja="<?=$value['BAJA_ID']?>" class="obsbaja btn btn-block btn-success fa fa-eye" data-toggle="modal" data-target=".myObs"></button>
                     <?php endif?>
                   </td>
