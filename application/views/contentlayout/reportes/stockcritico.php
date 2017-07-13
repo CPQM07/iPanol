@@ -2,7 +2,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h3>Reportes Stock Critico</h3>
+    <h3>Reportes Stock Crítico</h3>
   </section>
 
   <!-- Main content -->
